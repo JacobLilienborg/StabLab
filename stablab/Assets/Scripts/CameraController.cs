@@ -7,15 +7,15 @@ public class CameraController : MonoBehaviour
 {
 
     // variables
-    public bool ORotation = true;
+    private bool ORotation = true;
 
-    public float mouseSensitivity = 1.0f;
-    public float zoomSensitivity = 20f;
-    public float rotationSensitivity = 5f;
+    [SerializeField] private float mouseSensitivity = 1.0f;
+    [SerializeField] private float zoomSensitivity = 20f;
+    [SerializeField] private float rotationSensitivity = 5f;
+    [SerializeField] private float speedH = 2.0f;
+    [SerializeField] private float speedV = 2.0f;
+
     private Vector3 lastPosition;
-
-    public float speedH = 2.0f;
-    public float speedV = 2.0f;
 
     private float yaw = 0.0f;
     private float pitch = 0.0f;
@@ -33,8 +33,15 @@ public class CameraController : MonoBehaviour
     {
         Scroll();
         Pan();
-        Rotate();
-        RotateO();
+        ORotation = Input.GetKeyDown("r") ? !ORotation : ORotation;
+        if (ORotation)
+        {
+            RotateO();
+        }
+        else
+        {
+            Rotate();
+        }
     }
     void Pan()
     {
@@ -78,13 +85,11 @@ public class CameraController : MonoBehaviour
 
     void RotateO()
     {
-        if (!ORotation) { return; }
+        // Secondary button pressed 
+        if (Input.GetMouseButtonDown(1)) { lastPosition = Input.mousePosition; }
 
-        // Primary button pressed 
-        if (Input.GetMouseButtonDown(0)) { lastPosition = Input.mousePosition; }
-
-        // Primary button held
-        if (Input.GetMouseButton(0))
+        // Secondary button held
+        if (Input.GetMouseButton(1))
         {
 
             float rotationAmount = rotationSensitivity * Input.GetAxis("Mouse X");
