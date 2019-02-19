@@ -7,19 +7,18 @@ public class CameraController : MonoBehaviour
 {
 
     // variables
-    private bool ORotation = true;
 
-    [SerializeField] private float mouseSensitivity = 1.0f;
-    [SerializeField] private float zoomSensitivity = 20f;
-    [SerializeField] private float rotationSensitivity = 5f;
-    [SerializeField] private float speedH = 2.0f;
-    [SerializeField] private float speedV = 2.0f;
+    [SerializeField][Range(0.0f, 1.0f)] private float panSensitivity = 0.5f;
+    [SerializeField][Range(0.0f, 1.0f)] private float zoomSensitivity = 0.5f;
+    [SerializeField][Range(0.0f, 1.0f)] private float rotationSensitivity = 0.5f;
 
+    private float panConstant = 0.1f;
+    private float zoomConstant = 80f;
+    private float rotationConstant = 10f;
+    
     private Vector3 lastPosition;
-
     private float yaw = 0.0f;
     private float pitch = 0.0f;
-
     private float fov;
 
     // Start is called before the first frame update
@@ -31,59 +30,44 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Scroll();
+        Zoom();
         Pan();
-        ORotation = Input.GetKeyDown("r") ? !ORotation : ORotation;
-        if (ORotation)
-        {
-            RotateO();
-        }
-        else
-        {
-            Rotate();
-        }
+        Rotate();
     }
+
+    // Check if the middle button is pressed and starts paning the camera in a intuitive way
     void Pan()
     {
         // Middle button pressed 
-        if (Input.GetMouseButtonDown(2)) { lastPosition = Input.mousePosition; }
+        if (Input.GetMouseButtonDown(2)) {
+            lastPosition = Input.mousePosition;
+        }
 
         // Middle button held
         if (Input.GetMouseButton(2))
         {
+            float panAmount = panSensitivity * panConstant * Mathf.Log(fov + 1);
             Vector3 delta = lastPosition - Input.mousePosition;
-            transform.Translate(delta.x * mouseSensitivity * fov / 50, delta.y * mouseSensitivity * fov / 50, 0);
+            transform.Translate(delta.x * panAmount, delta.y * panAmount, 0);
             lastPosition = Input.mousePosition;
         }
     }
-    void Scroll()
-    {
-        if (Input.mouseScrollDelta.y < 0) { fov += zoomSensitivity * Time.deltaTime * 10f; }
-        if (Input.mouseScrollDelta.y > 0) { fov -= zoomSensitivity * Time.deltaTime * 10f; }
 
+    // Check if the scroll wheel is scrolled and starts zooming the camera in a intuitive way
+    void Zoom()
+    {
+        if(Input.mouseScrollDelta.y == 0) { return; }
+        float zoomAmount = zoomSensitivity * zoomConstant * Mathf.Log(fov + 1);
+
+        if (Input.mouseScrollDelta.y < 0) { fov += zoomAmount * Time.deltaTime; }
+        if (Input.mouseScrollDelta.y > 0) { fov -= zoomAmount * Time.deltaTime; }
+        
         fov = Mathf.Clamp(fov, 0, 100);
         Camera.main.fieldOfView = fov;
     }
+
+    // Check if the right button is pressed and starts rotate the camera around the center
     void Rotate()
-    {
-        // Secondary button pressed 
-        if (Input.GetMouseButtonDown(1)){ lastPosition = Input.mousePosition; }
-
-        // Secondary button held
-        if (Input.GetMouseButton(1))
-        {
-            yaw += speedH * Input.GetAxis("Mouse X");
-            pitch -= speedV * Input.GetAxis("Mouse Y");
-
-            transform.eulerAngles = new Vector3(pitch, yaw, 0.0f);
-            
-            Vector3 delta = lastPosition - Input.mousePosition;
-            transform.Translate(delta.x * mouseSensitivity * fov / 100, delta.y * mouseSensitivity * fov / 100, 0);
-            lastPosition = Input.mousePosition;
-        }
-    }
-
-    void RotateO()
     {
         // Secondary button pressed 
         if (Input.GetMouseButtonDown(1)) { lastPosition = Input.mousePosition; }
@@ -91,9 +75,8 @@ public class CameraController : MonoBehaviour
         // Secondary button held
         if (Input.GetMouseButton(1))
         {
-
-            float rotationAmount = rotationSensitivity * Input.GetAxis("Mouse X");
-            transform.RotateAround(Vector3.zero, Vector3.up, rotationAmount);
+            float rotationAmount = rotationSensitivity * rotationConstant * Mathf.Log(fov + 1);
+            transform.RotateAround(Vector3.zero, Vector3.up, rotationAmount * Input.GetAxis("Mouse X"));
             lastPosition = Input.mousePosition;
             pitch = transform.eulerAngles.x;
             yaw = transform.eulerAngles.y;
