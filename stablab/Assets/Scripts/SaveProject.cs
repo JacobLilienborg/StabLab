@@ -1,18 +1,44 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 
-public class SaveProject : MonoBehaviour
+// Some functions to use when saving and loading data
+public static class SaveProject
 {
-    // Start is called before the first frame update
-    void Start()
+    // Saves an object
+    public static void Save<T>(string path, T data)
     {
-        
+        BinaryFormatter binaryFormatter = new BinaryFormatter();
+
+        using (FileStream fileStream = File.Open(path, FileMode.OpenOrCreate))
+        {
+            binaryFormatter.Serialize(fileStream, data);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    // Returns a loaded object
+    public static T Load<T>(string path)
     {
-        
+        BinaryFormatter binaryFormatter = new BinaryFormatter();
+
+        using (FileStream fileStream = File.Open(path, FileMode.Open))
+        {
+            return (T)binaryFormatter.Deserialize(fileStream);
+        }
     }
+
+    // Returns the path to a file in a project
+    public static string GetPath(string projectName, string fileName)
+    {
+        string folderPath = Path.Combine(Application.persistentDataPath, projectName);
+        if (!Directory.Exists(folderPath))
+        {
+            Directory.CreateDirectory(folderPath);
+        }
+
+        string dataPath = Path.Combine(folderPath, fileName);
+
+        return dataPath;
+    }
+
 }
