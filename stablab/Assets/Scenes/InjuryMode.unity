@@ -281,11 +281,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1a05b2ffc3420044a36c18b81a948c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  panSensitivity: 0.5
-  zoomSensitivity: 0.5
+  panSensitivity: 0.3
+  zoomSensitivity: 0.7
   rotationSensitivity: 0.5
-  originAmp: 5
-  fovSensitivity: 1
 --- !u!1 &956628147
 GameObject:
   m_ObjectHideFlags: 0
