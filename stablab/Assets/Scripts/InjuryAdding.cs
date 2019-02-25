@@ -67,7 +67,6 @@ public class InjuryAdding : MonoBehaviour
     }
 
     //markerType is the object you want to copy
-
     public InjuryState GetInjuryState()
     {
         return currentInjuryState;
@@ -75,7 +74,7 @@ public class InjuryAdding : MonoBehaviour
 
     private void AddMarker(GameObject markerType, Vector3 position)
     {
-        marker = Instantiate(markerType); //Copy GameObject
+        marker = Instantiate(markerType); 
         marker.transform.position = position;
     }
     public void DeletePressed()
