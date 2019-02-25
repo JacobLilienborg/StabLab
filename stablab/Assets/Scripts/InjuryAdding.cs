@@ -63,10 +63,6 @@ public class InjuryAdding : MonoBehaviour
                     }
                 }
             }
-            else
-            {
-
-            }
         }
     }
 
@@ -81,7 +77,6 @@ public class InjuryAdding : MonoBehaviour
     {
         marker = Instantiate(markerType); //Copy GameObject
         marker.transform.position = position;
-        marker.AddComponent<MarkerHandler>();
     }
     public void DeletePressed()
     {
