@@ -19,25 +19,16 @@ public class FileManager : MonoBehaviour
 
     public void SaveCamera()
     {
-        float[] cameraData = new float[8];
-        cameraData[0] = Camera.main.transform.position.x;
-        cameraData[1] = Camera.main.transform.position.y;
-        cameraData[2] = Camera.main.transform.position.z;
-        cameraData[3] = Camera.main.transform.rotation.x;
-        cameraData[4] = Camera.main.transform.rotation.y;
-        cameraData[5] = Camera.main.transform.rotation.z;
-        cameraData[6] = Camera.main.transform.rotation.w;
-        cameraData[7] = Camera.main.fieldOfView;
-        SaveData("CameraData", cameraData);
+        CameraData cam = new CameraData(Camera.main);
+        SaveData<CameraData>("CameraData", cam);
     }
 
     public void LoadCamera()
     {
-        
-        float[] cameraData = LoadData<float[]>("CameraData");
-        Camera.main.transform.position = new Vector3(cameraData[0], cameraData[1], cameraData[2]);
-        Camera.main.transform.rotation = new Quaternion(cameraData[3], cameraData[4], cameraData[5], cameraData[6]);
-        Camera.main.fieldOfView = cameraData[7];
+        CameraData cam = LoadData<CameraData>("CameraData");
+        Camera.main.transform.position = cam.GetPosition();
+        Camera.main.transform.rotation = cam.GetRotation();
+        Camera.main.fieldOfView = cam.GetFieldOfView();
     }
 
     // Saves an object of class type T in a binary format in persistentDataPath
@@ -63,7 +54,7 @@ public class FileManager : MonoBehaviour
     // Saves a file
     public void SaveFile(string fileName)
     {
-        string path = FileBrowser.SaveFile(fileName,"txt");
+        string path = FileBrowser.SaveFile(fileName, "txt");
         Debug.Log("Saved file: " + path);
     }
 
@@ -72,4 +63,6 @@ public class FileManager : MonoBehaviour
         string path = FileBrowser.OpenSingleFile();
         Debug.Log("Loaded file: " + path);
     }
+
+
 }
