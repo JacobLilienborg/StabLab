@@ -5,7 +5,6 @@ using Crosstales.FB;
 
 public class FileBrowserExample : MonoBehaviour
 {
-   
     // Update is called once per frame
     void Update()
     {
@@ -17,7 +16,7 @@ public class FileBrowserExample : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.L))
         {
-            string path = GetFolderPath();
+            string path = GetFilePath();
             Debug.Log("Selected file: " + path);
         }
     }
