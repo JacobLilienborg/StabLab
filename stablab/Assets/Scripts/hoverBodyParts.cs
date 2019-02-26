@@ -17,7 +17,7 @@ public class hoverBodyParts : MonoBehaviour
         foreach (Renderer r in rs)
         {
             Material m = r.material;
-            m.color = Color.green;
+            m.color = Color.red;
             r.material = m;
         }
 
@@ -30,7 +30,7 @@ public class hoverBodyParts : MonoBehaviour
         foreach (Renderer r in rs)
         {
             Material m = r.material;
-            m.color = Color.green;
+            m.color = Color.white;
             r.material = m;
         }
 
