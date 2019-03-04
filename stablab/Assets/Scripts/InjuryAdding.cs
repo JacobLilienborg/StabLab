@@ -24,6 +24,7 @@ public class InjuryAdding : MonoBehaviour
     private GameObject marker;
     private Vector3 markerPos;
 
+
     private void Update()
     {
         if (Input.GetMouseButton(0))
@@ -66,7 +67,6 @@ public class InjuryAdding : MonoBehaviour
         }
     }
 
-    //markerType is the object you want to copy
     public InjuryState GetInjuryState()
     {
         return currentInjuryState;
