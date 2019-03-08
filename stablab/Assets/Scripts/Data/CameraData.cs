@@ -7,7 +7,7 @@ using System;
 [Serializable]
 public class CameraData
 {
-    public float[] cameraData = new float[8];
+    private float[] cameraData = new float[8];
 
     public CameraData(Camera cam) 
     {
