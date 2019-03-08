@@ -107,3 +107,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMaterial: {fileID: 2100000, guid: b975a04510bc8ec4faf796b30cdfc5ee, type: 2}
   originalMaterial: {fileID: 2100000, guid: 147fb1d82a25ed147b51b1b0f8accf3d, type: 2}
+  type: 3

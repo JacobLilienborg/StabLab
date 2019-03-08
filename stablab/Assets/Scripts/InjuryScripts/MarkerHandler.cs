@@ -7,6 +7,7 @@ public class MarkerHandler : MonoBehaviour
     private Renderer rend;
     [SerializeField] private Material outlineMaterial;
     [SerializeField] private Material originalMaterial;
+    public InjuryType type;
 
     private void Start()
     {

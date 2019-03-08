@@ -12,18 +12,36 @@ public enum InjuryState
     Hugg
 };
 
+public enum InjuryType
+{
+    Kross,
+    Skär,
+    Skjut,
+    Hugg
+};
+
+
 public class InjuryAdding : MonoBehaviour
 {
     private InjuryState currentInjuryState = InjuryState.Inactive;
+
+    public GameObject injuryManagerObj;
+    private InjuryManager injuryManager;
 
     public GameObject krossMarker;
     public GameObject skärMarker;
     public GameObject skjutMarker;
     public GameObject huggMarker;
 
-    private GameObject marker;
+    //private GameObject marker;
     private Vector3 markerPos;
 
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        injuryManager = injuryManagerObj.GetComponent<InjuryManager>();
+    }
 
     private void Update()
     {
@@ -74,9 +92,41 @@ public class InjuryAdding : MonoBehaviour
 
     private void AddMarker(GameObject markerType, Vector3 position)
     {
-        marker = Instantiate(markerType); 
-        marker.transform.position = position;
+        GameObject marker = Instantiate(markerType, position, Quaternion.identity);
+        marker.transform.parent = transform;
+
+        ModelData pos = new ModelData(gameObject);
+
+        injuryManager.AddInjuryMarker(marker, pos);
     }
+
+    public GameObject MakeMarker(InjuryType type, Vector3 pos) 
+    {
+        GameObject marker;
+        switch (type)
+        {
+            case InjuryType.Kross:
+                marker = Instantiate(krossMarker, pos, Quaternion.identity);
+                break;
+            case InjuryType.Skär:
+                marker = Instantiate(skärMarker, pos, Quaternion.identity);
+                break;
+            case InjuryType.Skjut:
+                marker = Instantiate(skjutMarker, pos, Quaternion.identity);
+                break;
+            case InjuryType.Hugg:
+                marker = Instantiate(huggMarker, pos, Quaternion.identity);
+                break;
+            default:
+                Debug.Log("None existing marker");
+                marker = null;
+                break;
+        }
+
+        marker.transform.parent = transform;
+        return marker;
+    }
+
     public void DeletePressed()
     {
         currentInjuryState = InjuryState.Delete;

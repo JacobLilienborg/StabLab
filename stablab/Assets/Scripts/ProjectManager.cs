@@ -8,6 +8,9 @@ public class ProjectManager : MonoBehaviour
     public ProjectManager instance = null;
     private string currentProject;
 
+    public GameObject injuryManagerObj;
+    private InjuryManager injuryManager;
+
     // Setup instance of ProjectManager
     void Awake()
     {
@@ -24,9 +27,16 @@ public class ProjectManager : MonoBehaviour
         //Don't destroy when reloading scene
         DontDestroyOnLoad(gameObject);
     }
+     
+    // Start is called before the first frame update
+    void Start()
+    {
+        injuryManager = injuryManagerObj.GetComponent<InjuryManager>();
+    }
 
     public void SaveProject()
     {
+        SaveInjuries();
         SaveCamera();
     }
 
@@ -36,6 +46,7 @@ public class ProjectManager : MonoBehaviour
         if (currentProject.Length > 0)
         {
             AddToRecent();
+            LoadInjuries();
             LoadCamera();
         }
         else 
@@ -45,13 +56,24 @@ public class ProjectManager : MonoBehaviour
 
     }
 
-    public void SaveCamera()
+    private void SaveInjuries()
+    {
+        FileManager.SaveProjectData(currentProject, "Injuries", injuryManager.injuries);
+    }
+
+    private void LoadInjuries()
+    {
+        List<InjuryData> injuries = FileManager.LoadProjectData<List<InjuryData>>(currentProject, "Injuries");
+        injuryManager.LoadInjuries(injuries);
+    }
+
+    private void SaveCamera()
     {
         CameraData cam = new CameraData(Camera.main);
         FileManager.SaveProjectData(currentProject, "CameraData", cam);
     }
 
-    public void LoadCamera()
+    private void LoadCamera()
     {
         try
         {
