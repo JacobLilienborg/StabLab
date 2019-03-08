@@ -16,18 +16,19 @@ public class InjuryAdding : MonoBehaviour
 {
     private InjuryState currentInjuryState = InjuryState.Inactive;
 
-    public GameObject crushMarker;
-    public GameObject cutMarker;
-    public GameObject shotMarker;
-    public GameObject stabMarker;
+    bool injuryAddingMode = false;
 
-    private GameObject marker;
+    public GameObject crushMarker, cutMarker, shotMarker, stabMarker,marker;
     private Vector3 markerPos;
+    private Transform hitPart;
 
 
     private void Update()
     {
-        if (Input.GetMouseButton(0))
+        if (Input.GetKeyDown(KeyCode.I)) {
+            injuryAddingMode = !injuryAddingMode;
+        }
+        if (Input.GetMouseButton(0) && injuryAddingMode)
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition); //Ray from mouseclick on screen
             RaycastHit hit;  //Where the ray hits (the injury position)
@@ -37,19 +38,20 @@ public class InjuryAdding : MonoBehaviour
                 if (hit.collider.tag == "Body") //If the hit was on this collider ***not needed if the floor is removed***
                 {
                     markerPos = hit.point;
+                    hitPart = hit.transform;
                     switch (currentInjuryState)
                     {
                         case InjuryState.Crush:
-                            AddMarker(crushMarker, markerPos);
+                            AddMarker(crushMarker, markerPos, hitPart);
                             break;
                         case InjuryState.Cut:
-                            AddMarker(cutMarker, markerPos);
+                            AddMarker(cutMarker, markerPos, hitPart);
                             break;
                         case InjuryState.Shot:
-                            AddMarker(shotMarker, markerPos);
+                            AddMarker(shotMarker, markerPos, hitPart);
                             break;
                         case InjuryState.Stab:
-                            AddMarker(stabMarker, markerPos);
+                            AddMarker(stabMarker, markerPos, hitPart);
                             break;
                         default:
                             break;
@@ -72,11 +74,11 @@ public class InjuryAdding : MonoBehaviour
         return currentInjuryState;
     }
 
-    private void AddMarker(GameObject markerType, Vector3 position)
+    private void AddMarker(GameObject markerType, Vector3 position, Transform parent)
     {
         marker = Instantiate(markerType); 
         marker.transform.position = position;
-        marker.transform.parent = transform; //Marker is child to body
+        marker.transform.parent = parent; //Marker is child to body
     }
     public void DeletePressed()
     {
