@@ -6,20 +6,20 @@ public enum InjuryState
 {
     Inactive,
     Delete,
-    Kross,
-    Skär,
-    Skjut,
-    Hugg
+    Crush,
+    Cut,
+    Shot,
+    Stab
 };
 
 public class InjuryAdding : MonoBehaviour
 {
     private InjuryState currentInjuryState = InjuryState.Inactive;
 
-    public GameObject krossMarker;
-    public GameObject skärMarker;
-    public GameObject skjutMarker;
-    public GameObject huggMarker;
+    public GameObject crushMarker;
+    public GameObject cutMarker;
+    public GameObject shotMarker;
+    public GameObject stabMarker;
 
     private GameObject marker;
     private Vector3 markerPos;
@@ -39,17 +39,17 @@ public class InjuryAdding : MonoBehaviour
                     markerPos = hit.point;
                     switch (currentInjuryState)
                     {
-                        case InjuryState.Kross:
-                            AddMarker(krossMarker, markerPos);
+                        case InjuryState.Crush:
+                            AddMarker(crushMarker, markerPos);
                             break;
-                        case InjuryState.Skär:
-                            AddMarker(skärMarker, markerPos);
+                        case InjuryState.Cut:
+                            AddMarker(cutMarker, markerPos);
                             break;
-                        case InjuryState.Skjut:
-                            AddMarker(skjutMarker, markerPos);
+                        case InjuryState.Shot:
+                            AddMarker(shotMarker, markerPos);
                             break;
-                        case InjuryState.Hugg:
-                            AddMarker(huggMarker, markerPos);
+                        case InjuryState.Stab:
+                            AddMarker(stabMarker, markerPos);
                             break;
                         default:
                             break;
@@ -76,30 +76,31 @@ public class InjuryAdding : MonoBehaviour
     {
         marker = Instantiate(markerType); 
         marker.transform.position = position;
+        marker.transform.parent = transform; //Marker is child to body
     }
     public void DeletePressed()
     {
         currentInjuryState = InjuryState.Delete;
     }
 
-    //Called when the KrossButton is pressed
-    public void KrossPressed()
+    //Called when the CrushButton is pressed
+    public void CrushPressed()
     {
-        currentInjuryState = InjuryState.Kross;
+        currentInjuryState = InjuryState.Crush;
     }
-    //Called when the SkärButton is pressed
-    public void SkärPressed()
+    //Called when the CutButton is pressed
+    public void CutPressed()
     {
-        currentInjuryState = InjuryState.Skär;
+        currentInjuryState = InjuryState.Cut;
     }
-    //Called when the SkjutButton is pressed
-    public void SkjutPressed()
+    //Called when the ShotButton is pressed
+    public void ShotPressed()
     {
-        currentInjuryState = InjuryState.Skjut;
+        currentInjuryState = InjuryState.Shot;
     }
-    //Called when the HuggButton is pressed
-    public void HuggPressed()
+    //Called when the StabButton is pressed
+    public void StabPressed()
     {
-        currentInjuryState = InjuryState.Hugg;
+        currentInjuryState = InjuryState.Stab;
     }
 }
