@@ -34,7 +34,7 @@ public class InjuryAdding : MonoBehaviour
             
             if (Physics.Raycast(ray, out hit))
             {
-                if (hit.collider == GetComponent<Collider>()) //If the hit was on this collider ***not needed if the floor is removed***
+                if (hit.collider.tag == "Body") //If the hit was on this collider ***not needed if the floor is removed***
                 {
                     markerPos = hit.point;
                     switch (currentInjuryState)
