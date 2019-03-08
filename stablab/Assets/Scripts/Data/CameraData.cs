@@ -7,7 +7,13 @@ using System;
 [Serializable]
 public class CameraData
 {
+    [SerializeField] public static string path;
     private float[] cameraData = new float[8];
+
+    public CameraData()
+    {
+        new CameraData(new Camera());
+    }
 
     public CameraData(Camera cam) 
     {

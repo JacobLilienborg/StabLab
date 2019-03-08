@@ -6,6 +6,7 @@ public class ProjectManager : MonoBehaviour
     private float projectVersion = 0.1f;
     private ProjectManager instance = null;
     private ProjectData currentProject;
+    private DataManager dataManager;
 
     // Setup instance of ProjectManager
     void Awake()
@@ -28,14 +29,15 @@ public class ProjectManager : MonoBehaviour
     public void CreateProject(string name, string path)
     {
         currentProject = new ProjectData(name, path, projectVersion);
-        SaveProject();
+        dataManager = new DataManager(currentProject);
+        dataManager.Save();
     }
 
     //Saves the current project
     public void SaveProject()
     {
         currentProject.Save();
-        FileManager.Save(currentProject, currentProject.GetPath());
+        dataManager.Save();
     }
 
     //Loads a project data file
@@ -46,6 +48,8 @@ public class ProjectManager : MonoBehaviour
         {
             string path = FileManager.OpenFileBrowser("*");
             currentProject = FileManager.Load<ProjectData>(path);
+            dataManager = new DataManager(currentProject);
+            dataManager.Load();
         }
         catch(FileNotFoundException) //Just an example of what we might catch, probably more/other exception is needed
         {

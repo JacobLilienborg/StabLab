@@ -1,17 +1,21 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
 public class ProjectData
 {
+    [SerializeField] public static string path;
     private string projectName = "";
     private string projectPath = "";
     private float projectVersion;
     private DateTime created;
     private DateTime modified;
     private DateTime saved;
+
+    public ProjectData()
+    {
+        new ProjectData("default", "./", 0.0f);
+    }
 
     public ProjectData(string name, string path, float version)
     {
