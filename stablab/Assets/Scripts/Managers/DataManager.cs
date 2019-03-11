@@ -35,6 +35,12 @@ public class DataManager
             }
             catch (FileNotFoundException)
             {
+                    FileManager.Save(data, Path.Combine(workingDirectory, data.GetPath()));
+                    Debug.Log(data.fileName + " couldn't be found and is therefore created");
+            }
+            catch (DirectoryNotFoundException)
+            {
+                Directory.CreateDirectory(new FileInfo(Path.Combine(workingDirectory, data.GetPath())).Directory.FullName);
                 FileManager.Save(data, Path.Combine(workingDirectory, data.GetPath()));
                 Debug.Log(data.fileName + " couldn't be found and is therefore created");
             }

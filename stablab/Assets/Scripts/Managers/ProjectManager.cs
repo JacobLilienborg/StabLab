@@ -30,7 +30,10 @@ public class ProjectManager : MonoBehaviour
     public void Create(string name, string directory)
     {
         currentProject = new ProjectData(name, directory, projectVersion);
-        dataManager = new DataManager(directory, currentProject, new SettingsData(), new CameraData(Camera.main));
+        dataManager = new DataManager(Path.Combine(directory, name), 
+                                      currentProject, 
+                                      new SettingsData(), 
+                                      new CameraData(Camera.main));
     }
 
     //Saves the current project

@@ -1,5 +1,6 @@
 ﻿using System.IO;
 
+[System.Serializable]
 public abstract class AData
 {
     public readonly string fileName;

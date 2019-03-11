@@ -19,10 +19,22 @@ public class FileManager
     public static void Save<T>(T data, string path)
     {
         BinaryFormatter binaryFormatter = new BinaryFormatter();
-        using (FileStream fileStream = File.Open(path, FileMode.OpenOrCreate))
+        //try
+        //{
+            using (FileStream fileStream = File.Open(path, FileMode.OpenOrCreate))
+            {
+                binaryFormatter.Serialize(fileStream, data);
+            }
+        /*} 
+        catch(DirectoryNotFoundException)
         {
-            binaryFormatter.Serialize(fileStream, data);
-        }
+            Directory.CreateDirectory(new FileInfo(path).Directory.FullName);
+            using (FileStream fileStream = File.Open(path, FileMode.OpenOrCreate))
+            {
+                binaryFormatter.Serialize(fileStream, data);
+            }
+        }*/
+        
     }
 
     //Reads a file as a text 
