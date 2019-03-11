@@ -5,55 +5,57 @@ using UnityEngine;
 
 public class DataManager
 {
-    ProjectData project;
-    SettingsData settings;
-    CameraData camera;
+    List<AData> dataList = new List<AData>();
+    private readonly string workingDirectory;
 
-    public DataManager(ProjectData projectData)
+    public DataManager(string workingDirectory, params AData[] data)
     {
-        project = projectData;
+        this.workingDirectory = workingDirectory;
+        Track(data);
+    }
+
+    public void Track(params AData[] data)
+    {
+        foreach (AData d in data)
+        {
+            dataList.Add(d);
+        }
         Load();
+    }
+
+    public void Load()
+    {
+        int i = 0;
+        foreach (AData data in dataList)
+        {
+            try
+            {
+                dataList[i] = FileManager.Load<AData>(Path.Combine(workingDirectory, data.GetPath()));
+                Debug.Log(data.fileName + " was loaded successfully");
+            }
+            catch (FileNotFoundException)
+            {
+                FileManager.Save(data, Path.Combine(workingDirectory, data.GetPath()));
+                Debug.Log(data.fileName + " couldn't be found and is therefore created");
+            }
+            i++;
+        }
     }
 
     public void Save()
     {
-        FileManager.Save(settings, SettingsData.path);
-        FileManager.Save(project, ProjectData.path);
-        FileManager.Save(camera, CameraData.path);
+        foreach(AData data in dataList)
+        {
+            FileManager.Save(data, Path.Combine(workingDirectory, data.GetPath()));
+            Debug.Log(data.fileName + " was saved successfully");
+        }
     }
-    public void Load()
-    {
-        //Load Settings
-        try
-        {
-            FileManager.Load<ProjectData>(ProjectData.path);
-        }
-        catch (FileNotFoundException)
-        {
-            FileManager.Save(project = new ProjectData(), ProjectData.path);
-        }
-        //Load Settings
-        try
-        {
-            FileManager.Load<SettingsData>(SettingsData.path);
-        }
-        catch (FileNotFoundException)
-        {
-            FileManager.Save(settings = new SettingsData(), SettingsData.path);
-        }
 
-        //Load Settings
-        try
-        {
-            FileManager.Load<CameraData>(CameraData.path);
-        }
-        catch (FileNotFoundException)
-        {
-            FileManager.Save(camera = new CameraData(), CameraData.path);
-        }
-    }
     public void Update()
     {
-
+        foreach(AData data in dataList)
+        {
+            data.Update();
+        }
     }
 }

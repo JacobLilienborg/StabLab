@@ -1,21 +1,18 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using System;
 
 
 [Serializable]
-public class CameraData
+public class CameraData : AData
 {
-    [SerializeField] public static string path;
     private float[] cameraData = new float[8];
 
-    public CameraData()
+    public CameraData() : base("camera", "Data")
     {
         new CameraData(new Camera());
     }
 
-    public CameraData(Camera cam) 
+    public CameraData(Camera cam) : base("camera", "Data")
     {
         cameraData[0] = cam.transform.position.x;
         cameraData[1] = cam.transform.position.y;
@@ -40,5 +37,12 @@ public class CameraData
     public float GetFieldOfView()
     {
         return cameraData[7];
+    }
+
+    public override void Update()
+    {
+        Camera.main.transform.position = GetPosition();
+        Camera.main.transform.rotation = GetRotation();
+        Camera.main.fieldOfView = GetFieldOfView();
     }
 }

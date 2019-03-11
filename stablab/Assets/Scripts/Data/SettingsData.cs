@@ -3,16 +3,17 @@ using System;
 using UnityEngine;
 
 [Serializable]
-public class SettingsData
+public class SettingsData : AData
 {
-    [SerializeField] public static string path;
-    public const string defaultFolderName = "StabLab";
-    public string workingDirectoryPath;
     public List<string> recentProjects;
 
-    public SettingsData()
+    public SettingsData() : base("settings", "Data")
     {
         Debug.Log("Creating settings data");
     }
 
+    public override void Update()
+    {
+        //throw new NotImplementedException();
+    }
 }

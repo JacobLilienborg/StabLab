@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public class ProjectManager : MonoBehaviour
@@ -26,35 +27,34 @@ public class ProjectManager : MonoBehaviour
     }
 
     //Creates a new project data. 
-    public void CreateProject(string name, string path)
+    public void Create(string name, string directory)
     {
-        currentProject = new ProjectData(name, path, projectVersion);
-        dataManager = new DataManager(currentProject);
-        dataManager.Save();
+        currentProject = new ProjectData(name, directory, projectVersion);
+        dataManager = new DataManager(directory, currentProject, new SettingsData(), new CameraData(Camera.main));
     }
 
     //Saves the current project
-    public void SaveProject()
+    public void Save()
     {
-        currentProject.Save();
         dataManager.Save();
     }
 
     //Loads a project data file
-    public void LoadProject()
+    public void Load()
     {
         ProjectData prevProject = currentProject;
         try
         {
             string path = FileManager.OpenFileBrowser("*");
             currentProject = FileManager.Load<ProjectData>(path);
-            dataManager = new DataManager(currentProject);
+            dataManager = new DataManager(currentProject.GetDirectory(), currentProject, new SettingsData(), new CameraData());
             dataManager.Load();
+            dataManager.Update();
         }
         catch(FileNotFoundException) //Just an example of what we might catch, probably more/other exception is needed
         {
             currentProject = prevProject;
-            Debug.Log("Couldn't log selected project");
+            Debug.Log("Couldn't load selected project");
         }
     }
     

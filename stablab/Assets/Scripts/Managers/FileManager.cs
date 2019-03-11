@@ -1,9 +1,8 @@
 ﻿using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
-using UnityEngine;
 using Crosstales.FB;
 
-public class FileManager : MonoBehaviour
+public class FileManager
 {
 
     //Load a arbitrary binary file and return it's data

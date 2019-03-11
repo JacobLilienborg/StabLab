@@ -2,26 +2,26 @@
 using UnityEngine;
 
 [Serializable]
-public class ProjectData
+public class ProjectData : AData
 {
-    [SerializeField] public static string path;
-    private string projectName = "";
-    private string projectPath = "";
-    private float projectVersion;
-    private DateTime created;
+    private string projectName;
+    private string projectDirectory;
+    private readonly float projectVersion;
+    private readonly DateTime created;
     private DateTime modified;
     private DateTime saved;
 
-    public ProjectData()
+    public ProjectData() : base("default", "Data")
     {
-        new ProjectData("default", "./", 0.0f);
+        new ProjectData("default", "Data", 0.0f);
+        
     }
 
-    public ProjectData(string name, string path, float version)
+    public ProjectData(string projectName, string projectDirectory, float projectVersion) : base("project", "Data")
     {
-        projectName = name;
-        projectPath = path;
-        projectVersion = version;
+        this.projectName = projectName;
+        this.projectDirectory = projectDirectory;
+        this.projectVersion = projectVersion;
         created = DateTime.Now;
         modified = created;
         saved = created;
@@ -48,13 +48,18 @@ public class ProjectData
         return projectName;
     }
 
-    public void SetPath(string path)
+    public void SetDirectory(string directory)
     {
-        projectPath = path;
+        projectDirectory = directory;
     }
 
-    public string GetPath()
+    public string GetDirectory()
     {
-        return projectPath;
+        return projectDirectory;
+    }
+
+    public override void Update()
+    {
+        //throw new NotImplementedException();
     }
 }
