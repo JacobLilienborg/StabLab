@@ -97,6 +97,7 @@ public class InjuryAdding : MonoBehaviour
 
         ModelData pos = new ModelData(gameObject);
 
+        Debug.Log(marker);
         injuryManager.AddInjuryMarker(marker, pos);
     }
 

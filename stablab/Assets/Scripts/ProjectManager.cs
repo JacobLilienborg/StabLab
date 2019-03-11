@@ -63,7 +63,7 @@ public class ProjectManager : MonoBehaviour
 
     private void LoadInjuries()
     {
-        List<InjuryData> injuries = FileManager.LoadProjectData<List<InjuryData>>(currentProject, "Injuries");
+        List<AbstractTest> injuries = FileManager.LoadProjectData<List<AbstractTest>>(currentProject, "Injuries");
         injuryManager.LoadInjuries(injuries);
     }
 

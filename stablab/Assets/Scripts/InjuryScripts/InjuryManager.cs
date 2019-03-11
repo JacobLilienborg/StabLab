@@ -5,7 +5,7 @@ using UnityEngine;
 public class InjuryManager : MonoBehaviour
 {
     public InjuryManager instance = null;
-    public List<InjuryData> injuries;
+    public List<AbstractTest> injuries = new List<AbstractTest>();
 
     public GameObject model;
 
@@ -35,21 +35,21 @@ public class InjuryManager : MonoBehaviour
 
     public void ChangeOrder(int oldIndex, int newIndex) 
     {
-        InjuryData injury = injuries[oldIndex];
+        AbstractTest injury = injuries[oldIndex];
         injuries.RemoveAt(oldIndex);
         injuries.Insert(newIndex, injury);
     }
 
     public void AddInjuryMarker(GameObject markerObj, ModelData model)
     {
-        MarkerData marker = new MarkerData(markerObj, model);
         InjuryData injuryData = new InjuryData();
+        MarkerData marker = new MarkerData(markerObj, model);
         injuryData.markerData = marker;
         injuryData.injuryMarkerObj = markerObj;
         injuries.Add(injuryData);
     }
 
-    public void LoadInjuries(List<InjuryData> injuriesList) 
+    public void LoadInjuries(List<AbstractTest> injuriesList) 
     {
         injuries = injuriesList;
 

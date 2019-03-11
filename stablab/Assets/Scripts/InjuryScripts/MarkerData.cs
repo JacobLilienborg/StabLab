@@ -4,8 +4,10 @@ using UnityEngine;
 [Serializable]
 public class MarkerData
 {
+    [SerializeField]
+    private InjuryType type;
+
     private float[] position = new float[3];
-    public InjuryType type;
     public ModelData modelPose;
 
 
@@ -26,6 +28,11 @@ public class MarkerData
     public Vector3 GetPosition()
     {
         return new Vector3(position[0], position[1], position[2]);
+    }
+
+    public InjuryType GetType()
+    {
+        return type;
     }
 
     public void SetModelPos(ModelData pose)
