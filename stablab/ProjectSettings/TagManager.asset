@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Marker
   - Outline
+  - Body
   layers:
   - Default
   - TransparentFX
