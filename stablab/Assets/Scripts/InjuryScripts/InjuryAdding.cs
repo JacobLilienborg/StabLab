@@ -11,11 +11,11 @@ public enum InjuryState
 
 public enum InjuryType
 {
-    Kross,
-    Skär,
-    Skjut,
-    Hugg
-};
+    Crush,
+    Cut,
+    Shot,
+    Stab
+}
 
 
 public class InjuryAdding : MonoBehaviour
@@ -26,13 +26,12 @@ public class InjuryAdding : MonoBehaviour
     public GameObject injuryManagerObj;
     private InjuryManager injuryManager;
 
-    public GameObject krossMarker;
-    public GameObject skärMarker;
-    public GameObject skjutMarker;
-    public GameObject huggMarker;
+    bool injuryAddingMode = false;
 
-    //private GameObject marker;
+    public GameObject crushMarker, cutMarker, shotMarker, stabMarker,marker;
+    public GameObject skeleton;
     private Vector3 markerPos;
+    private Transform hitPart;
 
 
     // Start is called before the first frame update
@@ -43,17 +42,22 @@ public class InjuryAdding : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButton(0))
+        if (Input.GetKeyDown(KeyCode.I)) {
+            injuryAddingMode = !injuryAddingMode;
+        }
+        if (Input.GetMouseButton(0) && injuryAddingMode)
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition); //Ray from mouseclick on screen
             RaycastHit hit;  //Where the ray hits (the injury position)
-            
+
             if (Physics.Raycast(ray, out hit))
             {
-                if (currentInjuryState == InjuryState.Add && hit.collider == GetComponent<Collider>()) //If the hit was on this collider ***not needed if the floor is removed***
+                if (currentInjuryState == InjuryState.Add && hit.collider.tag == "Body") //If the hit was on this collider ***not needed if the floor is removed***
                 {
                     markerPos = hit.point;
-                    injuryManager.AddInjuryMarker(AddMarker(currentInjuryType, markerPos));
+                    hitPart = hit.transform;
+
+                    injuryManager.AddInjuryMarker(AddMarker(currentInjuryType, markerPos, hitPart));
                     currentInjuryState = InjuryState.Inactive;
                 }
                 else if (hit.collider.tag == "Marker")
@@ -73,22 +77,22 @@ public class InjuryAdding : MonoBehaviour
         return currentInjuryState;
     }
 
-    private GameObject AddMarker(InjuryType type, Vector3 position)
+    private GameObject AddMarker(InjuryType type, Vector3 position, Transform parent)
     {
         GameObject markerObj;
         switch (type)
         {
-            case InjuryType.Kross:
-                markerObj = Instantiate(krossMarker, position, Quaternion.identity);
+            case InjuryType.Crush:
+                markerObj = Instantiate(crushMarker, position, Quaternion.identity);
                 break;
-            case InjuryType.Skär:
-                markerObj = Instantiate(skärMarker, position, Quaternion.identity);
+            case InjuryType.Cut:
+                markerObj = Instantiate(cutMarker, position, Quaternion.identity);
                 break;
-            case InjuryType.Skjut:
-                markerObj = Instantiate(skjutMarker, position, Quaternion.identity);
+            case InjuryType.Shot:
+                markerObj = Instantiate(shotMarker, position, Quaternion.identity);
                 break;
-            case InjuryType.Hugg:
-                markerObj = Instantiate(huggMarker, position, Quaternion.identity);
+            case InjuryType.Stab:
+                markerObj = Instantiate(stabMarker, position, Quaternion.identity);
                 break;
             default:
                 Debug.Log("None existing marker");
@@ -96,18 +100,31 @@ public class InjuryAdding : MonoBehaviour
                 break;
         }
 
-        markerObj.transform.parent = transform;
-        markerObj.GetComponent<MarkerHandler>().MarkerData.ModelPose = new ModelData(gameObject);
+        markerObj.transform.parent = parent;
+        markerObj.GetComponent<MarkerHandler>().MarkerData.BodyPose = new BodyData(gameObject);
         markerObj.GetComponent<MarkerHandler>().MarkerData.Position = markerObj.transform.position;
         return markerObj;
     }
 
     public GameObject LoadMarker(MarkerData marker)
     {
-        transform.position = marker.ModelPose.GetPosition();
-        transform.rotation = marker.ModelPose.GetRotation();
+        SetBodyPose(marker.BodyPose);
+        Transform parent = GameObject.Find(marker.BodyPart).transform;
+       return AddMarker(marker.Type, marker.Position, parent);
+    }
 
-       return AddMarker(marker.Type, marker.Position);
+    private void SetBodyPose(BodyData data) 
+    {
+        skeleton.transform.position = data.GetPosition();
+        skeleton.transform.rotation = data.GetRotation();
+
+        Transform[] children = skeleton.GetComponentsInChildren<Transform>();
+        for (int i = 0; i < data.bodyParts.Count; i++)
+        {
+            children[i].position = data.bodyParts[i].GetPosition();
+            children[i].rotation = data.bodyParts[i].GetRotation();
+        }
+        
     }
 
     public void DeletePressed()
@@ -115,24 +132,24 @@ public class InjuryAdding : MonoBehaviour
         currentInjuryState = InjuryState.Delete;
     }
 
-    //Called when the KrossButton is pressed
-    public void KrossPressed()
+    //Called when the CrushButton is pressed
+    public void CrushPressed()
     {
-        currentInjuryType = InjuryType.Kross;
+        currentInjuryType = InjuryType.Crush;
     }
-    //Called when the SkärButton is pressed
-    public void SkärPressed()
+    //Called when the CutButton is pressed
+    public void CutPressed()
     {
-        currentInjuryType = InjuryType.Skär;
+        currentInjuryType = InjuryType.Cut;
     }
-    //Called when the SkjutButton is pressed
-    public void SkjutPressed()
+    //Called when the ShotButton is pressed
+    public void ShotPressed()
     {
-        currentInjuryType = InjuryType.Skjut;
+        currentInjuryType = InjuryType.Shot;
     }
-    //Called when the HuggButton is pressed
-    public void HuggPressed()
+    //Called when the StabButton is pressed
+    public void StabPressed()
     {
-        currentInjuryType = InjuryType.Hugg;
+        currentInjuryType = InjuryType.Stab;
     }
 }

@@ -1,4 +1,8 @@
-﻿using System.IO;
+﻿//
+// Created by Martin Jirenius
+//
+
+using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using Crosstales.FB;
 
@@ -19,21 +23,10 @@ public class FileManager
     public static void Save<T>(T data, string path)
     {
         BinaryFormatter binaryFormatter = new BinaryFormatter();
-        //try
-        //{
-            using (FileStream fileStream = File.Open(path, FileMode.OpenOrCreate))
-            {
-                binaryFormatter.Serialize(fileStream, data);
-            }
-        /*} 
-        catch(DirectoryNotFoundException)
+        using (FileStream fileStream = File.Open(path, FileMode.OpenOrCreate))
         {
-            Directory.CreateDirectory(new FileInfo(path).Directory.FullName);
-            using (FileStream fileStream = File.Open(path, FileMode.OpenOrCreate))
-            {
-                binaryFormatter.Serialize(fileStream, data);
-            }
-        }*/
+            binaryFormatter.Serialize(fileStream, data);
+        }
         
     }
 

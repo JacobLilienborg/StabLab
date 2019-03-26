@@ -1,4 +1,9 @@
-﻿using System.IO;
+﻿//
+// Created by Martin Jirenius, Simon Gustavsson
+//
+
+
+using System.IO;
 
 [System.Serializable]
 public abstract class AData

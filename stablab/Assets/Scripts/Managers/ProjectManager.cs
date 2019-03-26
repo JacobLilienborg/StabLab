@@ -1,15 +1,20 @@
-﻿using System.Collections.Generic;
+﻿// 
+// Created by Martin Jirenius, Simon Gustavsson
+//
+
 using System.IO;
 using UnityEngine;
 
 public class ProjectManager : MonoBehaviour
 {
-    private float projectVersion = 0.1f;
-    private ProjectManager instance = null;
-    private ProjectData currentProject;
-    private DataManager dataManager;
+    private float projectVersion = 0.1f;                                        // Mainly for future implementation where projectVersion is critical
+    private ProjectManager instance = null;                                     // Only one instance of the ProjectManager can exist, hence the singleton pattern
+    private ProjectData currentProject;                                         // A copy of the current project data
+    private DataManager dataManager;                                            // A data manager which handles how to save and load data files
+
 
     // Setup instance of ProjectManager
+    // This should only be awoken once in a preload scene
     void Awake()
     {
         // If instance doesn't exist set it to this, else destroy this 

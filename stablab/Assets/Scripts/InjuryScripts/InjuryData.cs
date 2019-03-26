@@ -16,7 +16,7 @@ public class InjuryData
 
     public MarkerData MarkerData { get; protected set; }
     public CameraData CameraData { get; set; }
-    public ModelData ModelPose { get; set; }
+    public BodyData BodyPose { get; set; }
     public Certainty Certainty { get; set; }
     public string InfoText { get; set; }
 

@@ -8,7 +8,8 @@ public class MarkerData
     private Vector3 position;
 
     public InjuryType Type { get; set; }
-    public ModelData ModelPose { get; set; }
+    public BodyData BodyPose { get; set; }
+    public string BodyPart { get; set; }
     private float[] serializedPos = new float[3];
 
     public Vector3 Position
