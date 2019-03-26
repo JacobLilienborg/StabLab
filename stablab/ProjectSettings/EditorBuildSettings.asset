@@ -5,7 +5,19 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Scenes/Preload.unity
+    guid: 74408d4b18ac06441bd8b6b40a2e9d09
+  - enabled: 1
+    path: Assets/Scenes/StartScreen.unity
+    guid: 581e4c706ccee714d89a11e9e34f947a
+  - enabled: 1
+    path: Assets/Scenes/CharacterMode.unity
+    guid: f7d0f95a3e25f4f5896144270b8d0ef4
+  - enabled: 1
+    path: Assets/Scenes/InjuryMode.unity
+    guid: b0a167f3b6ff4c849b539bd73eaa8534
+  - enabled: 1
+    path: Assets/Scenes/PresentationMode.unity
+    guid: d711e75b00deea844b09db8bfd84e1e9
   m_configObjects: {}
