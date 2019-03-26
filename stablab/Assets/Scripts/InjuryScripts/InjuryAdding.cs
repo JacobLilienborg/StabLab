@@ -4,12 +4,9 @@ using UnityEngine;
 
 public enum InjuryState
 {
+    Add,
     Inactive,
-    Delete,
-    Kross,
-    Skär,
-    Skjut,
-    Hugg
+    Delete
 };
 
 public enum InjuryType
@@ -23,7 +20,8 @@ public enum InjuryType
 
 public class InjuryAdding : MonoBehaviour
 {
-    private InjuryState currentInjuryState = InjuryState.Inactive;
+    public InjuryState currentInjuryState = InjuryState.Inactive;
+    private InjuryType currentInjuryType;
 
     public GameObject injuryManagerObj;
     private InjuryManager injuryManager;
@@ -52,26 +50,11 @@ public class InjuryAdding : MonoBehaviour
             
             if (Physics.Raycast(ray, out hit))
             {
-                if (hit.collider == GetComponent<Collider>()) //If the hit was on this collider ***not needed if the floor is removed***
+                if (currentInjuryState == InjuryState.Add && hit.collider == GetComponent<Collider>()) //If the hit was on this collider ***not needed if the floor is removed***
                 {
                     markerPos = hit.point;
-                    switch (currentInjuryState)
-                    {
-                        case InjuryState.Kross:
-                            AddMarker(krossMarker, markerPos);
-                            break;
-                        case InjuryState.Skär:
-                            AddMarker(skärMarker, markerPos);
-                            break;
-                        case InjuryState.Skjut:
-                            AddMarker(skjutMarker, markerPos);
-                            break;
-                        case InjuryState.Hugg:
-                            AddMarker(huggMarker, markerPos);
-                            break;
-                        default:
-                            break;
-                    }
+                    injuryManager.AddInjuryMarker(AddMarker(currentInjuryType, markerPos));
+                    currentInjuryState = InjuryState.Inactive;
                 }
                 else if (hit.collider.tag == "Marker")
                 {
@@ -90,42 +73,41 @@ public class InjuryAdding : MonoBehaviour
         return currentInjuryState;
     }
 
-    private void AddMarker(GameObject markerType, Vector3 position)
+    private GameObject AddMarker(InjuryType type, Vector3 position)
     {
-        GameObject marker = Instantiate(markerType, position, Quaternion.identity);
-        marker.transform.parent = transform;
-
-        ModelData pos = new ModelData(gameObject);
-
-        Debug.Log(marker);
-        injuryManager.AddInjuryMarker(marker, pos);
-    }
-
-    public GameObject MakeMarker(InjuryType type, Vector3 pos) 
-    {
-        GameObject marker;
+        GameObject markerObj;
         switch (type)
         {
             case InjuryType.Kross:
-                marker = Instantiate(krossMarker, pos, Quaternion.identity);
+                markerObj = Instantiate(krossMarker, position, Quaternion.identity);
                 break;
             case InjuryType.Skär:
-                marker = Instantiate(skärMarker, pos, Quaternion.identity);
+                markerObj = Instantiate(skärMarker, position, Quaternion.identity);
                 break;
             case InjuryType.Skjut:
-                marker = Instantiate(skjutMarker, pos, Quaternion.identity);
+                markerObj = Instantiate(skjutMarker, position, Quaternion.identity);
                 break;
             case InjuryType.Hugg:
-                marker = Instantiate(huggMarker, pos, Quaternion.identity);
+                markerObj = Instantiate(huggMarker, position, Quaternion.identity);
                 break;
             default:
                 Debug.Log("None existing marker");
-                marker = null;
+                markerObj = null;
                 break;
         }
 
-        marker.transform.parent = transform;
-        return marker;
+        markerObj.transform.parent = transform;
+        markerObj.GetComponent<MarkerHandler>().MarkerData.ModelPose = new ModelData(gameObject);
+        markerObj.GetComponent<MarkerHandler>().MarkerData.Position = markerObj.transform.position;
+        return markerObj;
+    }
+
+    public GameObject LoadMarker(MarkerData marker)
+    {
+        transform.position = marker.ModelPose.GetPosition();
+        transform.rotation = marker.ModelPose.GetRotation();
+
+       return AddMarker(marker.Type, marker.Position);
     }
 
     public void DeletePressed()
@@ -136,21 +118,21 @@ public class InjuryAdding : MonoBehaviour
     //Called when the KrossButton is pressed
     public void KrossPressed()
     {
-        currentInjuryState = InjuryState.Kross;
+        currentInjuryType = InjuryType.Kross;
     }
     //Called when the SkärButton is pressed
     public void SkärPressed()
     {
-        currentInjuryState = InjuryState.Skär;
+        currentInjuryType = InjuryType.Skär;
     }
     //Called when the SkjutButton is pressed
     public void SkjutPressed()
     {
-        currentInjuryState = InjuryState.Skjut;
+        currentInjuryType = InjuryType.Skjut;
     }
     //Called when the HuggButton is pressed
     public void HuggPressed()
     {
-        currentInjuryState = InjuryState.Hugg;
+        currentInjuryType = InjuryType.Hugg;
     }
 }

@@ -8,10 +8,12 @@ public class MarkerHandler : MonoBehaviour
     [SerializeField] private Material outlineMaterial;
     [SerializeField] private Material originalMaterial;
     public InjuryType type;
+    public MarkerData MarkerData { get; set; } = new MarkerData();
 
     private void Start()
     {
         rend = GetComponent<Renderer>();
+        MarkerData.Type = type;
     }
 
     //Changes the material while hovering over a marker
