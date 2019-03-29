@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using UnityEngine;
 
 [Serializable]
@@ -19,10 +20,10 @@ public class ProjectData : AData
     }
     */   
 
-    public ProjectData(string projectName, string projectDirectory, float projectVersion) : base("project.sl", "")
+    public ProjectData(string projectName, string projectDirectory, float projectVersion) : base("project", "Data")
     {
         this.projectName = projectName;
-        this.projectDirectory = projectDirectory;
+        this.projectDirectory = Path.Combine(projectDirectory, projectName);
         this.projectVersion = projectVersion;
         created = DateTime.Now;
         modified = created;
@@ -65,8 +66,4 @@ public class ProjectData : AData
         //throw new NotImplementedException();
     }
 
-    public override void Load()
-    {
-        //throw new NotImplementedException();
-    }
 }

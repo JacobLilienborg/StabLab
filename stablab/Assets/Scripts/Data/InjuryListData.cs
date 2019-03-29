@@ -10,23 +10,12 @@ public class InjuryListData : AData
     public InjuryListData() : base("injuryList", "Injuries")
     {
         Debug.Log("Creating innjurylist data");
-    }
-
-    public InjuryListData(List<InjuryData> list) : base("injuryList", "Injuries")
-    {
-        injuries = list;
+        injuries = InjuryManager.injuries;
     }
 
     public override void Update()
     {
-        injuries = InjuryManager.injuries;
-        Debug.Log("update innjurylist data");
-    }
-
-    public override void Load()
-    {
-        InjuryManager.LoadInjuries(injuries);
-        Debug.Log("load innjurylist data");
+        InjuryManager.injuries = injuries;
     }
 
 }

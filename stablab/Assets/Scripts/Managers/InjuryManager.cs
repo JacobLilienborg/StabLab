@@ -1,17 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class InjuryManager : MonoBehaviour
 {
     public InjuryManager instance = null;
 
-    [SerializeField]
-    public GameObject bodyHelper;
     public static List<InjuryData> injuries = new List<InjuryData>();
-
-    private InjuryData currentInjury;
-    private static GameObject body;
+    private static InjuryAdding injuryAdding;
+    private InjuryData activeInjury;
 
     // Setup instance of ProjectManager
     void Awake()
@@ -29,31 +26,36 @@ public class InjuryManager : MonoBehaviour
         //Don't destroy when reloading scene
         DontDestroyOnLoad(gameObject);
 
-        body = bodyHelper;
     }
 
+    // Find the model and load markers in to the scene
+    public void Start()
+    {
+        injuryAdding = GameObject.FindWithTag("Player").GetComponent<InjuryAdding>();
+        LoadInjuries();
+    }
 
+    // Creates and add the new injury to the list of injuries.
     public void AddNewInjury() 
     {
-        InjuryData newInjury = new InjuryData();
-        currentInjury = newInjury;
-        injuries.Add(currentInjury);
-        body.GetComponent<InjuryAdding>().currentInjuryState = InjuryState.Add;
+        InjuryData newInjury = new InjuryData(DateTime.Now);
+        activeInjury = newInjury;
+        injuries.Add(activeInjury);
+        injuryAdding.currentInjuryState = InjuryState.Add;
     }
 
-    public void RemoveInjury(int index = -1)
+    // Remove the currently active injury
+    public void RemoveInjury()
     {
-        if (index == -1) 
-        {
-            injuries.Remove(currentInjury);
-        }
-        else 
-        {
-            injuries.RemoveAt(index); 
-        }
+        injuries.Remove(activeInjury);
     }
 
-    // OBS: this will not work and has to bee fixed later
+    public void SetActiveInjury(int index = -1, int id = -1)
+    {
+       //activeInjury = 
+    }
+
+    // Change order of injuri in the list.
     public void ChangeOrder(int oldIndex, int newIndex) 
     {
         InjuryData injury = injuries[oldIndex];
@@ -61,19 +63,18 @@ public class InjuryManager : MonoBehaviour
         injuries.Insert(newIndex, injury);
     }
 
+    // Add a marker to the injury.
     public void AddInjuryMarker(GameObject markerObj)
     {
-        currentInjury.InjuryMarkerObj = markerObj;
+        activeInjury.InjuryMarkerObj = markerObj;
     }
 
-    public static void LoadInjuries(List<InjuryData> injuriesList) 
+    // Load all injuries from the list in to the scene.
+    public static void LoadInjuries() 
     {
-        injuries = injuriesList;
-
-        foreach(InjuryData injury in injuries) 
+        foreach (InjuryData injury in injuries) 
         {
-            Debug.Log("----" + injury.MarkerData.Position);
-           injury.InjuryMarkerObj = body.GetComponent<InjuryAdding>().LoadMarker(injury.MarkerData);
+            injury.InjuryMarkerObj = injuryAdding.LoadMarker(injury.MarkerData);
         }
     }
 }

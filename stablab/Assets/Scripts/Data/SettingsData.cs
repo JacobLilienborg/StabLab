@@ -17,8 +17,4 @@ public class SettingsData : AData
         //throw new NotImplementedException();
     }
 
-    public override void Load()
-    {
-        //throw new NotImplementedException();
-    }
 }

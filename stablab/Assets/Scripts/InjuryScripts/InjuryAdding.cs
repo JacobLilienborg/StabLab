@@ -25,9 +25,7 @@ public class InjuryAdding : MonoBehaviour
 
     public GameObject injuryManagerObj;
     private InjuryManager injuryManager;
-
-    bool injuryAddingMode = false;
-
+    
     public GameObject crushMarker, cutMarker, shotMarker, stabMarker,marker;
     public GameObject skeleton;
     private Vector3 markerPos;
@@ -42,10 +40,7 @@ public class InjuryAdding : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.I)) {
-            injuryAddingMode = !injuryAddingMode;
-        }
-        if (Input.GetMouseButton(0) && injuryAddingMode)
+        if (Input.GetMouseButton(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition); //Ray from mouseclick on screen
             RaycastHit hit;  //Where the ray hits (the injury position)
@@ -100,9 +95,10 @@ public class InjuryAdding : MonoBehaviour
                 break;
         }
 
-        markerObj.transform.parent = parent;
-        markerObj.GetComponent<MarkerHandler>().MarkerData.BodyPose = new BodyData(gameObject);
+        markerObj.GetComponent<MarkerHandler>().MarkerData.BodyPose = new BodyData(skeleton);
         markerObj.GetComponent<MarkerHandler>().MarkerData.Position = markerObj.transform.position;
+        markerObj.GetComponent<MarkerHandler>().MarkerData.BodyPart = parent.name;
+        markerObj.transform.parent = parent;
         return markerObj;
     }
 
@@ -110,7 +106,7 @@ public class InjuryAdding : MonoBehaviour
     {
         SetBodyPose(marker.BodyPose);
         Transform parent = GameObject.Find(marker.BodyPart).transform;
-       return AddMarker(marker.Type, marker.Position, parent);
+        return AddMarker(marker.Type, marker.Position, parent);
     }
 
     private void SetBodyPose(BodyData data) 
@@ -119,10 +115,15 @@ public class InjuryAdding : MonoBehaviour
         skeleton.transform.rotation = data.GetRotation();
 
         Transform[] children = skeleton.GetComponentsInChildren<Transform>();
-        for (int i = 0; i < data.bodyParts.Count; i++)
+        int bodyIndex = 0;
+        foreach (Transform child in children)
         {
-            children[i].position = data.bodyParts[i].GetPosition();
-            children[i].rotation = data.bodyParts[i].GetRotation();
+            if(child.tag == "Body") 
+            {
+                child.position = data.bodyParts[bodyIndex].GetPosition();
+                child.rotation = data.bodyParts[bodyIndex].GetRotation();
+                bodyIndex++;
+            }
         }
         
     }

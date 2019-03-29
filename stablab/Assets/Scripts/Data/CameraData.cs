@@ -6,8 +6,6 @@ using System;
 public class CameraData : AData
 {
     private float[] cameraData = new float[8];
-    [NonSerialized]
-    private Camera cam;
 
     public CameraData() : base("camera", "Data")
     {
@@ -16,6 +14,7 @@ public class CameraData : AData
 
     public CameraData(Camera cam) : base("camera", "Data")
     {
+        SetCamera(cam);
     }
 
     public Vector3 GetPosition() 
@@ -33,19 +32,19 @@ public class CameraData : AData
         return cameraData[7];
     }
 
-    public override void Update()
+    public void SetCamera(Camera cam)
     {
-        cameraData[0] = Camera.main.transform.position.x;
-        cameraData[1] = Camera.main.transform.position.y;
-        cameraData[2] = Camera.main.transform.position.z;
-        cameraData[3] = Camera.main.transform.rotation.x;
-        cameraData[4] = Camera.main.transform.rotation.y;
-        cameraData[5] = Camera.main.transform.rotation.z;
-        cameraData[6] = Camera.main.transform.rotation.w;
-        cameraData[7] = Camera.main.fieldOfView;
+        cameraData[0] = cam.transform.position.x;
+        cameraData[1] = cam.transform.position.y;
+        cameraData[2] = cam.transform.position.z;
+        cameraData[3] = cam.transform.rotation.x;
+        cameraData[4] = cam.transform.rotation.y;
+        cameraData[5] = cam.transform.rotation.z;
+        cameraData[6] = cam.transform.rotation.w;
+        cameraData[7] = cam.fieldOfView;
     }
 
-    public override void Load()
+    public override void Update()
     {
         Camera.main.transform.position = GetPosition();
         Camera.main.transform.rotation = GetRotation();

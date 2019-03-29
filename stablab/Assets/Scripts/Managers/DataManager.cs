@@ -2,21 +2,34 @@
 // Created by Martin Jirenius
 //
 
+
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-public class DataManager
-{
-    List<AData> dataList = new List<AData>();                                       // A list of data files
-    private readonly string workingDirectory;                                       // A string of where to save the files
 
-    // Takes a working directory and a arbitrary list of data files
-    public DataManager(string workingDirectory, params AData[] data)
+public class DataManager : MonoBehaviour
+{
+
+    static private DataManager instance;
+
+    List<AData> dataList = new List<AData>();       // A list of data files
+    private string workingDirectory;                // A string of where to save the files
+
+    // Start is called before the first frame update
+    private void Awake()     {
+        // If instance doesn't exist set it to this, else destroy this 
+        if (instance == null)         {             instance = this;         }         else if (instance != this)         {             dataList = instance.dataList;             workingDirectory = instance.workingDirectory;             Destroy(instance.gameObject);             instance = this;         }          DontDestroyOnLoad(this);     }
+
+    public void SetWorkingDirectory(string directory)
     {
-        this.workingDirectory = workingDirectory;
-        Track(data);
+        workingDirectory = directory;
+    }
+
+    public void Reset()
+    {
+        dataList.Clear();
     }
 
     // Add an arbitrary amount of data files that the data manager will load and save upon request
@@ -26,31 +39,30 @@ public class DataManager
         {
             dataList.Add(d);
         }
-        Load();
     }
 
     // Loads the data represented in each data files path.
     // This does not Update the scene with the new data, only loads it into the project
     public void Load()
     {
-        for (int i = 0; i< dataList.Count; i++)
+        for (int i = 0; i < dataList.Count; i++)
         {
+            AData data = dataList[i];
             try
             {
-                dataList[i] = FileManager.Load<AData>(Path.Combine(workingDirectory, dataList[i].GetPath()));
-                //dataList[i].Load();
-                Debug.Log(dataList[i].fileName + " was loaded successfully");
+                dataList[i] = FileManager.Load<AData>(Path.Combine(workingDirectory, data.GetPath()));
+                Debug.Log(data.fileName + " was loaded successfully");
             }
             catch (FileNotFoundException)
             {
-                    FileManager.Save(dataList[i], Path.Combine(workingDirectory, dataList[i].GetPath()));
-                    Debug.Log(dataList[i].fileName + " couldn't be found and is therefore created");
+                FileManager.Save(data, Path.Combine(workingDirectory, data.GetPath()));
+                Debug.Log(data.fileName + " couldn't be found and is therefore created");
             }
             catch (DirectoryNotFoundException)
             {
-                Directory.CreateDirectory(new FileInfo(Path.Combine(workingDirectory, dataList[i].GetPath())).Directory.FullName);
-                FileManager.Save(dataList[i], Path.Combine(workingDirectory, dataList[i].GetPath()));
-                Debug.Log(dataList[i].fileName + " couldn't be found and is therefore created");
+                Directory.CreateDirectory(new FileInfo(Path.Combine(workingDirectory, data.GetPath())).Directory.FullName);
+                FileManager.Save(data, Path.Combine(workingDirectory, data.GetPath()));
+                Debug.Log(data.fileName + " couldn't be found and is therefore created");
             }
         }
     }
@@ -58,20 +70,21 @@ public class DataManager
     // Save the current state of each data file and save it to each file path
     public void Save()
     {
-        foreach(AData data in dataList)
+        foreach (AData data in dataList)
         {
-            data.Update();
             FileManager.Save(data, Path.Combine(workingDirectory, data.GetPath()));
             Debug.Log(data.fileName + " was saved successfully");
         }
     }
 
     // Call each data file's update function to update the scene
-    public void Update()
+    public void UpdateScene()
     {
-        foreach(AData data in dataList)
+        foreach (AData data in dataList)
         {
-            data.Load();
+            data.Update();
         }
     }
+
 }
+

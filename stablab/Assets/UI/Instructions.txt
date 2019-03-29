@@ -1,0 +1,27 @@
+Här följer en del formateringsriktlinjer för när UI ska implementeras i Unity:
+
+Knappar:
+  Generella menyknappar har dimensionerna 40x40 px, där padding på dessa är 9x9x9x9 (vänster,höger,över,under) px.
+  Detta görs genom slicing i Unity, som demonstreras här:
+    https://www.youtube.com/watch?v=OWtQnZsSdEU&t=12m28s
+  Textknapparna får variera i bredd, men bör aldrig variera i höjd.
+  De blåa knapparna är för viktiga menyelement.
+  De vita är för mindre viktiga menyelement.
+  De gröna respektive röda är för att lägga till/ta bort något.
+  En typisk skillnad mellan blå och vit är i en dialogruta, där den knapp som automatiskt är markerad är blå, medan resten är vita.
+
+Fönster:
+  Både WindowHeader och WindowBackground är i dimensionerna 80x80 px, och ska ha 20x20x20x20 i padding.
+  Header är, som kanske framgår av namnet, är header för menyrutor, och bör aldrig bli högre än just 80 px.
+
+Toolbar (vapenlistan i nedre mitt):
+  Navigationsknapparna har dimensionerna 100x100 px och ska sitta på vardera sida. De ska endast vara blå när det finns undangömda element
+   i den riktningen. Bakgrunden ska ha 10x10x10x10 px i padding. Elementen i listan är 80x80 px, och ska i framtiden ha en ikon för den typ
+   av skada den representerar. Är den blå så är den markerad. Knappen för att lägga till finns i nuläget i två utföranden: grå och grön.
+  Denna har samma dimensioner som elementen och ska alltid ligga längst till höger i listan. I början ska denna knapp utgöra hela listans
+   innehåll (bortsett från navigationsknapparna).
+
+Typsnitt:
+  Typsnittet som ska användas är Bahnschrift Semibold och finns i medföljande fontfil.
+
+Mer menyelement kommer i framtiden, och denna ihopslängda textfil kommer att bytas ut till ett mer utförligt designmanifest.

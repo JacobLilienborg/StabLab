@@ -14,6 +14,7 @@ public class InjuryData
     [NonSerialized]
     private GameObject injuryMarkerObj;
 
+    public DateTime Id { get; }
     public MarkerData MarkerData { get; protected set; }
     public CameraData CameraData { get; set; }
     public BodyData BodyPose { get; set; }
@@ -21,6 +22,11 @@ public class InjuryData
     public string InfoText { get; set; }
 
     //private List<Image> images = new List<Image>();
+
+    public InjuryData(DateTime id) 
+    {
+        Id = id;
+    }
 
     public GameObject InjuryMarkerObj
     {

@@ -21,9 +21,7 @@ public abstract class AData
     {
         return Path.Combine(directory, fileName);
     }
-
-    public abstract void Load();
-
+    
     public abstract void Update();
 
 }
