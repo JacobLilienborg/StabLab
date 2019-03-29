@@ -19,7 +19,7 @@ public class DataManager : MonoBehaviour
 
     // Start is called before the first frame update
     private void Awake()     {
-        // If instance doesn't exist set it to this, else destroy this 
+        // If instance doesn't exist set it to this, else destroy this
         if (instance == null)         {             instance = this;         }         else if (instance != this)         {             dataList = instance.dataList;             workingDirectory = instance.workingDirectory;             Destroy(instance.gameObject);             instance = this;         }          DontDestroyOnLoad(this);     }
 
     public void SetWorkingDirectory(string directory)
@@ -87,4 +87,3 @@ public class DataManager : MonoBehaviour
     }
 
 }
-
