@@ -473,8 +473,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a1c0679084f040499b5b4694b7e4574, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dataManager: {fileID: 30277734}
-  viewManager: {fileID: 586075994}
+  dataManagerObj: {fileID: 0}
+  viewManagerObj: {fileID: 0}
 --- !u!1001 &925341013
 PrefabInstance:
   m_ObjectHideFlags: 0

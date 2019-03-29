@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
+  m_IndirectSpecularColor: {r: 0.3731193, g: 0.38073996, b: 0.3587269, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -118,7 +118,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 937916518687694832}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 937916518687694833}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: eb1494834d11d574ba196caf2a19d49f, type: 3}
@@ -130,7 +130,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 1052964469975065703}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1052964469975065704}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a763840ad0ee8b24fa1e84047d82623d, type: 3}
@@ -205,6 +205,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 18d6c23b18960e74a932c7ddb1f72a03, type: 3}
+--- !u!1 &937916518687694833 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 937916518367231477, guid: 18d6c23b18960e74a932c7ddb1f72a03,
+    type: 3}
+  m_PrefabInstance: {fileID: 937916518687694832}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1052964469975065703
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -274,6 +280,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b6d31b07151423043a73e0710b790ab8, type: 3}
+--- !u!1 &1052964469975065704 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1052964470835045393, guid: b6d31b07151423043a73e0710b790ab8,
+    type: 3}
+  m_PrefabInstance: {fileID: 1052964469975065703}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7160890429972479559
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -351,5 +363,15 @@ PrefabInstance:
       propertyPath: viewManager
       value: 
       objectReference: {fileID: 885145719}
+    - target: {fileID: 7160890428591565132, guid: ab68440d8392edd40812b9bc44866c13,
+        type: 3}
+      propertyPath: dataManagerObj
+      value: 
+      objectReference: {fileID: 937916518687694833}
+    - target: {fileID: 7160890428591565132, guid: ab68440d8392edd40812b9bc44866c13,
+        type: 3}
+      propertyPath: viewManagerObj
+      value: 
+      objectReference: {fileID: 1052964469975065704}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ab68440d8392edd40812b9bc44866c13, type: 3}

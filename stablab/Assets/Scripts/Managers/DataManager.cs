@@ -12,7 +12,7 @@ using UnityEngine;
 public class DataManager : MonoBehaviour
 {
 
-    static private DataManager instance;
+    public static DataManager instance;
 
     List<AData> dataList = new List<AData>();       // A list of data files
     private string workingDirectory;                // A string of where to save the files

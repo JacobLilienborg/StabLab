@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 public class ViewManager : MonoBehaviour
 {
 
-    static private ViewManager instance;
+    public static ViewManager instance;
 
     private void Awake()
     {

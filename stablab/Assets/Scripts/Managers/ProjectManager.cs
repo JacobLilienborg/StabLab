@@ -28,8 +28,6 @@ public class ProjectManager : MonoBehaviour
         {
             projectVersion = instance.projectVersion;
             currentProject = instance.currentProject;
-            dataManager = instance.dataManager;
-            viewManager = instance.viewManager;
             Destroy(instance.gameObject);
             instance = this;
         }
@@ -37,7 +35,13 @@ public class ProjectManager : MonoBehaviour
         DontDestroyOnLoad(this);
     }
 
-    public void DebugMe(string message)
+    private void Start()
+    {
+        dataManager = DataManager.instance;
+        viewManager = ViewManager.instance;
+    }
+
+        public void DebugMe(string message)
     {
         Debug.Log(message);
     }
@@ -60,7 +64,7 @@ public class ProjectManager : MonoBehaviour
             currentProject = FileManager.Load<ProjectData>(Path.Combine(path, "Data", "project"));
             dataManager.SetWorkingDirectory(currentProject.GetDirectory());
             Load(true);
-            viewManager.FadeIn(2);
+            viewManager.FadeIn(3);
         }
         catch (FileNotFoundException) //Just an example of what we might catch, probably more/other exception is needed
         {
