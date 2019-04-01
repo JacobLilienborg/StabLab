@@ -11,13 +11,11 @@ public class MarkerHandler : MonoBehaviour
     [SerializeField] private Material outlineMaterial;
     [SerializeField] private Material originalMaterial;
     public InjuryType type;
-    public MarkerData MarkerData { get; set; } = new MarkerData();
     private int id;
 
     private void Start()
     {
         rend = GetComponent<Renderer>();
-        MarkerData.Type = type;
         id = InjuryManager.numOfInjuries - 1;
     }
 

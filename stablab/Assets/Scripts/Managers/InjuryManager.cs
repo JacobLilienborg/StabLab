@@ -9,7 +9,7 @@ public class InjuryManager : MonoBehaviour
     // Scripts from the body model
     private static InjuryAdding injuryAdding;
 
-    private static InjuryData activeInjury;
+    private static Injury activeInjury;
     public static int numOfInjuries = 0;
     private ModelController modelController;
 
@@ -47,7 +47,7 @@ public class InjuryManager : MonoBehaviour
     public void AddNewInjury()
     {
         numOfInjuries++;
-        InjuryData newInjury = new InjuryData(numOfInjuries - 1); //ID is numOfInjuries - 1
+        Injury newInjury = new Injury(numOfInjuries - 1); //ID is numOfInjuries - 1
         activeInjury = newInjury;
         injuries.Add(activeInjury);
         injuryAdding.currentInjuryState = InjuryState.Add;
@@ -67,11 +67,12 @@ public class InjuryManager : MonoBehaviour
             activeInjury = injuries[index];
             return;
         }
-        foreach (InjuryData injury in injuries)
+        foreach (Injury injury in injuries)
         {
             if (injury.Id == id)
             {
                 activeInjury = injury;
+                Debug.Log("Active man: " + activeInjury);
                 return;
             }
         }

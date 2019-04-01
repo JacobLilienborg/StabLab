@@ -15,15 +15,15 @@ public class Injury
     private GameObject injuryMarkerObj;
 
     public int Id { get; }
-    public MarkerData MarkerData { get; protected set; }
-    public CameraData CameraData { get; set; }
-    public BodyData BodyPose { get; set; }
+    public Marker Marker { get; protected set; }
+    public CameraSettings CameraSettings { get; set; }
+    public BodyPose BodyPose { get; set; }
     public Certainty Certainty { get; set; }
     public string InfoText { get; set; }
 
     //private List<Image> images = new List<Image>();
 
-    public InjuryData(int id)
+    public Injury(int id)
     {
         Id = id;
     }
