@@ -8,7 +8,8 @@ public class InjuryManager : MonoBehaviour
 
     public static List<InjuryData> injuries = new List<InjuryData>();
     private static InjuryAdding injuryAdding;
-    private InjuryData activeInjury;
+    private static InjuryData activeInjury;
+    public static int numOfInjuries = 0;
 
     // Setup instance of ProjectManager
     void Awake()
@@ -38,7 +39,8 @@ public class InjuryManager : MonoBehaviour
     // Creates and add the new injury to the list of injuries.
     public void AddNewInjury() 
     {
-        InjuryData newInjury = new InjuryData(DateTime.Now);
+        numOfInjuries++;
+        InjuryData newInjury = new InjuryData(numOfInjuries - 1); //ID is numOfInjuries - 1
         activeInjury = newInjury;
         injuries.Add(activeInjury);
         injuryAdding.currentInjuryState = InjuryState.Add;
@@ -50,9 +52,22 @@ public class InjuryManager : MonoBehaviour
         injuries.Remove(activeInjury);
     }
 
-    public void SetActiveInjury(int index = -1, int id = -1)
+    // Sets the active injury. Is called from the marker that is clicked
+    public static void SetActiveInjury(int index = -1, int id = -1)
     {
-       //activeInjury = 
+        if (index != -1)
+        {
+            activeInjury = injuries[index];
+            return;
+        }
+        foreach (InjuryData injury in injuries)
+        {
+            if (injury.Id == id)
+            {
+                activeInjury = injury;
+                return;
+            }
+        }
     }
 
     // Change order of injuri in the list.
@@ -67,6 +82,10 @@ public class InjuryManager : MonoBehaviour
     public void AddInjuryMarker(GameObject markerObj)
     {
         activeInjury.InjuryMarkerObj = markerObj;
+        foreach (InjuryData injury in injuries)
+        {
+            Debug.Log("Injury id: " + injury.Id);
+        }
     }
 
     // Load all injuries from the list in to the scene.

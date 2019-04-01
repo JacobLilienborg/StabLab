@@ -14,7 +14,7 @@ public class InjuryData
     [NonSerialized]
     private GameObject injuryMarkerObj;
 
-    public DateTime Id { get; }
+    public int Id { get; }
     public MarkerData MarkerData { get; protected set; }
     public CameraData CameraData { get; set; }
     public BodyData BodyPose { get; set; }
@@ -23,7 +23,7 @@ public class InjuryData
 
     //private List<Image> images = new List<Image>();
 
-    public InjuryData(DateTime id) 
+    public InjuryData(int id) 
     {
         Id = id;
     }
