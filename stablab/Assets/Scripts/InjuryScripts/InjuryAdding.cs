@@ -28,7 +28,6 @@ public class InjuryAdding : MonoBehaviour
     private ModelController modelController;
 
     public GameObject crushMarker, cutMarker, shotMarker, stabMarker;
-    public GameObject skeleton;
     private Vector3 markerPos;
     private Transform hitPart;
 
@@ -101,11 +100,11 @@ public class InjuryAdding : MonoBehaviour
         return markerObj;
     }
 
-    public GameObject LoadMarker(InjuryData injury)
+    public GameObject LoadMarker(Injury injury)
     {
         modelController.SetBodyPose(injury.BodyPose);
-        Transform parent = GameObject.Find(injury.MarkerData.BodyPartParent).transform;
-        return AddMarker(injury.MarkerData.Type, injury.MarkerData.Position, parent);
+        Transform parent = GameObject.Find(injury.Marker.BodyPartParent).transform;
+        return AddMarker(injury.Marker.Type, injury.Marker.Position, parent);
     }
 
     public void DeletePressed()

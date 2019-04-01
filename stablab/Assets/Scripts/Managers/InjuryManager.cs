@@ -10,8 +10,8 @@ public class InjuryManager : MonoBehaviour
     private static InjuryAdding injuryAdding;
     private ModelController modelController;
 
-    public static List<InjuryData> injuries = new List<InjuryData>();
-    private InjuryData activeInjury;
+    public static List<Injury> injuries = new List<Injury>();
+    private Injury activeInjury;
 
     // Setup instance of ProjectManager
     void Awake()
@@ -44,7 +44,7 @@ public class InjuryManager : MonoBehaviour
     // Creates and add the new injury to the list of injuries.
     public void AddNewInjury() 
     {
-        InjuryData newInjury = new InjuryData(DateTime.Now);
+        Injury newInjury = new Injury(DateTime.Now);
         activeInjury = newInjury;
         injuries.Add(activeInjury);
         injuryAdding.currentInjuryState = InjuryState.Add;
@@ -64,7 +64,7 @@ public class InjuryManager : MonoBehaviour
     // Change order of injuri in the list.
     public void ChangeOrder(int oldIndex, int newIndex) 
     {
-        InjuryData injury = injuries[oldIndex];
+        Injury injury = injuries[oldIndex];
         injuries.RemoveAt(oldIndex);
         injuries.Insert(newIndex, injury);
     }
@@ -79,7 +79,7 @@ public class InjuryManager : MonoBehaviour
     // Load all injuries from the list in to the scene.
     public static void LoadInjuries() 
     {
-        foreach (InjuryData injury in injuries) 
+        foreach (Injury injury in injuries) 
         {
             injury.InjuryMarkerObj = injuryAdding.LoadMarker(injury);
         }
@@ -88,6 +88,6 @@ public class InjuryManager : MonoBehaviour
     public void SaveBodyPose()
     {
         activeInjury.BodyPose = modelController.GetBodyPose();
-        activeInjury.MarkerData.MarkerUpdate(activeInjury.InjuryMarkerObj);
+        activeInjury.Marker.MarkerUpdate(activeInjury.InjuryMarkerObj);
     }
 }

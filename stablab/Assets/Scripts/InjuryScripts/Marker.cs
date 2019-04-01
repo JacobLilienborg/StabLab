@@ -2,14 +2,14 @@
 using UnityEngine;
 
 [Serializable]
-public class MarkerData
+public class Marker
 {
     public InjuryType Type { get; protected set; }
     public string BodyPartParent { get; protected set; }
     private float[] serializedPos = new float[3];
     private float[] serializedRot = new float[4];
 
-    public MarkerData(GameObject markerObj) 
+    public Marker(GameObject markerObj) 
     {
         MarkerUpdate(markerObj);
     }
@@ -20,7 +20,6 @@ public class MarkerData
         Rotation = markerObj.transform.rotation;
         BodyPartParent = markerObj.transform.parent.name;
         Type = markerObj.GetComponent<MarkerHandler>().type;
-
     }
 
     public Vector3 Position

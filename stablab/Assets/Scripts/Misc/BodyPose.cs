@@ -44,7 +44,7 @@ public class BodyPart
 }
 
 [Serializable]
-public class BodyData
+public class BodyPose
 {
     private const string BODYPART_TAG = "Body";
 
@@ -53,7 +53,7 @@ public class BodyData
 
     public List<BodyPart> bodyParts = new List<BodyPart>();
 
-    public BodyData(GameObject body) 
+    public BodyPose(GameObject body) 
     {
         SetPosition(body.transform);
         SetRotation(body.transform);

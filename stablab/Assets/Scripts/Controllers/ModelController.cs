@@ -20,10 +20,10 @@ public class ModelController : MonoBehaviour
         
     }
 
-    public void SetBodyPose(BodyData data)
+    public void SetBodyPose(BodyPose body)
     {
-        skeleton.transform.position = data.GetPosition();
-        skeleton.transform.rotation = data.GetRotation();
+        skeleton.transform.position = body.GetPosition();
+        skeleton.transform.rotation = body.GetRotation();
 
         Transform[] children = skeleton.GetComponentsInChildren<Transform>();
         int bodyIndex = 0;
@@ -31,16 +31,16 @@ public class ModelController : MonoBehaviour
         {
             if (child.tag == BODYPART_TAG)
             {
-                child.position = data.bodyParts[bodyIndex].GetPosition();
-                child.rotation = data.bodyParts[bodyIndex].GetRotation();
+                child.position = body.bodyParts[bodyIndex].GetPosition();
+                child.rotation = body.bodyParts[bodyIndex].GetRotation();
                 bodyIndex++;
             }
         }
 
     }
 
-    public BodyData GetBodyPose()
+    public BodyPose GetBodyPose()
     {
-        return new BodyData(skeleton);
+        return new BodyPose(skeleton);
     }
 }
