@@ -4,9 +4,6 @@ using UnityEngine;
 [Serializable]
 public class MarkerData
 {
-    //[NonSerialized]
-    //private Vector3 position;
-
     public InjuryType Type { get; protected set; }
     public string BodyPartParent { get; protected set; }
     private float[] serializedPos = new float[3];
