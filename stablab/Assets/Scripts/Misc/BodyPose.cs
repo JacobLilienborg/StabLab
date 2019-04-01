@@ -44,14 +44,16 @@ public class BodyPart
 }
 
 [Serializable]
-public class BodyData
+public class BodyPose
 {
+    private const string BODYPART_TAG = "Body";
+
     private float[] position = new float[3];
     private float[] rotation = new float[4];
 
     public List<BodyPart> bodyParts = new List<BodyPart>();
 
-    public BodyData(GameObject body) 
+    public BodyPose(GameObject body) 
     {
         SetPosition(body.transform);
         SetRotation(body.transform);
@@ -88,7 +90,7 @@ public class BodyData
         Transform[] children = body.GetComponentsInChildren<Transform>();
         for (int i = 0; i < children.Length; i++)
         {
-            if (children[i].tag == "Body")
+            if (children[i].tag == BODYPART_TAG)
             {
                 bodyParts.Add(new BodyPart(children[i]));
             }

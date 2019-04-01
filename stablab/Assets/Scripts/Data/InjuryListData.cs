@@ -5,7 +5,7 @@ using UnityEngine;
 [Serializable]
 public class InjuryListData : AData
 {
-    private List<InjuryData> injuries = new List<InjuryData>();
+    private List<Injury> injuries = new List<Injury>();
 
     public InjuryListData() : base("injuryList", "Injuries")
     {

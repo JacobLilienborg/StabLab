@@ -3,19 +3,9 @@ using System;
 
 
 [Serializable]
-public class CameraData : AData
+public class CameraSettings
 {
     private float[] cameraData = new float[8];
-
-    public CameraData() : base("camera", "Data")
-    {
-        //new CameraData(new Camera());
-    }
-
-    public CameraData(Camera cam) : base("camera", "Data")
-    {
-        SetCamera(cam);
-    }
 
     public Vector3 GetPosition() 
     {
@@ -42,12 +32,5 @@ public class CameraData : AData
         cameraData[5] = cam.transform.rotation.z;
         cameraData[6] = cam.transform.rotation.w;
         cameraData[7] = cam.fieldOfView;
-    }
-
-    public override void Update()
-    {
-        Camera.main.transform.position = GetPosition();
-        Camera.main.transform.rotation = GetRotation();
-        Camera.main.fieldOfView = GetFieldOfView();
     }
 }

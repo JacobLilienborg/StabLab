@@ -211,6 +211,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 785b9da52658f2749b55c184ae970138, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &141239034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 141239032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c08bc4f4cb393043bac9ea411b63f84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skeleton: {fileID: 724749572}
 --- !u!114 &141239036
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -233,7 +246,6 @@ MonoBehaviour:
     type: 3}
   stabMarker: {fileID: 2530853426216288291, guid: 16996b3ad34c73c4dbc91044ad08894a,
     type: 3}
-  marker: {fileID: 0}
   skeleton: {fileID: 724749572}
 --- !u!1 &402647056
 GameObject:
@@ -473,8 +485,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a1c0679084f040499b5b4694b7e4574, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dataManagerObj: {fileID: 0}
-  viewManagerObj: {fileID: 0}
+  dataManager: {fileID: 0}
+  viewManager: {fileID: 0}
 --- !u!1001 &925341013
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -482,6 +494,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2491528957914967166, guid: 5127b5c64e459994b96540e73d8f8be7,
+        type: 3}
+      propertyPath: m_Name
+      value: GuiCanvas
+      objectReference: {fileID: 0}
     - target: {fileID: 440850707940814282, guid: 5127b5c64e459994b96540e73d8f8be7,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
@@ -511,11 +528,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 2491528957914967166, guid: 5127b5c64e459994b96540e73d8f8be7,
-        type: 3}
-      propertyPath: m_Name
-      value: GuiCanvas
       objectReference: {fileID: 0}
     - target: {fileID: 2491528957914967106, guid: 5127b5c64e459994b96540e73d8f8be7,
         type: 3}
@@ -1784,11 +1796,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 6798698444214984605, guid: 4828b12907865479f901eef61e472ae0,
-        type: 3}
-      propertyPath: m_Name
-      value: ProjectManager
-      objectReference: {fileID: 0}
     - target: {fileID: 493266377775733721, guid: 4828b12907865479f901eef61e472ae0,
         type: 3}
       propertyPath: dataManager
@@ -1799,6 +1806,11 @@ PrefabInstance:
       propertyPath: viewManager
       value: 
       objectReference: {fileID: 586075994}
+    - target: {fileID: 6798698444214984605, guid: 4828b12907865479f901eef61e472ae0,
+        type: 3}
+      propertyPath: m_Name
+      value: ProjectManager
+      objectReference: {fileID: 0}
     - target: {fileID: 2347801872253907372, guid: 4828b12907865479f901eef61e472ae0,
         type: 3}
       propertyPath: m_LocalPosition.x

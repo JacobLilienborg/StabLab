@@ -9,21 +9,21 @@ public enum Certainty
 };
 
 [Serializable]
-public class InjuryData
+public class Injury
 {
     [NonSerialized]
     private GameObject injuryMarkerObj;
 
     public DateTime Id { get; }
-    public MarkerData MarkerData { get; protected set; }
-    public CameraData CameraData { get; set; }
-    public BodyData BodyPose { get; set; }
+    public Marker Marker { get; protected set; }
+    public CameraSettings CameraSettings { get; set; }
+    public BodyPose BodyPose { get; set; }
     public Certainty Certainty { get; set; }
     public string InfoText { get; set; }
 
     //private List<Image> images = new List<Image>();
 
-    public InjuryData(DateTime id) 
+    public Injury(DateTime id) 
     {
         Id = id;
     }
@@ -35,7 +35,7 @@ public class InjuryData
         set
         {
             injuryMarkerObj = value;
-            MarkerData = value.GetComponent<MarkerHandler>().MarkerData;
+            Marker = new Marker(value);
         }
 
     }
