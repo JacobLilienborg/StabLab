@@ -72,7 +72,6 @@ public class InjuryManager : MonoBehaviour
             if (injury.Id == id)
             {
                 activeInjury = injury;
-                Debug.Log("Active man: " + activeInjury);
                 return;
             }
         }
