@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 using UnityEngine.EventSystems; 
 
-enum Mode
+public enum Mode
 {
     Active, Inactive, Highlighted, Disabled
 }
@@ -16,20 +17,21 @@ public class CheckboxController : MonoBehaviour, IPointerClickHandler, IPointerE
     public Sprite highlightedSprite;
     public Sprite disabledSprite;
 
-
     public GameObject image;
 
+    public UnityEvent OnChecked;
+    public UnityEvent OnUnchecked;
+
+    protected Mode mode = Mode.Inactive;
     private Image currentImage;
 
-    private Mode mode = Mode.Inactive;
-
-    private void Start()
+    protected void Start()
     {
         currentImage = image.GetComponent<Image>();
     }
 
     // Update is called once per frame
-    void Update()
+    protected void Update()
     {
         switch (mode)
         {
@@ -41,18 +43,27 @@ public class CheckboxController : MonoBehaviour, IPointerClickHandler, IPointerE
         }
     }
     
-    public void OnPointerClick(PointerEventData eventData)
+    public virtual void OnPointerClick(PointerEventData eventData)
     {
-        if (mode == Mode.Highlighted) mode = Mode.Active;
-        else if (mode == Mode.Active) mode = Mode.Highlighted;
+        if (mode == Mode.Highlighted)
+        {
+            Debug.Log("sd;jfha");
+            mode = Mode.Active;
+            OnChecked.Invoke();
+        }
+        else if (mode == Mode.Active)
+        {
+            mode = Mode.Highlighted;
+            OnUnchecked.Invoke();
+        }
     }
 
-    public void OnPointerEnter(PointerEventData eventData)
+    public virtual void OnPointerEnter(PointerEventData eventData)
     {
         if (mode == Mode.Inactive) mode = Mode.Highlighted;
     }
 
-    public void OnPointerExit(PointerEventData eventData)
+    public virtual void OnPointerExit(PointerEventData eventData)
     {
         if (mode == Mode.Highlighted) mode = Mode.Inactive;
     }

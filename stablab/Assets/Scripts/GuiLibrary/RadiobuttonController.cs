@@ -1,54 +1,37 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
-public class RadiobuttonController : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
+public class RadiobuttonController : CheckboxController
 {
-    public Sprite activeSprite;
-    public Sprite inactiveSprite;
-    public Sprite highlightedSprite;
-    public Sprite disabledSprite;
+    private GameObject RadioGroup = null;
 
-
-    public GameObject image;
-
-    private Image currentImage;
-
-    private Mode mode = Mode.Inactive;
-
-    private void Start()
+    private new void Start()
     {
-        currentImage = image.GetComponent<Image>();
+        base.Start();
+        if (transform.parent.name == "RadioGroup") RadioGroup = transform.parent.gameObject;
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void OnPointerClick(PointerEventData eventData)
     {
-        switch (mode)
+        Debug.Log("Hello");
+        if (mode == Mode.Highlighted)
         {
-            case Mode.Inactive: currentImage.sprite = inactiveSprite; break;
-            case Mode.Active: currentImage.sprite = activeSprite; break;
-            case Mode.Highlighted: currentImage.sprite = highlightedSprite; break;
-            case Mode.Disabled: currentImage.sprite = disabledSprite; break;
-            default: currentImage.sprite = disabledSprite; break;
+            foreach (Transform child in RadioGroup.transform)
+            {
+                RadiobuttonController btn = child.GetComponent<RadiobuttonController>();
+                if (btn != null && btn != this && btn.mode != Mode.Disabled)
+                {
+                    btn.mode = Mode.Inactive;
+                    btn.OnUnchecked.Invoke();
+                }
+            }
+            mode = Mode.Active;
+            OnChecked.Invoke();
         }
-    }
-
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        if (mode == Mode.Highlighted) mode = Mode.Active;
-        else if (mode == Mode.Active) mode = Mode.Highlighted;
-    }
-
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        if (mode == Mode.Inactive) mode = Mode.Highlighted;
-    }
-
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        if (mode == Mode.Highlighted) mode = Mode.Inactive;
+        else if (mode == Mode.Active)
+        {
+            mode = Mode.Highlighted;
+            OnUnchecked.Invoke();
+        }
     }
 }

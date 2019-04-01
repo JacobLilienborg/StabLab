@@ -78,7 +78,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Checkbox
+  m_Text: Radiobutton
 --- !u!1 &3602356296237013518
 GameObject:
   m_ObjectHideFlags: 0
@@ -163,6 +163,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7341108222569288477}
   - component: {fileID: 4000366232908773104}
+  - component: {fileID: 320212521285131107}
   m_Layer: 5
   m_Name: Radiobutton
   m_TagString: Untagged
@@ -177,7 +178,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8235487176672487909}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -199,3 +200,31 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8235487176672487909}
   m_CullTransparentMesh: 0
+--- !u!114 &320212521285131107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8235487176672487909}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aba9ab9151d1838468e8741b6cbb294d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activeSprite: {fileID: 21300000, guid: fec48273ecdbe294ba537310732c0db9, type: 3}
+  inactiveSprite: {fileID: 21300000, guid: 291a6cbb652f54649b532e16f5ca50b8, type: 3}
+  highlightedSprite: {fileID: 21300000, guid: 291a6cbb652f54649b532e16f5ca50b8, type: 3}
+  disabledSprite: {fileID: 21300000, guid: 291a6cbb652f54649b532e16f5ca50b8, type: 3}
+  image: {fileID: 3602356296237013518}
+  OnChecked:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  OnUnchecked:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  RadioGroup: {fileID: 0}
