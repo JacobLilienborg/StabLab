@@ -35,7 +35,7 @@ public class InjuryData
         set
         {
             injuryMarkerObj = value;
-            MarkerData = value.GetComponent<MarkerHandler>().MarkerData;
+            MarkerData = new MarkerData(value);
         }
 
     }

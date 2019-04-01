@@ -25,8 +25,9 @@ public class InjuryAdding : MonoBehaviour
 
     public GameObject injuryManagerObj;
     private InjuryManager injuryManager;
-    
-    public GameObject crushMarker, cutMarker, shotMarker, stabMarker,marker;
+    private ModelController modelController;
+
+    public GameObject crushMarker, cutMarker, shotMarker, stabMarker;
     public GameObject skeleton;
     private Vector3 markerPos;
     private Transform hitPart;
@@ -36,6 +37,7 @@ public class InjuryAdding : MonoBehaviour
     void Start()
     {
         injuryManager = injuryManagerObj.GetComponent<InjuryManager>();
+        modelController = gameObject.GetComponent<ModelController>();
     }
 
     private void Update()
@@ -95,37 +97,15 @@ public class InjuryAdding : MonoBehaviour
                 break;
         }
 
-        markerObj.GetComponent<MarkerHandler>().MarkerData.BodyPose = new BodyData(skeleton);
-        markerObj.GetComponent<MarkerHandler>().MarkerData.Position = markerObj.transform.position;
-        markerObj.GetComponent<MarkerHandler>().MarkerData.BodyPart = parent.name;
         markerObj.transform.parent = parent;
         return markerObj;
     }
 
-    public GameObject LoadMarker(MarkerData marker)
+    public GameObject LoadMarker(InjuryData injury)
     {
-        SetBodyPose(marker.BodyPose);
-        Transform parent = GameObject.Find(marker.BodyPart).transform;
-        return AddMarker(marker.Type, marker.Position, parent);
-    }
-
-    private void SetBodyPose(BodyData data) 
-    {
-        skeleton.transform.position = data.GetPosition();
-        skeleton.transform.rotation = data.GetRotation();
-
-        Transform[] children = skeleton.GetComponentsInChildren<Transform>();
-        int bodyIndex = 0;
-        foreach (Transform child in children)
-        {
-            if(child.tag == "Body") 
-            {
-                child.position = data.bodyParts[bodyIndex].GetPosition();
-                child.rotation = data.bodyParts[bodyIndex].GetRotation();
-                bodyIndex++;
-            }
-        }
-        
+        modelController.SetBodyPose(injury.BodyPose);
+        Transform parent = GameObject.Find(injury.MarkerData.BodyPartParent).transform;
+        return AddMarker(injury.MarkerData.Type, injury.MarkerData.Position, parent);
     }
 
     public void DeletePressed()
