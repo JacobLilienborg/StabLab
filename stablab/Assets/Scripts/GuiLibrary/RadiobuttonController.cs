@@ -1,15 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using UnityEngine.EventSystems; 
 
-enum Mode
-{
-    Active, Inactive, Highlighted, Disabled
-}
-
-public class CheckboxController : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
+public class RadiobuttonController : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
     public Sprite activeSprite;
     public Sprite inactiveSprite;
@@ -33,14 +28,14 @@ public class CheckboxController : MonoBehaviour, IPointerClickHandler, IPointerE
     {
         switch (mode)
         {
-            case Mode.Inactive:     currentImage.sprite = inactiveSprite;       break;
-            case Mode.Active:       currentImage.sprite = activeSprite;         break;
-            case Mode.Highlighted:  currentImage.sprite = highlightedSprite;    break;
-            case Mode.Disabled:     currentImage.sprite = disabledSprite;       break;
-            default:                currentImage.sprite = disabledSprite;       break;
+            case Mode.Inactive: currentImage.sprite = inactiveSprite; break;
+            case Mode.Active: currentImage.sprite = activeSprite; break;
+            case Mode.Highlighted: currentImage.sprite = highlightedSprite; break;
+            case Mode.Disabled: currentImage.sprite = disabledSprite; break;
+            default: currentImage.sprite = disabledSprite; break;
         }
     }
-    
+
     public void OnPointerClick(PointerEventData eventData)
     {
         if (mode == Mode.Highlighted) mode = Mode.Active;
