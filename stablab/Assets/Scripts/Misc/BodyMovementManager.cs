@@ -47,7 +47,6 @@ public class BodyMovementManager : MonoBehaviour
 
     private void MousePressed()
     {
-        Debug.Log("Pressed");
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
         RaycastHit hit;

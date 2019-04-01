@@ -4,58 +4,57 @@ using UnityEngine;
 
 public enum InjuryState
 {
+    Add,
     Inactive,
-    Delete,
+    Delete
+};
+
+public enum InjuryType
+{
     Crush,
     Cut,
     Shot,
     Stab
-};
+}
+
 
 public class InjuryAdding : MonoBehaviour
 {
-    private InjuryState currentInjuryState = InjuryState.Inactive;
+    public InjuryState currentInjuryState = InjuryState.Inactive;
+    private InjuryType currentInjuryType;
 
-    bool injuryAddingMode = false;
+    public GameObject injuryManagerObj;
+    private InjuryManager injuryManager;
+    private ModelController modelController;
 
-    public GameObject crushMarker, cutMarker, shotMarker, stabMarker,marker;
+    public GameObject crushMarker, cutMarker, shotMarker, stabMarker;
     private Vector3 markerPos;
     private Transform hitPart;
 
 
+    // Start is called before the first frame update
+    void Start()
+    {
+        injuryManager = injuryManagerObj.GetComponent<InjuryManager>();
+        modelController = gameObject.GetComponent<ModelController>();
+    }
+
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.I)) {
-            injuryAddingMode = !injuryAddingMode;
-        }
-        if (Input.GetMouseButton(0) && injuryAddingMode)
+        if (Input.GetMouseButton(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition); //Ray from mouseclick on screen
             RaycastHit hit;  //Where the ray hits (the injury position)
-            
+
             if (Physics.Raycast(ray, out hit))
             {
-                if (hit.collider.tag == "Body") //If the hit was on this collider ***not needed if the floor is removed***
+                if (currentInjuryState == InjuryState.Add && hit.collider.tag == "Body") //If the hit was on this collider ***not needed if the floor is removed***
                 {
                     markerPos = hit.point;
                     hitPart = hit.transform;
-                    switch (currentInjuryState)
-                    {
-                        case InjuryState.Crush:
-                            AddMarker(crushMarker, markerPos, hitPart);
-                            break;
-                        case InjuryState.Cut:
-                            AddMarker(cutMarker, markerPos, hitPart);
-                            break;
-                        case InjuryState.Shot:
-                            AddMarker(shotMarker, markerPos, hitPart);
-                            break;
-                        case InjuryState.Stab:
-                            AddMarker(stabMarker, markerPos, hitPart);
-                            break;
-                        default:
-                            break;
-                    }
+
+                    injuryManager.AddInjuryMarker(AddMarker(currentInjuryType, markerPos, hitPart));
+                    currentInjuryState = InjuryState.Inactive;
                 }
                 else if (hit.collider.tag == "Marker")
                 {
@@ -74,12 +73,40 @@ public class InjuryAdding : MonoBehaviour
         return currentInjuryState;
     }
 
-    private void AddMarker(GameObject markerType, Vector3 position, Transform parent)
+    private GameObject AddMarker(InjuryType type, Vector3 position, Transform parent)
     {
-        marker = Instantiate(markerType); 
-        marker.transform.position = position;
-        marker.transform.parent = parent; //Marker is child to body
+        GameObject markerObj;
+        switch (type)
+        {
+            case InjuryType.Crush:
+                markerObj = Instantiate(crushMarker, position, Quaternion.identity);
+                break;
+            case InjuryType.Cut:
+                markerObj = Instantiate(cutMarker, position, Quaternion.identity);
+                break;
+            case InjuryType.Shot:
+                markerObj = Instantiate(shotMarker, position, Quaternion.identity);
+                break;
+            case InjuryType.Stab:
+                markerObj = Instantiate(stabMarker, position, Quaternion.identity);
+                break;
+            default:
+                Debug.Log("None existing marker");
+                markerObj = null;
+                break;
+        }
+
+        markerObj.transform.parent = parent;
+        return markerObj;
     }
+
+    public GameObject LoadMarker(Injury injury)
+    {
+        modelController.SetBodyPose(injury.BodyPose);
+        Transform parent = GameObject.Find(injury.Marker.BodyPartParent).transform;
+        return AddMarker(injury.Marker.Type, injury.Marker.Position, parent);
+    }
+
     public void DeletePressed()
     {
         currentInjuryState = InjuryState.Delete;
@@ -88,21 +115,21 @@ public class InjuryAdding : MonoBehaviour
     //Called when the CrushButton is pressed
     public void CrushPressed()
     {
-        currentInjuryState = InjuryState.Crush;
+        currentInjuryType = InjuryType.Crush;
     }
     //Called when the CutButton is pressed
     public void CutPressed()
     {
-        currentInjuryState = InjuryState.Cut;
+        currentInjuryType = InjuryType.Cut;
     }
     //Called when the ShotButton is pressed
     public void ShotPressed()
     {
-        currentInjuryState = InjuryState.Shot;
+        currentInjuryType = InjuryType.Shot;
     }
     //Called when the StabButton is pressed
     public void StabPressed()
     {
-        currentInjuryState = InjuryState.Stab;
+        currentInjuryType = InjuryType.Stab;
     }
 }

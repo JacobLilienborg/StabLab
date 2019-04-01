@@ -1,12 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class MarkerHandler : MonoBehaviour
 {
     private Renderer rend;
     [SerializeField] private Material outlineMaterial;
     [SerializeField] private Material originalMaterial;
+    public InjuryType type;
 
     private void Start()
     {
