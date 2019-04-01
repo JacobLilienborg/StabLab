@@ -45,4 +45,11 @@ public class Injury
     {
         images.Add(image);
     }
+
+    public Texture2D GetImageTexture(int index) 
+    {
+        Texture2D img = new Texture2D(2, 2);
+        img.LoadImage(images[index]);
+        return img;
+    }
 }

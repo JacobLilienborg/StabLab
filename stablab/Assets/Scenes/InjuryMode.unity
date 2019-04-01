@@ -246,7 +246,6 @@ MonoBehaviour:
     type: 3}
   stabMarker: {fileID: 2530853426216288291, guid: 16996b3ad34c73c4dbc91044ad08894a,
     type: 3}
-  skeleton: {fileID: 724749572}
 --- !u!1 &402647056
 GameObject:
   m_ObjectHideFlags: 0
@@ -1909,6 +1908,23 @@ PrefabInstance:
       propertyPath: bodyHelper
       value: 
       objectReference: {fileID: 141239032}
+    - target: {fileID: 6538740731370075416, guid: a671bf0e0685742febefa5426d17349e,
+        type: 3}
+      propertyPath: testObj
+      value: 
+      objectReference: {fileID: 338000948069565462, guid: 71d651cca9009498c9899f5504b4e458,
+        type: 3}
+    - target: {fileID: 6538740731370075416, guid: a671bf0e0685742febefa5426d17349e,
+        type: 3}
+      propertyPath: canvas
+      value: 
+      objectReference: {fileID: 1936462713}
+    - target: {fileID: 6538740731370075416, guid: a671bf0e0685742febefa5426d17349e,
+        type: 3}
+      propertyPath: emptyImagePrefab
+      value: 
+      objectReference: {fileID: 338000948069565462, guid: 71d651cca9009498c9899f5504b4e458,
+        type: 3}
     - target: {fileID: 3899743208219313645, guid: a671bf0e0685742febefa5426d17349e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2065,3 +2081,9 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1936462713 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2491528957914967166, guid: 5127b5c64e459994b96540e73d8f8be7,
+    type: 3}
+  m_PrefabInstance: {fileID: 925341013}
+  m_PrefabAsset: {fileID: 0}

@@ -66,7 +66,7 @@ public class FileManager
         switch (extension)
         {
             case "": return FileBrowser.OpenSingleFolder("Select a folder", path);
-            default: return FileBrowser.OpenSingleFile("Select a file", path, extension);
+            default: return FileBrowser.OpenSingleFile("Select a file", path, extension.Split(' '));
         }
     }
 }

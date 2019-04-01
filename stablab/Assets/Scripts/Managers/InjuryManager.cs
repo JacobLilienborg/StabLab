@@ -15,7 +15,8 @@ public class InjuryManager : MonoBehaviour
     public static List<Injury> injuries = new List<Injury>();
     private Injury activeInjury;
 
-    public GameObject testObj;
+    public GameObject emptyImagePrefab;
+    public GameObject canvas;
 
     // Setup instance of ProjectManager
     void Awake()
@@ -43,6 +44,7 @@ public class InjuryManager : MonoBehaviour
         modelController = body.GetComponent<ModelController>();
 
         LoadInjuries();
+        //TestImages();
     }
 
     // Creates and add the new injury to the list of injuries.
@@ -89,18 +91,41 @@ public class InjuryManager : MonoBehaviour
         }
     }
 
+    // Save current pose
     public void SaveBodyPose()
     {
         activeInjury.BodyPose = modelController.GetBodyPose();
         activeInjury.Marker.MarkerUpdate(activeInjury.InjuryMarkerObj);
     }
 
+    //Add an image to injury
     public void AddImage()
     {
-        string imagePath = FileManager.OpenFileBrowser("png");
+        string imagePath = FileManager.OpenFileBrowser("png jpg");
         activeInjury.AddImage(FileManager.ReadBytes(imagePath));
-        Texture2D img = new Texture2D(2, 2);
-        img.LoadImage(activeInjury.images[0]);
-        testObj.GetComponent<RawImage>().texture = img;
+
+        //TestImage();
     }
+
+    /*
+    private void TestImage()
+    {   
+        GameObject image = Instantiate(emptyImagePrefab);
+        image.GetComponent<RawImage>().texture = activeInjury.GetImageTexture(activeInjury.images.Count -1);
+        image.transform.SetParent(canvas.transform);
+        image.transform.position += new Vector3(100 + (activeInjury.images.Count - 1) * 100, 100, 0);
+    }
+    /*
+    private void TestImages() 
+    {
+        if (injuries.Count == 0) return;
+        for(int i = 0; i < injuries[0].images.Count; i++)
+        {
+            GameObject image = Instantiate(emptyImagePrefab);
+            image.GetComponent<RawImage>().texture = injuries[0].GetImageTexture(i);
+            image.transform.SetParent(canvas.transform);
+            image.transform.position = new Vector3(100 + i * 100, 100, 0);
+        }
+    }
+    */
 }
