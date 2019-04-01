@@ -9,7 +9,7 @@ public enum Certainty
 };
 
 [Serializable]
-public class InjuryData
+public class Injury
 {
     [NonSerialized]
     private GameObject injuryMarkerObj;
@@ -23,7 +23,7 @@ public class InjuryData
 
     //private List<Image> images = new List<Image>();
 
-    public InjuryData(int id) 
+    public InjuryData(int id)
     {
         Id = id;
     }
@@ -35,7 +35,7 @@ public class InjuryData
         set
         {
             injuryMarkerObj = value;
-            MarkerData = value.GetComponent<MarkerHandler>().MarkerData;
+            Marker = new Marker(value);
         }
 
     }

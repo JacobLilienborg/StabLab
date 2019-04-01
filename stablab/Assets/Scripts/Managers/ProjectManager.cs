@@ -105,7 +105,6 @@ public class ProjectManager : MonoBehaviour
     {
         dataManager.Reset();
         dataManager.Track(currentProject);
-        dataManager.Track(new CameraData(Camera.main));
         dataManager.Track(new InjuryListData());
     }
 

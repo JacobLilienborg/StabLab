@@ -6,15 +6,19 @@ public class InjuryManager : MonoBehaviour
 {
     public InjuryManager instance = null;
 
-    public static List<InjuryData> injuries = new List<InjuryData>();
+    // Scripts from the body model
     private static InjuryAdding injuryAdding;
+
     private static InjuryData activeInjury;
     public static int numOfInjuries = 0;
+    private ModelController modelController;
+
+    public static List<Injury> injuries = new List<Injury>();
 
     // Setup instance of ProjectManager
     void Awake()
     {
-        // If instance doesn't exist set it to this, else destroy this 
+        // If instance doesn't exist set it to this, else destroy this
         if (instance == null)
         {
             instance = this;
@@ -32,12 +36,15 @@ public class InjuryManager : MonoBehaviour
     // Find the model and load markers in to the scene
     public void Start()
     {
-        injuryAdding = GameObject.FindWithTag("Player").GetComponent<InjuryAdding>();
+        GameObject body = GameObject.FindWithTag("Player");
+        injuryAdding = body.GetComponent<InjuryAdding>();
+        modelController = body.GetComponent<ModelController>();
+
         LoadInjuries();
     }
 
     // Creates and add the new injury to the list of injuries.
-    public void AddNewInjury() 
+    public void AddNewInjury()
     {
         numOfInjuries++;
         InjuryData newInjury = new InjuryData(numOfInjuries - 1); //ID is numOfInjuries - 1
@@ -71,9 +78,9 @@ public class InjuryManager : MonoBehaviour
     }
 
     // Change order of injuri in the list.
-    public void ChangeOrder(int oldIndex, int newIndex) 
+    public void ChangeOrder(int oldIndex, int newIndex)
     {
-        InjuryData injury = injuries[oldIndex];
+        Injury injury = injuries[oldIndex];
         injuries.RemoveAt(oldIndex);
         injuries.Insert(newIndex, injury);
     }
@@ -82,18 +89,21 @@ public class InjuryManager : MonoBehaviour
     public void AddInjuryMarker(GameObject markerObj)
     {
         activeInjury.InjuryMarkerObj = markerObj;
-        foreach (InjuryData injury in injuries)
-        {
-            Debug.Log("Injury id: " + injury.Id);
-        }
+        SaveBodyPose();
     }
 
     // Load all injuries from the list in to the scene.
-    public static void LoadInjuries() 
+    public static void LoadInjuries()
     {
-        foreach (InjuryData injury in injuries) 
+        foreach (Injury injury in injuries)
         {
-            injury.InjuryMarkerObj = injuryAdding.LoadMarker(injury.MarkerData);
+            injury.InjuryMarkerObj = injuryAdding.LoadMarker(injury);
         }
+    }
+
+    public void SaveBodyPose()
+    {
+        activeInjury.BodyPose = modelController.GetBodyPose();
+        activeInjury.Marker.MarkerUpdate(activeInjury.InjuryMarkerObj);
     }
 }
