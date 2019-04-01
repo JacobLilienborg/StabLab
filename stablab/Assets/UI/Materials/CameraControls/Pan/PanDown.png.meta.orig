@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 1196c35bfa3998d45a8e67888cd9fb80
+guid: 64840ef8d1d39c64eb8de64c1e093f4a
 TextureImporter:
   fileIDToRecycleName: {}
   externalObjects: {}
@@ -80,6 +80,8 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
+<<<<<<< HEAD
+=======
   - serializedVersion: 2
     buildTarget: iPhone
     maxTextureSize: 2048
@@ -102,20 +104,21 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
+>>>>>>> daf8bed539e957dd720614f01e9275a2108da5f6
   spriteSheet:
     serializedVersion: 2
     sprites: []
     outline: []
     physicsShape: []
     bones: []
-    spriteID:
+    spriteID: 
     vertices: []
-    indices:
+    indices: 
     edges: []
     weights: []
-  spritePackingTag:
+  spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
-  userData:
-  assetBundleName:
-  assetBundleVariant:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
