@@ -23,45 +23,51 @@ public class CheckboxController : MonoBehaviour, IPointerClickHandler, IPointerE
     protected Mode mode = Mode.Inactive;
     private Image currentImage;
 
-    protected void Start()
+    protected virtual void Start()
     {
         currentImage = image.GetComponent<Image>();
     }
 
     // Update is called once per frame
-    protected void Update()
+    protected virtual void Update()
     {
         switch (mode)
         {
-            case Mode.Inactive:     currentImage.sprite = inactiveSprite;       break;
-            case Mode.Active:       currentImage.sprite = activeSprite;         break;
-            case Mode.Highlighted:  currentImage.sprite = highlightedSprite;    break;
-            case Mode.Disabled:     currentImage.sprite = disabledSprite;       break;
-            default:                currentImage.sprite = disabledSprite;       break;
-        }
-    }
-    
-    public virtual void OnPointerClick(PointerEventData eventData)
-    {
-        if (mode == Mode.Highlighted)
-        {
-            mode = Mode.Active;
-            OnChecked.Invoke();
-        }
-        else if (mode == Mode.Active)
-        {
-            mode = Mode.Highlighted;
-            OnUnchecked.Invoke();
+            case Mode.Inactive: currentImage.sprite = inactiveSprite; break;
+            case Mode.Active: currentImage.sprite = activeSprite; break;
+            case Mode.Highlighted: currentImage.sprite = highlightedSprite; break;
+            case Mode.Disabled: currentImage.sprite = disabledSprite; break;
+            default: break;
         }
     }
 
-    public virtual void OnPointerEnter(PointerEventData eventData)
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        switch (mode)
+        {
+            case Mode.Highlighted: Checked(); break;
+            case Mode.Active: Unchecked(); break;
+        }
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
     {
         if (mode == Mode.Inactive) mode = Mode.Highlighted;
     }
 
-    public virtual void OnPointerExit(PointerEventData eventData)
+    public void OnPointerExit(PointerEventData eventData)
     {
         if (mode == Mode.Highlighted) mode = Mode.Inactive;
+    }
+
+    public virtual void Checked(bool trigger = true)
+    {
+        mode = Mode.Active;
+        if(trigger) OnChecked.Invoke();
+    }
+    public virtual void Unchecked(bool trigger = true)
+    {
+        mode = Mode.Highlighted;
+        if(trigger) OnUnchecked.Invoke();
     }
 }
