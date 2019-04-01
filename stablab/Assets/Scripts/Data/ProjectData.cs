@@ -12,11 +12,13 @@ public class ProjectData : AData
     private DateTime modified;
     private DateTime saved;
 
+    /*
     public ProjectData() : base("default", "Data")
     {
         new ProjectData("default", "Data", 0.0f);
         
     }
+    */   
 
     public ProjectData(string projectName, string projectDirectory, float projectVersion) : base("project", "Data")
     {
@@ -63,4 +65,5 @@ public class ProjectData : AData
     {
         //throw new NotImplementedException();
     }
+
 }

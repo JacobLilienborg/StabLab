@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 public class ViewManager : MonoBehaviour
 {
 
-    static private ViewManager instance = null;
+    public static ViewManager instance;
 
     private void Awake()
     {
@@ -47,7 +47,7 @@ public class ViewManager : MonoBehaviour
 
     public void FadeIn(int index, float fadeTime = 0.0f)
     {
-       
+        SceneManager.LoadScene(index);
     }
 
     public void FadeOut(int index, float fadeTime = 0.0f)

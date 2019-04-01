@@ -9,19 +9,12 @@ public class CameraData : AData
 
     public CameraData() : base("camera", "Data")
     {
-        new CameraData(new Camera());
+        //new CameraData(new Camera());
     }
 
     public CameraData(Camera cam) : base("camera", "Data")
     {
-        cameraData[0] = cam.transform.position.x;
-        cameraData[1] = cam.transform.position.y;
-        cameraData[2] = cam.transform.position.z;
-        cameraData[3] = cam.transform.rotation.x;
-        cameraData[4] = cam.transform.rotation.y;
-        cameraData[5] = cam.transform.rotation.z;
-        cameraData[6] = cam.transform.rotation.w;
-        cameraData[7] = cam.fieldOfView;
+        SetCamera(cam);
     }
 
     public Vector3 GetPosition() 
@@ -37,6 +30,18 @@ public class CameraData : AData
     public float GetFieldOfView()
     {
         return cameraData[7];
+    }
+
+    public void SetCamera(Camera cam)
+    {
+        cameraData[0] = cam.transform.position.x;
+        cameraData[1] = cam.transform.position.y;
+        cameraData[2] = cam.transform.position.z;
+        cameraData[3] = cam.transform.rotation.x;
+        cameraData[4] = cam.transform.rotation.y;
+        cameraData[5] = cam.transform.rotation.z;
+        cameraData[6] = cam.transform.rotation.w;
+        cameraData[7] = cam.fieldOfView;
     }
 
     public override void Update()

@@ -1,4 +1,4 @@
-﻿// 
+﻿//
 // Created by Martin Jirenius, Simon Gustavsson
 //
 
@@ -8,7 +8,7 @@ using UnityEngine;
 
 public class ProjectManager : MonoBehaviour
 {
-    static private ProjectManager instance = null;
+    public static ProjectManager instance;
 
     private float projectVersion = 0.1f;                                        // Mainly for future implementation where projectVersion is critical
     private ProjectData currentProject;                                         // A copy of the current project data
@@ -18,7 +18,8 @@ public class ProjectManager : MonoBehaviour
     // Start is called before the first frame update
     private void Awake()
     {
-        // If instance doesn't exist set it to this, else destroy this 
+       
+        // If instance doesn't exist set it to this, else destroy this
         if (instance == null)
         {
             instance = this;
@@ -27,8 +28,6 @@ public class ProjectManager : MonoBehaviour
         {
             projectVersion = instance.projectVersion;
             currentProject = instance.currentProject;
-            dataManager = instance.dataManager;
-            viewManager = instance.viewManager;
             Destroy(instance.gameObject);
             instance = this;
         }
@@ -36,12 +35,18 @@ public class ProjectManager : MonoBehaviour
         DontDestroyOnLoad(this);
     }
 
-    public void DebugMe(string message)
+    private void Start()
+    {
+        dataManager = DataManager.instance;
+        viewManager = ViewManager.instance;
+    }
+
+        public void DebugMe(string message)
     {
         Debug.Log(message);
     }
 
-    //Creates a new project data. 
+    //Creates a new project data.
     public void Create(string name, string directory)
     {
         currentProject = new ProjectData(name, directory, projectVersion);
@@ -59,7 +64,7 @@ public class ProjectManager : MonoBehaviour
             currentProject = FileManager.Load<ProjectData>(Path.Combine(path, "Data", "project"));
             dataManager.SetWorkingDirectory(currentProject.GetDirectory());
             Load(true);
-            viewManager.FadeIn(2);
+            viewManager.FadeIn(3);
         }
         catch (FileNotFoundException) //Just an example of what we might catch, probably more/other exception is needed
         {
@@ -87,7 +92,7 @@ public class ProjectManager : MonoBehaviour
         {
             if (reset) ResetTrackingData();
             dataManager.Load();
-            dataManager.Update();
+            dataManager.UpdateScene();
         }
         catch(FileNotFoundException) //Just an example of what we might catch, probably more/other exception is needed
         {
@@ -100,8 +105,10 @@ public class ProjectManager : MonoBehaviour
     {
         dataManager.Reset();
         dataManager.Track(currentProject);
+        dataManager.Track(new CameraData(Camera.main));
+        dataManager.Track(new InjuryListData());
     }
-    
+
     /*private void AddToRecent()
     {
         SettingsData settings = FileManager.LoadAppData<SettingsData>("Settings");

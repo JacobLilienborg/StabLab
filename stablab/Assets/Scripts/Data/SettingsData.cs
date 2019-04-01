@@ -16,4 +16,5 @@ public class SettingsData : AData
     {
         //throw new NotImplementedException();
     }
+
 }
