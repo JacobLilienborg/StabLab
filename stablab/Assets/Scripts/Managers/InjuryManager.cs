@@ -2,6 +2,7 @@
 using UnityEngine;
 using System;
 using System.IO;
+using UnityEngine.UI;
 
 public class InjuryManager : MonoBehaviour
 {
@@ -100,6 +101,6 @@ public class InjuryManager : MonoBehaviour
         activeInjury.AddImage(FileManager.ReadBytes(imagePath));
         Texture2D img = new Texture2D(2, 2);
         img.LoadImage(activeInjury.images[0]);
-        testObj.GetComponent<Renderer>().material.mainTexture = img;
+        testObj.GetComponent<RawImage>().texture = img;
     }
 }
