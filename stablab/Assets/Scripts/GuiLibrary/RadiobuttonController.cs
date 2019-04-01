@@ -8,12 +8,11 @@ public class RadiobuttonController : CheckboxController
     private new void Start()
     {
         base.Start();
-        if (transform.parent.name == "RadioGroup") RadioGroup = transform.parent.gameObject;
+        if (transform.parent != null) RadioGroup = transform.parent.gameObject;
     }
 
     public override void OnPointerClick(PointerEventData eventData)
     {
-        Debug.Log("Hello");
         if (mode == Mode.Highlighted)
         {
             foreach (Transform child in RadioGroup.transform)

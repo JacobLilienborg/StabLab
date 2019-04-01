@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 using UnityEngine.EventSystems; 
@@ -47,7 +45,6 @@ public class CheckboxController : MonoBehaviour, IPointerClickHandler, IPointerE
     {
         if (mode == Mode.Highlighted)
         {
-            Debug.Log("sd;jfha");
             mode = Mode.Active;
             OnChecked.Invoke();
         }
