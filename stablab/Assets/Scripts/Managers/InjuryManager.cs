@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.IO;
 
 public class InjuryManager : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class InjuryManager : MonoBehaviour
 
     public static List<Injury> injuries = new List<Injury>();
     private Injury activeInjury;
+
+    public GameObject testObj;
 
     // Setup instance of ProjectManager
     void Awake()
@@ -89,5 +92,14 @@ public class InjuryManager : MonoBehaviour
     {
         activeInjury.BodyPose = modelController.GetBodyPose();
         activeInjury.Marker.MarkerUpdate(activeInjury.InjuryMarkerObj);
+    }
+
+    public void AddImage()
+    {
+        string imagePath = FileManager.OpenFileBrowser("png");
+        activeInjury.AddImage(FileManager.ReadBytes(imagePath));
+        Texture2D img = new Texture2D(2, 2);
+        img.LoadImage(activeInjury.images[0]);
+        testObj.GetComponent<Renderer>().material.mainTexture = img;
     }
 }

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System;
+using System.Collections.Generic;
 
 public enum Certainty
 {
@@ -21,7 +22,7 @@ public class Injury
     public Certainty Certainty { get; set; }
     public string InfoText { get; set; }
 
-    //private List<Image> images = new List<Image>();
+    public List<byte[]> images = new List<byte[]>();
 
     public Injury(DateTime id) 
     {
@@ -38,5 +39,10 @@ public class Injury
             Marker = new Marker(value);
         }
 
+    }
+
+    public void AddImage(byte[] image) 
+    {
+        images.Add(image);
     }
 }
