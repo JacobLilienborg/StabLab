@@ -17,9 +17,6 @@ public class InjuryManager : MonoBehaviour
 
     public static List<Injury> injuries = new List<Injury>();
 
-    public GameObject emptyImagePrefab;
-    public GameObject canvas;
-
     // Setup instance of ProjectManager
     void Awake()
     {
@@ -46,7 +43,6 @@ public class InjuryManager : MonoBehaviour
         modelController = body.GetComponent<ModelController>();
 
         LoadInjuries();
-        //TestImages();
     }
 
     // Creates and add the new injury to the list of injuries.
@@ -118,8 +114,10 @@ public class InjuryManager : MonoBehaviour
     public void AddImage()
     {
         string imagePath = FileManager.OpenFileBrowser("png jpg");
-        activeInjury.AddImage(FileManager.ReadBytes(imagePath));
-
+        if(imagePath != "")
+        {
+            activeInjury.AddImage(FileManager.ReadBytes(imagePath));
+        }
         //TestImage();
     }
 
