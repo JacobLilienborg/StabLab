@@ -33,10 +33,10 @@ RectTransform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -108.19998, y: 0}
-  m_SizeDelta: {x: 108.2, y: 74.2}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchoredPosition: {x: 502.05, y: 0}
+  m_SizeDelta: {x: 56.199997, y: 56.199997}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6640749390129926148
 CanvasRenderer:
@@ -75,6 +75,10 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   id: 0
   OnCheckedInjury:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: MyIntEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  OnUncheckedInjury:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: MyIntEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
