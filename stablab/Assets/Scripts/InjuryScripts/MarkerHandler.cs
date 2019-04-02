@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 //
 // Created by Viktor Barr
@@ -11,12 +10,12 @@ public class MarkerHandler : MonoBehaviour
     [SerializeField] private Material outlineMaterial;
     [SerializeField] private Material originalMaterial;
     public InjuryType type;
-    private int id;
+    public Guid Id { get; protected set; }
 
     private void Start()
     {
         rend = GetComponent<Renderer>();
-        id = InjuryManager.numOfInjuries - 1;
+        Id = InjuryManager.activeInjury.Id;
     }
 
     //Changes the material while hovering over a marker
@@ -31,7 +30,7 @@ public class MarkerHandler : MonoBehaviour
     //Select: sets this marker to active
     private void OnMouseDown()
     {
-        InjuryManager.SetActiveInjury(-1, id);
+        InjuryManager.SetActiveInjury(Id);
     }
 
     //Changes the material back to the original material
