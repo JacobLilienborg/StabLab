@@ -13,7 +13,8 @@ public enum InjuryType
 {
     Crush,
     Cut,
-    Shot,
+    ShotIn,
+    ShotOut,
     Stab
 }
 
@@ -84,7 +85,10 @@ public class InjuryAdding : MonoBehaviour
             case InjuryType.Cut:
                 markerObj = Instantiate(cutMarker, position, Quaternion.identity);
                 break;
-            case InjuryType.Shot:
+            case InjuryType.ShotIn:
+                markerObj = Instantiate(shotMarker, position, Quaternion.identity);
+                break;
+            case InjuryType.ShotOut:
                 markerObj = Instantiate(shotMarker, position, Quaternion.identity);
                 break;
             case InjuryType.Stab:
@@ -123,9 +127,13 @@ public class InjuryAdding : MonoBehaviour
         currentInjuryType = InjuryType.Cut;
     }
     //Called when the ShotButton is pressed
-    public void ShotPressed()
+    public void ShotInPressed()
     {
-        currentInjuryType = InjuryType.Shot;
+        currentInjuryType = InjuryType.ShotIn;
+    }
+    public void ShotOutPressed()
+    {
+        currentInjuryType = InjuryType.ShotOut;
     }
     //Called when the StabButton is pressed
     public void StabPressed()
