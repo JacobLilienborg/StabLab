@@ -14,7 +14,7 @@ public class Injury
     [NonSerialized]
     private GameObject injuryMarkerObj;
 
-    public int Id { get; }
+    public Guid Id { get; }
     public Marker Marker { get; protected set; }
     public CameraSettings CameraSettings { get; set; }
     public BodyPose BodyPose { get; set; }
@@ -23,7 +23,7 @@ public class Injury
 
     //private List<Image> images = new List<Image>();
 
-    public Injury(int id)
+    public Injury(Guid id)
     {
         Id = id;
     }
