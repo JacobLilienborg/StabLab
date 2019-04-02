@@ -11,6 +11,8 @@ public class InjuryListHandler : MonoBehaviour
     [SerializeField] private UnityEngine.UI.Button previousButton;
     [SerializeField] private UnityEngine.UI.Button nextButton;
 
+    [SerializeField] private LeftPanelAnimation panel;
+
     [SerializeField] private InjuryManager injuryManager;
     private int injuryCount = 0; // Debugging purpose!!
     private int activeInjury = -1; // Debugging purpose!!
@@ -80,12 +82,14 @@ public class InjuryListHandler : MonoBehaviour
     {
         Debug.Log("Activated : " + id);
         activeInjury = id;
+        panel.OpenPanel();
     }
 
     public void DeactivateInjury(int id)
     {
         Debug.Log("Deactivated : " + id);
         activeInjury = -1;
+        panel.ClosePanel();
     }
 
     public void RollLeft()
@@ -124,6 +128,10 @@ public class InjuryListHandler : MonoBehaviour
                 ib.Unchecked(false);
             }
         }
+    }
+
+    public int getActiveInjuryButton() {
+        return activeInjury;
     }
 
 }
