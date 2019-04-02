@@ -5,7 +5,7 @@ using UnityEngine;
 public class InjuryListHandler : MonoBehaviour
 {
 
-    [SerializeField] private Transform injuryArea;
+    [SerializeField] private Transform buttonArea;
     [SerializeField] private UnityEngine.UI.Button addButton;
     [SerializeField] private InjuryButton injuryButton;
     [SerializeField] private UnityEngine.UI.Button previousButton;
@@ -14,64 +14,148 @@ public class InjuryListHandler : MonoBehaviour
     [SerializeField] private LeftPanelAnimation panel;
 
     [SerializeField] private InjuryManager injuryManager;
+
     private int injuryCount = 0; // Debugging purpose!!
     private int activeInjury = -1; // Debugging purpose!!
     
     private List<InjuryButton> injuryButtons = new List<InjuryButton>();
-    private int highestId = 0;
+    private int highestId = -1;
 
-    private float border;
+    private float border = 0;
     private float borderThreshold = 5;
-    private float buttonSide;
-    private int buttonCount;
+    private float buttonSide = 0;
+    private int buttonCount = 0;
+
+    private Vector2 res;
 
     // Start is called before the first frame update
     void Start()
     {
-        // We need to calculate how many buttons can fit in this area
-        RectTransform rt = (RectTransform)transform;
-        RectTransform rtia = (RectTransform)injuryArea;
-        RectTransform rtab = (RectTransform)addButton.transform;
-        //buttonSide = rt.sizeDelta.y + rtba.sizeDelta.y; // CALCULATED SIZE
-        buttonSide = rtab.sizeDelta.y;
-        float width = rt.sizeDelta.x + rtia.sizeDelta.x;
-        buttonCount = (int)Mathf.Floor(width / buttonSide);
-        border = (width % buttonSide) / (buttonCount - 1);
-        if(border < borderThreshold)
-        {
-            buttonCount -= 1;
-            border = (width - buttonSide*buttonCount) / (buttonCount - 1);
-        }
+        Calculate();
 
-        // Compensate for the add button
-        
-        buttonCount -= 1;
-        rt = (RectTransform)addButton.transform;
-        rt.sizeDelta = new Vector2(buttonSide, buttonSide);
+        //Spawn the add button and resize it according to the button area
+        UnityEngine.UI.Button btn = Instantiate(addButton, buttonArea);
+        btn.onClick.AddListener(AddInjury);
+        RectTransform rtab = (RectTransform)btn.transform;
+        rtab.sizeDelta = new Vector2(buttonSide, buttonSide);
+        rtab.anchoredPosition = new Vector2(buttonSide / 2, 0);
+        addButton = btn;
+
+        // Set the correct size for the injury buttons
+        RectTransform rtib = (RectTransform)injuryButton.transform;
+        rtib.sizeDelta = new Vector2(buttonSide, buttonSide);
+
+        res = new Vector2(Screen.width, Screen.height);
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (res.x != Screen.width)
+        {
+            Resize();
+            res.x = Screen.width;
+            res.y = Screen.height;
+
+        }
+    }
+
+    void Resize()
+    {
+        // We need to calculate how many buttons can fit in this area
+        Calculate();
+
+        // Remove buttons if we don't have space
+        while (buttonCount < injuryButtons.Count)
+        {
+            RemoveButton();
+        }
+
+        // Reposition buttons
+        RepositionButtons();
+
+
+        // Add buttons if more buttons can be put in the area
+        while (buttonCount > injuryButtons.Count && injuryButtons.Count < injuryCount)
+        {
+            AddButton();
+        }
+    }
+
+    void Calculate()
+    {
         
+        RectTransform rtba = (RectTransform)buttonArea;
+        buttonSide = rtba.rect.height;
+        float width = rtba.rect.width;
+        buttonCount = (int)Mathf.Floor(width / buttonSide);
+        border = (width % buttonSide) / (buttonCount - 1);
+        if (border < borderThreshold)
+        {
+            buttonCount -= 1;
+            border = (width - buttonSide * buttonCount) / (buttonCount - 1);
+        }
+
+        buttonCount -= 1; // Compensate for the add button
+    }
+
+    void RemoveButton()
+    {
+        InjuryButton ib = injuryButtons[injuryButtons.Count - 1];
+        injuryButtons.Remove(ib);
+        Destroy(ib.gameObject);
+        highestId--;
+        nextButton.interactable = true;
+    }
+
+    void RepositionButtons()
+    {
+        float xpos = buttonSide / 2;
+        foreach (InjuryButton btn in injuryButtons)
+        {
+            RectTransform rt = (RectTransform)btn.transform;
+            rt.anchoredPosition = new Vector2(xpos, 0);
+            xpos += buttonSide + border;
+        }
+        RectTransform rtab = (RectTransform)addButton.transform;
+        rtab.anchoredPosition = new Vector2(xpos, 0);
+    }
+
+    void AddButton()
+    {
+        InjuryButton ib = Instantiate(injuryButton, buttonArea);
+
+        ib.OnCheckedInjury.AddListener(ActivateInjury);
+        ib.OnUncheckedInjury.AddListener(DeactivateInjury);
+
+        ib.transform.position = addButton.transform.position;
+
+        addButton.transform.position += new Vector3(buttonSide + border, 0, 0);
+
+        if ((highestId++ + 1) == injuryCount) RollRight();
+
+        ib.id = highestId;
+
+        if (ib.id == activeInjury)
+        {
+            ib.Checked(false);
+        }
+        else
+        {
+            ib.Unchecked(false);
+        }
+
+        injuryButtons.Add(ib);
+        if ((highestId + 1) == injuryCount) nextButton.interactable = false;
+        if ((highestId + 1) == (injuryButtons.Count)) previousButton.interactable = false;
     }
 
     public void AddInjury()
     {
         injuryCount++;
-        if (buttonCount - injuryCount >= 0)
+        if (buttonCount > injuryButtons.Count && injuryButtons.Count < injuryCount)
         {
-            InjuryButton ib = Instantiate(injuryButton, injuryArea);
-            ib.OnCheckedInjury.AddListener(ActivateInjury);
-            ib.OnUncheckedInjury.AddListener(DeactivateInjury);
-            ib.id = highestId++;
-            ib.transform.position = addButton.transform.position;
-
-            RectTransform rt = (RectTransform)ib.transform;
-            rt.sizeDelta = new Vector2(buttonSide, buttonSide);
-
-            injuryButtons.Add(ib);
-            addButton.transform.position += new Vector3(buttonSide + border, 0, 0);
+            AddButton();
         } else
         {
             RollLeft();
@@ -95,7 +179,7 @@ public class InjuryListHandler : MonoBehaviour
     public void RollLeft()
     {
         Debug.Log("Rolling Left");
-        if (++highestId == injuryCount) nextButton.interactable = false;
+        if ((++highestId + 1) == injuryCount) nextButton.interactable = false;
         previousButton.interactable = true;
 
         foreach (InjuryButton ib in injuryButtons)
@@ -113,7 +197,7 @@ public class InjuryListHandler : MonoBehaviour
     public void RollRight()
     {
         Debug.Log("Rolling Right");
-        if (--highestId == buttonCount) previousButton.interactable = false;
+        if ((--highestId + 1) == buttonCount) previousButton.interactable = false;
         nextButton.interactable = true;
 
         foreach (InjuryButton ib in injuryButtons)
