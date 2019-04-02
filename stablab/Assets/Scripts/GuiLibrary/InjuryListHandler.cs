@@ -164,16 +164,22 @@ public class InjuryListHandler : MonoBehaviour
 
     public void ActivateInjury(int id)
     {
-        Debug.Log("Activated : " + id);
-        activeInjury = id;
-        panel.OpenPanel();
+        if (id != activeInjury)
+        {
+            Debug.Log("Activated : " + id);
+            activeInjury = id;
+            panel.OpenPanel();
+        }
     }
 
     public void DeactivateInjury(int id)
     {
-        Debug.Log("Deactivated : " + id);
-        activeInjury = -1;
-        panel.ClosePanel();
+        if (id == activeInjury)
+        {
+            Debug.Log("Deactivated : " + id);
+            activeInjury = -1;
+            panel.ClosePanel();
+        }
     }
 
     public void RollLeft()
