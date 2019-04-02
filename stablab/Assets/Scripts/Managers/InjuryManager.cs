@@ -119,28 +119,5 @@ public class InjuryManager : MonoBehaviour
         {
             activeInjury.AddImage(FileManager.ReadBytes(imagePath));
         }
-        //TestImage();
     }
-
-    /*
-    private void TestImage()
-    {   
-        GameObject image = Instantiate(emptyImagePrefab);
-        image.GetComponent<RawImage>().texture = activeInjury.GetImageTexture(activeInjury.images.Count -1);
-        image.transform.SetParent(canvas.transform);
-        image.transform.position += new Vector3(100 + (activeInjury.images.Count - 1) * 100, 100, 0);
-    }
-    /*
-    private void TestImages() 
-    {
-        if (injuries.Count == 0) return;
-        for(int i = 0; i < injuries[0].images.Count; i++)
-        {
-            GameObject image = Instantiate(emptyImagePrefab);
-            image.GetComponent<RawImage>().texture = injuries[0].GetImageTexture(i);
-            image.transform.SetParent(canvas.transform);
-            image.transform.position = new Vector3(100 + i * 100, 100, 0);
-        }
-    }
-    */
 }
