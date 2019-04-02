@@ -3,34 +3,27 @@ using UnityEngine.EventSystems;
 
 public class RadiobuttonController : CheckboxController
 {
-    private GameObject RadioGroup = null;
+    protected GameObject RadioGroup = null;
 
-    private new void Start()
+    protected new virtual void Start()
     {
         base.Start();
         if (transform.parent != null) RadioGroup = transform.parent.gameObject;
     }
 
-    public override void OnPointerClick(PointerEventData eventData)
+    public override void Checked(bool trigger = true)
     {
-        if (mode == Mode.Highlighted)
+        if (trigger)
         {
             foreach (Transform child in RadioGroup.transform)
             {
                 RadiobuttonController btn = child.GetComponent<RadiobuttonController>();
                 if (btn != null && btn != this && btn.mode != Mode.Disabled)
                 {
-                    btn.mode = Mode.Inactive;
-                    btn.OnUnchecked.Invoke();
+                    btn.Unchecked(false);
                 }
             }
-            mode = Mode.Active;
-            OnChecked.Invoke();
         }
-        else if (mode == Mode.Active)
-        {
-            mode = Mode.Highlighted;
-            OnUnchecked.Invoke();
-        }
+        base.Checked(trigger);
     }
 }
