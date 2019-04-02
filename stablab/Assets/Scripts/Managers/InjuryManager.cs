@@ -9,8 +9,7 @@ public class InjuryManager : MonoBehaviour
     // Scripts from the body model
     private static InjuryAdding injuryAdding;
 
-    private static Injury activeInjury;
-    public static int numOfInjuries = 0;
+    public static Injury activeInjury;
     private ModelController modelController;
 
     public static List<Injury> injuries = new List<Injury>();
@@ -46,11 +45,11 @@ public class InjuryManager : MonoBehaviour
     // Creates and add the new injury to the list of injuries.
     public void AddNewInjury()
     {
-        numOfInjuries++;
-        Injury newInjury = new Injury(numOfInjuries - 1); //ID is numOfInjuries - 1
+        Injury newInjury = new Injury(Guid.NewGuid());
         activeInjury = newInjury;
         injuries.Add(activeInjury);
         injuryAdding.currentInjuryState = InjuryState.Add;
+        Debug.Log(activeInjury.Id);
     }
 
     // Remove the currently active injury
@@ -59,14 +58,9 @@ public class InjuryManager : MonoBehaviour
         injuries.Remove(activeInjury);
     }
 
-    // Sets the active injury. Is called from the marker that is clicked
-    public static void SetActiveInjury(int index = -1, int id = -1)
+    // Sets the active injury by id. Is called from the marker that is clicked
+    public static void SetActiveInjury(Guid id)
     {
-        if (index != -1)
-        {
-            activeInjury = injuries[index];
-            return;
-        }
         foreach (Injury injury in injuries)
         {
             if (injury.Id == id)
@@ -75,6 +69,12 @@ public class InjuryManager : MonoBehaviour
                 return;
             }
         }
+    }
+
+    // Sets the active injury by index. Is called from the marker that is clicked
+    public static void SetActiveInjury(int index)
+    {
+        activeInjury = injuries[index];
     }
 
     // Change order of injuri in the list.
@@ -97,6 +97,7 @@ public class InjuryManager : MonoBehaviour
     {
         foreach (Injury injury in injuries)
         {
+            activeInjury = injury;
             injury.InjuryMarkerObj = injuryAdding.LoadMarker(injury);
         }
     }
