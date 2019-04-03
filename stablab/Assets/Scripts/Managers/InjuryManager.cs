@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.IO;
+using UnityEngine.UI;
 
 public class InjuryManager : MonoBehaviour
 {
@@ -104,9 +106,20 @@ public class InjuryManager : MonoBehaviour
         }
     }
 
+    // Save current pose
     public void SaveBodyPose()
     {
         activeInjury.BodyPose = modelController.GetBodyPose();
         activeInjury.Marker.MarkerUpdate(activeInjury.InjuryMarkerObj);
+    }
+
+    //Add an image to injury
+    public void AddImage()
+    {
+        string imagePath = FileManager.OpenFileBrowser("png jpg");
+        if(imagePath != "")
+        {
+            activeInjury.AddImage(FileManager.ReadBytes(imagePath));
+        }
     }
 }
