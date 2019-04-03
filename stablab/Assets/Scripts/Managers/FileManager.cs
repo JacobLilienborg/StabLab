@@ -54,13 +54,19 @@ public class FileManager
         }
     }
 
+    //Reads a file as a byte array
+    public static byte[] ReadBytes(string path) 
+    {
+        return File.ReadAllBytes(path); 
+    }
+
     //Open up the file browser. Depending on the extension it will accept different files
     public static string OpenFileBrowser(string extension = "", string path = "./")
     {
         switch (extension)
         {
             case "": return FileBrowser.OpenSingleFolder("Select a folder", path);
-            default: return FileBrowser.OpenSingleFile("Select a file", path, extension);
+            default: return FileBrowser.OpenSingleFile("Select a file", path, extension.Split(' '));
         }
     }
 }
