@@ -5,14 +5,24 @@ using UnityEngine;
 public class LeftPanelAnimation : MonoBehaviour
 {
     public GameObject Panel;
+    public GameObject primaryPage;
+    private bool open;
+    private ObjectChooser objChooser;
+
+    private void Start()
+    {
+        objChooser = Panel.GetComponent<ObjectChooser>();
+    }
 
     public void OpenPanel() {
         if (Panel != null) {
             Animator animator = Panel.GetComponent<Animator>();
             if (animator != null && !animator.GetBool("isOpen")) {
                 animator.SetBool("isOpen", true);
+                open = true;
             }
         }
+        objChooser.ShowObject(primaryPage);
     }
 
     public void ClosePanel()
@@ -23,7 +33,13 @@ public class LeftPanelAnimation : MonoBehaviour
             if (animator != null && animator.GetBool("isOpen"))
             {
                 animator.SetBool("isOpen", false);
+                open = false;
             }
         }
+
+    }
+
+    public bool IsOpen() {
+        return open;
     }
 }
