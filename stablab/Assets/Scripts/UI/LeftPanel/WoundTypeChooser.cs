@@ -4,11 +4,7 @@ using UnityEngine;
 
 public class WoundTypeChooser : MonoBehaviour
 {
-    public LeftPanel leftPanel;
-    public GameObject nextState;
-
-    public InjuryType injuryType = InjuryType.Null;
-    public string test;
+    private InjuryType injuryType = InjuryType.Null;
 
     public void checkShot()
     {
@@ -30,14 +26,9 @@ public class WoundTypeChooser : MonoBehaviour
         injuryType = InjuryType.Stab;
     }
 
-    public void Done()
+    public void SaveChecked()
     {
         InjuryManager.activeInjury.Type = injuryType;
-        leftPanel.SetState(nextState);
     }
 
-    public void Reset()
-    {
-        leftPanel.SetState(nextState);
-    }
 }

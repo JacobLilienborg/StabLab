@@ -11,8 +11,7 @@ public class InjuryListHandler : MonoBehaviour
     [SerializeField] private UnityEngine.UI.Button previousButton;
     [SerializeField] private UnityEngine.UI.Button nextButton;
 
-    //[SerializeField] private LeftPanel panel;
-
+    [SerializeField] private InjurySettings injurySettings;
     [SerializeField] private InjuryManager injuryManager;
 
     private int injuryCount = 0; // Debugging purpose!!
@@ -195,9 +194,8 @@ public class InjuryListHandler : MonoBehaviour
             Debug.Log("Activated : " + id);
             activeInjury = id;
             InjuryManager.SetActiveInjury(id-1);
+            injurySettings.LoadActiveInjury();
 
-            if(id != -1) Debug.Log("with injury id : " + InjuryManager.activeInjury.Id);
-            //panel.OpenPanel();
         }
     }
 

@@ -32,8 +32,6 @@ public class InjurySettings : MonoBehaviour
 
     private void OnEnable()
     {
-        Debug.Log("Look at mee i'm enabled");
-
         if (InjuryManager.activeInjury != null)
         {
             activeInjury = InjuryManager.activeInjury;
@@ -43,12 +41,16 @@ public class InjurySettings : MonoBehaviour
 
     public void LoadActiveInjury()
     {
-        LoadNameText();
-        LoadTypeText();
-        LoadPositionText();
-        LoadCertaintyText();
-        LoadImages();
-        LoadInfoText();
+        if (InjuryManager.activeInjury != null)
+        {
+            activeInjury = InjuryManager.activeInjury;
+            LoadNameText();
+            LoadTypeText();
+            LoadPositionText();
+            LoadCertaintyText();
+            LoadImages();
+            LoadInfoText();
+        }
     }
 
     public void UpdateName(string name)
@@ -101,7 +103,7 @@ public class InjurySettings : MonoBehaviour
 
     private void LoadCertaintyText()
     {
-        if (activeInjury.Certainty != Certainty.High)
+        if (activeInjury.Certainty != Certainty.Null)
         {
             certainty.text = activeInjury.Certainty.ToString();
         }
