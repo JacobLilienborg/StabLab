@@ -11,13 +11,13 @@ public class InjuryListHandler : MonoBehaviour
     [SerializeField] private UnityEngine.UI.Button previousButton;
     [SerializeField] private UnityEngine.UI.Button nextButton;
 
-    [SerializeField] private LeftPanel panel;
+    //[SerializeField] private LeftPanel panel;
 
     [SerializeField] private InjuryManager injuryManager;
 
     private int injuryCount = 0; // Debugging purpose!!
     private int activeInjury = -1; // Debugging purpose!!
-    
+
     private List<InjuryButton> injuryButtons = new List<InjuryButton>();
     private int highestId = -1;
 
@@ -25,7 +25,8 @@ public class InjuryListHandler : MonoBehaviour
     private float borderThreshold = 5;
     private float buttonSide = 0;
     private int buttonCount = 0;
-    private int MARIGIN = 10;
+
+    private LeftPanelAnimation panel;
 
     private Vector2 res;
 
@@ -33,6 +34,9 @@ public class InjuryListHandler : MonoBehaviour
     void Start()
     {
         Calculate();
+
+        //add the objectchooser
+        panel = GetComponent<LeftPanelAnimation>();
 
         //Spawn the add button and resize it according to the button area
         UnityEngine.UI.Button btn = Instantiate(addButton, buttonArea);
@@ -64,7 +68,7 @@ public class InjuryListHandler : MonoBehaviour
         }
     }
 
-    private void LoadInjuries() 
+    private void LoadInjuries()
     {
         RollLeft();
         for (int i = 0; i < InjuryManager.injuries.Count; i++)
@@ -104,10 +108,10 @@ public class InjuryListHandler : MonoBehaviour
 
     void Calculate()
     {
-        
+
         RectTransform rtba = (RectTransform)buttonArea;
-        buttonSide = rtba.rect.height - MARIGIN;
-        float width = rtba.rect.width - MARIGIN;
+        buttonSide = rtba.rect.height;
+        float width = rtba.rect.width;
         buttonCount = (int)Mathf.Floor(width / buttonSide);
         border = (width % buttonSide) / (buttonCount - 1);
         if (border < borderThreshold)
@@ -144,6 +148,8 @@ public class InjuryListHandler : MonoBehaviour
     void AddButton()
     {
         InjuryButton ib = Instantiate(injuryButton, buttonArea);
+
+        ib.panelAnimation = panel;
 
         ib.OnCheckedInjury.AddListener(ActivateInjury);
         ib.OnUncheckedInjury.AddListener(DeactivateInjury);
@@ -191,7 +197,7 @@ public class InjuryListHandler : MonoBehaviour
             InjuryManager.SetActiveInjury(id-1);
 
             if(id != -1) Debug.Log("with injury id : " + InjuryManager.activeInjury.Id);
-            panel.OpenPanel();
+            //panel.OpenPanel();
         }
     }
 
@@ -201,7 +207,7 @@ public class InjuryListHandler : MonoBehaviour
         {
             Debug.Log("Deactivated : " + id);
             activeInjury = -1;
-            panel.ClosePanel();
+            //panel.ClosePanel();
             InjuryManager.SetActiveInjury(-1);
         }
     }
@@ -246,6 +252,13 @@ public class InjuryListHandler : MonoBehaviour
 
     public int getActiveInjuryButton() {
         return activeInjury;
+    }
+
+    public void DeactivateActiveInjury() {
+        foreach (InjuryButton ib in injuryButtons)
+        {
+            ib.Unchecked();
+        }
     }
 
 }

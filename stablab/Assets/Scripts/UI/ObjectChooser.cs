@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PopupHandler : MonoBehaviour
+public class ObjectChooser : MonoBehaviour
 {
-    public List<GameObject> popups;
+    public List<GameObject> objects;
 
-    public void ShowPopup(GameObject popup)
+    public void ShowObject(GameObject objec)
     {
-        foreach (GameObject single in popups)
+        foreach (GameObject single in objects)
         {
-            if (single == popup)
+            if (single == objec)
             {
                 single.SetActive(true);
             }
