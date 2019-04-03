@@ -205,7 +205,6 @@ public class InjuryListHandler : MonoBehaviour
         {
             Debug.Log("Deactivated : " + id);
             activeInjury = -1;
-            //panel.ClosePanel();
             InjuryManager.SetActiveInjury(-1);
         }
     }
