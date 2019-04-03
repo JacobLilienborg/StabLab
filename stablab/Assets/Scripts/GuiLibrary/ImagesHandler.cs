@@ -17,7 +17,7 @@ public class ImagesHandler : MonoBehaviour
 
     public void AddImage()
     {   
-        string imagePath = FileManager.OpenFileBrowser("png jpg");
+        string imagePath = FileManager.OpenFileBrowser("png,jpg"); // Change to , instead of blancspace, resulting in correct behaviour on windows
         Texture2D imgTexture = new Texture2D(2, 2);
         imgTexture.LoadImage(FileManager.ReadBytes(imagePath));
         // --------
