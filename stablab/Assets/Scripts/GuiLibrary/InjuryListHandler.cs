@@ -25,6 +25,7 @@ public class InjuryListHandler : MonoBehaviour
     private float borderThreshold = 5;
     private float buttonSide = 0;
     private int buttonCount = 0;
+    private int MARIGIN = 10;
 
     private Vector2 res;
 
@@ -86,8 +87,8 @@ public class InjuryListHandler : MonoBehaviour
     {
         
         RectTransform rtba = (RectTransform)buttonArea;
-        buttonSide = rtba.rect.height;
-        float width = rtba.rect.width;
+        buttonSide = rtba.rect.height - MARIGIN;
+        float width = rtba.rect.width - MARIGIN;
         buttonCount = (int)Mathf.Floor(width / buttonSide);
         border = (width % buttonSide) / (buttonCount - 1);
         if (border < borderThreshold)
