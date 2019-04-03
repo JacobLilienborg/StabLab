@@ -16,10 +16,12 @@ public class Injury
 
     public Guid Id { get; }
     public Marker Marker { get; protected set; }
+    public InjuryType Type { get; set; }
     public CameraSettings CameraSettings { get; set; }
     public BodyPose BodyPose { get; set; }
     public Certainty Certainty { get; set; }
     public string InfoText { get; set; }
+    public string Name { get; set; }
 
     //private List<Image> images = new List<Image>();
 

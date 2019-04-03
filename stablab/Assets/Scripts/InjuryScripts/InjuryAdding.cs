@@ -11,10 +11,11 @@ public enum InjuryState
 
 public enum InjuryType
 {
+    Null,
     Crush,
     Cut,
     Shot,
-    Stab
+    Stab, 
 }
 
 
@@ -102,6 +103,11 @@ public class InjuryAdding : MonoBehaviour
 
     public GameObject LoadMarker(Injury injury)
     {
+        if(injury.Marker == null)
+        {
+            throw new System.Exception("Injury has no Marker");
+        }
+
         modelController.SetBodyPose(injury.BodyPose);
         Transform parent = GameObject.Find(injury.Marker.BodyPartParent).transform;
         return AddMarker(injury.Marker.Type, injury.Marker.Position, parent);

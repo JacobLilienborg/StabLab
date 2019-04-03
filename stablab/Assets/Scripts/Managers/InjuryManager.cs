@@ -46,10 +46,9 @@ public class InjuryManager : MonoBehaviour
     public void AddNewInjury()
     {
         Injury newInjury = new Injury(Guid.NewGuid());
-        activeInjury = newInjury;
-        injuries.Add(activeInjury);
-        injuryAdding.currentInjuryState = InjuryState.Add;
-        Debug.Log(activeInjury.Id);
+        injuries.Add(newInjury);
+        //injuryAdding.currentInjuryState = InjuryState.Add;
+        Debug.Log(newInjury.Id);
     }
 
     // Remove the currently active injury
@@ -74,7 +73,7 @@ public class InjuryManager : MonoBehaviour
     // Sets the active injury by index. Is called from the marker that is clicked
     public static void SetActiveInjury(int index)
     {
-        activeInjury = injuries[index];
+        activeInjury = index == -1 ? null: injuries[index];
     }
 
     // Change order of injuri in the list.
@@ -98,7 +97,10 @@ public class InjuryManager : MonoBehaviour
         foreach (Injury injury in injuries)
         {
             activeInjury = injury;
-            injury.InjuryMarkerObj = injuryAdding.LoadMarker(injury);
+            if(injury.Marker != null)
+            {
+                injury.InjuryMarkerObj = injuryAdding.LoadMarker(injury);
+            }
         }
     }
 

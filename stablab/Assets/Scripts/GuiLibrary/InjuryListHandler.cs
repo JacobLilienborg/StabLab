@@ -11,7 +11,7 @@ public class InjuryListHandler : MonoBehaviour
     [SerializeField] private UnityEngine.UI.Button previousButton;
     [SerializeField] private UnityEngine.UI.Button nextButton;
 
-    [SerializeField] private LeftPanelAnimation panel;
+    [SerializeField] private LeftPanel panel;
 
     [SerializeField] private InjuryManager injuryManager;
 
@@ -47,6 +47,9 @@ public class InjuryListHandler : MonoBehaviour
         rtib.sizeDelta = new Vector2(buttonSide, buttonSide);
 
         res = new Vector2(Screen.width, Screen.height);
+
+        LoadInjuries();
+
     }
 
     // Update is called once per frame
@@ -58,6 +61,22 @@ public class InjuryListHandler : MonoBehaviour
             res.x = Screen.width;
             res.y = Screen.height;
 
+        }
+    }
+
+    private void LoadInjuries() 
+    {
+        RollLeft();
+        for (int i = 0; i < InjuryManager.injuries.Count; i++)
+        {
+            if (buttonCount > injuryButtons.Count && injuryButtons.Count < InjuryManager.injuries.Count)
+            {
+                AddButton();
+            }
+            else
+            {
+                RollLeft();
+            }
         }
     }
 
@@ -153,8 +172,8 @@ public class InjuryListHandler : MonoBehaviour
 
     public void AddInjury()
     {
-        injuryCount++;
-        if (buttonCount > injuryButtons.Count && injuryButtons.Count < injuryCount)
+        injuryManager.AddNewInjury();
+        if (buttonCount > injuryButtons.Count && injuryButtons.Count < InjuryManager.injuries.Count)
         {
             AddButton();
         } else
@@ -169,6 +188,9 @@ public class InjuryListHandler : MonoBehaviour
         {
             Debug.Log("Activated : " + id);
             activeInjury = id;
+            InjuryManager.SetActiveInjury(id-1);
+
+            if(id != -1) Debug.Log("with injury id : " + InjuryManager.activeInjury.Id);
             panel.OpenPanel();
         }
     }
@@ -180,6 +202,7 @@ public class InjuryListHandler : MonoBehaviour
             Debug.Log("Deactivated : " + id);
             activeInjury = -1;
             panel.ClosePanel();
+            InjuryManager.SetActiveInjury(-1);
         }
     }
 
