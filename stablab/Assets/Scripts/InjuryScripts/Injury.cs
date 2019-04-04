@@ -44,6 +44,24 @@ public class Injury
 
     }
 
+    // Save current pose
+    public void SaveBodyPose()
+    {
+        BodyPose = ModelController.GetBodyPose();
+        if(Marker != null) 
+        {
+            Marker.MarkerUpdate(InjuryMarkerObj);
+        }
+    }
+
+    // Add a marker to the injury.
+    public void AddInjuryMarker(GameObject markerObj)
+    {
+        InjuryMarkerObj = markerObj;
+        SaveBodyPose();
+    }
+
+
     public void AddImage(byte[] image) 
     {
         images.Add(image);

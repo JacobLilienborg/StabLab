@@ -178,7 +178,7 @@ public class InjuryListHandler : MonoBehaviour
 
     public void AddInjury()
     {
-        injuryManager.AddNewInjury();
+        InjuryManager.AddNewInjury();
         if (buttonCount > injuryButtons.Count && injuryButtons.Count < InjuryManager.injuries.Count)
         {
             AddButton();

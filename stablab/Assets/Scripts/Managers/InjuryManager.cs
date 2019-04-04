@@ -10,11 +10,9 @@ public class InjuryManager : MonoBehaviour
 
     // Scripts from the body model
     private static InjuryAdding injuryAdding;
-
-    public static Injury activeInjury;
-    private ModelController modelController;
-
     public static List<Injury> injuries = new List<Injury>();
+    public static Injury activeInjury;
+
 
     // Setup instance of ProjectManager
     void Awake()
@@ -39,13 +37,11 @@ public class InjuryManager : MonoBehaviour
     {
         GameObject body = GameObject.FindWithTag("Player");
         injuryAdding = body.GetComponent<InjuryAdding>();
-        modelController = body.GetComponent<ModelController>();
-
         LoadInjuries();
     }
 
     // Creates and add the new injury to the list of injuries.
-    public void AddNewInjury()
+    public static void AddNewInjury()
     {
         Injury newInjury = new Injury(Guid.NewGuid());
         injuries.Add(newInjury);
@@ -53,7 +49,7 @@ public class InjuryManager : MonoBehaviour
     }
 
     // Remove the currently active injury
-    public void RemoveInjury()
+    public static void RemoveInjury()
     {
         injuries.Remove(activeInjury);
     }
@@ -78,18 +74,11 @@ public class InjuryManager : MonoBehaviour
     }
 
     // Change order of injuri in the list.
-    public void ChangeOrder(int oldIndex, int newIndex)
+    public static void ChangeOrder(int oldIndex, int newIndex)
     {
         Injury injury = injuries[oldIndex];
         injuries.RemoveAt(oldIndex);
         injuries.Insert(newIndex, injury);
-    }
-
-    // Add a marker to the injury.
-    public void AddInjuryMarker(GameObject markerObj)
-    {
-        activeInjury.InjuryMarkerObj = markerObj;
-        SaveBodyPose();
     }
 
     // Load all injuries from the list in to the scene.
@@ -105,10 +94,4 @@ public class InjuryManager : MonoBehaviour
         }
     }
 
-    // Save current pose
-    public void SaveBodyPose()
-    {
-        activeInjury.BodyPose = modelController.GetBodyPose();
-        activeInjury.Marker.MarkerUpdate(activeInjury.InjuryMarkerObj);
-    }
 }
