@@ -32,6 +32,8 @@ public class InjuryAdding : MonoBehaviour
     private Vector3 markerPos;
     private Transform hitPart;
 
+    private GameObject newMarker;
+
 
     // Start is called before the first frame update
     void Start()
@@ -54,8 +56,9 @@ public class InjuryAdding : MonoBehaviour
                     markerPos = hit.point;
                     hitPart = hit.transform;
 
-                    InjuryManager.activeInjury.AddInjuryMarker(AddMarker(currentInjuryType, markerPos, hitPart));
-                    currentInjuryState = InjuryState.Inactive;
+                    Destroy(newMarker);
+                    newMarker = AddMarker(markerPos, hitPart);
+                    //currentInjuryState = InjuryState.Inactive;
                 }
                 else if (hit.collider.tag == "Marker")
                 {
@@ -69,15 +72,41 @@ public class InjuryAdding : MonoBehaviour
         }
     }
 
+    public void SaveMarker() 
+    {
+        InjuryManager.activeInjury.AddInjuryMarker(newMarker);
+        newMarker = null;
+    }
+
+    public void SetStateToAdd() 
+    {
+        currentInjuryState = InjuryState.Add;
+    }
+
+    public void SetStateToInactive()
+    {
+        currentInjuryState = InjuryState.Inactive;
+    }
+
+    public void SetStateToDelete()
+    {
+        currentInjuryState = InjuryState.Delete;
+    }
+
+    public void removeCurrentMarker()
+    {
+        Destroy(newMarker);
+    }
+
     public InjuryState GetInjuryState()
     {
         return currentInjuryState;
     }
 
-    private GameObject AddMarker(InjuryType type, Vector3 position, Transform parent)
+    private GameObject AddMarker(Vector3 position, Transform parent)
     {
         GameObject markerObj;
-        switch (type)
+        switch (InjuryManager.activeInjury.Type)
         {
             case InjuryType.Crush:
                 markerObj = Instantiate(crushMarker, position, Quaternion.identity);
@@ -110,7 +139,7 @@ public class InjuryAdding : MonoBehaviour
 
         ModelController.SetBodyPose(injury.BodyPose);
         Transform parent = GameObject.Find(injury.Marker.BodyPartParent).transform;
-        return AddMarker(injury.Marker.Type, injury.Marker.Position, parent);
+        return AddMarker(injury.Marker.Position, parent);
     }
 
     public void DeletePressed()

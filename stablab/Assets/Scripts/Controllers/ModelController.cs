@@ -24,9 +24,7 @@ public class ModelController : MonoBehaviour
     public static void SetBodyPose(BodyPose body)
     {
         if (body == null) return; // set to a standard pose later
-
-        Debug.Log("Nu är jag här istället ");
-
+        
         skeleton.transform.position = body.GetPosition();
         skeleton.transform.rotation = body.GetRotation();
 
