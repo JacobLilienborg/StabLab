@@ -100,6 +100,7 @@ public class InjuryListHandler : MonoBehaviour
         }
 
         buttonCount -= 1; // Compensate for the add button
+
     }
 
     void RemoveButton()
