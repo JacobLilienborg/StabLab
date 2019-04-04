@@ -19,6 +19,8 @@ public class InjurySettings : MonoBehaviour
     private string positionDefault;
     private string certaintyDefault;
     private string infoDefault;
+    private CameraSettings camDefault;
+    private BodyPose poseDefault;
 
     private void Awake()
     {
@@ -27,8 +29,8 @@ public class InjurySettings : MonoBehaviour
         positionDefault = position.text;
         certaintyDefault = certainty.text;
         infoDefault = info.text;
-
-        Debug.Log("Look at mee i'm in start" + nameDefault);
+        camDefault = new CameraSettings(Camera.main);
+        poseDefault = ModelController.GetBodyPose();
     }
 
     private void OnEnable()
@@ -59,7 +61,9 @@ public class InjurySettings : MonoBehaviour
             LoadCertaintyText();
             LoadImages();
             LoadInfoText();
-            imagesHandler.LoadAllImages();
+            LoadImages();
+            LoadCamera();
+            LoadPose();
         }
     }
 
@@ -73,12 +77,21 @@ public class InjurySettings : MonoBehaviour
         activeInjury.InfoText = info;
     }
 
+    public void SetCamera()
+    {
+        activeInjury.CameraSettings = new CameraSettings(Camera.main);
+    }
+
+    public void SetPose()
+    {
+        activeInjury.SaveBodyPose();
+    }
+
     private void LoadNameText()
     {
         if (!string.IsNullOrEmpty(activeInjury.Name))
         {
             injuryName.text = activeInjury.Name;
-            Debug.Log("Name exissts");
         }
         else
         {
@@ -125,7 +138,7 @@ public class InjurySettings : MonoBehaviour
 
     private void LoadImages()
     {
-        // Call imagesHandler
+        imagesHandler.LoadAllImages();
     }
 
     private void LoadInfoText()
@@ -138,5 +151,29 @@ public class InjurySettings : MonoBehaviour
         {
             info.text = infoDefault;
         }
+    }
+
+    private void LoadCamera() 
+    {
+        CameraSettings newCam = camDefault;
+        if(activeInjury.CameraSettings != null) 
+        {
+            newCam = activeInjury.CameraSettings;
+        }
+
+        Camera.main.transform.position = newCam.GetPosition();
+        Camera.main.transform.rotation = newCam.GetRotation();
+        Camera.main.fieldOfView = newCam.GetFieldOfView();
+    }
+
+    private void LoadPose()
+    {
+        BodyPose newPose = poseDefault;
+        if (activeInjury.BodyPose != null)
+        {
+            newPose = activeInjury.BodyPose;
+        }
+
+        ModelController.SetBodyPose(newPose);
     }
 }

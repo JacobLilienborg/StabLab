@@ -7,6 +7,11 @@ public class CameraSettings
 {
     private float[] cameraData = new float[8];
 
+    public CameraSettings(Camera cam) 
+    {
+        SetCamera(cam);
+    }
+
     public Vector3 GetPosition() 
     {
         return new Vector3(cameraData[0], cameraData[1], cameraData[2]);

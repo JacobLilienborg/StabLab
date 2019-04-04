@@ -6,12 +6,13 @@ public class ModelController : MonoBehaviour
 {
     private const string BODYPART_TAG = "Body";
 
-    public GameObject skeleton;
+    public GameObject skeletonNonStatic;
+    public static GameObject skeleton;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        
+        skeleton = skeletonNonStatic;
     }
 
     // Update is called once per frame
@@ -20,9 +21,11 @@ public class ModelController : MonoBehaviour
         
     }
 
-    public void SetBodyPose(BodyPose body)
+    public static void SetBodyPose(BodyPose body)
     {
         if (body == null) return; // set to a standard pose later
+
+        Debug.Log("Nu är jag här istället ");
 
         skeleton.transform.position = body.GetPosition();
         skeleton.transform.rotation = body.GetRotation();
@@ -41,7 +44,7 @@ public class ModelController : MonoBehaviour
 
     }
 
-    public BodyPose GetBodyPose()
+    public static BodyPose GetBodyPose()
     {
         return new BodyPose(skeleton);
     }

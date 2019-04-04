@@ -8,7 +8,7 @@ using UnityEngine;
 
 /*
  * Injury List Handler is the bar where you can add injuries in the injury mode.
- * This class is meant to spawn and remove injury buttons
+ * This class is meant to spawn and remove injury buttons which in turn can invoke the activation of injuries
  * 
  * It will also shrink and expand the list which in turn decides the amount of buttons in the list.
  * If there exists more injuries than the list can show, the previous/next button will turn blue and
@@ -17,9 +17,6 @@ using UnityEngine;
 
 public class InjuryListHandler : MonoBehaviour
 {
-    public bool selectNewInjury;  // If true, whenever a new injury is added it will be selected. If false, it will not. 
-    public bool selectScrolledInjury; // if true, the previous/next buttons will switch which injury is selected. If false, it scrolls the list. 
-
     [SerializeField] private Transform buttonArea; // The area where all the buttons will be spawned, including the green add button
     [SerializeField] private UnityEngine.UI.Button addButton; // The green add button
     [SerializeField] private InjuryButton injuryButton; // The button representing an injury
@@ -42,7 +39,7 @@ public class InjuryListHandler : MonoBehaviour
         // Calculate the padding, button size and the total button amount
         CalculateScreenAdjustments();
 
-        //Spawn the add button and resize it according to the button area
+        // Spawn the add button and resize it according to the button area
         addButton = Instantiate(addButton, buttonArea);
         addButton.onClick.AddListener(AddInjury);
         RectTransform rtab = (RectTransform)addButton.transform;
@@ -72,63 +69,78 @@ public class InjuryListHandler : MonoBehaviour
         }
     }
 
-    private void LoadInjuries()
+    // Load in already existing injuries if the injury manager has any
+    public void LoadInjuries()
     {
-        RollLeft();
-        for (int i = 0; i < InjuryManager.injuries.Count; i++)
+        // Make the list start from the beginning without removing
+        rightMostIndex = -1;
+        foreach(InjuryButton button in injuryButtons)
         {
-            if (totalButtonAmount > injuryButtons.Count && injuryButtons.Count < InjuryManager.injuries.Count)
+            button.id = ++rightMostIndex;
+        }
+
+        // Remove if we have to many buttons, add if to few and enable next button if there are more injuries available
+        foreach (Injury injury in InjuryManager.injuries)
+        {
+            if (injuryButtons.Count > InjuryManager.injuries.Count)
+            {
+                RemoveButton();
+            }
+            else if (totalButtonAmount > injuryButtons.Count && injuryButtons.Count < InjuryManager.injuries.Count)
             {
                 AddButton();
             }
             else
             {
-                RollLeft();
+                if (injuryButtons.Count < InjuryManager.injuries.Count) nextButton.interactable = true;
+                return;
             }
         }
     }
-
+    
+    // Calculates screen adjusments, remove/add buttons if neccesary and position them correctly
     void Resize()
     {
-        // We need to calculate how many buttons can fit in this area
+        // Calculate the padding, button size and the total button amount
         CalculateScreenAdjustments();
 
-        // Remove buttons if we don't have space
+        // Remove buttons if we don't have enough space
         while (totalButtonAmount < injuryButtons.Count)
         {
             RemoveButton();
         }
 
-        // Reposition buttons
+        // Reposition the buttons according to the adjustments
         RepositionButtons();
 
 
-        // Add buttons if more buttons can be put in the area
+        // Add buttons if more buttons can be put in the button area
         while (totalButtonAmount > injuryButtons.Count && injuryButtons.Count < InjuryManager.injuries.Count)
         {
             AddButton();
         }
     }
 
+    // Calculate the padding, button size and the total button amount
     void CalculateScreenAdjustments()
     {
-
-        RectTransform rtba = (RectTransform)buttonArea;
-        buttonSize = rtba.rect.height;
+        RectTransform rtba = (RectTransform)buttonArea; // Simulate an rectangle to calculate on
+        buttonSize = rtba.rect.height;  // Each side on the button will have the same size as the height of the button area
         float width = rtba.rect.width;
-        totalButtonAmount = (int)Mathf.Floor(width / buttonSize);
+        totalButtonAmount = (int)Mathf.Floor(width / buttonSize); // Integer division between width and button size
+        // To get an consistent padding we take the remainder of the space available and divide it by the amount of buttons - 1
         padding = (width % buttonSize) / (totalButtonAmount - 1);
-        if (padding < paddingThreshold)
+        if (padding < paddingThreshold) // If the padding is to small, "remove" a button and recalculate
         {
             totalButtonAmount -= 1;
             padding = (width - buttonSize * totalButtonAmount) / (totalButtonAmount - 1);
         }
 
-        totalButtonAmount -= 1; // Compensate for the add button
-
+        totalButtonAmount -= 1; // Since the add button is already in the button area
     }
 
-    void RemoveButton()
+    // Removes the right most buttons from the list 
+    void RemoveButton() 
     {
         InjuryButton ib = injuryButtons[injuryButtons.Count - 1];
         injuryButtons.Remove(ib);
@@ -137,9 +149,10 @@ public class InjuryListHandler : MonoBehaviour
         nextButton.interactable = true;
     }
 
+    // Repositioning the placed buttons according to the calculated buttons size and the padding
     void RepositionButtons()
     {
-        float xpos = buttonSize / 2;
+        float xpos = buttonSize / 2; // Since (assuming) the pivot point is in the middle of the button
         foreach (InjuryButton btn in injuryButtons)
         {
             RectTransform rt = (RectTransform)btn.transform;
@@ -153,16 +166,14 @@ public class InjuryListHandler : MonoBehaviour
     void AddButton()
     {
         InjuryButton ib = Instantiate(injuryButton, buttonArea);
-        
 
         ib.OnCheckedInjury.AddListener(ActivateInjury);
         ib.OnUncheckedInjury.AddListener(DeactivateInjury);
-
+        
         ib.transform.position = addButton.transform.position;
-
         addButton.transform.position += new Vector3(buttonSize + padding, 0, 0);
 
-        if ((rightMostIndex++ + 1) == InjuryManager.injuries.Count) RollRight();
+        if ((rightMostIndex++ + 1) == InjuryManager.injuries.Count) ScrollRight();
 
         ib.id = rightMostIndex;
 
@@ -182,41 +193,32 @@ public class InjuryListHandler : MonoBehaviour
 
     public void AddInjury()
     {
-        /*InjuryManager.AddNewInjury();
+        InjuryManager.AddNewInjury();
         if (totalButtonAmount > injuryButtons.Count && injuryButtons.Count < InjuryManager.injuries.Count)
         {
             AddButton();
         } else
         {
-            RollLeft();
-        }*/
+            ScrollLeft();
+        }
     }
 
     public void ActivateInjury(int id)
     {
-        if (id != activeInjury)
-        {
-            Debug.Log("Activated : " + id);
-            activeInjury = id;
-            InjuryManager.SetActiveInjury(id-1);
-            //injurySettings.LoadActiveInjury();
-
-        }
+        InjuryManager.SetActiveInjury(id-1);
     }
 
     public void DeactivateInjury(int id)
     {
-        if (id == activeInjury)
+        if (InjuryManager.injuries[id] == InjuryManager.activeInjury)
         {
-            Debug.Log("Deactivated : " + id);
-            activeInjury = -1;
             InjuryManager.SetActiveInjury(-1);
         }
     }
 
-    public void RollLeft()
+    public void ScrollLeft()
     {
-        Debug.Log("Rolling Left");
+        Debug.Log("Scrolling Left");
         if ((++rightMostIndex + 1) == injuryCount) nextButton.interactable = false;
         previousButton.interactable = true;
 
@@ -232,9 +234,9 @@ public class InjuryListHandler : MonoBehaviour
         }
     }
 
-    public void RollRight()
+    public void ScrollRight()
     {
-        Debug.Log("Rolling Right");
+        Debug.Log("Scrolling Right");
         if ((--rightMostIndex + 1) == totalButtonAmount) previousButton.interactable = false;
         nextButton.interactable = true;
 

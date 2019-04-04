@@ -54,7 +54,7 @@ public class InjuryAdding : MonoBehaviour
                     markerPos = hit.point;
                     hitPart = hit.transform;
 
-                    injuryManager.AddInjuryMarker(AddMarker(currentInjuryType, markerPos, hitPart));
+                    InjuryManager.activeInjury.AddInjuryMarker(AddMarker(currentInjuryType, markerPos, hitPart));
                     currentInjuryState = InjuryState.Inactive;
                 }
                 else if (hit.collider.tag == "Marker")
@@ -108,7 +108,7 @@ public class InjuryAdding : MonoBehaviour
             throw new System.Exception("Injury has no Marker");
         }
 
-        modelController.SetBodyPose(injury.BodyPose);
+        ModelController.SetBodyPose(injury.BodyPose);
         Transform parent = GameObject.Find(injury.Marker.BodyPartParent).transform;
         return AddMarker(injury.Marker.Type, injury.Marker.Position, parent);
     }
