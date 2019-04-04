@@ -93,7 +93,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: MyIntEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-  panel: {fileID: 0}
+  panelAnimation: {fileID: 0}
 --- !u!1 &9009529472419360455
 GameObject:
   m_ObjectHideFlags: 0
