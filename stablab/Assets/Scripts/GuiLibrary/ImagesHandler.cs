@@ -10,22 +10,40 @@ public class ImagesHandler : MonoBehaviour
     [SerializeField] private RawImage emptyImage;
     [SerializeField] private Button previousButton;
     [SerializeField] private Button nextButton;
-
-    [SerializeField] private InjuryManager injuryManager;
-
+    
     private List<RawImage> images = new List<RawImage>();
-    private int activeIndex = 1; // 0 <= activeIndex >= images.Count , images.Count is addButton 
+    private int activeIndex = 1; // 0 <= activeIndex >= images.Count , images.Count is addButton
+
+    public void LoadAllImages() 
+    {
+        foreach(RawImage image in images) { Destroy(image.gameObject); }
+        images.Clear();
+
+        for(int i = 0; i < InjuryManager.activeInjury.images.Count; i++)
+        {
+            LoadImage(i);
+        }
+
+        ShowImage(0);
+    }
 
 
     public void AddImage()
     {
-        string imagePath = FileManager.OpenFileBrowser("png,jpg"); // Change to , instead of blancspace, resulting in correct behaviour on windows
+        string imagePath = FileManager.OpenFileBrowser("png,jpg"); // Let the user pick an image
+        InjuryManager.activeInjury.AddImage(FileManager.ReadBytes(imagePath)); // Save the image to active injury
+        LoadImage(InjuryManager.activeInjury.images.Count -1);
+    }
+
+
+    private void LoadImage(int index) 
+    {
         Texture2D imgTexture = new Texture2D(2, 2);
-        imgTexture.LoadImage(FileManager.ReadBytes(imagePath));
-        // --------
+        imgTexture.LoadImage(InjuryManager.activeInjury.images[index]);
 
         RawImage image = Instantiate(emptyImage, imageArea);
         image.texture = imgTexture;
+
         float ratio = image.texture.width / (float)image.texture.height;
         float w, h;
 
@@ -48,12 +66,18 @@ public class ImagesHandler : MonoBehaviour
 
     public void ShowNextImage()
     {
-        ShowImage(activeIndex + 1);
+        if(activeIndex < images.Count)
+        {
+            ShowImage(activeIndex + 1);
+        }
     }
 
     public void ShowPrevImage()
     {
-        ShowImage(activeIndex - 1);
+        if(activeIndex >= 1) 
+        {
+            ShowImage(activeIndex - 1);
+        }
     }
 
     private void ShowImage(int index)

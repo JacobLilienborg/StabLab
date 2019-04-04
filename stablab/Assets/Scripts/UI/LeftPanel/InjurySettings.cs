@@ -10,6 +10,7 @@ public class InjurySettings : MonoBehaviour
     public Text position;
     public Text certainty;
     public InputField info;
+    public ImagesHandler imagesHandler;
 
     private Injury activeInjury;
 
@@ -39,6 +40,14 @@ public class InjurySettings : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if(InjuryManager.activeInjury != activeInjury) 
+        {
+            LoadActiveInjury();
+        }
+    }
+
     public void LoadActiveInjury()
     {
         if (InjuryManager.activeInjury != null)
@@ -50,6 +59,7 @@ public class InjurySettings : MonoBehaviour
             LoadCertaintyText();
             LoadImages();
             LoadInfoText();
+            imagesHandler.LoadAllImages();
         }
     }
 

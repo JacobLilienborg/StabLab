@@ -49,7 +49,6 @@ public class InjuryManager : MonoBehaviour
     {
         Injury newInjury = new Injury(Guid.NewGuid());
         injuries.Add(newInjury);
-        //injuryAdding.currentInjuryState = InjuryState.Add;
         Debug.Log(newInjury.Id);
     }
 
@@ -111,15 +110,5 @@ public class InjuryManager : MonoBehaviour
     {
         activeInjury.BodyPose = modelController.GetBodyPose();
         activeInjury.Marker.MarkerUpdate(activeInjury.InjuryMarkerObj);
-    }
-
-    //Add an image to injury
-    public void AddImage()
-    {
-        string imagePath = FileManager.OpenFileBrowser("png jpg");
-        if(imagePath != "")
-        {
-            activeInjury.AddImage(FileManager.ReadBytes(imagePath));
-        }
     }
 }
