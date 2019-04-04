@@ -70,13 +70,18 @@ public class InjuryManager : MonoBehaviour
     // Sets the active injury by index. Is called from the marker that is clicked
     public static void SetActiveInjury(int index)
     {
+        Debug.Log(index + " was selected");
         activeInjury = index == -1 ? null: injuries[index];
     }
 
     // Needed this code to be listener, renaming code may be needed
     public static void DeselectInjury(int index)
     {
-        activeInjury = null;
+        if (injuries[index] == activeInjury)
+        {
+            Debug.Log(index + " was deselected");
+            activeInjury = null;
+        }
     }
 
     // Change order of injuri in the list.

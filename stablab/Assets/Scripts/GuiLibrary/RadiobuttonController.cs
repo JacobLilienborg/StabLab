@@ -15,13 +15,20 @@ public class RadiobuttonController : CheckboxController
     {
         if (trigger)
         {
-            foreach (Transform child in RadioGroup.transform)
+            if (RadioGroup)
             {
-                RadiobuttonController btn = child.GetComponent<RadiobuttonController>();
-                if (btn != null && btn != this && btn.mode != Mode.Disabled)
+                foreach (Transform child in RadioGroup.transform)
                 {
-                    btn.Unchecked(true);
+                    RadiobuttonController btn = child.GetComponent<RadiobuttonController>();
+                    if (btn != null && btn != this && btn.mode != Mode.Disabled)
+                    {
+                        btn.Unchecked(true);
+                    }
                 }
+            } 
+            else
+            {
+                Debug.Log("There appear to be no parent");
             }
         }
         base.Checked(trigger);
