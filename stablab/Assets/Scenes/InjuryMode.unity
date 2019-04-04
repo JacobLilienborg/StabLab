@@ -3528,7 +3528,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2022997093}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -10180,7 +10180,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2022997093}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -16963,7 +16963,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2022997093}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -17837,6 +17837,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: InjuryImage
       objectReference: {fileID: 0}
+    - target: {fileID: 338000948069565462, guid: 71d651cca9009498c9899f5504b4e458,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 338000948069565457, guid: 71d651cca9009498c9899f5504b4e458,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -17875,7 +17880,7 @@ PrefabInstance:
     - target: {fileID: 338000948069565457, guid: 71d651cca9009498c9899f5504b4e458,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 338000948069565457, guid: 71d651cca9009498c9899f5504b4e458,
         type: 3}
@@ -21345,10 +21350,10 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 1729983583}
   - {fileID: 1039131765}
   - {fileID: 1666549626}
   - {fileID: 277165730}
-  - {fileID: 1729983583}
   m_Father: {fileID: 1727426651}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
