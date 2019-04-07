@@ -12,6 +12,8 @@ public class LeftPanelAnimation : MonoBehaviour
     private void Start()
     {
         objChooser = Panel.GetComponent<ObjectChooser>();
+        InjuryManager.AddActivationListener(OpenPanel);
+        InjuryManager.AddDeactivationListener(ClosePanel);
     }
 
     public void OpenPanel() {

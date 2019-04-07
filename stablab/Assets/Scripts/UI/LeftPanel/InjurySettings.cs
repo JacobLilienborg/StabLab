@@ -11,6 +11,7 @@ public class InjurySettings : MonoBehaviour
     public Text certainty;
     public InputField info;
     public ImagesHandler imagesHandler;
+    public Text index; // New
 
     private Injury activeInjury;
 
@@ -54,6 +55,7 @@ public class InjurySettings : MonoBehaviour
     {
         if (InjuryManager.activeInjury != null)
         {
+            index.text = InjuryManager.injuries.IndexOf(InjuryManager.activeInjury).ToString();
             activeInjury = InjuryManager.activeInjury;
             LoadNameText();
             LoadTypeText();

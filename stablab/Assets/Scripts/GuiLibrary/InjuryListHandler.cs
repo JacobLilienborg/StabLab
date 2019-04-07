@@ -257,9 +257,11 @@ public class InjuryListHandler : MonoBehaviour
         ib.OnCheckedInjury.AddListener(InjuryManager.SetActiveInjury);
         ib.OnUncheckedInjury.AddListener(InjuryManager.DeselectInjury);
 
-        // We want to know if we are going to activate the previous/next buttons
-        ib.OnCheckedInjury.AddListener(CheckInteractability);
-        ib.OnUncheckedInjury.AddListener(CheckInteractability);
+        // Since a injury can be activated in other way, we need to respond to these as well
+        InjuryManager.AddActivationListener(CheckWithoutTrigger);
+        InjuryManager.AddDeactivationListener(UncheckWithoutTrigger);
+        InjuryManager.AddActivationListener(CheckInteractability);
+        InjuryManager.AddDeactivationListener(CheckInteractability);
 
         // We position the button where the green add button is and reposition the add button
         ib.transform.position = addButton.transform.position;
@@ -285,6 +287,24 @@ public class InjuryListHandler : MonoBehaviour
         {
             previousButton.interactable |= InjuryManager.activeInjury != InjuryManager.injuries[injuryButtons[0].index];
             nextButton.interactable |= InjuryManager.activeInjury != InjuryManager.injuries[rightMostIndex];
+        }
+    }
+
+    // This function will be invoked if an injury is activated independent of the buttons
+    private void CheckWithoutTrigger(int index)
+    {
+        foreach (InjuryButton button in injuryButtons)
+        {
+            if (button.index == index) button.Checked(false);
+        }
+    }
+
+    // This function will be invoked if an injury is deactivated independent of the buttons
+    private void UncheckWithoutTrigger(int index)
+    {
+        foreach (InjuryButton button in injuryButtons)
+        {
+            if (button.index == index) button.Unchecked(false);
         }
     }
 

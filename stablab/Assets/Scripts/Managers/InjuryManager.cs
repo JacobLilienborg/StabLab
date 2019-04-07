@@ -3,6 +3,17 @@ using UnityEngine;
 using System;
 using System.IO;
 using UnityEngine.UI;
+using UnityEngine.Events;
+
+[System.Serializable]
+public class InjuryEvent : UnityEvent<Injury>
+{
+}
+
+[System.Serializable]
+public class IndexEvent : UnityEvent<int>
+{
+}
 
 public class InjuryManager : MonoBehaviour
 {
@@ -13,8 +24,41 @@ public class InjuryManager : MonoBehaviour
     public static List<Injury> injuries = new List<Injury>();
     public static Injury activeInjury;
 
+    // Setting up the listeners system. There are optional events depending of what return type you want
+    private static InjuryEvent InjuryActivationEvent = new InjuryEvent();
+    private static InjuryEvent InjuryDeactivationEvent = new InjuryEvent();
+    private static IndexEvent IndexActivationEvent = new IndexEvent();
+    private static IndexEvent IndexDeactivationEvent = new IndexEvent();
+    private static UnityEvent ActivationEvent = new UnityEvent();
+    private static UnityEvent DeactivationEvent = new UnityEvent();
 
-    // Setup instance of ProjectManager
+    public static void AddActivationListener(UnityAction<Injury> action)
+    {
+        InjuryActivationEvent.AddListener(action);
+    }
+    public static void AddDeactivationListener(UnityAction<Injury> action)
+    {
+        InjuryDeactivationEvent.AddListener(action);
+    }
+    public static void AddActivationListener(UnityAction<int> action)
+    {
+        IndexActivationEvent.AddListener(action);
+    }
+    public static void AddDeactivationListener(UnityAction<int> action)
+    {
+        IndexDeactivationEvent.AddListener(action);
+    }
+    public static void AddActivationListener(UnityAction action)
+    {
+        ActivationEvent.AddListener(action);
+    }
+    public static void AddDeactivationListener(UnityAction action)
+    {
+        DeactivationEvent.AddListener(action);
+    }
+
+
+    // Setup instance of Injury Manager
     void Awake()
     {
         // If instance doesn't exist set it to this, else destroy this
@@ -57,30 +101,45 @@ public class InjuryManager : MonoBehaviour
     // Sets the active injury by id. Is called from the marker that is clicked
     public static void SetActiveInjury(Guid id)
     {
-        foreach (Injury injury in injuries)
+        for(int index = 0; index < injuries.Count; index++)
         {
+            Injury injury = injuries[index];
             if (injury.Id == id)
             {
-                activeInjury = injury;
-                return;
+                if (activeInjury != injury)
+                {
+                    activeInjury = injury;
+                    InjuryActivationEvent.Invoke(activeInjury);
+                    IndexActivationEvent.Invoke(index);
+                    ActivationEvent.Invoke();
+                    return;
+                }
             }
         }
     }
 
-    // Sets the active injury by index. Is called from the marker that is clicked
+    // Sets the active injury by index.
     public static void SetActiveInjury(int index)
     {
-        Debug.Log(index + " was selected");
-        activeInjury = index == -1 ? null: injuries[index];
+        if(activeInjury != injuries[index])
+        {
+            activeInjury = injuries[index];
+            InjuryActivationEvent.Invoke(activeInjury);
+            IndexActivationEvent.Invoke(index);
+            ActivationEvent.Invoke();
+        }
+        
     }
 
-    // Needed this code to be listener, renaming code may be needed
+    // Needed this code to be listener
     public static void DeselectInjury(int index)
     {
         if (injuries[index] == activeInjury)
         {
-            Debug.Log(index + " was deselected");
             activeInjury = null;
+            InjuryDeactivationEvent.Invoke(activeInjury);
+            IndexDeactivationEvent.Invoke(index);
+            DeactivationEvent.Invoke();
         }
     }
 
