@@ -23,7 +23,7 @@ public class CheckboxController : MonoBehaviour, IPointerClickHandler, IPointerE
     protected Mode mode = Mode.Inactive;
     private Image currentImage;
 
-    protected virtual void Start()
+    protected virtual void Awake()
     {
         currentImage = image.GetComponent<Image>();
     }

@@ -3,11 +3,11 @@ using UnityEngine.EventSystems;
 
 public class RadiobuttonController : CheckboxController
 {
-    protected GameObject RadioGroup = null;
+    [SerializeField] protected GameObject RadioGroup = null;
 
-    protected new virtual void Start()
+    protected new virtual void Awake()
     {
-        base.Start();
+        base.Awake();
         if (transform.parent != null) RadioGroup = transform.parent.gameObject;
     }
 
@@ -28,7 +28,7 @@ public class RadiobuttonController : CheckboxController
             } 
             else
             {
-                Debug.Log("There appear to be no parent");
+                Debug.Log("WARNING: There appear to be no parent");
             }
         }
         base.Checked(trigger);
