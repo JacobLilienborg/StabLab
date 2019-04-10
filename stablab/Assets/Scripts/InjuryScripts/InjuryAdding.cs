@@ -18,7 +18,6 @@ public enum InjuryType
     Stab
 }
 
-
 public class InjuryAdding : MonoBehaviour
 {
     public InjuryState currentInjuryState = InjuryState.Inactive;

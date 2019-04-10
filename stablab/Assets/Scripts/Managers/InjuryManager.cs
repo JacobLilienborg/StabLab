@@ -12,7 +12,11 @@ public class InjuryManager : MonoBehaviour
     public static Injury activeInjury;
     private ModelController modelController;
 
-    public static List<Injury> injuries = new List<Injury>();
+    public static List<Injury> injuries { get; set; }
+
+    private InjuryManagerLogic injuryManagerLogic;
+    
+
 
     // Setup instance of ProjectManager
     void Awake()
@@ -26,9 +30,11 @@ public class InjuryManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        if (injuryManagerLogic == null) { injuryManagerLogic = new InjuryManagerLogic(); }
 
         //Don't destroy when reloading scene
         DontDestroyOnLoad(gameObject);
+        injuries = new List<Injury>();
 
     }
 
@@ -50,12 +56,6 @@ public class InjuryManager : MonoBehaviour
         injuries.Add(activeInjury);
         injuryAdding.currentInjuryState = InjuryState.Add;
         Debug.Log(activeInjury.Id);
-    }
-
-    // Remove the currently active injury
-    public void RemoveInjury()
-    {
-        injuries.Remove(activeInjury);
     }
 
     // Sets the active injury by id. Is called from the marker that is clicked
@@ -106,5 +106,19 @@ public class InjuryManager : MonoBehaviour
     {
         activeInjury.BodyPose = modelController.GetBodyPose();
         activeInjury.Marker.MarkerUpdate(activeInjury.InjuryMarkerObj);
+    }
+
+    public void RemoveInjury()
+    {
+        injuryManagerLogic.RemoveInjury(injuries, activeInjury);
+    }
+}
+
+public class InjuryManagerLogic
+{
+    // Remove the currently active injury
+    public void RemoveInjury(List<Injury> injuries, Injury activeInjury)
+    {
+        injuries.Remove(activeInjury);
     }
 }
