@@ -2,7 +2,7 @@
 using UnityEngine;
 using System;
 
-public class InjuryManager : MonoBehaviour
+public class InjuryManager : MonoBehaviour, IInjuryManager
 {
     public InjuryManager instance = null;
 

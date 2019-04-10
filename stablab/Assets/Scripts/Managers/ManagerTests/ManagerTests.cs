@@ -20,7 +20,6 @@ namespace Tests
         [UnityTest]
         public IEnumerator ManagerTestsWithEnumeratorPasses()
         {
-            InjuryManagerLogic injuryManagerLogic = new InjuryManagerLogic();
             yield return null;
         }
     }
