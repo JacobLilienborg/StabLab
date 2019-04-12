@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public enum InjuryState
 {
@@ -18,6 +16,10 @@ public enum InjuryType
     Stab, 
 }
 
+
+/*
+ * InjuryAdding spawns an injurymarker of the currently active injury on the body by clicking somewhere on the body.
+ */
 
 public class InjuryAdding : MonoBehaviour
 {
@@ -42,6 +44,7 @@ public class InjuryAdding : MonoBehaviour
         modelController = gameObject.GetComponent<ModelController>();
     }
 
+    // Waits for the user to clicks on the body when state is in add, and then adds one marker to the body. 
     private void Update()
     {
         if (Input.GetMouseButton(0))
@@ -72,37 +75,44 @@ public class InjuryAdding : MonoBehaviour
         }
     }
 
+    // Save the added marker to the active injury
     public void SaveMarker() 
     {
         InjuryManager.activeInjury.AddInjuryMarker(newMarker);
         newMarker = null;
     }
 
+    // Set state to add wich will enable the user to add a marker to the body.
     public void SetStateToAdd() 
     {
         currentInjuryState = InjuryState.Add;
     }
 
+    // Deactivate the adding state
     public void SetStateToInactive()
     {
         currentInjuryState = InjuryState.Inactive;
     }
 
+    // Set state to delet so a marker can be deleted
     public void SetStateToDelete()
     {
         currentInjuryState = InjuryState.Delete;
     }
 
+    // Remove the last unsaved marker
     public void removeCurrentMarker()
     {
         Destroy(newMarker);
     }
 
+    // Returns injury state
     public InjuryState GetInjuryState()
     {
         return currentInjuryState;
     }
 
+    // Instantiate a marker based on position and make it a child of parent input.
     private GameObject AddMarker(Vector3 position, Transform parent)
     {
         GameObject markerObj;
@@ -130,6 +140,7 @@ public class InjuryAdding : MonoBehaviour
         return markerObj;
     }
 
+    // Instantiate a saved marker from an injury.
     public GameObject LoadMarker(Injury injury)
     {
         if(injury.Marker == null)
@@ -142,6 +153,7 @@ public class InjuryAdding : MonoBehaviour
         return AddMarker(injury.Marker.Position, parent);
     }
 
+    // Called when the DeleteButton is pressed
     public void DeletePressed()
     {
         currentInjuryState = InjuryState.Delete;

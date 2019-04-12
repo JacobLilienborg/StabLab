@@ -10,6 +10,13 @@ public enum Certainty
     Low
 };
 
+/*
+ * The Injury class contains all information that is needed to represent an injury.
+ * It has to be Serializable.
+ * 
+ * TODO: make an abstract class
+ */
+
 [Serializable]
 public class Injury
 {
@@ -32,10 +39,12 @@ public class Injury
         Id = id;
     }
 
+
     public GameObject InjuryMarkerObj
     {
         get { return injuryMarkerObj; }
 
+        // When a marker object is added the serializable Marker is also set to match the object.
         set
         {
             injuryMarkerObj = value;
@@ -61,12 +70,13 @@ public class Injury
         SaveBodyPose();
     }
 
-
+    // Add a new image to the injury
     public void AddImage(byte[] image) 
     {
         images.Add(image);
     }
 
+    // Return a Texture2D of the image with the specified index 
     public Texture2D GetImageTexture(int index) 
     {
         Texture2D img = new Texture2D(2, 2);

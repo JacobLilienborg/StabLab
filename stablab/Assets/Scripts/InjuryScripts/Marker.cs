@@ -1,6 +1,10 @@
 ﻿using System;
 using UnityEngine;
 
+/*
+ * Serializable class to save marker data such as position, rotation and which body part it is attached to.
+ */
+
 [Serializable]
 public class Marker
 {
@@ -14,6 +18,7 @@ public class Marker
         MarkerUpdate(markerObj);
     }
 
+    // Copy data from input object
     public void MarkerUpdate(GameObject markerObj) 
     {
         Position = markerObj.transform.position;

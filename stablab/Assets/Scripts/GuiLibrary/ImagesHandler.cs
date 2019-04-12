@@ -1,7 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+
+/*
+ * ImageHandler has the functionality to add/remove images to an injury and go through the images one at a time by cklicking left/right arrows.
+ * 
+ * TODO: Remove image, fix left/right arrows.
+ */
 
 public class ImagesHandler : MonoBehaviour
 {
@@ -14,6 +19,7 @@ public class ImagesHandler : MonoBehaviour
     private List<RawImage> images = new List<RawImage>();
     private int activeIndex = 1; // 0 <= activeIndex >= images.Count , images.Count is addButton
 
+    // Load all images saved to the active injury
     public void LoadAllImages() 
     {
         foreach(RawImage image in images) { Destroy(image.gameObject); }
@@ -27,7 +33,7 @@ public class ImagesHandler : MonoBehaviour
         ShowImage(0);
     }
 
-
+    // Opens the filebrowser and adds the chosen image to the injury.
     public void AddImage()
     {
         string imagePath = FileManager.OpenFileBrowser("png,jpg"); // Let the user pick an image
@@ -35,11 +41,12 @@ public class ImagesHandler : MonoBehaviour
         LoadImage(InjuryManager.activeInjury.images.Count -1);
     }
 
-
+    // Load an image in to the UI in the right position.
     private void LoadImage(int index) 
     {
         Texture2D imgTexture = new Texture2D(2, 2);
         imgTexture.LoadImage(InjuryManager.activeInjury.images[index]);
+        imgTexture.Compress(false);
 
         RawImage image = Instantiate(emptyImage, imageArea);
         image.texture = imgTexture;
@@ -64,6 +71,7 @@ public class ImagesHandler : MonoBehaviour
         ShowImage(images.Count -1);
     }
 
+    // Show next image
     public void ShowNextImage()
     {
         if(activeIndex < images.Count)
@@ -72,6 +80,7 @@ public class ImagesHandler : MonoBehaviour
         }
     }
 
+    // Show previous image
     public void ShowPrevImage()
     {
         if(activeIndex >= 1) 
@@ -80,6 +89,7 @@ public class ImagesHandler : MonoBehaviour
         }
     }
 
+    // Make the image with the index from input visible and the rest invisible
     private void ShowImage(int index)
     {
         for(int i = 0; i < images.Count; i++)
@@ -90,6 +100,14 @@ public class ImagesHandler : MonoBehaviour
         addButton.gameObject.SetActive(index == images.Count);
 
         activeIndex = index;
+        CheckInteractability();
+    }
+
+    // Check if the previous/next button are going to be interactable
+    private void CheckInteractability()
+    {
+        previousButton.interactable = activeIndex > 0;
+        nextButton.interactable = activeIndex < images.Count;
     }
 
 }

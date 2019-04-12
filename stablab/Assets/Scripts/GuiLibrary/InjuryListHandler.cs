@@ -100,7 +100,7 @@ public class InjuryListHandler : MonoBehaviour
         CheckInteractability();
     }
 
-    // And a new injury and set is as the active
+    // Add a new injury and set is as the active
     public void AddInjury()
     {
         InjuryManager.AddNewInjury();

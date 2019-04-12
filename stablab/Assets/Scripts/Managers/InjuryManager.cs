@@ -1,9 +1,12 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using System;
-using System.IO;
-using UnityEngine.UI;
 using UnityEngine.Events;
+
+/*
+ * InjuryManager manages a list of injuries such as adding and removing injuries.
+ * It allso takes care of wich injury, if any, is the currently active injury.
+ */
 
 [System.Serializable]
 public class InjuryEvent : UnityEvent<Injury>

@@ -2,6 +2,10 @@
 using System;
 using UnityEngine;
 
+/*
+ * A list of injuries that can be saved on the computer
+ */
+
 [Serializable]
 public class InjuryListData : AData
 {

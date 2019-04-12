@@ -8,7 +8,9 @@ using UnityEngine.UI;
 [System.Serializable]
 public class MyIntEvent : UnityEvent<int>
 {
+
 }
+
 
 public class InjuryButton : RadiobuttonController
 {

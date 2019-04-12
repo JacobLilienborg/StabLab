@@ -13,26 +13,25 @@ public class InjurySettings : MonoBehaviour
     public ImagesHandler imagesHandler;
     public Text index; // New
 
-    private Injury activeInjury;
+    private Injury injury;
 
+    private CameraSettings camDefault; // Needed until default cam exists
+    private BodyPose poseDefault; // Needed until default pose exists
+
+
+    private void Awake()
+    {
+        camDefault = new CameraSettings(Camera.main);
+        //poseDefault = ModelController.GetBodyPose();
+    }
+
+    /*
     private string nameDefault;
     private string woundTypeDefault;
     private string positionDefault;
     private string certaintyDefault;
     private string infoDefault;
-    private CameraSettings camDefault;
-    private BodyPose poseDefault;
 
-    private void Awake()
-    {
-        nameDefault = injuryName.text;
-        woundTypeDefault = woundType.text;
-        positionDefault = position.text;
-        certaintyDefault = certainty.text;
-        infoDefault = info.text;
-        camDefault = new CameraSettings(Camera.main);
-        poseDefault = ModelController.GetBodyPose();
-    }
 
     private void OnEnable()
     {
@@ -51,90 +50,73 @@ public class InjurySettings : MonoBehaviour
         }
     }
 
-    public void LoadActiveInjury()
+    */
+
+    
+    public void LoadInjury(Injury injury)
     {
-        if (InjuryManager.activeInjury != null)
-        {
-            index.text = InjuryManager.injuries.IndexOf(InjuryManager.activeInjury).ToString();
-            activeInjury = InjuryManager.activeInjury;
-            LoadNameText();
-            LoadTypeText();
-            LoadPositionText();
-            LoadCertaintyText();
-            LoadImages();
-            LoadInfoText();
-            LoadImages();
-            LoadCamera();
-            LoadPose();
-        }
+        index.text = InjuryManager.injuries.IndexOf(injury).ToString();
+        this.injury = injury;
+        LoadNameText();
+        LoadTypeText();
+        LoadPositionText();
+        LoadCertaintyText();
+        LoadImages();
+        LoadInfoText();
+        LoadImages();
+        LoadCamera();
+        LoadPose();
     }
 
-    public void UpdateName(string name)
+    public void SetName(string name)
     {
-        activeInjury.Name = name;
+        injury.Name = name;
     }
 
-    public void UpdateInfo(string info)
+    public void SetInfo(string info)
     {
-        activeInjury.InfoText = info;
+        injury.InfoText = info;
     }
 
     public void SetCamera()
     {
-        activeInjury.CameraSettings = new CameraSettings(Camera.main);
+        injury.CameraSettings = new CameraSettings(Camera.main);
     }
 
     public void SetPose()
     {
-        activeInjury.SaveBodyPose();
+        injury.SaveBodyPose();
     }
 
     private void LoadNameText()
     {
-        if (!string.IsNullOrEmpty(activeInjury.Name))
+        if (!string.IsNullOrEmpty(injury.Name))
         {
-            injuryName.text = activeInjury.Name;
+            injuryName.text = injury.Name;
         }
-        else
-        {
-            injuryName.text = nameDefault;
-        }
-
     }
 
     private void LoadTypeText()
     {
-        if (activeInjury.Type != InjuryType.Null)
+        if (injury.Type != InjuryType.Null)
         {
-            woundType.text = activeInjury.Type.ToString();
-        }
-        else
-        {
-            woundType.text = woundTypeDefault;
+            woundType.text = injury.Type.ToString();
         }
     }
 
     private void LoadPositionText()
     {
-        if (activeInjury.Marker != null)
+        if (injury.Marker != null)
         {
-            position.text = activeInjury.Marker.BodyPartParent;
-        }
-        else
-        {
-            position.text = positionDefault;
+            position.text = injury.Marker.BodyPartParent;
         }
     }
 
     private void LoadCertaintyText()
     {
-        if (activeInjury.Certainty != Certainty.Null)
+        if (injury.Certainty != Certainty.Null)
         {
-            certainty.text = activeInjury.Certainty.ToString();
-        }
-        else
-        {
-            certainty.text = certaintyDefault;
+            certainty.text = injury.Certainty.ToString();
         }
     }
 
@@ -145,22 +127,18 @@ public class InjurySettings : MonoBehaviour
 
     private void LoadInfoText()
     {
-        if (!string.IsNullOrEmpty(activeInjury.InfoText))
+        if (!string.IsNullOrEmpty(injury.InfoText))
         {
-            info.text = activeInjury.InfoText;
-        }
-        else
-        {
-            info.text = infoDefault;
+            info.text = injury.InfoText;
         }
     }
 
     private void LoadCamera() 
     {
         CameraSettings newCam = camDefault;
-        if(activeInjury.CameraSettings != null) 
+        if(injury.CameraSettings != null) 
         {
-            newCam = activeInjury.CameraSettings;
+            newCam = injury.CameraSettings;
         }
 
         Camera.main.transform.position = newCam.GetPosition();
@@ -171,9 +149,9 @@ public class InjurySettings : MonoBehaviour
     private void LoadPose()
     {
         BodyPose newPose = poseDefault;
-        if (activeInjury.BodyPose != null)
+        if (injury.BodyPose != null)
         {
-            newPose = activeInjury.BodyPose;
+            newPose = injury.BodyPose;
         }
 
         ModelController.SetBodyPose(newPose);
