@@ -76,7 +76,6 @@ public class Injury
 
     public void ToggleMarker(bool active) {
         injuryMarkerObj.SetActive(active);
-
     }
 
     public Texture2D GetImageTexture(int index) 
@@ -87,9 +86,13 @@ public class Injury
     }
 
     public void AddModel(GameObject newModel) {
-        if(Marker.model != null) Marker.RemoveModel();
         Marker.model = GameObject.Instantiate(newModel);
         Marker.InsertModel();
         //Marker.ToggleModel(newModel.active);
+    }
+
+    public void RemoveCurrent() {
+        if(injuryMarkerObj != null) RemoveInjuryMarker();
+        if(Marker != null && Marker.model != null) Marker.RemoveModel();
     }
 }

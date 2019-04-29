@@ -39,7 +39,7 @@ public class InjurySettings : MonoBehaviour
         if (InjuryManager.activeInjury != null)
         {
             activeInjury = InjuryManager.activeInjury;
-            LoadActiveInjury();
+            LoadActiveInjury(false);
         }
     }
 
@@ -47,11 +47,11 @@ public class InjurySettings : MonoBehaviour
     {
         if(InjuryManager.activeInjury != activeInjury) 
         {
-            LoadActiveInjury();
+            LoadActiveInjury(true);
         }
     }
 
-    public void LoadActiveInjury()
+    public void LoadActiveInjury(bool withCamera)
     {
         if (InjuryManager.activeInjury != null)
         {
@@ -64,8 +64,8 @@ public class InjurySettings : MonoBehaviour
             LoadImages();
             LoadInfoText();
             LoadImages();
-            LoadCamera();
             LoadPose();
+            if(withCamera) LoadCamera();
         }
     }
 

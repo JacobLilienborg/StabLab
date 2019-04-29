@@ -79,19 +79,27 @@ public class InjuryAdding : MonoBehaviour
 
     public void AddModel()
     {
-        model.SetActive(true);
+        if(model != null) model.SetActive(true);
         modelState = true;
     }
 
     public void RemoveModel()
     {
-        model.SetActive(false);
+        if (model != null) model.SetActive(false);
         modelState = false;
+    }
+
+    public void Reset() {
+        RemoveModel();
+        Destroy(newMarker);
+        if (InjuryManager.activeInjury.Marker != null) InjuryManager.activeInjury.Marker.ToggleModel(true);
+        if (InjuryManager.activeInjury.injuryMarkerObj != null) InjuryManager.activeInjury.ToggleMarker(true);
     }
 
     public void SaveMarker() 
     {
-        if (newMarker == null) return;
+        if (newMarker == null || model == null) return;
+        InjuryManager.activeInjury.RemoveCurrent();
         InjuryManager.activeInjury.AddInjuryMarker(newMarker);
         InjuryManager.activeInjury.AddModel(model);
         Destroy(model);
@@ -131,7 +139,7 @@ public class InjuryAdding : MonoBehaviour
     private GameObject AddMarker(Vector3 position, Transform parent)
     {
         if (InjuryManager.activeInjury.injuryMarkerObj != null) {
-            return InjuryManager.activeInjury.injuryMarkerObj;
+            InjuryManager.activeInjury.ToggleMarker(false);
         }
         GameObject markerObj;
         switch (InjuryManager.activeInjury.Type)
@@ -151,7 +159,7 @@ public class InjuryAdding : MonoBehaviour
             default:
                 Debug.Log("None existing marker");
                 markerObj = null;
-                break;
+                return markerObj;
         }
 
         markerObj.transform.parent = parent;
@@ -199,7 +207,10 @@ public class InjuryAdding : MonoBehaviour
     private void UpdateModel() {
         if(model != null) Destroy(model.gameObject);
         if(InjuryManager.activeInjury.Marker != null) InjuryManager.activeInjury.Marker.ToggleModel(false);
-        model = GameObject.Instantiate(GetCurrentModel());
+        GameObject currentModel = GetCurrentModel();
+        if (currentModel == null) return;
+        model = GameObject.Instantiate(currentModel);
+
         model.transform.position = markerPos;
         model.SetActive(modelState);    
         RotateModel();
@@ -231,7 +242,7 @@ public class InjuryAdding : MonoBehaviour
                 Debug.Log("STAB");
                 return models[3];
             default:
-                return new GameObject();
+                return null;
         }
     }
 
