@@ -77,6 +77,14 @@ public class InjuryAdding : MonoBehaviour
         }
     }
 
+    public void AddGizmoToModel() {
+        if (model == null) return;
+        InjuryModelGizmos comp = model.GetComponent<InjuryModelGizmos>();
+        RuntimeGizmos.TransformGizmo gizmo = comp.gizmo;
+        comp.AddGizmo();
+        gizmo.bodyPartsMovement = false;
+    }
+
     public void AddModel()
     {
         if(model != null) model.SetActive(true);
@@ -122,7 +130,7 @@ public class InjuryAdding : MonoBehaviour
         currentInjuryState = InjuryState.Delete;
     }
 
-    public void removeCurrentMarker()
+    public void RemoveCurrentMarker()
     {
         Destroy(newMarker);
     }

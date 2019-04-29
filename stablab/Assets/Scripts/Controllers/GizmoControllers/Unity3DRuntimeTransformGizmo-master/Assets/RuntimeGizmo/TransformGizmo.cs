@@ -10,7 +10,7 @@ namespace RuntimeGizmos
 	//you should call ClearTargets before doing so just to be sure nothing unexpected happens... as well as call UndoRedoManager.Clear()
 	//For example, if you select an object that has children, move the children elsewhere, deselect the original object, then try to add those old children to the selection, I think it wont work.
 
-	[RequireComponent(typeof(Camera))]
+	//[RequireComponent(typeof(Camera))]
 	public class TransformGizmo : MonoBehaviour
 	{
 
@@ -127,6 +127,16 @@ namespace RuntimeGizmos
 		static Material lineMaterial;
 		static Material outlineMaterial;
 
+        public bool bodyPartsMovement = false;
+
+        public void moveBodyParts() {
+            bodyPartsMovement = true;
+        }
+
+        public void moveWeapons() {
+            bodyPartsMovement = false;
+        }
+
 		void Awake()
 		{
             myCamera = Camera.main;// GetComponent<Camera>();
@@ -151,20 +161,22 @@ namespace RuntimeGizmos
 			ClearAllHighlightedRenderers();
 		}
 
-		void Update()
-		{
-			HandleUndoRedo();
+        void Update()
+        {
+            HandleUndoRedo();
 
-			SetSpaceAndType();
+            SetSpaceAndType();
 
-			if(manuallyHandleGizmo)
-			{
-				if(onCheckForSelectedAxis != null) onCheckForSelectedAxis();
-			}else{
-				SetNearAxis();
-			}
-			
-			GetTarget();
+            if (manuallyHandleGizmo)
+            {
+                if (onCheckForSelectedAxis != null) onCheckForSelectedAxis();
+            } else {
+                SetNearAxis();
+            }
+
+            if (bodyPartsMovement) {
+                GetTarget();
+            }
 
 			if(mainTargetRoot == null) return;
 			
