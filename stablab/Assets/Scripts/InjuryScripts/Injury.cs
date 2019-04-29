@@ -14,7 +14,7 @@ public enum Certainty
 public class Injury
 {
     [NonSerialized]
-    private GameObject injuryMarkerObj;
+    public GameObject injuryMarkerObj;
 
     public Guid Id { get; }
     public Marker Marker { get; protected set; }
@@ -30,6 +30,7 @@ public class Injury
     public Injury(Guid id)
     {
         Id = id;
+
     }
 
     public GameObject InjuryMarkerObj
@@ -39,9 +40,8 @@ public class Injury
         set
         {
             injuryMarkerObj = value;
-            Marker = new Marker(value);
+            if(value != null) Marker = new Marker(value,Type);
         }
-
     }
 
     // Save current pose
@@ -59,6 +59,13 @@ public class Injury
     {
         InjuryMarkerObj = markerObj;
         SaveBodyPose();
+        //ToggleMarker(true);
+    }
+
+    public void RemoveInjuryMarker() {
+        if (InjuryMarkerObj == null) return;
+        GameObject.Destroy(injuryMarkerObj);
+        Marker.RemoveMarker();
     }
 
 
@@ -67,10 +74,25 @@ public class Injury
         images.Add(image);
     }
 
+    public void ToggleMarker(bool active) {
+        injuryMarkerObj.SetActive(active);
+    }
+
     public Texture2D GetImageTexture(int index) 
     {
         Texture2D img = new Texture2D(2, 2);
         img.LoadImage(images[index]);
         return img;
+    }
+
+    public void AddModel(GameObject newModel) {
+        Marker.model = GameObject.Instantiate(newModel);
+        Marker.InsertModel();
+        //Marker.ToggleModel(newModel.active);
+    }
+
+    public void RemoveCurrent() {
+        if(injuryMarkerObj != null) RemoveInjuryMarker();
+        if(Marker != null && Marker.model != null) Marker.RemoveModel();
     }
 }

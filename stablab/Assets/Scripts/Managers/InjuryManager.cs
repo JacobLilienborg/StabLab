@@ -4,6 +4,7 @@ using System;
 using System.IO;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using System.Collections;
 
 [System.Serializable]
 public class InjuryEvent : UnityEvent<Injury>
@@ -22,7 +23,7 @@ public class InjuryManager : MonoBehaviour
     // Scripts from the body model
     private static InjuryAdding injuryAdding;
     public static List<Injury> injuries = new List<Injury>();
-    public static Injury activeInjury;
+    public static Injury activeInjury = null;
 
     // Setting up the listeners system. There are optional events depending of what return type you want
     private static InjuryEvent InjuryActivationEvent = new InjuryEvent();
