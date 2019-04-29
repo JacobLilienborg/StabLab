@@ -129,7 +129,7 @@ namespace RuntimeGizmos
 
 		void Awake()
 		{
-			myCamera = GetComponent<Camera>();
+            myCamera = Camera.main;// GetComponent<Camera>();
 			SetMaterial();
             highlighter = GetComponent<Highlighting>();
 		}
