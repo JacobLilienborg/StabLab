@@ -4,6 +4,7 @@ using System;
 using System.IO;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using System.Collections;
 
 [System.Serializable]
 public class InjuryEvent : UnityEvent<Injury>
@@ -22,7 +23,11 @@ public class InjuryManager : MonoBehaviour
     // Scripts from the body model
     private static InjuryAdding injuryAdding;
     public static List<Injury> injuries = new List<Injury>();
-    public static Injury activeInjury;
+    public static Injury activeInjury = null;
+
+    //List of the models for the injuries
+    public static List<GameObject> weaponModels = new List<GameObject>();
+    public List<GameObject> models;
 
     // Setting up the listeners system. There are optional events depending of what return type you want
     private static InjuryEvent InjuryActivationEvent = new InjuryEvent();
@@ -71,6 +76,10 @@ public class InjuryManager : MonoBehaviour
             Destroy(gameObject);
         }
 
+        foreach (GameObject model in models) {
+            weaponModels.Add(model);
+        }
+
         //Don't destroy when reloading scene
         DontDestroyOnLoad(gameObject);
 
@@ -87,6 +96,12 @@ public class InjuryManager : MonoBehaviour
     // Creates and add the new injury to the list of injuries.
     public static void AddNewInjury()
     {
+        List<GameObject> cpWeaponModels = new List<GameObject>();
+        foreach (GameObject model in weaponModels) {
+            cpWeaponModels.Add(Instantiate(model));
+            //cpWeaponModels.Reverse();
+        }
+
         Injury newInjury = new Injury(Guid.NewGuid());
         injuries.Add(newInjury);
         Debug.Log(newInjury.Id);

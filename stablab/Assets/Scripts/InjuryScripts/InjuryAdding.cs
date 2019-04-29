@@ -32,6 +32,10 @@ public class InjuryAdding : MonoBehaviour
     private Vector3 markerPos;
     private Transform hitPart;
 
+    public List<GameObject> models;
+    private GameObject model;
+    private bool modelState;
+
     private GameObject newMarker;
 
 
@@ -58,6 +62,7 @@ public class InjuryAdding : MonoBehaviour
 
                     Destroy(newMarker);
                     newMarker = AddMarker(markerPos, hitPart);
+                    UpdateModel();
                     //currentInjuryState = InjuryState.Inactive;
                 }
                 else if (hit.collider.tag == "Marker")
@@ -72,9 +77,25 @@ public class InjuryAdding : MonoBehaviour
         }
     }
 
+    public void AddModel()
+    {
+        model.SetActive(true);
+        modelState = true;
+    }
+
+    public void RemoveModel()
+    {
+        model.SetActive(false);
+        modelState = false;
+    }
+
     public void SaveMarker() 
     {
+        if (newMarker == null) return;
         InjuryManager.activeInjury.AddInjuryMarker(newMarker);
+        InjuryManager.activeInjury.AddModel(model);
+        Destroy(model);
+        model = null;
         newMarker = null;
     }
 
@@ -103,8 +124,15 @@ public class InjuryAdding : MonoBehaviour
         return currentInjuryState;
     }
 
+    public void HideCurrentMarker() {
+        InjuryManager.activeInjury.ToggleMarker(false);
+    }
+
     private GameObject AddMarker(Vector3 position, Transform parent)
     {
+        if (InjuryManager.activeInjury.injuryMarkerObj != null) {
+            return InjuryManager.activeInjury.injuryMarkerObj;
+        }
         GameObject markerObj;
         switch (InjuryManager.activeInjury.Type)
         {
@@ -166,5 +194,49 @@ public class InjuryAdding : MonoBehaviour
     public void StabPressed()
     {
         currentInjuryType = InjuryType.Stab;
+    }
+
+    private void UpdateModel() {
+        if(model != null) Destroy(model.gameObject);
+        if(InjuryManager.activeInjury.Marker != null) InjuryManager.activeInjury.Marker.ToggleModel(false);
+        model = GameObject.Instantiate(GetCurrentModel());
+        model.transform.position = markerPos;
+        model.SetActive(modelState);    
+        RotateModel();
+    }
+
+    public void RotateModel()
+    {
+        Vector3 cameraPos = Camera.main.transform.position;
+
+        model.transform.rotation = Quaternion.FromToRotation(Vector3.left, cameraPos - markerPos);
+
+
+    }
+
+    private GameObject GetModel()
+    {
+        switch (InjuryManager.activeInjury.Type)
+        {
+            case InjuryType.Cut:
+                Debug.Log("CUT");
+                return models[0];
+            case InjuryType.Crush:
+                Debug.Log("CRUSH");
+                return models[1];
+            case InjuryType.Shot:
+                Debug.Log("SHOT");
+                return models[2];
+            case InjuryType.Stab:
+                Debug.Log("STAB");
+                return models[3];
+            default:
+                return new GameObject();
+        }
+    }
+
+    public GameObject GetCurrentModel()
+    {
+        return GetModel();
     }
 }
