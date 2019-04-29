@@ -27,6 +27,7 @@ public class Highlighting : MonoBehaviour
         string val;
         SkinnedMeshRenderer r;
         Material m;
+        //THIS IS AN COMMENT
         string name = transform.gameObject.name;
         meshParts.TryGetValue(name, out val);
         GameObject mesh = GameObject.Find(val);
