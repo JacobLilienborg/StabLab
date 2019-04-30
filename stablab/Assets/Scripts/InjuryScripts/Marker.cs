@@ -74,13 +74,13 @@ public class Marker
     }
 
     public void RemoveModel() {
-        GameObject.Destroy(model.transform.parent.gameObject);
         GameObject.Destroy(model);
         model.SetActive(false);
     }
 
     public void UpdateModel() {
         model.transform.position = new Vector3(serializedPos[0], serializedPos[1], serializedPos[2]);
+        model.transform.rotation = new Quaternion(serializedRot[0], serializedRot[1], serializedRot[2],serializedRot[3]);
 
     }
 

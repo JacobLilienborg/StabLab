@@ -575,12 +575,11 @@ namespace RuntimeGizmos
 
 		public void RemoveTarget(Transform target, bool addCommand = true)
 		{
-			if(target != null)
+            if (target != null)
 			{
-				if(!targetRoots.ContainsKey(target)) return;
+                if (!targetRoots.ContainsKey(target)) return;
 
 				if(addCommand) UndoRedoManager.Insert(new RemoveTargetCommand(this, target));
-
 				RemoveTargetHighlightedRenderers(target);
 				RemoveTargetRoot(target);
 

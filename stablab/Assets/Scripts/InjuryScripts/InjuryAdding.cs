@@ -35,6 +35,7 @@ public class InjuryAdding : MonoBehaviour
     public List<GameObject> models;
     private GameObject model;
     private bool modelState;
+    private GameObject parent;
 
     private GameObject newMarker;
 
@@ -78,11 +79,21 @@ public class InjuryAdding : MonoBehaviour
     }
 
     public void AddGizmoToModel() {
-        if (model == null) return;
-        InjuryModelGizmos comp = model.GetComponent<InjuryModelGizmos>();
+        GameObject curModel = parent;//InjuryManager.activeInjury.Marker.model;
+        if (curModel == null) return;
+        InjuryModelGizmos comp = curModel.GetComponentInChildren<InjuryModelGizmos>();
         RuntimeGizmos.TransformGizmo gizmo = comp.gizmo;
-        comp.AddGizmo();
+        comp.AddGizmo(curModel);
         gizmo.bodyPartsMovement = false;
+    }
+
+    public void RemoveGizmoFromModel() {
+        GameObject curModel = parent;
+        if (curModel == null) return;
+        InjuryModelGizmos comp = curModel.GetComponentInChildren<InjuryModelGizmos>();
+        RuntimeGizmos.TransformGizmo gizmo = comp.gizmo;
+        comp.RemoveGizmo(curModel);
+        gizmo.bodyPartsMovement = true;
     }
 
     public void AddModel()
@@ -107,17 +118,27 @@ public class InjuryAdding : MonoBehaviour
     public void SaveMarker() 
     {
         if (newMarker == null || model == null) return;
+
+        InjuryModelGizmos comp = parent.GetComponentInChildren<InjuryModelGizmos>();
+        parent.transform.rotation = comp.GetRotation();
+
+        RemoveGizmoFromModel();
+
         InjuryManager.activeInjury.RemoveCurrent();
         InjuryManager.activeInjury.AddInjuryMarker(newMarker);
-        InjuryManager.activeInjury.AddModel(model);
+        InjuryManager.activeInjury.AddModel(parent);
+
+        Destroy(parent);
         Destroy(model);
         model = null;
+        parent = null;
         newMarker = null;
     }
 
     public void SetStateToAdd() 
     {
         currentInjuryState = InjuryState.Add;
+        if(InjuryManager.activeInjury.Marker != null) UpdateModel(true);
     }
 
     public void SetStateToInactive()
@@ -212,25 +233,41 @@ public class InjuryAdding : MonoBehaviour
         currentInjuryType = InjuryType.Stab;
     }
 
-    private void UpdateModel() {
-        if(model != null) Destroy(model.gameObject);
+    private void UpdateModel(bool replace = false) {
+        if (replace) {
+            parent = InjuryManager.activeInjury.Marker.model;
+            model = parent.transform.GetChild(0).gameObject;
+            return;
+        }
+        if (model != null)
+        {
+            Destroy(parent.gameObject);
+            Destroy(model.gameObject);
+        }
         if(InjuryManager.activeInjury.Marker != null) InjuryManager.activeInjury.Marker.ToggleModel(false);
         GameObject currentModel = GetCurrentModel();
         if (currentModel == null) return;
         model = GameObject.Instantiate(currentModel);
 
+        parent = new GameObject("parentToWeaponModel");
+        parent.transform.parent = hitPart.transform;
+        parent.transform.position = markerPos;
+
         model.transform.position = markerPos;
-        model.SetActive(modelState);    
+        model.SetActive(modelState);
+        model.transform.parent = parent.transform;
         RotateModel();
     }
 
     public void RotateModel()
     {
-        Vector3 cameraPos = Camera.main.transform.position;
+        if (InjuryManager.activeInjury.Marker != null) parent.transform.rotation = InjuryManager.activeInjury.Marker.model.transform.rotation;
+        else
+        {
+            Vector3 cameraPos = Camera.main.transform.position;
 
-        model.transform.rotation = Quaternion.FromToRotation(Vector3.left, cameraPos - markerPos);
-
-
+            parent.transform.rotation = Quaternion.FromToRotation(Vector3.left, cameraPos - markerPos);
+        }
     }
 
     private GameObject GetModel()
