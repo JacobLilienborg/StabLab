@@ -34,17 +34,17 @@ public class Highlighting : MonoBehaviour
 
         if (highlight)
         {
-            r = mesh.GetComponent<SkinnedMeshRenderer>();
+            /*r = mesh.GetComponent<SkinnedMeshRenderer>();
             m = r.material;
             m.color = highlightColor;
-            r.material = m;
+            r.material = m;*/
         }
         else
         {
-            r = mesh.GetComponent<SkinnedMeshRenderer>();
+            /*r = mesh.GetComponent<SkinnedMeshRenderer>();
             m = r.material;
             m.color = standardColor;
-            r.material = m;
+            r.material = m; */
         }
     }
 

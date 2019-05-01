@@ -63,7 +63,10 @@ public class InjuryAdding : MonoBehaviour
 
                     Destroy(newMarker);
                     newMarker = AddMarker(markerPos, hitPart);
-                    UpdateModel();
+                    if (InjuryManager.activeInjury.HasMarker())UpdateModel(true);
+                    else {
+                        UpdateModel();
+                    }
                     //currentInjuryState = InjuryState.Inactive;
                 }
                 else if (hit.collider.tag == "Marker")
@@ -111,7 +114,7 @@ public class InjuryAdding : MonoBehaviour
     public void Reset() {
         RemoveModel();
         Destroy(newMarker);
-        if (InjuryManager.activeInjury.Marker != null) InjuryManager.activeInjury.Marker.ToggleModel(true);
+        if (InjuryManager.activeInjury.HasMarker()) InjuryManager.activeInjury.Marker.ToggleModel(true);
         if (InjuryManager.activeInjury.injuryMarkerObj != null) InjuryManager.activeInjury.ToggleMarker(true);
     }
 
@@ -120,9 +123,14 @@ public class InjuryAdding : MonoBehaviour
         if (newMarker == null || model == null) return;
 
         InjuryModelGizmos comp = parent.GetComponentInChildren<InjuryModelGizmos>();
-        parent.transform.rotation = comp.GetRotation();
+        if (comp != null)
+        {
 
-        RemoveGizmoFromModel();
+            Quaternion rot = comp.GetRotation();
+            if (rot != null) parent.transform.rotation = rot;
+
+            RemoveGizmoFromModel();
+        }
 
         InjuryManager.activeInjury.RemoveCurrent();
         InjuryManager.activeInjury.AddInjuryMarker(newMarker);
@@ -138,7 +146,6 @@ public class InjuryAdding : MonoBehaviour
     public void SetStateToAdd() 
     {
         currentInjuryState = InjuryState.Add;
-        if(InjuryManager.activeInjury.Marker != null) UpdateModel(true);
     }
 
     public void SetStateToInactive()
@@ -234,9 +241,14 @@ public class InjuryAdding : MonoBehaviour
     }
 
     private void UpdateModel(bool replace = false) {
-        if (replace) {
+        if (replace && InjuryManager.activeInjury.Type == currentInjuryType) {
             parent = InjuryManager.activeInjury.Marker.model;
             model = parent.transform.GetChild(0).gameObject;
+
+            model.transform.position = markerPos;
+            model.SetActive(modelState);
+            model.transform.parent = parent.transform;
+            RotateModel();
             return;
         }
         if (model != null)
@@ -244,7 +256,7 @@ public class InjuryAdding : MonoBehaviour
             Destroy(parent.gameObject);
             Destroy(model.gameObject);
         }
-        if(InjuryManager.activeInjury.Marker != null) InjuryManager.activeInjury.Marker.ToggleModel(false);
+        if(InjuryManager.activeInjury.HasMarker()) InjuryManager.activeInjury.Marker.ToggleModel(false);
         GameObject currentModel = GetCurrentModel();
         if (currentModel == null) return;
         model = GameObject.Instantiate(currentModel);
@@ -261,7 +273,7 @@ public class InjuryAdding : MonoBehaviour
 
     public void RotateModel()
     {
-        if (InjuryManager.activeInjury.Marker != null) parent.transform.rotation = InjuryManager.activeInjury.Marker.model.transform.rotation;
+        if (InjuryManager.activeInjury.HasMarker()) parent.transform.rotation = InjuryManager.activeInjury.Marker.model.transform.rotation;
         else
         {
             Vector3 cameraPos = Camera.main.transform.position;

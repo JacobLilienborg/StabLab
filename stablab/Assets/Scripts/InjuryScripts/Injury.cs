@@ -96,4 +96,12 @@ public class Injury
         if(injuryMarkerObj != null) RemoveInjuryMarker();
         if(Marker != null && Marker.model != null) Marker.RemoveModel();
     }
+
+    public bool HasMarker() {
+        return Marker != null && Marker.model != null;
+    }
+
+    public bool IsSameMarker(GameObject parent) {
+        return parent == Marker.model;
+    }
 }
