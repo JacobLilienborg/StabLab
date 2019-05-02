@@ -6,8 +6,9 @@ using System.Collections.Generic;
 [Serializable]
 public class Marker
 {
-    public GameObject model { get;set; }
+    public GameObject parent { get;set; }
     public InjuryType Type { get; set; }
+    public bool active = false;
     public string BodyPartParent { get; protected set; }
     private float[] serializedPos = new float[3];
     private float[] serializedRot = new float[4];
@@ -63,24 +64,23 @@ public class Marker
     }
 
     public void InsertModel() {
-        model.SetActive(true);
+        parent.SetActive(true);
 
         GameObject positioningObject = new GameObject("emptyPositioningObject");
         positioningObject.transform.position = new Vector3(serializedPos[0],serializedPos[1],serializedPos[2]);
         positioningObject.transform.parent = GameObject.Find(BodyPartParent).transform;
-        model.transform.parent = positioningObject.transform;
+        parent.transform.parent = positioningObject.transform;
         UpdateModel();
         //model.transform.rotation = new Quaternion(30, 30, 30, 30);
     }
 
     public void RemoveModel() {
-        GameObject.Destroy(model);
-        model.SetActive(false);
+        GameObject.Destroy(parent);
     }
 
     public void UpdateModel() {
-        model.transform.position = new Vector3(serializedPos[0], serializedPos[1], serializedPos[2]);
-        model.transform.rotation = new Quaternion(serializedRot[0], serializedRot[1], serializedRot[2],serializedRot[3]);
+        parent.transform.position = new Vector3(serializedPos[0], serializedPos[1], serializedPos[2]);
+        parent.transform.rotation = new Quaternion(serializedRot[0], serializedRot[1], serializedRot[2],serializedRot[3]);
 
     }
 
@@ -89,10 +89,4 @@ public class Marker
         serializedRot = null;
         RemoveModel();
     }
-
-    public void ToggleModel(bool active) {
-        model.SetActive(active);
-    }
-
-
 }

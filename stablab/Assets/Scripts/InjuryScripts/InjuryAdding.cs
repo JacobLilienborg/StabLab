@@ -22,27 +22,26 @@ public enum InjuryType
 public class InjuryAdding : MonoBehaviour
 {
     public InjuryState currentInjuryState = InjuryState.Inactive;
-    private InjuryType currentInjuryType;
+    public InjuryType currentInjuryType;
 
     public GameObject injuryManagerObj;
     private InjuryManager injuryManager;
     private ModelController modelController;
 
+    public GameObject modelManagerObj;
+    private WeaponModelManager modelManager;
+
     public GameObject crushMarker, cutMarker, shotMarker, stabMarker;
-    private Vector3 markerPos;
-    private Transform hitPart;
+    public Vector3 markerPos;
+    public Transform hitPart;
 
-    public List<GameObject> models;
-    private GameObject model;
-    private bool modelState;
-    private GameObject parent;
-
-    private GameObject newMarker;
+    public GameObject newMarker;
 
 
     // Start is called before the first frame update
     void Start()
     {
+        modelManager = modelManagerObj.GetComponent<WeaponModelManager>();
         injuryManager = injuryManagerObj.GetComponent<InjuryManager>();
         modelController = gameObject.GetComponent<ModelController>();
     }
@@ -63,10 +62,7 @@ public class InjuryAdding : MonoBehaviour
 
                     Destroy(newMarker);
                     newMarker = AddMarker(markerPos, hitPart);
-                    if (InjuryManager.activeInjury.HasMarker())UpdateModel(true);
-                    else {
-                        UpdateModel();
-                    }
+                    modelManager.UpdateModel();
                     //currentInjuryState = InjuryState.Inactive;
                 }
                 else if (hit.collider.tag == "Marker")
@@ -81,65 +77,24 @@ public class InjuryAdding : MonoBehaviour
         }
     }
 
-    public void AddGizmoToModel() {
-        GameObject curModel = parent;//InjuryManager.activeInjury.Marker.model;
-        if (curModel == null) return;
-        InjuryModelGizmos comp = curModel.GetComponentInChildren<InjuryModelGizmos>();
-        RuntimeGizmos.TransformGizmo gizmo = comp.gizmo;
-        comp.AddGizmo(curModel);
-        gizmo.bodyPartsMovement = false;
-    }
-
-    public void RemoveGizmoFromModel() {
-        GameObject curModel = parent;
-        if (curModel == null) return;
-        InjuryModelGizmos comp = curModel.GetComponentInChildren<InjuryModelGizmos>();
-        RuntimeGizmos.TransformGizmo gizmo = comp.gizmo;
-        comp.RemoveGizmo(curModel);
-        gizmo.bodyPartsMovement = true;
-    }
-
-    public void AddModel()
-    {
-        if(model != null) model.SetActive(true);
-        modelState = true;
-    }
-
-    public void RemoveModel()
-    {
-        if (model != null) model.SetActive(false);
-        modelState = false;
-    }
+   
 
     public void Reset() {
-        RemoveModel();
+        modelManager.RemoveModel();
         Destroy(newMarker);
-        if (InjuryManager.activeInjury.HasMarker()) InjuryManager.activeInjury.Marker.ToggleModel(true);
+        if (InjuryManager.activeInjury.HasMarker()) InjuryManager.activeInjury.Marker.parent.SetActive(true);
         if (InjuryManager.activeInjury.injuryMarkerObj != null) InjuryManager.activeInjury.ToggleMarker(true);
     }
 
     public void SaveMarker() 
     {
-        if (newMarker == null || model == null) return;
+        if (newMarker == null) return;
 
-        InjuryModelGizmos comp = parent.GetComponentInChildren<InjuryModelGizmos>();
-        if (comp != null)
-        {
-
-            Quaternion rot = comp.GetRotation();
-            if (rot != null) parent.transform.rotation = rot;
-
-            RemoveGizmoFromModel();
-        }
 
         InjuryManager.activeInjury.RemoveCurrent();
         InjuryManager.activeInjury.AddInjuryMarker(newMarker);
-        InjuryManager.activeInjury.AddModel(parent);
-
-        Destroy(parent);
-        Destroy(model);
-        model = null;
-        parent = null;
+        modelManager.SaveModel();
+        
         newMarker = null;
     }
 
@@ -240,71 +195,5 @@ public class InjuryAdding : MonoBehaviour
         currentInjuryType = InjuryType.Stab;
     }
 
-    private void UpdateModel(bool replace = false) {
-        if (replace && InjuryManager.activeInjury.Type == currentInjuryType) {
-            parent = InjuryManager.activeInjury.Marker.model;
-            model = parent.transform.GetChild(0).gameObject;
-
-            model.transform.position = markerPos;
-            model.SetActive(modelState);
-            model.transform.parent = parent.transform;
-            RotateModel();
-            return;
-        }
-        if (model != null)
-        {
-            Destroy(parent.gameObject);
-            Destroy(model.gameObject);
-        }
-        if(InjuryManager.activeInjury.HasMarker()) InjuryManager.activeInjury.Marker.ToggleModel(false);
-        GameObject currentModel = GetCurrentModel();
-        if (currentModel == null) return;
-        model = GameObject.Instantiate(currentModel);
-
-        parent = new GameObject("parentToWeaponModel");
-        parent.transform.parent = hitPart.transform;
-        parent.transform.position = markerPos;
-
-        model.transform.position = markerPos;
-        model.SetActive(modelState);
-        model.transform.parent = parent.transform;
-        RotateModel();
-    }
-
-    public void RotateModel()
-    {
-        if (InjuryManager.activeInjury.HasMarker()) parent.transform.rotation = InjuryManager.activeInjury.Marker.model.transform.rotation;
-        else
-        {
-            Vector3 cameraPos = Camera.main.transform.position;
-
-            parent.transform.rotation = Quaternion.FromToRotation(Vector3.left, cameraPos - markerPos);
-        }
-    }
-
-    private GameObject GetModel()
-    {
-        switch (InjuryManager.activeInjury.Type)
-        {
-            case InjuryType.Cut:
-                Debug.Log("CUT");
-                return models[0];
-            case InjuryType.Crush:
-                Debug.Log("CRUSH");
-                return models[1];
-            case InjuryType.Shot:
-                Debug.Log("SHOT");
-                return models[2];
-            case InjuryType.Stab:
-                Debug.Log("STAB");
-                return models[3];
-            default:
-                return null;
-        }
-    }
-
-    public GameObject GetCurrentModel()
-    {
-        return GetModel();
-    }
+    
 }

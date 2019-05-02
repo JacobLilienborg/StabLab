@@ -86,22 +86,22 @@ public class Injury
     }
 
     public void AddModel(GameObject newModel) {
-        Marker.model = GameObject.Instantiate(newModel,newModel.transform.position,newModel.transform.rotation,newModel.transform.parent);
-        Marker.model.SetActive(true);
+        Marker.parent = GameObject.Instantiate(newModel,newModel.transform.position,newModel.transform.rotation,newModel.transform.parent);
+        //Marker.parent.SetActive(Marker.active);
         //Marker.InsertModel();
         //Marker.ToggleModel(newModel.active);
     }
 
     public void RemoveCurrent() {
         if(injuryMarkerObj != null) RemoveInjuryMarker();
-        if(Marker != null && Marker.model != null) Marker.RemoveModel();
+        if (Marker != null && Marker.parent != null) ;//Marker.RemoveModel();
     }
 
     public bool HasMarker() {
-        return Marker != null && Marker.model != null;
+        return Marker != null && Marker.parent != null;
     }
 
     public bool IsSameMarker(GameObject parent) {
-        return parent == Marker.model;
+        return parent == Marker.parent;
     }
 }
