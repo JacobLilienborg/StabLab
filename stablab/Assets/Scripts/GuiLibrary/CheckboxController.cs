@@ -15,6 +15,8 @@ public class CheckboxController : MonoBehaviour, IPointerClickHandler, IPointerE
     public Sprite highlightedSprite;
     public Sprite disabledSprite;
 
+    public bool isChecked;
+
     public GameObject image;
 
     public UnityEvent OnChecked;
@@ -26,6 +28,7 @@ public class CheckboxController : MonoBehaviour, IPointerClickHandler, IPointerE
     protected virtual void Awake()
     {
         currentImage = image.GetComponent<Image>();
+        if (isChecked) Checked(true);
     }
 
     // Update is called once per frame

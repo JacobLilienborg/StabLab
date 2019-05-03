@@ -10,7 +10,7 @@ public enum ModelView{
 
 public class Settings : MonoBehaviour
 {
-    static ModelView modelView = ModelView.NonVisible;
+    static ModelView modelView = ModelView.ActiveVisible;
 
     public static bool IsActiveModel(bool selected) {
         switch (modelView) {
