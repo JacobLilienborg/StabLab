@@ -13,7 +13,7 @@ public enum InjuryType
     Crush,
     Cut,
     Shot,
-    Stab, 
+    Stab,
 }
 
 
@@ -24,27 +24,31 @@ public enum InjuryType
 public class InjuryAdding : MonoBehaviour
 {
     public InjuryState currentInjuryState = InjuryState.Inactive;
-    private InjuryType currentInjuryType;
+    public InjuryType currentInjuryType;
 
     public GameObject injuryManagerObj;
     private InjuryManager injuryManager;
     private ModelController modelController;
 
-    public GameObject crushMarker, cutMarker, shotMarker, stabMarker;
-    private Vector3 markerPos;
-    private Transform hitPart;
+    public GameObject modelManagerObj;
+    private WeaponModelManager modelManager;
 
-    private GameObject newMarker;
+    public GameObject crushMarker, cutMarker, shotMarker, stabMarker;
+    public Vector3 markerPos;
+    public Transform hitPart;
+
+    public GameObject newMarker;
 
 
     // Start is called before the first frame update
     void Start()
     {
+        modelManager = modelManagerObj.GetComponent<WeaponModelManager>();
         injuryManager = injuryManagerObj.GetComponent<InjuryManager>();
         modelController = gameObject.GetComponent<ModelController>();
     }
 
-    // Waits for the user to clicks on the body when state is in add, and then adds one marker to the body. 
+    // Waits for the user to clicks on the body when state is in add, and then adds one marker to the body.
     private void Update()
     {
         if (Input.GetMouseButton(0))
@@ -61,6 +65,7 @@ public class InjuryAdding : MonoBehaviour
 
                     Destroy(newMarker);
                     newMarker = AddMarker(markerPos, hitPart);
+                    modelManager.UpdateModel();
                     //currentInjuryState = InjuryState.Inactive;
                 }
                 else if (hit.collider.tag == "Marker")
@@ -75,15 +80,30 @@ public class InjuryAdding : MonoBehaviour
         }
     }
 
+
+
+    public void Reset() {
+        modelManager.RemoveModel();
+        Destroy(newMarker);
+        if (InjuryManager.activeInjury.HasMarker()) InjuryManager.activeInjury.Marker.parent.SetActive(true);
+        if (InjuryManager.activeInjury.injuryMarkerObj != null) InjuryManager.activeInjury.ToggleMarker(true);
+    }
+
     // Save the added marker to the active injury
-    public void SaveMarker() 
+    public void SaveMarker()
     {
+        if (newMarker == null) return;
+
+
+        InjuryManager.activeInjury.RemoveCurrent();
         InjuryManager.activeInjury.AddInjuryMarker(newMarker);
+        modelManager.SaveModel();
+
         newMarker = null;
     }
 
     // Set state to add wich will enable the user to add a marker to the body.
-    public void SetStateToAdd() 
+    public void SetStateToAdd()
     {
         currentInjuryState = InjuryState.Add;
     }
@@ -100,8 +120,7 @@ public class InjuryAdding : MonoBehaviour
         currentInjuryState = InjuryState.Delete;
     }
 
-    // Remove the last unsaved marker
-    public void removeCurrentMarker()
+    public void RemoveCurrentMarker()
     {
         Destroy(newMarker);
     }
@@ -112,9 +131,16 @@ public class InjuryAdding : MonoBehaviour
         return currentInjuryState;
     }
 
+    public void HideCurrentMarker() {
+        InjuryManager.activeInjury.ToggleMarker(false);
+    }
+
     // Instantiate a marker based on position and make it a child of parent input.
     private GameObject AddMarker(Vector3 position, Transform parent)
     {
+        if (InjuryManager.activeInjury.injuryMarkerObj != null) {
+            InjuryManager.activeInjury.ToggleMarker(false);
+        }
         GameObject markerObj;
         switch (InjuryManager.activeInjury.Type)
         {
@@ -133,7 +159,7 @@ public class InjuryAdding : MonoBehaviour
             default:
                 Debug.Log("None existing marker");
                 markerObj = null;
-                break;
+                return markerObj;
         }
 
         markerObj.transform.parent = parent;
@@ -179,4 +205,6 @@ public class InjuryAdding : MonoBehaviour
     {
         currentInjuryType = InjuryType.Stab;
     }
+
+
 }

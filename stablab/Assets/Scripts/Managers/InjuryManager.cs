@@ -2,6 +2,7 @@
 using UnityEngine;
 using System;
 using UnityEngine.Events;
+using System.Collections;
 
 /*
  * InjuryManager manages a list of injuries such as adding and removing injuries.
@@ -25,7 +26,7 @@ public class InjuryManager : MonoBehaviour
     // Scripts from the body model
     private static InjuryAdding injuryAdding;
     public static List<Injury> injuries = new List<Injury>();
-    public static Injury activeInjury;
+    public static Injury activeInjury = null;
 
     // Setting up the listeners system. There are optional events depending of what return type you want
     private static InjuryEvent InjuryActivationEvent = new InjuryEvent();
@@ -111,6 +112,8 @@ public class InjuryManager : MonoBehaviour
             {
                 if (activeInjury != injury)
                 {
+                   
+
                     activeInjury = injury;
                     InjuryActivationEvent.Invoke(activeInjury);
                     IndexActivationEvent.Invoke(index);
@@ -126,10 +129,12 @@ public class InjuryManager : MonoBehaviour
     {
         if(activeInjury != injuries[index])
         {
+
             activeInjury = injuries[index];
             InjuryActivationEvent.Invoke(activeInjury);
             IndexActivationEvent.Invoke(index);
             ActivationEvent.Invoke();
+            if(activeInjury.HasMarker()) activeInjury.Marker.parent.SetActive(Settings.IsActiveModel(true));
         }
         
     }
@@ -139,8 +144,9 @@ public class InjuryManager : MonoBehaviour
     {
         if (injuries[index] == activeInjury)
         {
+            if (activeInjury.HasMarker()) activeInjury.Marker.parent.SetActive(Settings.IsActiveModel(false));
             activeInjury = null;
-            InjuryDeactivationEvent.Invoke(activeInjury);
+            InjuryDeactivationEvent.Invoke(activeInjury); //invoke null? 
             IndexDeactivationEvent.Invoke(index);
             DeactivationEvent.Invoke();
         }

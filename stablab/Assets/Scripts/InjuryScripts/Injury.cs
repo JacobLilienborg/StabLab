@@ -13,7 +13,7 @@ public enum Certainty
 /*
  * The Injury class contains all information that is needed to represent an injury.
  * It has to be Serializable.
- * 
+ *
  * TODO: make an abstract class
  */
 
@@ -21,7 +21,7 @@ public enum Certainty
 public class Injury
 {
     [NonSerialized]
-    private GameObject injuryMarkerObj;
+    public GameObject injuryMarkerObj;
 
     public Guid Id { get; }
     public Marker Marker { get; protected set; }
@@ -37,6 +37,7 @@ public class Injury
     public Injury(Guid id)
     {
         Id = id;
+
     }
 
 
@@ -48,16 +49,15 @@ public class Injury
         set
         {
             injuryMarkerObj = value;
-            Marker = new Marker(value);
+            if(value != null) Marker = new Marker(value,Type);
         }
-
     }
 
     // Save current pose
     public void SaveBodyPose()
     {
         BodyPose = ModelController.GetBodyPose();
-        if(Marker != null) 
+        if(Marker != null)
         {
             Marker.MarkerUpdate(InjuryMarkerObj);
         }
@@ -68,19 +68,50 @@ public class Injury
     {
         InjuryMarkerObj = markerObj;
         SaveBodyPose();
+        //ToggleMarker(true);
+    }
+
+    public void RemoveInjuryMarker() {
+        if (InjuryMarkerObj == null) return;
+        GameObject.Destroy(injuryMarkerObj);
+        Marker.RemoveMarker();
     }
 
     // Add a new image to the injury
-    public void AddImage(byte[] image) 
+    public void AddImage(byte[] image)
     {
         images.Add(image);
     }
 
-    // Return a Texture2D of the image with the specified index 
-    public Texture2D GetImageTexture(int index) 
+    public void ToggleMarker(bool active) {
+        injuryMarkerObj.SetActive(active);
+    }
+
+    // Return a Texture2D of the image with the specified index
+    public Texture2D GetImageTexture(int index)
     {
         Texture2D img = new Texture2D(2, 2);
         img.LoadImage(images[index]);
         return img;
+    }
+
+    public void AddModel(GameObject newModel) {
+        Marker.parent = GameObject.Instantiate(newModel,newModel.transform.position,newModel.transform.rotation,newModel.transform.parent);
+        //Marker.parent.SetActive(Marker.active);
+        //Marker.InsertModel();
+        //Marker.ToggleModel(newModel.active);
+    }
+
+    public void RemoveCurrent() {
+        if(injuryMarkerObj != null) RemoveInjuryMarker();
+        if (Marker != null && Marker.parent != null) ;//Marker.RemoveModel();
+    }
+
+    public bool HasMarker() {
+        return Marker != null && Marker.parent != null;
+    }
+
+    public bool IsSameMarker(GameObject parent) {
+        return parent == Marker.parent;
     }
 }

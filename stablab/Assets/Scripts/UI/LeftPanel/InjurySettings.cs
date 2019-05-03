@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,110 +13,138 @@ public class InjurySettings : MonoBehaviour
     public ImagesHandler imagesHandler;
     public Text index; // New
 
-    private Injury injury;
+    private Injury activeInjury;
 
-    private CameraSettings camDefault; // Needed until default cam exists
-    private BodyPose poseDefault; // Needed until default pose exists
-
-
-    private void Awake()
-    {
-        camDefault = new CameraSettings(Camera.main);
-        //poseDefault = ModelController.GetBodyPose();
-    }
-
-    /*
     private string nameDefault;
     private string woundTypeDefault;
     private string positionDefault;
     private string certaintyDefault;
     private string infoDefault;
+    private CameraSettings camDefault;
+    private BodyPose poseDefault;
 
+    private void Awake()
+    {
+        nameDefault = injuryName.text;
+        woundTypeDefault = woundType.text;
+        positionDefault = position.text;
+        certaintyDefault = certainty.text;
+        infoDefault = info.text;
+        camDefault = new CameraSettings(Camera.main);
+        poseDefault = ModelController.GetBodyPose();
+    }
 
     private void OnEnable()
     {
         if (InjuryManager.activeInjury != null)
         {
             activeInjury = InjuryManager.activeInjury;
-            LoadActiveInjury();
+            LoadActiveInjury(false);
         }
     }
 
     private void Update()
     {
-        if(InjuryManager.activeInjury != activeInjury) 
+        if(InjuryManager.activeInjury != activeInjury)
         {
-            LoadActiveInjury();
+            LoadActiveInjury(true);
         }
     }
 
-    */
-
-    
-    public void LoadInjury(Injury injury)
+    public void LoadActiveInjury(bool withCamera)
     {
-        index.text = InjuryManager.injuries.IndexOf(injury).ToString();
-        this.injury = injury;
-        LoadNameText();
-        LoadTypeText();
-        LoadPositionText();
-        LoadCertaintyText();
-        LoadImages();
-        LoadInfoText();
-        LoadImages();
-        LoadCamera();
-        LoadPose();
+        if (InjuryManager.activeInjury != null)
+        {
+            index.text = InjuryManager.injuries.IndexOf(InjuryManager.activeInjury).ToString();
+            activeInjury = InjuryManager.activeInjury;
+            LoadNameText();
+            LoadTypeText();
+            LoadPositionText();
+            LoadCertaintyText();
+            LoadImages();
+            LoadInfoText();
+            LoadImages();
+            LoadPose();
+            if(withCamera) LoadCamera();
+        }
     }
 
-    public void SetName(string name)
+    public void AddModel()
     {
-        injury.Name = name;
+        InjuryManager.activeInjury.Marker.InsertModel();
     }
 
-    public void SetInfo(string info)
+    public void RemoveModel()
     {
-        injury.InfoText = info;
+        InjuryManager.activeInjury.Marker.RemoveModel();
+    }
+
+    public void UpdateName(string name)
+    {
+        activeInjury.Name = name;
+    }
+
+    public void UpdateInfo(string info)
+    {
+        activeInjury.InfoText = info;
     }
 
     public void SetCamera()
     {
-        injury.CameraSettings = new CameraSettings(Camera.main);
+        activeInjury.CameraSettings = new CameraSettings(Camera.main);
     }
 
     public void SetPose()
     {
-        injury.SaveBodyPose();
+        activeInjury.SaveBodyPose();
     }
 
     private void LoadNameText()
     {
-        if (!string.IsNullOrEmpty(injury.Name))
+        if (!string.IsNullOrEmpty(activeInjury.Name))
         {
-            injuryName.text = injury.Name;
+            injuryName.text = activeInjury.Name;
         }
+        else
+        {
+            injuryName.text = nameDefault;
+        }
+
     }
 
     private void LoadTypeText()
     {
-        if (injury.Type != InjuryType.Null)
+        if (activeInjury.Type != InjuryType.Null)
         {
-            woundType.text = injury.Type.ToString();
+            woundType.text = activeInjury.Type.ToString();
+        }
+        else
+        {
+            woundType.text = woundTypeDefault;
         }
     }
 
     private void LoadPositionText()
     {
-        if (injury.Marker != null)
+        if (activeInjury.Marker != null)
         {
-            position.text = injury.Marker.BodyPartParent;
+            position.text = activeInjury.Marker.BodyPartParent;
+        }
+        else
+        {
+            position.text = positionDefault;
         }
     }
 
     private void LoadCertaintyText()
     {
-        if (injury.Certainty != Certainty.Null)
+        if (activeInjury.Certainty != Certainty.Null)
         {
-            certainty.text = injury.Certainty.ToString();
+            certainty.text = activeInjury.Certainty.ToString();
+        }
+        else
+        {
+            certainty.text = certaintyDefault;
         }
     }
 
@@ -127,18 +155,22 @@ public class InjurySettings : MonoBehaviour
 
     private void LoadInfoText()
     {
-        if (!string.IsNullOrEmpty(injury.InfoText))
+        if (!string.IsNullOrEmpty(activeInjury.InfoText))
         {
-            info.text = injury.InfoText;
+            info.text = activeInjury.InfoText;
+        }
+        else
+        {
+            info.text = infoDefault;
         }
     }
 
-    private void LoadCamera() 
+    private void LoadCamera()
     {
         CameraSettings newCam = camDefault;
-        if(injury.CameraSettings != null) 
+        if(activeInjury.CameraSettings != null)
         {
-            newCam = injury.CameraSettings;
+            newCam = activeInjury.CameraSettings;
         }
 
         Camera.main.transform.position = newCam.GetPosition();
@@ -149,9 +181,9 @@ public class InjurySettings : MonoBehaviour
     private void LoadPose()
     {
         BodyPose newPose = poseDefault;
-        if (injury.BodyPose != null)
+        if (activeInjury.BodyPose != null)
         {
-            newPose = injury.BodyPose;
+            newPose = activeInjury.BodyPose;
         }
 
         ModelController.SetBodyPose(newPose);
