@@ -109,6 +109,8 @@ public class InjuryManager : MonoBehaviour
             {
                 if (activeInjury != injury)
                 {
+                   
+
                     activeInjury = injury;
                     InjuryActivationEvent.Invoke(activeInjury);
                     IndexActivationEvent.Invoke(index);
@@ -124,10 +126,12 @@ public class InjuryManager : MonoBehaviour
     {
         if(activeInjury != injuries[index])
         {
+
             activeInjury = injuries[index];
             InjuryActivationEvent.Invoke(activeInjury);
             IndexActivationEvent.Invoke(index);
             ActivationEvent.Invoke();
+            if(activeInjury.HasMarker()) activeInjury.Marker.parent.SetActive(Settings.IsActiveModel(true));
         }
         
     }
@@ -137,8 +141,9 @@ public class InjuryManager : MonoBehaviour
     {
         if (injuries[index] == activeInjury)
         {
+            if (activeInjury.HasMarker()) activeInjury.Marker.parent.SetActive(Settings.IsActiveModel(false));
             activeInjury = null;
-            InjuryDeactivationEvent.Invoke(activeInjury);
+            InjuryDeactivationEvent.Invoke(activeInjury); //invoke null? 
             IndexDeactivationEvent.Invoke(index);
             DeactivationEvent.Invoke();
         }

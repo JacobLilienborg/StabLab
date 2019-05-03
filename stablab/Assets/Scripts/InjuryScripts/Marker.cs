@@ -8,7 +8,7 @@ public class Marker
 {
     public GameObject parent { get;set; }
     public InjuryType Type { get; set; }
-    public bool active = false;
+    public bool activeInPresentation = false;
     public string BodyPartParent { get; protected set; }
     private float[] serializedPos = new float[3];
     private float[] serializedRot = new float[4];

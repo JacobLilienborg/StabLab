@@ -31,10 +31,10 @@ public class WeaponModelManager : MonoBehaviour
         SetParentIfNonExisting();
         if (parent != null)
         {
-            InjuryManager.activeInjury.Marker.active = !InjuryManager.activeInjury.Marker.active;
-            parent.SetActive(InjuryManager.activeInjury.Marker.active);
-            modelActive = InjuryManager.activeInjury.Marker.active;
-            gizmo.enabled = InjuryManager.activeInjury.Marker.active;
+            InjuryManager.activeInjury.Marker.activeInPresentation = !InjuryManager.activeInjury.Marker.activeInPresentation;
+            parent.SetActive(InjuryManager.activeInjury.Marker.activeInPresentation);
+            modelActive = InjuryManager.activeInjury.Marker.activeInPresentation;
+            gizmo.enabled = InjuryManager.activeInjury.Marker.activeInPresentation;
         }
     }
 
@@ -148,6 +148,7 @@ public class WeaponModelManager : MonoBehaviour
     public void SaveRotation() {
         // Save the rotation from the gizmo to the temporary model.
         SetParentIfNonExisting();
+        if (parent == null) return;
         InjuryModelGizmos comp = parent.GetComponentInChildren<InjuryModelGizmos>();
         if (comp != null)
         {
