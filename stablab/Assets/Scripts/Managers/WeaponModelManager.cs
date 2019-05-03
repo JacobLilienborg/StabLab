@@ -147,8 +147,6 @@ public class WeaponModelManager : MonoBehaviour
 
     public void SaveRotation() {
         // Save the rotation from the gizmo to the temporary model.
-        SetParentIfNonExisting();
-        if (parent == null) return;
         InjuryModelGizmos comp = parent.GetComponentInChildren<InjuryModelGizmos>();
         if (comp != null)
         {
@@ -160,6 +158,9 @@ public class WeaponModelManager : MonoBehaviour
 
     public void SaveModel() {
         // Add the temporary model to the injury and reset variables
+        SetParentIfNonExisting();
+        if (parent == null) return;
+
         SaveRotation();
         RemoveGizmoFromModel();
         InjuryManager.activeInjury.AddModel(parent);
