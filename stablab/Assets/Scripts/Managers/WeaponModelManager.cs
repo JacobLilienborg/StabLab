@@ -40,6 +40,7 @@ public class WeaponModelManager : MonoBehaviour
 
     public void ToggleGizmo() {
         SetParentIfNonExisting();
+        if (parent == null) return;
         InjuryModelGizmos modelGizmo = parent.GetComponentInChildren<InjuryModelGizmos>();
         if (modelGizmo.gizmoActive) {
             SaveRotation();
