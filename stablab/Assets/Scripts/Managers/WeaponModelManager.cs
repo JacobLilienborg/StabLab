@@ -193,4 +193,30 @@ public class WeaponModelManager : MonoBehaviour
     {
         return GetModel();
     }
+
+    public void SetModelColor(int colorIndex) {
+        Color color;
+        Material m;
+        switch (colorIndex) {
+            case 0:
+                color = Color.red;
+                break;
+            case 1:
+                color = Color.yellow;
+                break;
+            case 2:
+                color = Color.green;
+                break;
+            default:
+                color = Color.white;
+                break;
+        }
+        if (!InjuryManager.activeInjury.HasMarker()) return;
+
+        MeshRenderer mesh = InjuryManager.activeInjury.Marker.parent.transform.GetComponentInChildren<MeshRenderer>();
+        if (mesh == null) return;
+        m = mesh.material;
+        m.color = color;
+        mesh.material = m;
+    }
 }
