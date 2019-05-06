@@ -56,6 +56,7 @@ public class CameraController : MonoBehaviour
     // Check if the scroll wheel is scrolled and starts zooming the camera in a intuitive way
     void Zoom()
     {
+        fov = Camera.main.fieldOfView;
         if(Input.mouseScrollDelta.y == 0) { return; }
         float zoomAmount = zoomSensitivity * zoomConstant * Mathf.Log(fov + 1);
 
@@ -80,6 +81,22 @@ public class CameraController : MonoBehaviour
             lastPosition = Input.mousePosition;
             pitch = transform.eulerAngles.x;
             yaw = transform.eulerAngles.y;
+        }
+    }
+
+    public void ClickPanHorizontal(bool directionRight) {
+        int panValue = 20;
+        float panAmount = 0.1f * panConstant * Mathf.Log(fov + 1);
+        Vector3 cameraCorrection;
+        
+        for (float i = 0; i < panValue; i++)
+        {
+            cameraCorrection = new Vector3(i, 0, 0);
+            Vector3 delta;
+            if (directionRight) delta = lastPosition + cameraCorrection;
+            else delta = lastPosition - cameraCorrection;
+            transform.Translate(delta.x * panAmount, delta.y * panAmount, 0);
+            //new WaitForSeconds(0.1f);
         }
     }
 }

@@ -94,4 +94,22 @@ public class Marker
         serializedRot = null;
         RemoveModel();
     }
+
+    public void SetRotation(Quaternion rotation) {
+        Rotation = rotation;
+        UpdateModel();
+    }
+
+    public void SetPosition(Vector3 position)
+    {
+        Position = position;
+        UpdateModel();
+    }
+
+    public void SetParent(GameObject parent) {
+        this.parent = parent;
+        Position = parent.transform.position;
+        Rotation = parent.transform.rotation;
+
+    }
 }

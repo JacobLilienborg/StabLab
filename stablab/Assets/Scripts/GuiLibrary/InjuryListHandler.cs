@@ -302,6 +302,7 @@ public class InjuryListHandler : MonoBehaviour
     // This function will be invoked if an injury is deactivated independent of the buttons
     private void UncheckWithoutTrigger(int index)
     {
+        DisabledComponents.DisableAll();
         foreach (InjuryButton button in injuryButtons)
         {
             if (button.index == index) button.Unchecked(false);

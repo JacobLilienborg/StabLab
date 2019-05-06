@@ -16,6 +16,8 @@ public class WeaponModelManager : MonoBehaviour
     public GameObject transformGizmoObj;
     private RuntimeGizmos.TransformGizmo gizmo;
 
+    Quaternion previousRotation;
+
     private bool staticChange;
 
     public void Start()
@@ -25,11 +27,19 @@ public class WeaponModelManager : MonoBehaviour
     }
 
     public void Reset() {
+        if (parent == null || InjuryManager.activeInjury == null || !InjuryManager.activeInjury.HasMarker()) return;
+        parent.transform.rotation = previousRotation;
+        InjuryManager.activeInjury.AddModel(parent);
+
+        Destroy(parent);
+        Destroy(model);
+        model = null;
+        parent = null;
     }
 
     public void ToggleCurrentModel() {
         SetParentIfNonExisting();
-        if (parent != null)
+        if (parent != null && InjuryManager.activeInjury.HasMarker())
         {
             InjuryManager.activeInjury.Marker.activeInPresentation = !InjuryManager.activeInjury.Marker.activeInPresentation;
             parent.SetActive(InjuryManager.activeInjury.Marker.activeInPresentation);
@@ -114,7 +124,7 @@ public class WeaponModelManager : MonoBehaviour
         if (currentModel == null) return;
         model = GameObject.Instantiate(currentModel);
 
-        parent = new GameObject("parentToWeaponModel" + InjuryManager.activeInjury.Name);
+        parent = new GameObject("parentToWeaponModel to " + InjuryManager.activeInjury.Name);
         UpdateParentAndChild();
         RotateModel();
     }
@@ -130,7 +140,7 @@ public class WeaponModelManager : MonoBehaviour
     }
 
     public void SetParentIfNonExisting() {
-        if (parent == null && InjuryManager.activeInjury.HasMarker())
+        if (parent == null && InjuryManager.activeInjury != null &&InjuryManager.activeInjury.HasMarker())
         {
             parent = InjuryManager.activeInjury.Marker.parent;
 
@@ -218,5 +228,10 @@ public class WeaponModelManager : MonoBehaviour
         m = mesh.material;
         m.color = color;
         mesh.material = m;
+    }
+
+    public void SetPreviousRotation() {
+        if (InjuryManager.activeInjury == null || !InjuryManager.activeInjury.HasMarker()) return;
+        previousRotation = InjuryManager.activeInjury.Marker.Rotation;
     }
 }

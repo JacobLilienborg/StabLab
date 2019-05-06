@@ -96,7 +96,7 @@ public class Injury
     }
 
     public void AddModel(GameObject newModel) {
-        Marker.parent = GameObject.Instantiate(newModel,newModel.transform.position,newModel.transform.rotation,newModel.transform.parent);
+        Marker.SetParent(GameObject.Instantiate(newModel,newModel.transform.position,newModel.transform.rotation,newModel.transform.parent));
         //Marker.parent.SetActive(Marker.active);
         //Marker.InsertModel();
         //Marker.ToggleModel(newModel.active);
