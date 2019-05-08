@@ -16,6 +16,6 @@ public class InjuryModelGizmos : MonoBehaviour
     }
 
     public Quaternion GetRotation() {
-        return gameObject.transform.rotation;
+        return transform.rotation;
     }
 }

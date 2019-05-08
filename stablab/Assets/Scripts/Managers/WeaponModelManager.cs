@@ -151,14 +151,20 @@ public class WeaponModelManager : MonoBehaviour
 
     public void SaveRotation() {
         // Save the rotation from the gizmo to the temporary model.
-        InjuryModelGizmos comp = parent.GetComponentInChildren<InjuryModelGizmos>();
+        /*InjuryModelGizmos comp = parent.GetComponentInChildren<InjuryModelGizmos>();
         if (comp != null)
         {
 
             Quaternion rot = comp.GetRotation();
             if (rot != null) parent.transform.rotation = rot;
+        }*/
+        if (InjuryManager.activeInjury.HasMarker())
+        {
+            InjuryManager.activeInjury.Marker.SetModelRotation(parent.transform.rotation);
+            //InjuryManager.activeInjury.injuryMarkerObj.transform.rotation = parent.transform.rotation;
         }
     }
+
 
     public void SaveModel() {
         // Add the temporary model to the injury and reset variables
@@ -228,7 +234,7 @@ public class WeaponModelManager : MonoBehaviour
 
     public void SetPreviousRotation() {
         if (InjuryManager.activeInjury == null || !InjuryManager.activeInjury.HasMarker()) return;
-        previousRotation = InjuryManager.activeInjury.Marker.Rotation;
+        previousRotation = InjuryManager.activeInjury.Marker.MarkerRotation;
     }
 
     public static void SetParent(GameObject newParent) {

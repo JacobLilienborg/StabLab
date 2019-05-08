@@ -65,7 +65,7 @@ public class InjuryAdding : MonoBehaviour
                     hitPart = hit.transform;
 
                     Destroy(newMarker);
-                    newMarker = AddMarker(markerPos, hitPart);
+                    newMarker = AddMarker(markerPos, hitPart, Quaternion.identity);
                     modelManager.UpdateModel();
                     //currentInjuryState = InjuryState.Inactive;
                 }
@@ -137,7 +137,7 @@ public class InjuryAdding : MonoBehaviour
     }
 
     // Instantiate a marker based on position and make it a child of parent input.
-    private GameObject AddMarker(Vector3 position, Transform parent)
+    private GameObject AddMarker(Vector3 position, Transform parent, Quaternion rotation)
     {
         if (InjuryManager.activeInjury.injuryMarkerObj != null) {
             InjuryManager.activeInjury.ToggleMarker(false);
@@ -164,6 +164,7 @@ public class InjuryAdding : MonoBehaviour
         }
 
         markerObj.transform.parent = parent;
+        markerObj.transform.rotation = rotation;
         return markerObj;
     }
 
@@ -177,7 +178,7 @@ public class InjuryAdding : MonoBehaviour
 
         ModelController.SetBodyPose(injury.BodyPose);
         Transform parent = GameObject.Find(injury.Marker.BodyPartParent).transform;
-        return AddMarker(injury.Marker.Position, parent);
+        return AddMarker(injury.Marker.MarkerPosition, parent, injury.Marker.MarkerRotation);
     }
 
     public GameObject LoadModel(Injury injury) {
@@ -186,8 +187,8 @@ public class InjuryAdding : MonoBehaviour
         }
 
         GameObject model = Instantiate(modelManager.GetModel(injury));
-        //model.transform.rotation = injury.Marker.Rotation;
-        model.transform.position = injury.Marker.Position;
+        model.transform.rotation = injury.Marker.ModelRotation;
+        model.transform.position = injury.Marker.ModelPosition;
         model.GetComponent<InjuryModelGizmos>().gizmo = modelManager.gizmo;
         modelManager.SetModelColor(injury.Marker.modelColorIndex,injury);
         return model;

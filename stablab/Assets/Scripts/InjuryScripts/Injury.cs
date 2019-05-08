@@ -23,6 +23,7 @@ public class Injury
     [NonSerialized]
     public GameObject injuryMarkerObj;
 
+
     public Guid Id { get; }
     public Marker Marker { get; protected set; }
     public InjuryType Type { get; set; }

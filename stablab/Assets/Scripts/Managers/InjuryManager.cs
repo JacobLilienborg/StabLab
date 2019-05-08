@@ -169,7 +169,7 @@ public class InjuryManager : MonoBehaviour
             if(injury.Marker != null)
             {
                 injury.InjuryMarkerObj = injuryAdding.LoadMarker(injury);
-                injury.Marker.SetParent(injuryAdding.LoadModel(injury));
+                injury.AddModel(injuryAdding.LoadModel(injury));
             }
         }
     }

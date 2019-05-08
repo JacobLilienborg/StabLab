@@ -12,12 +12,14 @@ public class Marker
 {
     [NonSerialized]
     private GameObject parent;
-
+    
     public InjuryType Type { get; set; }
     public bool activeInPresentation = false;
     public string BodyPartParent { get; protected set; }
-    private float[] serializedPos = new float[3];
-    private float[] serializedRot = new float[4];
+    private float[] serializedPosMarker = new float[3];
+    private float[] serializedRotMarker = new float[4];
+    private float[] serializedPosModel = new float[3];
+    private float[] serializedRotModel = new float[4];
     public int modelColorIndex = -1;
 
     public Marker(GameObject markerObj, InjuryType type) 
@@ -33,87 +35,109 @@ public class Marker
     // Copy data from input object
     public void MarkerUpdate(GameObject markerObj) 
     {
-        Position = markerObj.transform.position;
-        Rotation = markerObj.transform.rotation;
+        MarkerPosition = markerObj.transform.position;
+        MarkerRotation = markerObj.transform.rotation;
         BodyPartParent = markerObj.transform.parent.name;
         //Type = markerObj.GetComponent<MarkerHandler>().type;
     }
 
-    public Vector3 Position
+    public Vector3 MarkerPosition
     {
         protected set
         {
-            serializedPos[0] = value.x;
-            serializedPos[1] = value.y;
-            serializedPos[2] = value.z;
+            serializedPosMarker[0] = value.x;
+            serializedPosMarker[1] = value.y;
+            serializedPosMarker[2] = value.z;
         }
 
         get
         {
-            return new Vector3(serializedPos[0], serializedPos[1], serializedPos[2]);
+            return new Vector3(serializedPosMarker[0], serializedPosMarker[1], serializedPosMarker[2]);
         }
     }
 
-    public Quaternion Rotation
+    public Quaternion MarkerRotation
     {
         protected set
         {
-            serializedRot[0] = value.x;
-            serializedRot[1] = value.y;
-            serializedRot[2] = value.z;
-            serializedRot[3] = value.w;
+            serializedRotMarker[0] = value.x;
+            serializedRotMarker[1] = value.y;
+            serializedRotMarker[2] = value.z;
+            serializedRotMarker[3] = value.w;
         }
 
         get
         {
-            return new Quaternion(serializedRot[0], serializedRot[1], 
-                                  serializedRot[2], serializedRot[3]);
+            return new Quaternion(serializedRotMarker[0], serializedRotMarker[1], 
+                                  serializedRotMarker[2], serializedRotMarker[3]);
         }
     }
 
-    public void InsertModel() {
-        parent.SetActive(true);
+    public Vector3 ModelPosition
+    {
+        set
+        {
+            serializedPosModel[0] = value.x;
+            serializedPosModel[1] = value.y;
+            serializedPosModel[2] = value.z;
+        }
 
-        GameObject positioningObject = new GameObject("emptyPositioningObject");
-        positioningObject.transform.position = new Vector3(serializedPos[0],serializedPos[1],serializedPos[2]);
-        positioningObject.transform.parent = GameObject.Find(BodyPartParent).transform;
-        parent.transform.parent = positioningObject.transform;
-        UpdateModel();
-        //model.transform.rotation = new Quaternion(30, 30, 30, 30);
+        get
+        {
+            return new Vector3(serializedPosModel[0], serializedPosModel[1], serializedPosModel[2]);
+        }
+    }
+
+    public Quaternion ModelRotation
+    {
+        set
+        {
+            serializedRotModel[0] = value.x;
+            serializedRotModel[1] = value.y;
+            serializedRotModel[2] = value.z;
+            serializedRotModel[3] = value.w;
+        }
+
+        get
+        {
+            return new Quaternion(serializedRotModel[0], serializedRotModel[1],
+                                  serializedRotModel[2], serializedRotModel[3]);
+        }
     }
 
     public void RemoveModel() {
+        serializedPosModel = null;
+        serializedPosModel = null;
         GameObject.Destroy(parent);
     }
 
     public void UpdateModel() {
-        parent.transform.position = new Vector3(serializedPos[0], serializedPos[1], serializedPos[2]);
-        parent.transform.rotation = new Quaternion(serializedRot[0], serializedRot[1], serializedRot[2],serializedRot[3]);
+        parent.transform.position = ModelPosition;
+        parent.transform.rotation = ModelRotation;
 
     }
 
     public void RemoveMarker() {
-        serializedPos = null;
-        serializedRot = null;
+        serializedPosMarker = null;
+        serializedRotMarker = null;
         RemoveModel();
     }
 
-    public void SetRotation(Quaternion rotation) {
-        Rotation = rotation;
+    public void SetModelRotation(Quaternion rotation) {
+        ModelRotation = rotation;
         UpdateModel();
     }
 
-    public void SetPosition(Vector3 position)
+    public void SetModelPosition(Vector3 position)
     {
-        Position = position;
+        ModelPosition = position;
         UpdateModel();
     }
 
     public void SetParent(GameObject parent) {
         this.parent = parent;
-        Position = parent.transform.position;
-        Rotation = parent.transform.rotation;
-
+        SetModelPosition(parent.transform.position);
+        SetModelRotation(parent.transform.rotation);
     }
 
     public GameObject GetParent() {

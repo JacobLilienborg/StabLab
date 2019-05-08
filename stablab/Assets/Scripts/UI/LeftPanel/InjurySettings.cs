@@ -69,11 +69,6 @@ public class InjurySettings : MonoBehaviour
         }
     }
 
-    public void AddModel()
-    {
-        InjuryManager.activeInjury.Marker.InsertModel();
-    }
-
     public void RemoveModel()
     {
         InjuryManager.activeInjury.Marker.RemoveModel();

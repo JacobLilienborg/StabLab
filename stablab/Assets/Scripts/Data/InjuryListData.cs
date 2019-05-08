@@ -13,7 +13,7 @@ public class InjuryListData : AData
 
     public InjuryListData() : base("injuryList", "Injuries")
     {
-        Debug.Log("Creating innjurylist data");
+        Debug.Log("Creating injurylist data");
         injuries = InjuryManager.injuries;
     }
 
