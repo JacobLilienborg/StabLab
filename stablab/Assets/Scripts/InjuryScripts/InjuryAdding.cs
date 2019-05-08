@@ -34,6 +34,7 @@ public class InjuryAdding : MonoBehaviour
     private WeaponModelManager modelManager;
 
     public GameObject crushMarker, cutMarker, shotMarker, stabMarker;
+    public GameObject crushModel, cutModel, shotModel, stabModel;
     public Vector3 markerPos;
     public Transform hitPart;
 
@@ -85,7 +86,7 @@ public class InjuryAdding : MonoBehaviour
     public void Reset() {
         modelManager.RemoveModel();
         Destroy(newMarker);
-        if (InjuryManager.activeInjury.HasMarker()) InjuryManager.activeInjury.Marker.parent.SetActive(true);
+        if (InjuryManager.activeInjury.HasMarker()) InjuryManager.activeInjury.Marker.GetParent().SetActive(true);
         if (InjuryManager.activeInjury.injuryMarkerObj != null) InjuryManager.activeInjury.ToggleMarker(true);
     }
 
@@ -177,6 +178,19 @@ public class InjuryAdding : MonoBehaviour
         ModelController.SetBodyPose(injury.BodyPose);
         Transform parent = GameObject.Find(injury.Marker.BodyPartParent).transform;
         return AddMarker(injury.Marker.Position, parent);
+    }
+
+    public GameObject LoadModel(Injury injury) {
+        if (injury.Marker == null) {
+            throw new System.Exception("Injury has no Marker");
+        }
+
+        GameObject model = Instantiate(modelManager.GetModel(injury));
+        //model.transform.rotation = injury.Marker.Rotation;
+        model.transform.position = injury.Marker.Position;
+        model.GetComponent<InjuryModelGizmos>().gizmo = modelManager.gizmo;
+        modelManager.SetModelColor(injury.Marker.modelColorIndex,injury);
+        return model;
     }
 
     // Called when the DeleteButton is pressed

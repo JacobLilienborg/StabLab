@@ -104,14 +104,14 @@ public class Injury
 
     public void RemoveCurrent() {
         if(injuryMarkerObj != null) RemoveInjuryMarker();
-        if (Marker != null && Marker.parent != null) ;//Marker.RemoveModel();
+        if (Marker != null && Marker.GetParent() != null) ;//Marker.RemoveModel();
     }
 
     public bool HasMarker() {
-        return Marker != null && Marker.parent != null;
+        return Marker != null && Marker.GetParent() != null;
     }
 
     public bool IsSameMarker(GameObject parent) {
-        return parent == Marker.parent;
+        return parent == Marker.GetParent();
     }
 }

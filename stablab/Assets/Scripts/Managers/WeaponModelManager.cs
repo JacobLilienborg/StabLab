@@ -6,15 +6,14 @@ public class WeaponModelManager : MonoBehaviour
 {
 
     public List<GameObject> models;
-    private GameObject model;
     private bool modelActive = false;
-    private GameObject parent;
+    private static GameObject parent;
 
     public GameObject injuryAddingObj;
     private InjuryAdding injuryAdding;
 
     public GameObject transformGizmoObj;
-    private RuntimeGizmos.TransformGizmo gizmo;
+    public RuntimeGizmos.TransformGizmo gizmo;
 
     Quaternion previousRotation;
 
@@ -32,8 +31,6 @@ public class WeaponModelManager : MonoBehaviour
         InjuryManager.activeInjury.AddModel(parent);
 
         Destroy(parent);
-        Destroy(model);
-        model = null;
         parent = null;
     }
 
@@ -87,13 +84,13 @@ public class WeaponModelManager : MonoBehaviour
 
     public void AddModel()
     {
-        if (model != null) parent.SetActive(true);
+        if (parent != null) parent.SetActive(true);
         modelActive = true;
     }
 
     public void RemoveModel()
     {
-        if (model != null) parent.SetActive(false);
+        if (parent != null) parent.SetActive(false);
         modelActive = false;
     }
 
@@ -111,20 +108,20 @@ public class WeaponModelManager : MonoBehaviour
         if (parent != null)
         {
             Destroy(parent);
-            Destroy(model);
         }
 
         GameObject currentModel = GetCurrentModel();
         if (InjuryManager.activeInjury.HasMarker())
         {
-            InjuryManager.activeInjury.Marker.parent.SetActive(false);
+            InjuryManager.activeInjury.Marker.GetParent().SetActive(false);
             //UpdateParentAndChild();
         }
 
         if (currentModel == null) return;
-        model = GameObject.Instantiate(currentModel);
+        parent = GameObject.Instantiate(currentModel);
+        parent.GetComponent<InjuryModelGizmos>().gizmo = this.gizmo;
 
-        parent = new GameObject("parentToWeaponModel to " + InjuryManager.activeInjury.Name);
+        //parent = new GameObject("parentToWeaponModel to " + InjuryManager.activeInjury.Name);
         UpdateParentAndChild();
         RotateModel();
     }
@@ -133,16 +130,12 @@ public class WeaponModelManager : MonoBehaviour
         parent.transform.parent = injuryAdding.hitPart;
         parent.transform.position = injuryAdding.markerPos;
         parent.SetActive(modelActive);
-
-        model.transform.position = injuryAdding.markerPos;
-        model.SetActive(true);
-        model.transform.parent = parent.transform;
     }
 
     public void SetParentIfNonExisting() {
         if (parent == null && InjuryManager.activeInjury != null &&InjuryManager.activeInjury.HasMarker())
         {
-            parent = InjuryManager.activeInjury.Marker.parent;
+            parent = InjuryManager.activeInjury.Marker.GetParent();
 
         }
     }
@@ -177,23 +170,21 @@ public class WeaponModelManager : MonoBehaviour
         InjuryManager.activeInjury.AddModel(parent);
 
         Destroy(parent);
-        Destroy(model);
-        model = null;
         parent = null;
     }
 
-    private GameObject GetModel()
+    public GameObject GetModel(Injury injury)
     {
-        switch (InjuryManager.activeInjury.Type)
+        switch (injury.Type)
         {
             case InjuryType.Cut:
-                return models[0];
+                return injuryAdding.cutModel;
             case InjuryType.Crush:
-                return models[1];
+                return injuryAdding.crushModel;
             case InjuryType.Shot:
-                return models[2];
+                return injuryAdding.shotModel;
             case InjuryType.Stab:
-                return models[3];
+                return injuryAdding.stabModel;
             default:
                 return null;
         }
@@ -201,10 +192,14 @@ public class WeaponModelManager : MonoBehaviour
 
     public GameObject GetCurrentModel()
     {
-        return GetModel();
+        return GetModel(InjuryManager.activeInjury);
     }
 
-    public void SetModelColor(int colorIndex) {
+    public void SetActiveInjuryColor(int colorIndex) {
+        SetModelColor(colorIndex, InjuryManager.activeInjury);
+    }
+
+    public void SetModelColor(int colorIndex,Injury injury) {
         Color color;
         Material m;
         switch (colorIndex) {
@@ -223,15 +218,20 @@ public class WeaponModelManager : MonoBehaviour
         }
         if (!InjuryManager.activeInjury.HasMarker()) return;
 
-        MeshRenderer mesh = InjuryManager.activeInjury.Marker.parent.transform.GetComponentInChildren<MeshRenderer>();
+        MeshRenderer mesh = injury.Marker.GetParent().transform.GetComponentInChildren<MeshRenderer>();
         if (mesh == null) return;
         m = mesh.material;
         m.color = color;
         mesh.material = m;
+        injury.Marker.modelColorIndex = colorIndex;
     }
 
     public void SetPreviousRotation() {
         if (InjuryManager.activeInjury == null || !InjuryManager.activeInjury.HasMarker()) return;
         previousRotation = InjuryManager.activeInjury.Marker.Rotation;
+    }
+
+    public static void SetParent(GameObject newParent) {
+        parent = newParent;
     }
 }

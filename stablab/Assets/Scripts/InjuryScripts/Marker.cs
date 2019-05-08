@@ -10,12 +10,15 @@ using System.Collections.Generic;
 [Serializable]
 public class Marker
 {
-    public GameObject parent { get;set; }
+    [NonSerialized]
+    private GameObject parent;
+
     public InjuryType Type { get; set; }
     public bool activeInPresentation = false;
     public string BodyPartParent { get; protected set; }
     private float[] serializedPos = new float[3];
     private float[] serializedRot = new float[4];
+    public int modelColorIndex = -1;
 
     public Marker(GameObject markerObj, InjuryType type) 
     {
@@ -111,5 +114,9 @@ public class Marker
         Position = parent.transform.position;
         Rotation = parent.transform.rotation;
 
+    }
+
+    public GameObject GetParent() {
+        return parent;
     }
 }
