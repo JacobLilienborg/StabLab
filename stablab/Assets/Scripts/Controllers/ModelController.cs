@@ -4,21 +4,44 @@ using UnityEngine;
 
 public class ModelController : MonoBehaviour
 {
+    public SkinnedMeshRenderer smr;
+    public float height
+    {
+        get
+        {
+            return height;
+        }
+        set
+        {
+            height = value;
+        }
+    }
+    public float weight
+    {
+        get
+        {
+            return weight;
+        }
+        set
+        {
+            weight = value;
+        }
+    }
+    public float muscles
+    {
+        get
+        {
+            return muscles;
+        }
+        set
+        {
+            muscles = value;
+        }
+    }
+
     private const string BODYPART_TAG = "Body";
 
     public GameObject skeleton;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     public void SetBodyPose(BodyPose body)
     {
