@@ -5,43 +5,47 @@ using UnityEngine;
 public class ModelController : MonoBehaviour
 {
     public SkinnedMeshRenderer smr;
+    private float _height = 0;
     public float height
     {
-        get
-        {
-            return height;
-        }
+        get { return _height; }
         set
         {
-            height = value;
+            _height = value;
+            smr.SetBlendShapeWeight(0, _height);
         }
     }
-    public float weight
-    {
-        get
-        {
-            return weight;
-        }
-        set
-        {
-            weight = value;
-        }
-    }
+    private float _muscles = 0;
     public float muscles
     {
-        get
-        {
-            return muscles;
-        }
+        get { return _muscles; }
         set
         {
-            muscles = value;
+            _muscles = value;
+            morph();
+        }
+    }
+    private float _weight = 0;
+    public float weight
+    {
+        get { return _weight; }
+        set
+        {
+            _weight = value;
+            morph();
         }
     }
 
     private const string BODYPART_TAG = "Body";
 
     public GameObject skeleton;
+
+    private void morph()
+    {
+        smr.SetBlendShapeWeight(3, Mathf.Min(muscles, weight));
+        smr.SetBlendShapeWeight(muscles > weight ? 1 : 2, Mathf.Abs(muscles - weight));
+        
+    }
 
     public void SetBodyPose(BodyPose body)
     {
