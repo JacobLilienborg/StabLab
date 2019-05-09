@@ -25,8 +25,11 @@ public class DisabledComponents : MonoBehaviour
     }
 
     public static void DisableAll() {
-        //gizmo.enabled = false;
-        modelManager.SaveModel();
+        gizmo.enabled = false;
+        //modelManager.SaveModel();
+        //modelManager.ResetModel();//SaveModel();
+        //injuryAdding.SaveMarker();
+        injuryAdding.Reset();
         injuryAdding.SetStateToInactive();
     }
 }

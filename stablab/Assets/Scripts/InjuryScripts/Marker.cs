@@ -20,6 +20,8 @@ public class Marker
     private float[] serializedRotMarker = new float[4];
     private float[] serializedPosModel = new float[3];
     private float[] serializedRotModel = new float[4];
+    public Quaternion modelRott;
+
     public int modelColorIndex = -1;
 
     public Marker(GameObject markerObj, InjuryType type) 
@@ -113,7 +115,7 @@ public class Marker
 
     public void UpdateModel() {
         parent.transform.position = ModelPosition;
-        parent.transform.rotation = ModelRotation;
+        parent.transform.rotation = modelRott;//ModelRotation;
 
     }
 
@@ -124,7 +126,8 @@ public class Marker
     }
 
     public void SetModelRotation(Quaternion rotation) {
-        ModelRotation = rotation;
+        //ModelRotation = rotation;
+        modelRott = rotation;
         UpdateModel();
     }
 
@@ -136,8 +139,9 @@ public class Marker
 
     public void SetParent(GameObject parent) {
         this.parent = parent;
-        SetModelPosition(parent.transform.position);
-        SetModelRotation(parent.transform.rotation);
+        parent.SetActive(activeInPresentation);
+        //SetModelPosition(parent.transform.position);
+        //SetModelRotation(parent.transform.rotation);
     }
 
     public GameObject GetParent() {

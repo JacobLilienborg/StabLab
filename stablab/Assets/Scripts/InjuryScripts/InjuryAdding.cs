@@ -84,7 +84,8 @@ public class InjuryAdding : MonoBehaviour
 
 
     public void Reset() {
-        modelManager.RemoveModel();
+        //modelManager.RemoveModel();
+        modelManager.ResetModel();
         Destroy(newMarker);
         if (InjuryManager.activeInjury.HasMarker()) InjuryManager.activeInjury.Marker.GetParent().SetActive(true);
         if (InjuryManager.activeInjury.injuryMarkerObj != null) InjuryManager.activeInjury.ToggleMarker(true);
@@ -96,9 +97,9 @@ public class InjuryAdding : MonoBehaviour
         if (newMarker == null) return;
 
 
-        InjuryManager.activeInjury.RemoveCurrent();
+        //InjuryManager.activeInjury.RemoveCurrent();
         InjuryManager.activeInjury.AddInjuryMarker(newMarker);
-        modelManager.SaveModel();
+        //modelManager.SaveModel();
 
         newMarker = null;
     }
@@ -124,6 +125,7 @@ public class InjuryAdding : MonoBehaviour
     public void RemoveCurrentMarker()
     {
         Destroy(newMarker);
+        //newMarker = null;
     }
 
     // Returns injury state
