@@ -5,7 +5,10 @@
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using Crosstales.FB;
-using UnityEngine;
+
+/*
+ * FileManager has all the functions to read and write from/to the filesystem.
+ */
 
 public class FileManager
 {

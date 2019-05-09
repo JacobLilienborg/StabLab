@@ -2,7 +2,9 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-
+/*
+ * Serializable helper class to save a body pose.
+ */
 
 [Serializable]
 public class BodyPart
@@ -42,6 +44,10 @@ public class BodyPart
     }
 
 }
+
+/*
+ * Serializable class to save a body pose.
+ */
 
 [Serializable]
 public class BodyPose
