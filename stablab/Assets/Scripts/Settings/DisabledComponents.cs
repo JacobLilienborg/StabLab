@@ -19,17 +19,20 @@ public class DisabledComponents : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        gizmo = gizmoObj.GetComponent<RuntimeGizmos.TransformGizmo>();
+        gizmo = Camera.main.gameObject.GetComponent<RuntimeGizmos.TransformGizmo>();
         injuryAdding = injuryAddingObj.GetComponent<InjuryAdding>();
         modelManager = weaponModelObj.GetComponent<WeaponModelManager>();
     }
 
     public static void DisableAll() {
-        gizmo.enabled = false;
+        Camera.main.gameObject.GetComponent<RuntimeGizmos.TransformGizmo>().enabled = false;
         //modelManager.SaveModel();
         //modelManager.ResetModel();//SaveModel();
         //injuryAdding.SaveMarker();
-        injuryAdding.Reset();
-        injuryAdding.SetStateToInactive();
+        if(injuryAdding != null){
+            injuryAdding.Reset();
+            injuryAdding.SetStateToInactive();
+        }
+    
     }
 }
