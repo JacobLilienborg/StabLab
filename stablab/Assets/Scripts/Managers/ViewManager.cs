@@ -27,15 +27,15 @@ public class ViewManager : MonoBehaviour
     {
         if (Input.GetKeyDown("0"))
         {
-            changeScene(0);
+            //changeScene(0);
         }
         else if (Input.GetKeyDown("1"))
         {
-            changeScene(1);
+            //changeScene(1);
         }
         else if (Input.GetKeyDown("2"))
         {
-            changeScene(2);
+            //changeScene(2);
         }
     }
 

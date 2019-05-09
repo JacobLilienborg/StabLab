@@ -1,8 +1,23 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using System;
-using System.IO;
-using UnityEngine.UI;
+using UnityEngine.Events;
+using System.Collections;
+
+/*
+ * InjuryManager manages a list of injuries such as adding and removing injuries.
+ * It allso takes care of wich injury, if any, is the currently active injury.
+ */
+
+[System.Serializable]
+public class InjuryEvent : UnityEvent<Injury>
+{
+}
+
+[System.Serializable]
+public class IndexEvent : UnityEvent<int>
+{
+}
 
 public class InjuryManager : MonoBehaviour
 {
@@ -10,13 +25,44 @@ public class InjuryManager : MonoBehaviour
 
     // Scripts from the body model
     private static InjuryAdding injuryAdding;
-
-    public static Injury activeInjury;
-    private ModelController modelController;
-
     public static List<Injury> injuries = new List<Injury>();
+    public static Injury activeInjury = null;
 
-    // Setup instance of ProjectManager
+    // Setting up the listeners system. There are optional events depending of what return type you want
+    private static InjuryEvent InjuryActivationEvent = new InjuryEvent();
+    private static InjuryEvent InjuryDeactivationEvent = new InjuryEvent();
+    private static IndexEvent IndexActivationEvent = new IndexEvent();
+    private static IndexEvent IndexDeactivationEvent = new IndexEvent();
+    private static UnityEvent ActivationEvent = new UnityEvent();
+    private static UnityEvent DeactivationEvent = new UnityEvent();
+
+    public static void AddActivationListener(UnityAction<Injury> action)
+    {
+        InjuryActivationEvent.AddListener(action);
+    }
+    public static void AddDeactivationListener(UnityAction<Injury> action)
+    {
+        InjuryDeactivationEvent.AddListener(action);
+    }
+    public static void AddActivationListener(UnityAction<int> action)
+    {
+        IndexActivationEvent.AddListener(action);
+    }
+    public static void AddDeactivationListener(UnityAction<int> action)
+    {
+        IndexDeactivationEvent.AddListener(action);
+    }
+    public static void AddActivationListener(UnityAction action)
+    {
+        ActivationEvent.AddListener(action);
+    }
+    public static void AddDeactivationListener(UnityAction action)
+    {
+        DeactivationEvent.AddListener(action);
+    }
+
+
+    // Setup instance of Injury Manager
     void Awake()
     {
         // If instance doesn't exist set it to this, else destroy this
@@ -39,23 +85,19 @@ public class InjuryManager : MonoBehaviour
     {
         GameObject body = GameObject.FindWithTag("Player");
         injuryAdding = body.GetComponent<InjuryAdding>();
-        modelController = body.GetComponent<ModelController>();
-
         LoadInjuries();
     }
 
     // Creates and add the new injury to the list of injuries.
-    public void AddNewInjury()
+    public static void AddNewInjury()
     {
         Injury newInjury = new Injury(Guid.NewGuid());
-        activeInjury = newInjury;
-        injuries.Add(activeInjury);
-        injuryAdding.currentInjuryState = InjuryState.Add;
-        Debug.Log(activeInjury.Id);
+        injuries.Add(newInjury);
+        Debug.Log(newInjury.Id);
     }
 
     // Remove the currently active injury
-    public void RemoveInjury()
+    public static void RemoveInjury()
     {
         injuries.Remove(activeInjury);
     }
@@ -63,35 +105,60 @@ public class InjuryManager : MonoBehaviour
     // Sets the active injury by id. Is called from the marker that is clicked
     public static void SetActiveInjury(Guid id)
     {
-        foreach (Injury injury in injuries)
+        for(int index = 0; index < injuries.Count; index++)
         {
+            Injury injury = injuries[index];
             if (injury.Id == id)
             {
-                activeInjury = injury;
-                return;
+                if (activeInjury != injury)
+                {
+                   
+
+                    activeInjury = injury;
+                    InjuryActivationEvent.Invoke(activeInjury);
+                    IndexActivationEvent.Invoke(index);
+                    ActivationEvent.Invoke();
+                    return;
+                }
             }
         }
     }
 
-    // Sets the active injury by index. Is called from the marker that is clicked
+    // Sets the active injury by index.
     public static void SetActiveInjury(int index)
     {
-        activeInjury = injuries[index];
+        if(activeInjury != injuries[index])
+        {
+
+            activeInjury = injuries[index];
+            InjuryActivationEvent.Invoke(activeInjury);
+            IndexActivationEvent.Invoke(index);
+            ActivationEvent.Invoke();
+            if(activeInjury.HasMarker()) activeInjury.Marker.GetParent().SetActive(Settings.IsActiveModel(true));
+        }
+        
+    }
+
+    // Needed this code to be listener
+    public static void DeselectInjury(int index)
+    {
+        if (injuries[index] == activeInjury)
+        {
+            InjuryDeactivationEvent.Invoke(activeInjury);
+            IndexDeactivationEvent.Invoke(index);
+            DeactivationEvent.Invoke();
+            if (activeInjury.HasMarker()) activeInjury.Marker.GetParent().SetActive(Settings.IsActiveModel(false));
+            activeInjury = null;
+             //invoke null? 
+        }
     }
 
     // Change order of injuri in the list.
-    public void ChangeOrder(int oldIndex, int newIndex)
+    public static void ChangeOrder(int oldIndex, int newIndex)
     {
         Injury injury = injuries[oldIndex];
         injuries.RemoveAt(oldIndex);
         injuries.Insert(newIndex, injury);
-    }
-
-    // Add a marker to the injury.
-    public void AddInjuryMarker(GameObject markerObj)
-    {
-        activeInjury.InjuryMarkerObj = markerObj;
-        SaveBodyPose();
     }
 
     // Load all injuries from the list in to the scene.
@@ -100,24 +167,12 @@ public class InjuryManager : MonoBehaviour
         foreach (Injury injury in injuries)
         {
             activeInjury = injury;
-            injury.InjuryMarkerObj = injuryAdding.LoadMarker(injury);
+            if(injury.Marker != null)
+            {
+                injury.InjuryMarkerObj = injuryAdding.LoadMarker(injury);
+                injury.AddModel(injuryAdding.LoadModel(injury));
+            }
         }
     }
 
-    // Save current pose
-    public void SaveBodyPose()
-    {
-        activeInjury.BodyPose = modelController.GetBodyPose();
-        activeInjury.Marker.MarkerUpdate(activeInjury.InjuryMarkerObj);
-    }
-
-    //Add an image to injury
-    public void AddImage()
-    {
-        string imagePath = FileManager.OpenFileBrowser("png jpg");
-        if(imagePath != "")
-        {
-            activeInjury.AddImage(FileManager.ReadBytes(imagePath));
-        }
-    }
 }
