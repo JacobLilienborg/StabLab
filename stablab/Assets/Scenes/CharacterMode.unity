@@ -2996,8 +2996,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   activeModel: {fileID: 0}
   man: {fileID: 2548654595339674522, guid: a0b743c27131ab24c8b47aea76d5d05d, type: 3}
-  woman: {fileID: 1109291422110036849, guid: c053777d5621985469f00a59eda88161, type: 3}
-  child: {fileID: 1480162469707074382, guid: 434b1da142e22974d98a2391a4c8366f, type: 3}
+  woman: {fileID: 697398809687054390, guid: 5df0353eeaa0c63498d7546e2e68f8cc, type: 3}
+  child: {fileID: 4795327382687049666, guid: de7522ce8d9ed1e45addeb3edbd9487c, type: 3}
 --- !u!4 &839755143
 Transform:
   m_ObjectHideFlags: 0
