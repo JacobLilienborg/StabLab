@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2530853426216288292}
   - component: {fileID: 6276458115333369184}
   m_Layer: 0
-  m_Name: HuggMarker
+  m_Name: StabMarker
   m_TagString: Marker
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

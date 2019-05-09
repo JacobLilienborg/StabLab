@@ -1,17 +1,20 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+
+/*
+ * ModelController has functions to Set/get pose of body.
+ */
 
 public class ModelController : MonoBehaviour
 {
     private const string BODYPART_TAG = "Body";
 
-    public GameObject skeleton;
+    public GameObject skeletonNonStatic; // Needed to get skeleton from editor
+    public static GameObject skeleton;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        
+        skeleton = skeletonNonStatic;
     }
 
     // Update is called once per frame
@@ -20,8 +23,11 @@ public class ModelController : MonoBehaviour
         
     }
 
-    public void SetBodyPose(BodyPose body)
+    // Set the pose to the BodyPose input
+    public static void SetBodyPose(BodyPose body)
     {
+        if (body == null) return; // set to a standard pose later
+        
         skeleton.transform.position = body.GetPosition();
         skeleton.transform.rotation = body.GetRotation();
 
@@ -39,7 +45,8 @@ public class ModelController : MonoBehaviour
 
     }
 
-    public BodyPose GetBodyPose()
+    // Return current pose
+    public static BodyPose GetBodyPose()
     {
         return new BodyPose(skeleton);
     }
