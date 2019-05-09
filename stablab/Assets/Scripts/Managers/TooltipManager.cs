@@ -22,11 +22,6 @@ public class TooltipManager : MonoBehaviour
     {
         if (show)
         {
-            if (onePulse)
-            {
-                transform.position = Input.mousePosition;
-                onePulse = false;
-            }
             image.enabled = true;
             text.enabled = true;
             text.text = currentInfo;
@@ -34,7 +29,6 @@ public class TooltipManager : MonoBehaviour
         {
             image.enabled = false;
             text.enabled = false;
-            onePulse = true;
         }
     }
 
