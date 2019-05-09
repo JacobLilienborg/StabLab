@@ -11,8 +11,8 @@ public class ModelController : MonoBehaviour
         get { return _height; }
         set
         {
-            _height = value;
-            smr.SetBlendShapeWeight(0, _height);
+            //_height = value;
+            //smr.SetBlendShapeWeight(0, _height);
         }
     }
     private float _muscles = 0;
@@ -42,8 +42,46 @@ public class ModelController : MonoBehaviour
 
     private void morph()
     {
-        smr.SetBlendShapeWeight(3, Mathf.Min(muscles, weight));
-        smr.SetBlendShapeWeight(muscles > weight ? 1 : 2, Mathf.Abs(muscles - weight));
+        /*
+         * 0:Buff
+         * 1.Overweight
+         * 2.Shredded
+         * 3.Skinny
+         * 4.WeightPos
+         * 5.WeightNeg
+         * 6.MusclePos
+         * 7.MuscleNeg  
+         */
+        if (muscles > 0 && weight > 0)
+        {
+            smr.SetBlendShapeWeight(0, Mathf.Min(muscles, weight));
+            smr.SetBlendShapeWeight(muscles > weight ? 6 : 4, Mathf.Abs(muscles - weight));
+        }
+
+        else if (muscles > 0 && weight < 0)
+        {
+            smr.SetBlendShapeWeight(2, Mathf.Min(muscles, Mathf.Abs(weight)));
+            smr.SetBlendShapeWeight(muscles > Mathf.Abs(weight) ? 6 : 5, Mathf.Abs(muscles - Mathf.Abs(weight)));
+        }
+        else if (muscles < 0 && weight > 0)
+        {
+            smr.SetBlendShapeWeight(1, Mathf.Min(Mathf.Abs(muscles), weight));
+            smr.SetBlendShapeWeight(Mathf.Abs(muscles) > weight ? 7 : 4, Mathf.Abs(Mathf.Abs(muscles) - weight));
+        }
+        else if (muscles < 0 && weight < 0)
+        {
+            smr.SetBlendShapeWeight(3, Mathf.Min(Mathf.Abs(muscles), Mathf.Abs(weight)));
+            smr.SetBlendShapeWeight(Mathf.Abs(muscles) > Mathf.Abs(weight) ? 7 : 5, Mathf.Abs(Mathf.Abs(muscles) - Mathf.Abs(weight)));
+        }
+        else
+        {
+            smr.SetBlendShapeWeight(muscles > 0 ? 6 : 7, Mathf.Abs(muscles));
+            smr.SetBlendShapeWeight(weight > 0 ? 4 : 5, Mathf.Abs(weight));
+        }
+
+
+
+
         
     }
 
