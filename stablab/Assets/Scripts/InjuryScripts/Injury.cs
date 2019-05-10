@@ -107,7 +107,7 @@ public abstract class Injury
     // Save current pose
     public void SaveBodyPose()
     {
-        BodyPose = ModelController.GetBodyPose();
+        //BodyPose = ModelController.GetBodyPose();
         if(Marker != null)
         {
             Marker.MarkerDataUpdate(injuryMarkerObj);

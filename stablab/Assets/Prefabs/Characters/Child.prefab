@@ -314,6 +314,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   smr: {fileID: 6900196420258404696}
+  meshCollider: {fileID: 4830456201839155836}
   skeleton: {fileID: 0}
 --- !u!1 &2437414198939090976
 GameObject:

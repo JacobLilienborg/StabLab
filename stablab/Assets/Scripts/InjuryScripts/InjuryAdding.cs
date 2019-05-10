@@ -166,7 +166,7 @@ public class InjuryAdding : MonoBehaviour
             throw new System.Exception("Injury has no Marker");
         }
 
-        ModelController.SetBodyPose(injury.BodyPose);
+        //ModelController.SetBodyPose(injury.BodyPose);
         Transform parent = GameObject.Find(injury.Marker.BodyPartParent).transform;
         return AddMarker(injury.Marker.MarkerPosition, parent, injury.Marker.MarkerRotation);
     }

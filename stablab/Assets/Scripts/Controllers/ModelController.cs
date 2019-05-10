@@ -1,4 +1,9 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
+
+[System.Serializable] public class OnClickPoint : UnityEvent<Vector3>{}
+[System.Serializable] public class OnClickBone : UnityEvent<Transform>{}
+
 
 /*
  * ModelController has functions to Set/get pose of body.
@@ -6,10 +11,12 @@
 
 public class ModelController : MonoBehaviour
 {
-    public SkinnedMeshRenderer smr;
+    public OnClickPoint onClickPoint = new OnClickPoint();
+    public OnClickBone onClickBone = new OnClickBone();
+    public SkinnedMeshRenderer smr = null;
+    public MeshCollider meshCollider = null;
+    private Mesh mesh = null; 
     public Transform skeleton = null;
-    private const string BODYPART_TAG = "Body";
-    public GameObject skeletonNonStatic; // Needed to get skeleton from editor
     private float _muscles = 0;
     public float muscles
     {
@@ -17,7 +24,7 @@ public class ModelController : MonoBehaviour
         set
         {
             _muscles = value;
-            morph();
+            Morph();
         }
     }
     private float _weight = 0;
@@ -27,11 +34,25 @@ public class ModelController : MonoBehaviour
         set
         {
             _weight = value;
-            morph();
+            Morph();
         }
     }
 
-    private void morph()
+    void Update(){
+        if (Input.GetMouseButton(0))
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition); //Ray from mouseclick on screen
+            RaycastHit hit;  //Where the ray hits (the injury position)
+
+            if (Physics.Raycast(ray, out hit) && (hit.collider == meshCollider)){
+                onClickPoint.Invoke(hit.point);
+                onClickBone.Invoke(GetClosestBone(hit.transform));
+            }
+        }
+    }
+
+    // There is a bug, if the sliders are changed to fast the blend shapes will fuck up
+    private void Morph()
     {
         /*
          * 0:Buff
@@ -43,6 +64,7 @@ public class ModelController : MonoBehaviour
          * 6.MusclePos
          * 7.MuscleNeg
          */
+
         if (muscles > 0 && weight > 0)
         {
             
@@ -70,48 +92,26 @@ public class ModelController : MonoBehaviour
             smr.SetBlendShapeWeight(muscles > 0 ? 6 : 7, Mathf.Abs(muscles));
             smr.SetBlendShapeWeight(weight > 0 ? 4 : 5, Mathf.Abs(weight));
         }
-
+        
+    }
+    public void BakeMesh(){
+        mesh = new Mesh();
+        smr.BakeMesh(mesh);
+        meshCollider.sharedMesh = mesh;
     }
 
-    public void GetClosestBone(Transform hit){
+
+
+    public Transform GetClosestBone(Transform hit){
         Transform closestBone = null;
+        float closestDistance = Mathf.Infinity;
         Transform[] bones = skeleton.GetComponentsInChildren<Transform>();
         foreach (Transform bone in bones){
-            if (Vector3.Distance(hit.position, closestBone.position) > 
-                Vector3.Distance(hit.position, bone.position)){
+            if (closestDistance > Vector3.Distance(hit.position, bone.position)){
                 closestBone = bone;
+                closestDistance = Vector3.Distance(hit.position, bone.position);
             }
         }
-        if(closestBone){
-            // Set gizmo
-        }
-    }
-
-    // Set the pose to the BodyPose input
-    public static void SetBodyPose(BodyPose body)
-    {/*
-        if (body == null) return; // set to a standard pose later
-
-        skeleton.position = body.GetPosition();
-        skeleton.rotation = body.GetRotation();
-
-        Transform[] children = skeleton.GetComponentsInChildren<Transform>();
-        int bodyIndex = 0;
-        foreach (Transform child in children)
-        {
-            if (child.tag == BODYPART_TAG)
-            {
-                child.position = body.bodyParts[bodyIndex].GetPosition();
-                child.rotation = body.bodyParts[bodyIndex].GetRotation();
-                bodyIndex++;
-            }
-        }
-        */
-    }
-
-    // Return current pose
-    public static BodyPose GetBodyPose()
-    {
-        return new BodyPose(new GameObject());
+        return closestBone;
     }
 }
