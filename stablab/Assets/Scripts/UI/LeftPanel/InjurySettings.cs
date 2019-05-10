@@ -109,14 +109,7 @@ public class InjurySettings : MonoBehaviour
 
     private void LoadTypeText()
     {
-        if (activeInjury.Type != InjuryType.Null)
-        {
-            woundType.text = activeInjury.Type.ToString();
-        }
-        else
-        {
-            woundType.text = woundTypeDefault;
-        }
+       woundType.text = activeInjury.ToString();
     }
 
     private void LoadPositionText()
@@ -133,6 +126,7 @@ public class InjurySettings : MonoBehaviour
 
     private void LoadCertaintyText()
     {
+        /*
         if (activeInjury.Certainty != Certainty.Null)
         {
             certainty.text = activeInjury.Certainty.ToString();
@@ -141,6 +135,7 @@ public class InjurySettings : MonoBehaviour
         {
             certainty.text = certaintyDefault;
         }
+        */
     }
 
     private void LoadImages()

@@ -12,7 +12,6 @@ public class WeaponModelManager : MonoBehaviour
     public GameObject injuryAddingObj;
     private InjuryAdding injuryAdding;
 
-    public GameObject transformGizmoObj;
     public RuntimeGizmos.TransformGizmo gizmo;
 
     Quaternion previousRotation;
@@ -22,7 +21,7 @@ public class WeaponModelManager : MonoBehaviour
     public void Start()
     {
         injuryAdding = injuryAddingObj.GetComponent<InjuryAdding>();
-        gizmo = transformGizmoObj.GetComponent<RuntimeGizmos.TransformGizmo>();
+        gizmo = Camera.main.gameObject.GetComponent<RuntimeGizmos.TransformGizmo>();
     }
 
     public void Reset() {
@@ -61,10 +60,8 @@ public class WeaponModelManager : MonoBehaviour
         if (modelGizmo.gizmoActive) {
             //SaveRotation();
             RemoveGizmoFromModel();
-            modelGizmo.gizmoActive = false;
         }
         else {
-            modelGizmo.gizmoActive = true;
             AddGizmoToModel();
         }
     }
@@ -72,23 +69,25 @@ public class WeaponModelManager : MonoBehaviour
     public void AddGizmoToModel()
     {
         SetParentIfNonExisting();
-        GameObject curModel = parent;
+        GameObject curModel = InjuryManager.activeInjury.Marker.GetParent(); ;
+        Debug.Log("Nuär jag här1111");
         if (curModel == null || parent.activeSelf == false) return;
+        Debug.Log("Nuär jag här222222");
         InjuryModelGizmos comp = curModel.GetComponentInChildren<InjuryModelGizmos>();
-        RuntimeGizmos.TransformGizmo gizmo = comp.gizmo;
+        RuntimeGizmos.TransformGizmo transGizmo = comp.gizmo;
         comp.AddGizmo(curModel);
-        gizmo.bodyPartsMovement = false;
+        transGizmo.bodyPartsMovement = false;
     }
 
     public void RemoveGizmoFromModel()
     {
         SetParentIfNonExisting();
-        GameObject curModel = parent;
+        GameObject curModel = InjuryManager.activeInjury.Marker.GetParent();
         if (curModel == null) return;
         InjuryModelGizmos comp = curModel.GetComponentInChildren<InjuryModelGizmos>();
-        RuntimeGizmos.TransformGizmo gizmo = comp.gizmo;
+        RuntimeGizmos.TransformGizmo transGizmo = comp.gizmo;
         comp.RemoveGizmo(curModel);
-        gizmo.bodyPartsMovement = true;
+        transGizmo.bodyPartsMovement = true;
     }
 
     public void AddModel()
@@ -119,15 +118,15 @@ public class WeaponModelManager : MonoBehaviour
             Destroy(parent);
         }
 
-        GameObject currentModel = GetCurrentModel();
+        //GameObject currentModel = GetCurrentModel();
         if (InjuryManager.activeInjury.HasMarker())
         {
             InjuryManager.activeInjury.Marker.GetParent().SetActive(false);
             //UpdateParentAndChild();
         }
 
-        if (currentModel == null) return;
-        parent = GameObject.Instantiate(currentModel);
+        if (InjuryManager.activeInjury == null) return;
+        parent = InjuryManager.activeInjury.InstantiateModel(Vector3.zero, Quaternion.identity, null);//GameObject.Instantiate(currentModel);
         parent.GetComponent<InjuryModelGizmos>().gizmo = this.gizmo;
 
         //parent = new GameObject("parentToWeaponModel to " + InjuryManager.activeInjury.Name);
@@ -178,6 +177,7 @@ public class WeaponModelManager : MonoBehaviour
 
     public void SaveModel() {
         // Add the temporary model to the injury and reset variables
+
         SetParentIfNonExisting();
         if (parent == null) return;
 
@@ -185,12 +185,13 @@ public class WeaponModelManager : MonoBehaviour
         RemoveGizmoFromModel();
         InjuryManager.activeInjury.Marker.activeInPresentation = parent.activeSelf;
         InjuryManager.activeInjury.AddModel(parent);
-        Destroy(parent);
+        //Destroy(parent);
         parent = null;
     }
 
     public GameObject GetModel(Injury injury)
     {
+        /*
         switch (injury.Type)
         {
             case InjuryType.Cut:
@@ -204,13 +205,15 @@ public class WeaponModelManager : MonoBehaviour
             default:
                 return null;
         }
+        */
+        return null;
     }
-
+    /*
     public GameObject GetCurrentModel()
     {
-        return GetModel(InjuryManager.activeInjury);
+        return InjuryManager.activeInjury.injuryModelObj;
     }
-
+    */
     public void SetActiveInjuryColor(int colorIndex) {
         SetModelColor(colorIndex, InjuryManager.activeInjury);
     }

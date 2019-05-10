@@ -1,14 +1,22 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Events;
+
+public enum Scenes {start, creation, editing, presentation};
+
+[System.Serializable]
+public class SceneEvent : UnityEvent<Scenes>
+{
+}
 
 public class ViewManager : MonoBehaviour
 {
 
+    public SceneEvent onSceneChange;
     public static ViewManager instance;
 
     private void Awake()
     {
-
         // If instance doesn't exist set it to this, else destroy this 
         if (instance == null)
         {
@@ -19,39 +27,14 @@ public class ViewManager : MonoBehaviour
             Destroy(instance.gameObject);
             instance = this;
         }
-
         DontDestroyOnLoad(this);
     }
-    
-    private void Update()
-    {
-        if (Input.GetKeyDown("0"))
-        {
-            //changeScene(0);
-        }
-        else if (Input.GetKeyDown("1"))
-        {
-            //changeScene(1);
-        }
-        else if (Input.GetKeyDown("2"))
-        {
-            //changeScene(2);
-        }
-    }
 
 
-    public void changeScene(int index)
+
+    public void ChangeScene(int index)
     {
         SceneManager.LoadScene(index);
-    }
-
-    public void FadeIn(int index, float fadeTime = 0.0f)
-    {
-        SceneManager.LoadScene(index);
-    }
-
-    public void FadeOut(int index, float fadeTime = 0.0f)
-    {
-
+        onSceneChange.Invoke((Scenes)index);
     }
 }
