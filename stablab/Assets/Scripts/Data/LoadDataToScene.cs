@@ -1,20 +1,29 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LoadDataToScene : MonoBehaviour
 {
     public GameObject imageAreaObj;
-    //WHYYYYY public ImagesHandler imageHandeler;
+    private ImagesHandler imageHandeler;
+    public GameObject textObj;
+    private Text text;
     void Start()
     {
-        //imagesHandeler = imageAreaObj.GetComponent<ImagesHandeler>();
-        //imagesHandeler.LoadAllImages();
+        imageHandeler = imageAreaObj.GetComponent<ImagesHandler>();
+        text = textObj.GetComponent<Text>();
+        imageHandeler.LoadAllImages();
+        //if(text != null) Debug.Log("asd");
+        text.text = InjuryManager.activeInjury.InfoText;
+    }
+    void UpdateDataOnNewActiveInjury()
+    {
+        text.text = InjuryManager.activeInjury.InfoText;
+        imageHandeler.LoadAllImages();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    void Update(){
+        //UpdateDataOnNewActiveInjury();
     }
 }
