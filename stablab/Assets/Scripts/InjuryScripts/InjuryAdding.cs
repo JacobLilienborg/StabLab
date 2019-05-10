@@ -7,16 +7,6 @@ public enum InjuryState
     Delete
 };
 
-public enum InjuryType
-{
-    Null,
-    Crush,
-    Cut,
-    Shot,
-    Stab,
-}
-
-
 /*
  * InjuryAdding spawns an injurymarker of the currently active injury on the body by clicking somewhere on the body.
  */
@@ -33,8 +23,6 @@ public class InjuryAdding : MonoBehaviour
     public GameObject modelManagerObj;
     private WeaponModelManager modelManager;
 
-    public GameObject crushMarker, cutMarker, shotMarker, stabMarker;
-    public GameObject crushModel, cutModel, shotModel, stabModel;
     public Vector3 markerPos;
     public Transform hitPart;
 
@@ -64,8 +52,15 @@ public class InjuryAdding : MonoBehaviour
                     markerPos = hit.point;
                     hitPart = hit.transform;
 
-                    Destroy(newMarker);
-                    newMarker = AddMarker(markerPos, hitPart, Quaternion.identity);
+                    if(newMarker == null) 
+                    {
+                        newMarker = AddMarker(markerPos, hitPart, Quaternion.identity);
+                    }
+                    else 
+                    {
+                        UpdateNewMarker(markerPos, hitPart, Quaternion.identity);
+                    }
+
                     modelManager.UpdateModel();
                     //currentInjuryState = InjuryState.Inactive;
                 }
@@ -87,6 +82,7 @@ public class InjuryAdding : MonoBehaviour
         //modelManager.RemoveModel();
         modelManager.ResetModel();
         Destroy(newMarker);
+        newMarker = null;
         if (InjuryManager.activeInjury.HasMarker()) InjuryManager.activeInjury.Marker.GetParent().SetActive(true);
         if (InjuryManager.activeInjury.injuryMarkerObj != null) InjuryManager.activeInjury.ToggleMarker(true);
     }
@@ -97,7 +93,7 @@ public class InjuryAdding : MonoBehaviour
         if (newMarker == null) return;
 
 
-        //InjuryManager.activeInjury.RemoveCurrent();
+        InjuryManager.activeInjury.RemoveCurrent();
         InjuryManager.activeInjury.AddInjuryMarker(newMarker);
         //modelManager.SaveModel();
 
@@ -144,31 +140,23 @@ public class InjuryAdding : MonoBehaviour
         if (InjuryManager.activeInjury.injuryMarkerObj != null) {
             InjuryManager.activeInjury.ToggleMarker(false);
         }
-        GameObject markerObj;
-        switch (InjuryManager.activeInjury.Type)
-        {
-            case InjuryType.Crush:
-                markerObj = Instantiate(crushMarker, position, Quaternion.identity);
-                break;
-            case InjuryType.Cut:
-                markerObj = Instantiate(cutMarker, position, Quaternion.identity);
-                break;
-            case InjuryType.Shot:
-                markerObj = Instantiate(shotMarker, position, Quaternion.identity);
-                break;
-            case InjuryType.Stab:
-                markerObj = Instantiate(stabMarker, position, Quaternion.identity);
-                break;
-            default:
-                Debug.Log("None existing marker");
-                markerObj = null;
-                return markerObj;
-        }
+        GameObject markerObj = InjuryManager.activeInjury.InstantiateMarker(position, rotation, parent);
 
-        markerObj.transform.parent = parent;
-        markerObj.transform.rotation = rotation;
+        //markerObj.transform.rotation = rotation;
         return markerObj;
     }
+
+    // Update newMarker
+    private void UpdateNewMarker(Vector3 position, Transform parent, Quaternion rotation)
+    {
+        if (newMarker != null)
+        {
+            newMarker.transform.parent = parent;
+            newMarker.transform.position = position;
+            newMarker.transform.rotation = rotation;
+        }
+    }
+
 
     // Instantiate a saved marker from an injury.
     public GameObject LoadMarker(Injury injury)
@@ -187,10 +175,8 @@ public class InjuryAdding : MonoBehaviour
         if (injury.Marker == null) {
             throw new System.Exception("Injury has no Marker");
         }
-
-        GameObject model = Instantiate(modelManager.GetModel(injury));
-        model.transform.rotation = injury.Marker.ModelRotation;
-        model.transform.position = injury.Marker.ModelPosition;
+        Transform parent = GameObject.Find(injury.Marker.BodyPartParent).transform;
+        GameObject model = injury.InstantiateModel(injury.Marker.ModelPosition, injury.Marker.ModelRotation, parent);
         model.GetComponent<InjuryModelGizmos>().gizmo = modelManager.gizmo;
         modelManager.SetModelColor(injury.Marker.modelColorIndex,injury);
         return model;
@@ -201,27 +187,5 @@ public class InjuryAdding : MonoBehaviour
     {
         currentInjuryState = InjuryState.Delete;
     }
-
-    //Called when the CrushButton is pressed
-    public void CrushPressed()
-    {
-        currentInjuryType = InjuryType.Crush;
-    }
-    //Called when the CutButton is pressed
-    public void CutPressed()
-    {
-        currentInjuryType = InjuryType.Cut;
-    }
-    //Called when the ShotButton is pressed
-    public void ShotPressed()
-    {
-        currentInjuryType = InjuryType.Shot;
-    }
-    //Called when the StabButton is pressed
-    public void StabPressed()
-    {
-        currentInjuryType = InjuryType.Stab;
-    }
-
 
 }

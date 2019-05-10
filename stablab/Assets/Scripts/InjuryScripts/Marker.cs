@@ -12,22 +12,21 @@ public class Marker
 {
     [NonSerialized]
     private GameObject parent;
-    
-    public InjuryType Type { get; set; }
+
     public bool activeInPresentation = false;
     public string BodyPartParent { get; protected set; }
     private float[] serializedPosMarker = new float[3];
     private float[] serializedRotMarker = new float[4];
     private float[] serializedPosModel = new float[3];
     private float[] serializedRotModel = new float[4];
+    [NonSerialized]
     public Quaternion modelRott;
 
     public int modelColorIndex = -1;
 
-    public Marker(GameObject markerObj, InjuryType type) 
+    public Marker(GameObject markerObj) 
     {
-        MarkerUpdate(markerObj);
-        this.Type = type;
+        MarkerDataUpdate(markerObj);
         /*stabModel = AssetDatabase.LoadAssetAtPath("Assets/Prefabs/Models/STAB", typeof(GameObject));
         cutModel = AssetDatabase.LoadAssetAtPath("Assets/Prefabs/Models/CUT", typeof(GameObject));
         shotModel = AssetDatabase.LoadAssetAtPath("Assets/Prefabs/Models/SHOT", typeof(GameObject));
@@ -35,12 +34,21 @@ public class Marker
     }
 
     // Copy data from input object
-    public void MarkerUpdate(GameObject markerObj) 
+    public void MarkerDataUpdate(GameObject markerObj) 
     {
         MarkerPosition = markerObj.transform.position;
         MarkerRotation = markerObj.transform.rotation;
         BodyPartParent = markerObj.transform.parent.name;
-        //Type = markerObj.GetComponent<MarkerHandler>().type;
+    }
+
+    // Copy data from input object
+    public void ModelDataUpdate()
+    {
+        if(parent != null) 
+        {
+            ModelPosition = parent.transform.position;
+            ModelRotation = parent.transform.rotation;
+        }
     }
 
     public Vector3 MarkerPosition
@@ -110,12 +118,12 @@ public class Marker
     public void RemoveModel() {
         serializedPosModel = null;
         serializedPosModel = null;
-        GameObject.Destroy(parent);
+        UnityEngine.Object.Destroy(parent);
     }
 
     public void UpdateModel() {
         parent.transform.position = ModelPosition;
-        parent.transform.rotation = modelRott;//ModelRotation;
+        parent.transform.rotation = ModelRotation;
 
     }
 
@@ -126,8 +134,7 @@ public class Marker
     }
 
     public void SetModelRotation(Quaternion rotation) {
-        //ModelRotation = rotation;
-        modelRott = rotation;
+        ModelRotation = rotation;
         UpdateModel();
     }
 
@@ -138,8 +145,11 @@ public class Marker
     }
 
     public void SetParent(GameObject parent) {
+        //if (this.parent != null) UnityEngine.Object.Destroy(this.parent);
         this.parent = parent;
         parent.SetActive(activeInPresentation);
+        ModelPosition = parent.transform.position;
+        ModelRotation = parent.transform.rotation;
         //SetModelPosition(parent.transform.position);
         //SetModelRotation(parent.transform.rotation);
     }

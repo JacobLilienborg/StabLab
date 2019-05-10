@@ -4,6 +4,17 @@ using System;
 using UnityEngine.Events;
 using System.Collections;
 
+
+public enum InjuryType
+{
+    Undefined,
+    Crush,
+    Cut,
+    Shot,
+    Stab,
+}
+
+
 /*
  * InjuryManager manages a list of injuries such as adding and removing injuries.
  * It allso takes care of wich injury, if any, is the currently active injury.
@@ -91,9 +102,8 @@ public class InjuryManager : MonoBehaviour
     // Creates and add the new injury to the list of injuries.
     public static void AddNewInjury()
     {
-        Injury newInjury = new Injury(Guid.NewGuid());
+        Injury newInjury = new UndefinedInjury(Guid.NewGuid());
         injuries.Add(newInjury);
-        Debug.Log(newInjury.Id);
     }
 
     // Remove the currently active injury
@@ -134,9 +144,21 @@ public class InjuryManager : MonoBehaviour
             InjuryActivationEvent.Invoke(activeInjury);
             IndexActivationEvent.Invoke(index);
             ActivationEvent.Invoke();
-            if(activeInjury.HasMarker()) activeInjury.Marker.GetParent().SetActive(Settings.IsActiveModel(true));
+            if (activeInjury.HasMarker())
+            {
+                activeInjury.Marker.GetParent().SetActive(Settings.IsActiveModel(true));
+            }
         }
         
+    }
+
+    // Set the active injury 
+    public static void SetActiveInjury(Injury newInjury)
+    {
+        int activeIndex = injuries.IndexOf(activeInjury);
+        injuries[activeIndex] = newInjury;
+        activeInjury = newInjury;
+
     }
 
     // Needed this code to be listener
@@ -173,6 +195,38 @@ public class InjuryManager : MonoBehaviour
                 injury.AddModel(injuryAdding.LoadModel(injury));
             }
         }
+    }
+
+
+    public static void TransformActive(InjuryType type) 
+    {
+        Injury newInjury;
+
+        switch(type) 
+        {
+            case InjuryType.Shot:
+                newInjury = new ShotInjury(activeInjury);
+                break;
+            case InjuryType.Crush:
+                newInjury = new CrushInjury(activeInjury);
+                break;
+            case InjuryType.Cut:
+                newInjury = new CutInjury(activeInjury);
+                break;
+            case InjuryType.Stab:
+                newInjury = new StabInjury(activeInjury);
+                break;
+            case InjuryType.Undefined:
+                newInjury = new UndefinedInjury(activeInjury);
+                break;
+            default:
+                newInjury = new UndefinedInjury(activeInjury);
+                Debug.Log("Unknown type");
+                break;
+
+        }
+
+        SetActiveInjury(newInjury);
     }
 
 }
