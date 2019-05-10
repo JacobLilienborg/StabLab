@@ -16,10 +16,11 @@ public class LoadDataToScene : MonoBehaviour
         imageHandeler.LoadAllImages();
         //if(text != null) Debug.Log("asd");
         text.text = InjuryManager.activeInjury.InfoText;
+        InjuryManager.AddActivationListener(UpdateInjuryData);
     }
-    void UpdateDataOnNewActiveInjury()
+    void UpdateInjuryData(Injury injury)
     {
-        text.text = InjuryManager.activeInjury.InfoText;
+        text.text = injury.InfoText;
         imageHandeler.LoadAllImages();
     }
 
