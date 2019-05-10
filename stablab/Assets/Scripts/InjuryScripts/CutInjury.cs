@@ -1,0 +1,26 @@
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+[Serializable]
+public class CutInjury : Injury
+{
+    protected override string MarkerName { get { return "Markers/CutMarker"; } }
+    protected override string ModelName { get { return modelName; } }
+    public string modelName = "Models/Cut/cutModel";
+    public static readonly string modelPath = "Models/Cut";
+
+    public CutInjury(Guid id) : base(id)
+    {
+
+    }
+    public CutInjury(Injury injury) : base(injury)
+    {
+
+    }
+    public override string ToString()
+    {
+        return "Cut";
+    }
+}
