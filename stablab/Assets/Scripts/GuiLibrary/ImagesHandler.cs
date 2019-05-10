@@ -97,7 +97,7 @@ public class ImagesHandler : MonoBehaviour
             images[i].gameObject.SetActive(i == index);
         }
 
-        addButton.gameObject.SetActive(index == images.Count);
+        if(addButton != null) addButton.gameObject.SetActive(index == images.Count);
 
         activeIndex = index;
         CheckInteractability();
@@ -107,7 +107,8 @@ public class ImagesHandler : MonoBehaviour
     private void CheckInteractability()
     {
         previousButton.interactable = activeIndex > 0;
-        nextButton.interactable = activeIndex < images.Count;
+        if(addButton != null) nextButton.interactable = activeIndex < images.Count;
+        else nextButton.interactable = activeIndex < images.Count - 1;
     }
 
 }
