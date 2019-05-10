@@ -1705,6 +1705,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c08bc4f4cb393043bac9ea411b63f84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  smr: {fileID: 0}
+  skeleton: {fileID: 0}
   skeletonNonStatic: {fileID: 724749572}
 --- !u!114 &141239036
 MonoBehaviour:
@@ -1722,22 +1724,6 @@ MonoBehaviour:
   currentInjuryType: 0
   injuryManagerObj: {fileID: 1507021512}
   modelManagerObj: {fileID: 1295256604}
-  crushMarker: {fileID: 5393068584633678322, guid: bbabb512ba011cb4fa61ed08af2f48e6,
-    type: 3}
-  cutMarker: {fileID: 2790703822800731438, guid: 86beb3d8a1d8db74482465dd86bc0ef4,
-    type: 3}
-  shotMarker: {fileID: 538839329947775134, guid: f657e8adbf03ff84581e4ad9eb202ffe,
-    type: 3}
-  stabMarker: {fileID: 2530853426216288291, guid: 16996b3ad34c73c4dbc91044ad08894a,
-    type: 3}
-  crushModel: {fileID: 5902518962723309508, guid: 5f8a396c16c56434e9057861b5393e33,
-    type: 3}
-  cutModel: {fileID: 7439006375897330303, guid: 6745a5779a421d6438ce1b58d9446b98,
-    type: 3}
-  shotModel: {fileID: 1158819154700440335, guid: ad6722b1427df4b40a3bac47492151d7,
-    type: 3}
-  stabModel: {fileID: 716937280134873639, guid: d4263616910176c4ca4db7b31007240a,
-    type: 3}
   markerPos: {x: 0, y: 0, z: 0}
   hitPart: {fileID: 0}
   newMarker: {fileID: 0}
@@ -5090,7 +5076,7 @@ PrefabInstance:
     - target: {fileID: 6701885534270600594, guid: c5d90dc30b301f647bd40bdc7f1c9719,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: changeScene
+      value: ChangeScene
       objectReference: {fileID: 0}
     - target: {fileID: 6701885534270600594, guid: c5d90dc30b301f647bd40bdc7f1c9719,
         type: 3}
@@ -9176,6 +9162,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dataManager: {fileID: 0}
+  modelManager: {fileID: 0}
   viewManager: {fileID: 0}
 --- !u!1 &873270421
 GameObject:
