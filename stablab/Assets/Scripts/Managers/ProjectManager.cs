@@ -13,6 +13,7 @@ public class ProjectManager : MonoBehaviour
     private float projectVersion = 0.1f;                                        // Mainly for future implementation where projectVersion is critical
     private ProjectData currentProject;                                         // A copy of the current project data
     [SerializeField] private DataManager dataManager;                           // A data manager which handles how to save and load data files
+    [SerializeField] private ModelManager modelManager;
     [SerializeField] private ViewManager viewManager;                           // A view manager which handles how to switch scenes and how to transition between these.
 
     // Start is called before the first frame update
@@ -39,8 +40,8 @@ public class ProjectManager : MonoBehaviour
     {
         dataManager = DataManager.instance;
         viewManager = ViewManager.instance;
+        modelManager = ModelManager.instance;
     }
-
         public void DebugMe(string message)
     {
         Debug.Log(message);
@@ -52,7 +53,7 @@ public class ProjectManager : MonoBehaviour
         currentProject = new ProjectData(name, directory, projectVersion);
         dataManager.SetWorkingDirectory(currentProject.GetDirectory());
         Load(true);
-        viewManager.FadeIn(2);
+        viewManager.ChangeScene(2);
     }
 
     public void Open()
@@ -64,7 +65,7 @@ public class ProjectManager : MonoBehaviour
             currentProject = FileManager.Load<ProjectData>(Path.Combine(path, "Data", "project"));
             dataManager.SetWorkingDirectory(currentProject.GetDirectory());
             Load(true);
-            viewManager.FadeIn(3);
+            viewManager.ChangeScene(3);
         }
         catch (FileNotFoundException) //Just an example of what we might catch, probably more/other exception is needed
         {
