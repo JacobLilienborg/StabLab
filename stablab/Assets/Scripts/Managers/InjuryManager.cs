@@ -122,8 +122,6 @@ public class InjuryManager : MonoBehaviour
             {
                 if (activeInjury != injury)
                 {
-                   
-
                     activeInjury = injury;
                     InjuryActivationEvent.Invoke(activeInjury);
                     IndexActivationEvent.Invoke(index);
@@ -146,7 +144,7 @@ public class InjuryManager : MonoBehaviour
             ActivationEvent.Invoke();
             if (activeInjury.HasMarker())
             {
-                activeInjury.Marker.GetParent().SetActive(Settings.IsActiveModel(true));
+                activeInjury.Marker.GetWeaponModel().SetActive(Settings.IsActiveModel(true));
             }
         }
         
@@ -169,9 +167,8 @@ public class InjuryManager : MonoBehaviour
             InjuryDeactivationEvent.Invoke(activeInjury);
             IndexDeactivationEvent.Invoke(index);
             DeactivationEvent.Invoke();
-            if (activeInjury.HasMarker()) activeInjury.Marker.GetParent().SetActive(Settings.IsActiveModel(false));
+            if (activeInjury.HasMarker()) activeInjury.Marker.GetWeaponModel().SetActive(Settings.IsActiveModel(false));
             activeInjury = null;
-             //invoke null? 
         }
     }
 
@@ -191,8 +188,9 @@ public class InjuryManager : MonoBehaviour
             activeInjury = injury;
             if(injury.Marker != null)
             {
+                ModelController.SetBodyPose(injury.BodyPose);
                 injury.InjuryMarkerObj = injuryAdding.LoadMarker(injury);
-                injury.AddModel(injuryAdding.LoadModel(injury));
+                injury.Marker.SetWeaponModel(injuryAdding.LoadModel(injury));
             }
         }
     }
