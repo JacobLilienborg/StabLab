@@ -12,17 +12,24 @@ public class ImagesHandler : MonoBehaviour
 {
     [SerializeField] private RectTransform imageArea;
     [SerializeField] private Button addButton;
-    [SerializeField] private RawImage emptyImage;
+    [SerializeField] private InjuryImage emptyImage;
     [SerializeField] private Button previousButton;
     [SerializeField] private Button nextButton;
     
-    private List<RawImage> images = new List<RawImage>();
+    private List<InjuryImage> images = new List<InjuryImage>();
     private int activeIndex = 1; // 0 <= activeIndex >= images.Count , images.Count is addButton
+
+    // We disable the navigation buttons at start.
+    private void Start()
+    {
+        previousButton.interactable = false;
+        nextButton.interactable     = false;
+    }
 
     // Load all images saved to the active injury
     public void LoadAllImages() 
     {
-        foreach(RawImage image in images) { Destroy(image.gameObject); }
+        foreach(InjuryImage image in images) { Destroy(image.gameObject); }
         images.Clear();
 
         for(int i = 0; i < InjuryManager.activeInjury.images.Count; i++)
@@ -48,7 +55,7 @@ public class ImagesHandler : MonoBehaviour
         imgTexture.LoadImage(InjuryManager.activeInjury.images[index]);
         imgTexture.Compress(false);
 
-        RawImage image = Instantiate(emptyImage, imageArea);
+        InjuryImage image = Instantiate(emptyImage, imageArea);
         image.texture = imgTexture;
 
         float ratio = image.texture.width / (float)image.texture.height;
@@ -92,6 +99,7 @@ public class ImagesHandler : MonoBehaviour
     // Make the image with the index from input visible and the rest invisible
     private void ShowImage(int index)
     {
+ 
         for(int i = 0; i < images.Count; i++)
         {
             images[i].gameObject.SetActive(i == index);
@@ -101,13 +109,23 @@ public class ImagesHandler : MonoBehaviour
 
         activeIndex = index;
         CheckInteractability();
+
+        //If our active Image is in full screen, we shrink it.
+        /*if (activeIndex < images.Count)
+        {
+            if (images[activeIndex].IsFullScreen)
+            {
+                images[activeIndex].resize();
+            }
+        }*/
+
     }
 
     // Check if the previous/next button are going to be interactable
     private void CheckInteractability()
     {
         previousButton.interactable = activeIndex > 0;
-        nextButton.interactable = activeIndex < images.Count;
+        nextButton.interactable     = activeIndex < images.Count;
     }
 
 }
