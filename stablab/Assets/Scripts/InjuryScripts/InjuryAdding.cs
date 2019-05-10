@@ -23,8 +23,6 @@ public class InjuryAdding : MonoBehaviour
     public GameObject modelManagerObj;
     private WeaponModelManager modelManager;
 
-    //public GameObject crushMarker, cutMarker, shotMarker, stabMarker;
-    public GameObject crushModel, cutModel, shotModel, stabModel;
     public Vector3 markerPos;
     public Transform hitPart;
 
@@ -189,27 +187,5 @@ public class InjuryAdding : MonoBehaviour
     {
         currentInjuryState = InjuryState.Delete;
     }
-
-    //Called when the CrushButton is pressed
-    public void CrushPressed()
-    {
-        currentInjuryType = InjuryType.Crush;
-    }
-    //Called when the CutButton is pressed
-    public void CutPressed()
-    {
-        currentInjuryType = InjuryType.Cut;
-    }
-    //Called when the ShotButton is pressed
-    public void ShotPressed()
-    {
-        currentInjuryType = InjuryType.Shot;
-    }
-    //Called when the StabButton is pressed
-    public void StabPressed()
-    {
-        currentInjuryType = InjuryType.Stab;
-    }
-
 
 }
