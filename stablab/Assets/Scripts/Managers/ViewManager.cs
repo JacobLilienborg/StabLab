@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 public class ViewManager : MonoBehaviour
 {
 
+    [SerializeField] public enum Scene {start, creation, editing, presentation};
     public static ViewManager instance;
 
     private void Awake()
@@ -19,25 +20,9 @@ public class ViewManager : MonoBehaviour
             Destroy(instance.gameObject);
             instance = this;
         }
-
         DontDestroyOnLoad(this);
     }
-    
-    private void Update()
-    {
-        if (Input.GetKeyDown("0"))
-        {
-            //changeScene(0);
-        }
-        else if (Input.GetKeyDown("1"))
-        {
-            //changeScene(1);
-        }
-        else if (Input.GetKeyDown("2"))
-        {
-            //changeScene(2);
-        }
-    }
+
 
 
     public void changeScene(int index)
