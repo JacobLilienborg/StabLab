@@ -59,11 +59,6 @@ public class ModelManager : MonoBehaviour
                 }
         }
     }
-
-    public void adjustHeight(Slider slider)
-    {
-        activeModel.height = slider.value;
-    }
     
     public void adjustWeight(Slider slider)
     {

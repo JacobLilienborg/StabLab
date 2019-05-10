@@ -7,16 +7,9 @@
 public class ModelController : MonoBehaviour
 {
     public SkinnedMeshRenderer smr;
-    private float _height = 0;
-    public float height
-    {
-        get { return _height; }
-        set
-        {
-            //_height = value;
-            //smr.SetBlendShapeWeight(0, _height);
-        }
-    }
+    public Transform skeleton = null;
+    private const string BODYPART_TAG = "Body";
+    public GameObject skeletonNonStatic; // Needed to get skeleton from editor
     private float _muscles = 0;
     public float muscles
     {
@@ -38,18 +31,8 @@ public class ModelController : MonoBehaviour
         }
     }
 
-    private const string BODYPART_TAG = "Body";
-
-    public GameObject skeletonNonStatic; // Needed to get skeleton from editor
-    public static GameObject skeleton;
-
     private void morph()
     {
-<<<<<<< HEAD
-        smr.SetBlendShapeWeight(3, Mathf.Min(muscles, weight));
-        smr.SetBlendShapeWeight(muscles > weight ? 1 : 2, Mathf.Abs(muscles - weight));
-
-=======
         /*
          * 0:Buff
          * 1.Overweight
@@ -58,10 +41,11 @@ public class ModelController : MonoBehaviour
          * 4.WeightPos
          * 5.WeightNeg
          * 6.MusclePos
-         * 7.MuscleNeg  
+         * 7.MuscleNeg
          */
         if (muscles > 0 && weight > 0)
         {
+            
             smr.SetBlendShapeWeight(0, Mathf.Min(muscles, weight));
             smr.SetBlendShapeWeight(muscles > weight ? 6 : 4, Mathf.Abs(muscles - weight));
         }
@@ -87,20 +71,29 @@ public class ModelController : MonoBehaviour
             smr.SetBlendShapeWeight(weight > 0 ? 4 : 5, Mathf.Abs(weight));
         }
 
+    }
 
-
-
-        
->>>>>>> 46a9b71b6b64b6a301be593b4fcb211b42c76094
+    public void GetClosestBone(Transform hit){
+        Transform closestBone = null;
+        Transform[] bones = skeleton.GetComponentsInChildren<Transform>();
+        foreach (Transform bone in bones){
+            if (Vector3.Distance(hit.position, closestBone.position) > 
+                Vector3.Distance(hit.position, bone.position)){
+                closestBone = bone;
+            }
+        }
+        if(closestBone){
+            // Set gizmo
+        }
     }
 
     // Set the pose to the BodyPose input
     public static void SetBodyPose(BodyPose body)
-    {
+    {/*
         if (body == null) return; // set to a standard pose later
 
-        skeleton.transform.position = body.GetPosition();
-        skeleton.transform.rotation = body.GetRotation();
+        skeleton.position = body.GetPosition();
+        skeleton.rotation = body.GetRotation();
 
         Transform[] children = skeleton.GetComponentsInChildren<Transform>();
         int bodyIndex = 0;
@@ -113,12 +106,12 @@ public class ModelController : MonoBehaviour
                 bodyIndex++;
             }
         }
-
+        */
     }
 
     // Return current pose
     public static BodyPose GetBodyPose()
     {
-        return new BodyPose(skeleton);
+        return new BodyPose(new GameObject());
     }
 }
