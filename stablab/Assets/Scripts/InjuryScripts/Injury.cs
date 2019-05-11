@@ -29,6 +29,8 @@ public abstract class Injury
     public string Name { get; set; }
     public Texture woundIcon { get; set; } //Should be a sprite, as the woundIcons exists as sprites as well.
 
+    public bool isInHole = true;
+
     public List<byte[]> images = new List<byte[]>();
 
     protected Injury(Guid id)
@@ -46,6 +48,7 @@ public abstract class Injury
         InfoText = oldInjury.InfoText;
         Name = oldInjury.Name;
         images = oldInjury.images;
+        isInHole = oldInjury.isInHole;
 
         if(oldInjury.injuryMarkerObj != null) 
         {
@@ -189,4 +192,9 @@ public abstract class Injury
     }
     
     public override abstract string ToString();
+
+    public void SetInHole(bool inHole) {
+        isInHole = inHole;
+    }
+
 }

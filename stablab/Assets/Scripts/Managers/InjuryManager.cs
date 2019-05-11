@@ -198,7 +198,7 @@ public class InjuryManager : MonoBehaviour
     }
 
 
-    public static void TransformActive(InjuryType type) 
+    public static void TransformActive(InjuryType type, bool inHole) 
     {
         Injury newInjury;
 
@@ -225,7 +225,7 @@ public class InjuryManager : MonoBehaviour
                 break;
 
         }
-
+        newInjury.SetInHole(inHole);
         SetActiveInjury(newInjury);
     }
 
