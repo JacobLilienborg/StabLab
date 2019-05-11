@@ -11,6 +11,7 @@ public class ShotInjury : Injury
     public string modelName = "Models/Shot/shotModel";
     public static readonly string modelPath = "Models/Shot";
 
+
     public ShotInjury(Guid id) : base(id)
     {
 
