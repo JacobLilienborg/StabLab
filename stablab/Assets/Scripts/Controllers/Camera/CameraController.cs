@@ -19,7 +19,11 @@ public class CameraController : MonoBehaviour
     private Vector3 lastPosition;
     private float yaw = 0.0f;
     private float pitch = 0.0f;
-    private float fov;
+    public float fov;
+
+    public float stdFov;
+    public Vector3 stdPos;
+    public Quaternion stdRot;
 
     float panMoveConstant = 5;
     float clickZoomConstant = 5;
@@ -30,6 +34,9 @@ public class CameraController : MonoBehaviour
     void Start()
     {
         fov = Camera.main.fieldOfView;
+        stdFov = fov;
+        stdRot = Camera.main.transform.rotation;
+        stdPos = Camera.main.transform.position;
     }
 
     // Update is called once per frame
