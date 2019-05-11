@@ -26,6 +26,8 @@ public abstract class Injury
     public string InfoText { get; set; }
     public string Name { get; set; }
 
+    public bool isInHole = true;
+
     public List<byte[]> images = new List<byte[]>();
 
     protected Injury(Guid id)
@@ -44,6 +46,7 @@ public abstract class Injury
         InfoText = oldInjury.InfoText;
         Name = oldInjury.Name;
         images = oldInjury.images;
+        isInHole = oldInjury.isInHole;
 
         if(oldInjury.injuryMarkerObj != null) 
         {
@@ -170,4 +173,9 @@ public abstract class Injury
     }
     
     public override abstract string ToString();
+
+    public void SetInHole(bool inHole) {
+        isInHole = inHole;
+    }
+
 }

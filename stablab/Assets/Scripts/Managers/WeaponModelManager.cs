@@ -34,11 +34,13 @@ public class WeaponModelManager : MonoBehaviour
     }
 
     public void ToggleCurrentModel() {
+
+        Debug.Log(InjuryManager.activeInjury.isInHole);
         SetParentIfNonExisting();
-        InjuryModelGizmos modelGizmo = parent.GetComponentInChildren<InjuryModelGizmos>();
         if (parent != null)
         {
-            if(InjuryManager.activeInjury.HasMarker()){
+            InjuryModelGizmos modelGizmo = parent.GetComponentInChildren<InjuryModelGizmos>();
+            if (InjuryManager.activeInjury.HasMarker()){
                 InjuryManager.activeInjury.Marker.activeInPresentation = !parent.activeSelf;
             }
             
