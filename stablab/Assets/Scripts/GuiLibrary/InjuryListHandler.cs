@@ -350,15 +350,11 @@ public class InjuryListHandler : MonoBehaviour
     // A method that gets called when the active Injury is changed.
     public void RefreshActive()
     {
-        injuryButtons[ActiveIndex()].setImage(InjuryManager.GetActiveInjury().woundIcon);
-        /*
-        for(int i = 0; i < InjuryManager.injuries[].Count; i++)
+        for (int i = 0; i < injuryButtons.Count; i++)
         {
             if(injuryButtons[i].index == ActiveIndex())
-            {
-                injuryButtons[i].setImage(InjuryManager.injuries[ActiveIndex()].woundIcon);
-            }
-        }*/
+                injuryButtons[i].setImage(InjuryManager.GetActiveInjury().woundIcon);
+        }
     }
 
 }
