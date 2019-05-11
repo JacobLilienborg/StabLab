@@ -37,6 +37,9 @@ public class InjuryListHandler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // We listen to when an injury gets changed.
+        InjuryManager.AddActivationListener(RefreshActive);
+
         // Calculate the padding, button size and the total button amount
         CalculateScreenAdjustments();
 
@@ -77,7 +80,8 @@ public class InjuryListHandler : MonoBehaviour
         rightMostIndex = -1;
         foreach (InjuryButton button in injuryButtons)
         {
-            button.index = ++rightMostIndex;
+            button.SetIndex(++rightMostIndex);
+            button.setImage(InjuryManager.injuries[rightMostIndex].woundIcon);
         }
 
         // Remove if we have to many buttons, add if to few and enable next button if there are more injuries available
@@ -268,7 +272,10 @@ public class InjuryListHandler : MonoBehaviour
         addButton.transform.position += new Vector3(buttonSize + padding, 0, 0);
 
         // The button id will be the new rightmost index in the list
-        ib.index = ++rightMostIndex;
+        ib.SetIndex(++rightMostIndex);
+
+        // The button icon will be its injury icon.
+        ib.setImage(InjuryManager.injuries[rightMostIndex].woundIcon);
 
         // Add the button to the list of injury buttons
         injuryButtons.Add(ib);
@@ -336,8 +343,22 @@ public class InjuryListHandler : MonoBehaviour
         for (int i = 0; i < injuryButtons.Count; i++)
         {
             InjuryButton button = injuryButtons[injuryButtons.Count - 1 - i];
-            button.index = rightMostIndex - i;
+            button.SetIndex(rightMostIndex - i);
         }
+    }
+
+    // A method that gets called when the active Injury is changed.
+    public void RefreshActive()
+    {
+        injuryButtons[ActiveIndex()].setImage(InjuryManager.GetActiveInjury().woundIcon);
+        /*
+        for(int i = 0; i < InjuryManager.injuries[].Count; i++)
+        {
+            if(injuryButtons[i].index == ActiveIndex())
+            {
+                injuryButtons[i].setImage(InjuryManager.injuries[ActiveIndex()].woundIcon);
+            }
+        }*/
     }
 
 }

@@ -14,19 +14,13 @@ public class MyIntEvent : UnityEvent<int>
 
 public class InjuryButton : RadiobuttonController
 {
-    public int index = 0;
+    public int        index = 0;
+    public RawImage   iconImage;
 
-    public MyIntEvent OnCheckedInjury = new MyIntEvent();
+    public MyIntEvent OnCheckedInjury   = new MyIntEvent();
     public MyIntEvent OnUncheckedInjury = new MyIntEvent();
 
-    [SerializeField] private Text indexText;
-
-    // Update is called once per frame
-    protected override void Update()
-    {
-        base.Update();
-        indexText.text = index.ToString();
-    }
+    [SerializeField] private Text     indexText;
 
     public override void Checked(bool trigger = true)
     {
@@ -39,5 +33,20 @@ public class InjuryButton : RadiobuttonController
         base.Unchecked(trigger);
         if(trigger) OnUncheckedInjury.Invoke(index);
     }
+
+    public void SetIndex(int index)
+    {
+        this.index     = index;
+        indexText.text = index.ToString();
+    }
+
+    // Sets the icon texture to a given image.
+    public void setImage(Texture texture)
+    {
+        //Destroy(iconImage.texture);
+        if(texture != null)
+            iconImage.texture = texture;
+    }
+
 }
     
