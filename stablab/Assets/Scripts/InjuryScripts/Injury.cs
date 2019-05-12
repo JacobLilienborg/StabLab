@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 /*
  * The Injury class contains all information that is needed to represent an injury.
@@ -17,6 +18,7 @@ public abstract class Injury
     //public GameObject injuryModelObj;
     protected abstract string MarkerName { get; }
     protected abstract string ModelName { get; }
+    protected abstract string IconName { get; }
 
     public Guid Id { get; }
     public Marker Marker { get; protected set; }
@@ -25,13 +27,15 @@ public abstract class Injury
     //public Color Color { get; set; }
     public string InfoText { get; set; }
     public string Name { get; set; }
+    public Texture woundIcon { get; set; } //Should be a sprite, as the woundIcons exists as sprites as well.
+
+    public bool isInHole = true;
 
     public List<byte[]> images = new List<byte[]>();
 
     protected Injury(Guid id)
     {
         Id = id;
-
     }
 
     protected Injury(Injury oldInjury)
@@ -44,6 +48,7 @@ public abstract class Injury
         InfoText = oldInjury.InfoText;
         Name = oldInjury.Name;
         images = oldInjury.images;
+        isInHole = oldInjury.isInHole;
 
         if(oldInjury.injuryMarkerObj != null) 
         {
@@ -74,6 +79,23 @@ public abstract class Injury
         GameObject model = UnityEngine.Object.Instantiate((GameObject)Resources.Load(ModelName), pos, rot);
         model.transform.parent = parent;
         return model;
+    }
+
+    // Loads the wound Icon if the path to it is given.
+    public void loadIcon()
+    {
+        try
+        {
+            //TODO: Fixa detta!
+            if (IconName != null)
+               // woundIcon = Instantiate(new UnityEngine.UI.RawImage(), );
+                woundIcon = (Texture)Resources.Load(IconName);
+        }
+        catch(Exception e)
+        {
+            Debug.Log("Exception: " + e.ToString());
+            Debug.Log("Icon image couldn't be found in \"" + IconName + "\".");
+        }
     }
 
     public GameObject InjuryMarkerObj
@@ -170,4 +192,9 @@ public abstract class Injury
     }
     
     public override abstract string ToString();
+
+    public void SetInHole(bool inHole) {
+        isInHole = inHole;
+    }
+
 }
