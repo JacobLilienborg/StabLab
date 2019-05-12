@@ -198,7 +198,14 @@ public class WeaponModelManager : MonoBehaviour
 
     public void SetPreviousRotation() {
         if (InjuryManager.activeInjury == null || !InjuryManager.activeInjury.HasMarker()) return;
-        previousRotation = InjuryManager.activeInjury.Marker.MarkerRotation;
+        previousRotation = InjuryManager.activeInjury.Marker.ModelRotation;
+    }
+
+    public void RevertRotationChange() 
+    {
+        RemoveGizmoFromModel();
+        InjuryManager.activeInjury.Marker.GetWeaponModel().transform.rotation = previousRotation;
+        tempModel = null;
     }
 
     public static void SetParent(GameObject newParent) {
@@ -206,7 +213,10 @@ public class WeaponModelManager : MonoBehaviour
     }
 
     public void ResetModel(){
-        Destroy(tempModel);
-        tempModel = null;
+        if(tempModel != null && (!InjuryManager.activeInjury.HasMarker() || tempModel != InjuryManager.activeInjury.Marker.GetWeaponModel())) 
+        {
+            Destroy(tempModel);
+            tempModel = null;
+        }
     }
 }

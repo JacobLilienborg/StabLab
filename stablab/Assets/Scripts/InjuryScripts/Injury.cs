@@ -39,23 +39,24 @@ public abstract class Injury
         Marker = oldInjury.Marker;
         CameraSettings = oldInjury.CameraSettings;
         BodyPose = oldInjury.BodyPose;
-        //Color = oldInjury.Color;
         InfoText = oldInjury.InfoText;
         Name = oldInjury.Name;
         images = oldInjury.images;
 
         if(oldInjury.injuryMarkerObj != null) 
         {
-            GameObject newMarkerObj = InstantiateMarker(oldInjury.injuryMarkerObj.transform.position, oldInjury.injuryMarkerObj.transform.rotation, oldInjury.injuryMarkerObj.transform.parent);
+            Transform oldMarker = oldInjury.injuryMarkerObj.transform;
+            GameObject newMarkerObj = InstantiateMarker(oldMarker.position, oldMarker.rotation, oldMarker.transform.parent);
             UnityEngine.Object.Destroy(oldInjury.injuryMarkerObj);
             injuryMarkerObj = newMarkerObj;
         }
 
         if (oldInjury.HasMarker())
         {
-            Transform oldModel = oldInjury.Marker.GetWeaponModel().transform;
-            GameObject newModelObj = InstantiateModel(oldModel.position, oldModel.rotation, oldModel.parent);
-            UnityEngine.Object.Destroy(oldInjury.Marker.GetWeaponModel());
+            GameObject oldModel = oldInjury.Marker.GetWeaponModel();
+            GameObject newModelObj = InstantiateModel(oldModel.transform.position, oldModel.transform.rotation, oldModel.transform.parent);
+            newModelObj.GetComponent<InjuryModelGizmos>().gizmo = oldModel.GetComponent<InjuryModelGizmos>().gizmo;
+            UnityEngine.Object.Destroy(oldModel);
             Marker.SetWeaponModel(newModelObj);
         }
     }

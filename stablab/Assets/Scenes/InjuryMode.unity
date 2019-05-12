@@ -10246,7 +10246,7 @@ PrefabInstance:
     - target: {fileID: 6701885534270600594, guid: c5d90dc30b301f647bd40bdc7f1c9719,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
-      value: Reset
+      value: RevertRotationChange
       objectReference: {fileID: 0}
     - target: {fileID: 6701885534270600594, guid: c5d90dc30b301f647bd40bdc7f1c9719,
         type: 3}
