@@ -12,30 +12,35 @@ public class WoundTypeChooser : MonoBehaviour
     {
         injuryType = InjuryType.Shot;
         InOutOption.SetActive(true);
+        inHole = true;
     }
 
     public void checkCrush()
     {
         injuryType = InjuryType.Crush;
         InOutOption.SetActive(false);
+        inHole = true;
     }
 
     public void checkCut()
     {
         injuryType = InjuryType.Cut;
         InOutOption.SetActive(false);
+        inHole = true;
     }
 
     public void checkStab()
     {
         injuryType = InjuryType.Stab;
         InOutOption.SetActive(true);
+        inHole = true;
     }
 
     public void checkUndefined()
     {
         injuryType = InjuryType.Undefined;
         InOutOption.SetActive(false);
+        inHole = true;
     }
 
     public void SetInOrOut(bool inHole) {
