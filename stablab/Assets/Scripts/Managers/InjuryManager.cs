@@ -122,8 +122,6 @@ public class InjuryManager : MonoBehaviour
             {
                 if (activeInjury != injury)
                 {
-                   
-
                     activeInjury = injury;
                     InjuryActivationEvent.Invoke(activeInjury);
                     IndexActivationEvent.Invoke(index);
@@ -152,13 +150,15 @@ public class InjuryManager : MonoBehaviour
         
     }
 
-    // Set the active injury 
+    // Change the active injury.
     public static void SetActiveInjury(Injury newInjury)
     {
         int activeIndex = injuries.IndexOf(activeInjury);
         injuries[activeIndex] = newInjury;
         activeInjury = newInjury;
-
+        InjuryActivationEvent.Invoke(activeInjury);
+        IndexActivationEvent.Invoke(activeIndex);
+        ActivationEvent.Invoke();
     }
 
     // Needed this code to be listener
@@ -227,6 +227,11 @@ public class InjuryManager : MonoBehaviour
         }
         newInjury.SetInHole(inHole);
         SetActiveInjury(newInjury);
+    }
+
+    public static Injury GetActiveInjury()
+    {
+        return activeInjury;
     }
 
 }
