@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657868, g: 0.49641263, b: 0.5748171, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -358,11 +358,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 625885866}
     m_Modifications:
-    - target: {fileID: 6701885534270600592, guid: c5d90dc30b301f647bd40bdc7f1c9719,
-        type: 3}
-      propertyPath: m_Name
-      value: change
-      objectReference: {fileID: 0}
     - target: {fileID: 6701885534270600595, guid: c5d90dc30b301f647bd40bdc7f1c9719,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -467,6 +462,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6701885534270600592, guid: c5d90dc30b301f647bd40bdc7f1c9719,
+        type: 3}
+      propertyPath: m_Name
+      value: change
       objectReference: {fileID: 0}
     - target: {fileID: 6701885533971932542, guid: c5d90dc30b301f647bd40bdc7f1c9719,
         type: 3}
@@ -1601,7 +1601,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -73, y: -412}
+  m_AnchoredPosition: {x: -73, y: -449}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &116859532
@@ -2021,11 +2021,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 873270422}
     m_Modifications:
-    - target: {fileID: 6701885534270600592, guid: c5d90dc30b301f647bd40bdc7f1c9719,
-        type: 3}
-      propertyPath: m_Name
-      value: change
-      objectReference: {fileID: 0}
     - target: {fileID: 6701885534270600595, guid: c5d90dc30b301f647bd40bdc7f1c9719,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2130,6 +2125,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6701885534270600592, guid: c5d90dc30b301f647bd40bdc7f1c9719,
+        type: 3}
+      propertyPath: m_Name
+      value: change
       objectReference: {fileID: 0}
     - target: {fileID: 6701885533971932542, guid: c5d90dc30b301f647bd40bdc7f1c9719,
         type: 3}
@@ -3138,11 +3138,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1351978218}
     m_Modifications:
-    - target: {fileID: 6701885534270600592, guid: c5d90dc30b301f647bd40bdc7f1c9719,
-        type: 3}
-      propertyPath: m_Name
-      value: Done
-      objectReference: {fileID: 0}
     - target: {fileID: 6701885534270600595, guid: c5d90dc30b301f647bd40bdc7f1c9719,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3247,6 +3242,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6701885534270600592, guid: c5d90dc30b301f647bd40bdc7f1c9719,
+        type: 3}
+      propertyPath: m_Name
+      value: Done
       objectReference: {fileID: 0}
     - target: {fileID: 6701885533971932542, guid: c5d90dc30b301f647bd40bdc7f1c9719,
         type: 3}
@@ -3414,7 +3414,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -64, y: -779}
+  m_AnchoredPosition: {x: -64, y: -815.9999}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &262871012
@@ -3681,11 +3681,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1011597341}
     m_Modifications:
-    - target: {fileID: 6701885534270600592, guid: c5d90dc30b301f647bd40bdc7f1c9719,
-        type: 3}
-      propertyPath: m_Name
-      value: Done
-      objectReference: {fileID: 0}
     - target: {fileID: 6701885534270600595, guid: c5d90dc30b301f647bd40bdc7f1c9719,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3790,6 +3785,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6701885534270600592, guid: c5d90dc30b301f647bd40bdc7f1c9719,
+        type: 3}
+      propertyPath: m_Name
+      value: Done
       objectReference: {fileID: 0}
     - target: {fileID: 6701885533971932542, guid: c5d90dc30b301f647bd40bdc7f1c9719,
         type: 3}
@@ -4362,7 +4362,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -47.453365, y: -1371}
+  m_AnchoredPosition: {x: -47.453365, y: -1407.9999}
   m_SizeDelta: {x: 35, y: 35}
   m_Pivot: {x: 0.6470277, y: 0.5}
 --- !u!114 &294964229
@@ -4746,11 +4746,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 758098856}
     m_Modifications:
-    - target: {fileID: 6701885534270600592, guid: c5d90dc30b301f647bd40bdc7f1c9719,
-        type: 3}
-      propertyPath: m_Name
-      value: Reset
-      objectReference: {fileID: 0}
     - target: {fileID: 6701885534270600595, guid: c5d90dc30b301f647bd40bdc7f1c9719,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4870,6 +4865,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6701885534270600592, guid: c5d90dc30b301f647bd40bdc7f1c9719,
+        type: 3}
+      propertyPath: m_Name
+      value: Reset
       objectReference: {fileID: 0}
     - target: {fileID: 6701885533971932542, guid: c5d90dc30b301f647bd40bdc7f1c9719,
         type: 3}
@@ -5248,11 +5248,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1321668495}
     m_Modifications:
-    - target: {fileID: 6701885534270600592, guid: c5d90dc30b301f647bd40bdc7f1c9719,
-        type: 3}
-      propertyPath: m_Name
-      value: TextButton
-      objectReference: {fileID: 0}
     - target: {fileID: 6701885534270600595, guid: c5d90dc30b301f647bd40bdc7f1c9719,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5357,6 +5352,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6701885534270600592, guid: c5d90dc30b301f647bd40bdc7f1c9719,
+        type: 3}
+      propertyPath: m_Name
+      value: TextButton
       objectReference: {fileID: 0}
     - target: {fileID: 6701885533971932542, guid: c5d90dc30b301f647bd40bdc7f1c9719,
         type: 3}
@@ -5589,8 +5589,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -12, y: 531.4302}
-  m_SizeDelta: {x: 1000.1, y: 3319}
+  m_AnchoredPosition: {x: -12, y: 1431.4601}
+  m_SizeDelta: {x: 1000.1, y: 3698.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &379321633
 MonoBehaviour:
@@ -5625,43 +5625,46 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "1. INJURY BAR\nThe injury bar is located at the bottom of the screen and
-    contains all the current injuries on the model. If you want to add a new injury
-    you need to press the green +, this will add another injury to the list. The two
-    arrows on either side of the bar will have two functionalities. If an injury is
-    active the arrows will change injury to the next/previous in the list. If no injury
-    is active the arrows will move the list in the direction it is pointing.\n\n2.
-    INJURY PROPERTIES\nWhen an injury is active you can edit the properties in the
-    panel on the left side of the screen. When choosing to edit an property the button
-    DONE will enable the changes. If DONE is not pressed, the changes will not be
-    saved, just like an click on the RESET button. \n\n  2.1 WOUND TYPE\nHere you
-    can choose which type of injury you want to visualize. All \tinjuries are in-holes
-    as standard, but shot injuries and stab injuries can be chosen to be out holes
-    instead. This choice will be visible when choosing those types of injuries.\n\n
-    2.2 POSITION\nThis is where you position the injury. By clicking on the model
-    you will set the position of the injury and the position will be saved when clicking
-    on the DONE button.\n\n 2.3 WEAPON MODEL SETTINGS\nAll injuries has weapon models
-    attached to them, and in this window you have the possibility to set if the injury
-    should be visible or not when presenting the project. This option should NOT be
-    confused with the option in settings - to set which models should be visible while
-    editing. You can also rotate the model using gizmos (see section 4).\n\n3. CAMERA
-    MOVEMENT\nThe buttons at the bottom right of the screen will move the camera.
-    The four arrows at the top will rotate the camera around a certain axis. To clearify
-    this will NOT rotate the model, but the camera. Have this in mind when useing
-    the rotation tool. The four arrows at the bottom will move the camera in an given
-    direction. The + will move the camera closer to the model and the - will move
-    the camera further away. To set the model in the original position you can press
-    the RESET button, this will always place the camera in the original position.\n\n4.
-    GIZMOS\nTo rotate objects the program uses gizmos. These are implemented as an
-    easy way for the user to interact with object without be confusing. The lines
-    in the gizmo will rotate the object in that direction. So if you want to rotate
-    the object upwards, you need to grab the vertical line and move the mouse upwards.
-    If you grab the circle in the outline of the gizmo you will have the possibility
-    to rotate the object freely useing the mouse. This is not an recommended way of
-    rotating object due to it\xB4s lack of precision and that it is hard to master,
-    but for advanced users this is an option.\n\n5. FILE MANAGEMENT\n 5.1 SAVE\nWhile
-    the DONE buttons will save the changes to the current injury it will NOT save
-    the project. This happens when you press the floppy disc icon in the menu\n\n\nThis
+  m_Text: "WELCOME TO CORPVIZ.\nThis is an software developed to make digital visualization
+    of body injuries easier and more efficient. To clearify how the software works
+    and how to use it read this text. Below is the main functionality listed and explained.\n\n\n1.
+    INJURY BAR\nThe injury bar is located at the bottom of the screen and contains
+    all the current injuries on the model. If you want to add a new injury you need
+    to press the green +, this will add another injury to the list. The two arrows
+    on either side of the bar will have two functionalities. If an injury is active
+    the arrows will change injury to the next/previous in the list. If no injury is
+    active the arrows will move the list in the direction it is pointing.\n\n2. INJURY
+    PROPERTIES\nWhen an injury is active you can edit the properties in the panel
+    on the left side of the screen. When choosing to edit an property the button DONE
+    will enable the changes. If DONE is not pressed, the changes will not be saved,
+    just like an click on the RESET button. \n\n  2.1 WOUND TYPE\nHere you can choose
+    which type of injury you want to visualize. All \tinjuries are in-holes as standard,
+    but shot injuries and stab injuries can be chosen to be out holes instead. This
+    choice will be visible when choosing those types of injuries.\n\n 2.2 POSITION\nThis
+    is where you position the injury. By clicking on the model you will set the position
+    of the injury and the position will be saved when clicking on the DONE button.\n\n
+    2.3 WEAPON MODEL SETTINGS\nAll injuries has weapon models attached to them, and
+    in this window you have the possibility to set if the injury should be visible
+    or not when presenting the project. This option should NOT be confused with the
+    option in settings - to set which models should be visible while editing. You
+    can also rotate the model using gizmos (see section 4).\n\n3. CAMERA MOVEMENT\nThe
+    buttons at the bottom right of the screen will move the camera. The four arrows
+    at the top will rotate the camera around a certain axis. To clearify this will
+    NOT rotate the model, but the camera. Have this in mind when useing the rotation
+    tool. The four arrows at the bottom will move the camera in an given direction.
+    The + will move the camera closer to the model and the - will move the camera
+    further away. To set the model in the original position you can press the RESET
+    button, this will always place the camera in the original position.\n\n4. GIZMOS\nTo
+    rotate objects the program uses gizmos. These are implemented as an easy way for
+    the user to interact with object without be confusing. The lines in the gizmo
+    will rotate the object in that direction. So if you want to rotate the object
+    upwards, you need to grab the vertical line and move the mouse upwards. If you
+    grab the circle in the outline of the gizmo you will have the possibility to rotate
+    the object freely useing the mouse. This is not an recommended way of rotating
+    object due to it\xB4s lack of precision and that it is hard to master, but for
+    advanced users this is an option.\n\n5. FILE MANAGEMENT\n 5.1 SAVE\nWhile the
+    DONE buttons will save the changes to the current injury it will NOT save the
+    project. This happens when you press the floppy disc icon in the menu\n\n\nThis
     will save all changes to the current loaded file.\n\n 5.2 LOAD\nWhen loading a
     file, you need to choose the path where the file is located. The program will
     help you with this by providing a browser. To load a file you need to find the
@@ -5673,7 +5676,9 @@ MonoBehaviour:
     image inside the folder \"Screenshots\" in the project folder. To edit where the
     images are saved, check settings (section 6).\n\n6 SETTINGS\nThe settings tab
     will be enabled when you press the icon with an wrench in the menu. The changes
-    made will be activated when pressing the DONE button.\n\n\n\n"
+    made will be activated when pressing the DONE button.\n\n\n\nDEVELOPERS:\nSimon
+    Gustavsson\nYohan Ayun\nJohan Fallstr\xF6m\nViktor Barr\nMartin Jirenius\nArin
+    Rashin\nJacob Olausson\n"
 --- !u!222 &379321634
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -7406,11 +7411,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1351978218}
     m_Modifications:
-    - target: {fileID: 6701885534270600592, guid: c5d90dc30b301f647bd40bdc7f1c9719,
-        type: 3}
-      propertyPath: m_Name
-      value: Reset
-      objectReference: {fileID: 0}
     - target: {fileID: 6701885534270600595, guid: c5d90dc30b301f647bd40bdc7f1c9719,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -7515,6 +7515,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6701885534270600592, guid: c5d90dc30b301f647bd40bdc7f1c9719,
+        type: 3}
+      propertyPath: m_Name
+      value: Reset
       objectReference: {fileID: 0}
     - target: {fileID: 6701885533971932542, guid: c5d90dc30b301f647bd40bdc7f1c9719,
         type: 3}
@@ -9341,11 +9346,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1510292025}
     m_Modifications:
-    - target: {fileID: 6701885534270600592, guid: c5d90dc30b301f647bd40bdc7f1c9719,
-        type: 3}
-      propertyPath: m_Name
-      value: change
-      objectReference: {fileID: 0}
     - target: {fileID: 6701885534270600595, guid: c5d90dc30b301f647bd40bdc7f1c9719,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -9451,6 +9451,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 6701885534270600592, guid: c5d90dc30b301f647bd40bdc7f1c9719,
+        type: 3}
+      propertyPath: m_Name
+      value: change
+      objectReference: {fileID: 0}
     - target: {fileID: 6701885533971932542, guid: c5d90dc30b301f647bd40bdc7f1c9719,
         type: 3}
       propertyPath: m_Text
@@ -9535,11 +9540,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1092735770}
     m_Modifications:
-    - target: {fileID: 6701885534270600592, guid: c5d90dc30b301f647bd40bdc7f1c9719,
-        type: 3}
-      propertyPath: m_Name
-      value: Done
-      objectReference: {fileID: 0}
     - target: {fileID: 6701885534270600595, guid: c5d90dc30b301f647bd40bdc7f1c9719,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -9644,6 +9644,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6701885534270600592, guid: c5d90dc30b301f647bd40bdc7f1c9719,
+        type: 3}
+      propertyPath: m_Name
+      value: Done
       objectReference: {fileID: 0}
     - target: {fileID: 6701885533971932542, guid: c5d90dc30b301f647bd40bdc7f1c9719,
         type: 3}
@@ -10113,11 +10118,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1352589059}
     m_Modifications:
-    - target: {fileID: 6701885534270600592, guid: c5d90dc30b301f647bd40bdc7f1c9719,
-        type: 3}
-      propertyPath: m_Name
-      value: Reset
-      objectReference: {fileID: 0}
     - target: {fileID: 6701885534270600595, guid: c5d90dc30b301f647bd40bdc7f1c9719,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -10222,6 +10222,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6701885534270600592, guid: c5d90dc30b301f647bd40bdc7f1c9719,
+        type: 3}
+      propertyPath: m_Name
+      value: Reset
       objectReference: {fileID: 0}
     - target: {fileID: 6701885533971932542, guid: c5d90dc30b301f647bd40bdc7f1c9719,
         type: 3}
@@ -10770,11 +10775,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1092735770}
     m_Modifications:
-    - target: {fileID: 6701885534270600592, guid: c5d90dc30b301f647bd40bdc7f1c9719,
-        type: 3}
-      propertyPath: m_Name
-      value: Reset
-      objectReference: {fileID: 0}
     - target: {fileID: 6701885534270600595, guid: c5d90dc30b301f647bd40bdc7f1c9719,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -10879,6 +10879,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6701885534270600592, guid: c5d90dc30b301f647bd40bdc7f1c9719,
+        type: 3}
+      propertyPath: m_Name
+      value: Reset
       objectReference: {fileID: 0}
     - target: {fileID: 6701885533971932542, guid: c5d90dc30b301f647bd40bdc7f1c9719,
         type: 3}
@@ -11268,11 +11273,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2012419211}
     m_Modifications:
-    - target: {fileID: 6701885534270600592, guid: c5d90dc30b301f647bd40bdc7f1c9719,
-        type: 3}
-      propertyPath: m_Name
-      value: TextButton
-      objectReference: {fileID: 0}
     - target: {fileID: 6701885534270600595, guid: c5d90dc30b301f647bd40bdc7f1c9719,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -11377,6 +11377,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6701885534270600592, guid: c5d90dc30b301f647bd40bdc7f1c9719,
+        type: 3}
+      propertyPath: m_Name
+      value: TextButton
       objectReference: {fileID: 0}
     - target: {fileID: 6701885533971932542, guid: c5d90dc30b301f647bd40bdc7f1c9719,
         type: 3}
@@ -13343,14 +13348,6 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 100052, guid: 919703350a1c01c419c4ce43b156d846, type: 3}
-      propertyPath: m_TagString
-      value: Body
-      objectReference: {fileID: 0}
-    - target: {fileID: 100066, guid: 919703350a1c01c419c4ce43b156d846, type: 3}
-      propertyPath: m_TagString
-      value: Body
-      objectReference: {fileID: 0}
     - target: {fileID: 100004, guid: 919703350a1c01c419c4ce43b156d846, type: 3}
       propertyPath: m_TagString
       value: Body
@@ -13439,6 +13436,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Body
       objectReference: {fileID: 0}
+    - target: {fileID: 100052, guid: 919703350a1c01c419c4ce43b156d846, type: 3}
+      propertyPath: m_TagString
+      value: Body
+      objectReference: {fileID: 0}
     - target: {fileID: 100054, guid: 919703350a1c01c419c4ce43b156d846, type: 3}
       propertyPath: m_TagString
       value: Body
@@ -13468,6 +13469,10 @@ PrefabInstance:
       value: Body
       objectReference: {fileID: 0}
     - target: {fileID: 100064, guid: 919703350a1c01c419c4ce43b156d846, type: 3}
+      propertyPath: m_TagString
+      value: Body
+      objectReference: {fileID: 0}
+    - target: {fileID: 100066, guid: 919703350a1c01c419c4ce43b156d846, type: 3}
       propertyPath: m_TagString
       value: Body
       objectReference: {fileID: 0}
@@ -13956,11 +13961,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 545400291}
     m_Modifications:
-    - target: {fileID: 6701885534270600592, guid: c5d90dc30b301f647bd40bdc7f1c9719,
-        type: 3}
-      propertyPath: m_Name
-      value: Done
-      objectReference: {fileID: 0}
     - target: {fileID: 6701885534270600595, guid: c5d90dc30b301f647bd40bdc7f1c9719,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -14065,6 +14065,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6701885534270600592, guid: c5d90dc30b301f647bd40bdc7f1c9719,
+        type: 3}
+      propertyPath: m_Name
+      value: Done
       objectReference: {fileID: 0}
     - target: {fileID: 6701885533971932542, guid: c5d90dc30b301f647bd40bdc7f1c9719,
         type: 3}
@@ -14984,11 +14989,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2039561176}
     m_Modifications:
-    - target: {fileID: 6701885534270600592, guid: c5d90dc30b301f647bd40bdc7f1c9719,
-        type: 3}
-      propertyPath: m_Name
-      value: Change Pose
-      objectReference: {fileID: 0}
     - target: {fileID: 6701885534270600595, guid: c5d90dc30b301f647bd40bdc7f1c9719,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -15093,6 +15093,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6701885534270600592, guid: c5d90dc30b301f647bd40bdc7f1c9719,
+        type: 3}
+      propertyPath: m_Name
+      value: Change Pose
       objectReference: {fileID: 0}
     - target: {fileID: 6701885533971932542, guid: c5d90dc30b301f647bd40bdc7f1c9719,
         type: 3}
@@ -15504,11 +15509,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2130531208}
     m_Modifications:
-    - target: {fileID: 6701885534270600592, guid: c5d90dc30b301f647bd40bdc7f1c9719,
-        type: 3}
-      propertyPath: m_Name
-      value: Show Gizmo
-      objectReference: {fileID: 0}
     - target: {fileID: 6701885534270600595, guid: c5d90dc30b301f647bd40bdc7f1c9719,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -15613,6 +15613,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6701885534270600592, guid: c5d90dc30b301f647bd40bdc7f1c9719,
+        type: 3}
+      propertyPath: m_Name
+      value: Show Gizmo
       objectReference: {fileID: 0}
     - target: {fileID: 6701885533971932542, guid: c5d90dc30b301f647bd40bdc7f1c9719,
         type: 3}
@@ -16054,11 +16059,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2039561176}
     m_Modifications:
-    - target: {fileID: 6701885534270600592, guid: c5d90dc30b301f647bd40bdc7f1c9719,
-        type: 3}
-      propertyPath: m_Name
-      value: Change camera
-      objectReference: {fileID: 0}
     - target: {fileID: 6701885534270600595, guid: c5d90dc30b301f647bd40bdc7f1c9719,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -16163,6 +16163,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6701885534270600592, guid: c5d90dc30b301f647bd40bdc7f1c9719,
+        type: 3}
+      propertyPath: m_Name
+      value: Change camera
       objectReference: {fileID: 0}
     - target: {fileID: 6701885533971932542, guid: c5d90dc30b301f647bd40bdc7f1c9719,
         type: 3}
@@ -17120,11 +17125,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 39126439}
     m_Modifications:
-    - target: {fileID: 6701885534270600592, guid: c5d90dc30b301f647bd40bdc7f1c9719,
-        type: 3}
-      propertyPath: m_Name
-      value: change
-      objectReference: {fileID: 0}
     - target: {fileID: 6701885534270600595, guid: c5d90dc30b301f647bd40bdc7f1c9719,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -17229,6 +17229,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6701885534270600592, guid: c5d90dc30b301f647bd40bdc7f1c9719,
+        type: 3}
+      propertyPath: m_Name
+      value: change
       objectReference: {fileID: 0}
     - target: {fileID: 6701885533971932542, guid: c5d90dc30b301f647bd40bdc7f1c9719,
         type: 3}
@@ -19707,11 +19712,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1352589059}
     m_Modifications:
-    - target: {fileID: 6701885534270600592, guid: c5d90dc30b301f647bd40bdc7f1c9719,
-        type: 3}
-      propertyPath: m_Name
-      value: Done
-      objectReference: {fileID: 0}
     - target: {fileID: 6701885534270600595, guid: c5d90dc30b301f647bd40bdc7f1c9719,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -19816,6 +19816,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6701885534270600592, guid: c5d90dc30b301f647bd40bdc7f1c9719,
+        type: 3}
+      propertyPath: m_Name
+      value: Done
       objectReference: {fileID: 0}
     - target: {fileID: 6701885533971932542, guid: c5d90dc30b301f647bd40bdc7f1c9719,
         type: 3}
@@ -22578,11 +22583,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2012419211}
     m_Modifications:
-    - target: {fileID: 4450832715640577501, guid: b62a8d755bc09cc4ca8e4bb15c7c7fbb,
-        type: 3}
-      propertyPath: m_Name
-      value: InputField2
-      objectReference: {fileID: 0}
     - target: {fileID: 7281789134886046218, guid: b62a8d755bc09cc4ca8e4bb15c7c7fbb,
         type: 3}
       propertyPath: m_OnEndEdit.m_PersistentCalls.m_Calls.Array.size
@@ -22647,6 +22647,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnEndEdit.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 4450832715640577501, guid: b62a8d755bc09cc4ca8e4bb15c7c7fbb,
+        type: 3}
+      propertyPath: m_Name
+      value: InputField2
       objectReference: {fileID: 0}
     - target: {fileID: 4353941344115639955, guid: b62a8d755bc09cc4ca8e4bb15c7c7fbb,
         type: 3}
@@ -23157,11 +23162,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1011597341}
     m_Modifications:
-    - target: {fileID: 6701885534270600592, guid: c5d90dc30b301f647bd40bdc7f1c9719,
-        type: 3}
-      propertyPath: m_Name
-      value: Reset
-      objectReference: {fileID: 0}
     - target: {fileID: 6701885534270600595, guid: c5d90dc30b301f647bd40bdc7f1c9719,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -23266,6 +23266,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6701885534270600592, guid: c5d90dc30b301f647bd40bdc7f1c9719,
+        type: 3}
+      propertyPath: m_Name
+      value: Reset
       objectReference: {fileID: 0}
     - target: {fileID: 6701885533971932542, guid: c5d90dc30b301f647bd40bdc7f1c9719,
         type: 3}
@@ -23628,11 +23633,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2130531208}
     m_Modifications:
-    - target: {fileID: 6701885534270600592, guid: c5d90dc30b301f647bd40bdc7f1c9719,
-        type: 3}
-      propertyPath: m_Name
-      value: Toggle Model
-      objectReference: {fileID: 0}
     - target: {fileID: 6701885534270600595, guid: c5d90dc30b301f647bd40bdc7f1c9719,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -23737,6 +23737,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6701885534270600592, guid: c5d90dc30b301f647bd40bdc7f1c9719,
+        type: 3}
+      propertyPath: m_Name
+      value: Toggle Model
       objectReference: {fileID: 0}
     - target: {fileID: 6701885533971932542, guid: c5d90dc30b301f647bd40bdc7f1c9719,
         type: 3}
@@ -24349,8 +24354,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 241209641}
   m_HandleRect: {fileID: 241209640}
   m_Direction: 2
-  m_Value: 0.28600007
-  m_Size: 0.25178668
+  m_Value: 0
+  m_Size: 0.22594498
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -24439,11 +24444,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 545400291}
     m_Modifications:
-    - target: {fileID: 6701885534270600592, guid: c5d90dc30b301f647bd40bdc7f1c9719,
-        type: 3}
-      propertyPath: m_Name
-      value: Reset
-      objectReference: {fileID: 0}
     - target: {fileID: 6701885534270600595, guid: c5d90dc30b301f647bd40bdc7f1c9719,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -24548,6 +24548,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6701885534270600592, guid: c5d90dc30b301f647bd40bdc7f1c9719,
+        type: 3}
+      propertyPath: m_Name
+      value: Reset
       objectReference: {fileID: 0}
     - target: {fileID: 6701885533971932542, guid: c5d90dc30b301f647bd40bdc7f1c9719,
         type: 3}
