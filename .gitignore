@@ -40,6 +40,8 @@ ExportedObj/
 *.pdb.meta
 *.mdb.meta
 
+stablab/ProjectSettings/ProjectVersion.txt
+
 # Unity3D generated file on crash reports
 sysinfo.txt
 
