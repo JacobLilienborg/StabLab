@@ -186,7 +186,7 @@ public class InjuryAdding : MonoBehaviour
         Transform parent = GameObject.Find(injury.Marker.BodyPartParent).transform;
         GameObject model = injury.InstantiateModel(injury.Marker.ModelPosition, injury.Marker.ModelRotation, parent);
         model.GetComponent<InjuryModelGizmos>().gizmo = modelManager.gizmo;
-        modelManager.SetModelColor(injury.Marker.modelColorIndex,injury);
+        modelManager.SetModelColor(injury.Marker.modelColorIndex,injury); // This is the problem - - - - - - - - - - - - - - - - 
         return model;
     }
 

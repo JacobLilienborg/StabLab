@@ -15,6 +15,7 @@ public class WeaponModelManager : MonoBehaviour
     public RuntimeGizmos.TransformGizmo gizmo;
 
     Quaternion previousRotation;
+    int previousColor;
 
     private bool staticChange;
 
@@ -186,14 +187,20 @@ public class WeaponModelManager : MonoBehaviour
                 color = Color.white;
                 break;
         }
-        if (!InjuryManager.activeInjury.HasMarker()) return;
+       //if (!injury.HasMarker()) return;
 
         MeshRenderer mesh = injury.Marker.GetWeaponModel().transform.GetComponentInChildren<MeshRenderer>();
         if (mesh == null) return;
         m = mesh.material;
         m.color = color;
         mesh.material = m;
+        previousColor = injury.Marker.modelColorIndex;
         injury.Marker.modelColorIndex = colorIndex;
+    }
+
+    public void RevertColorChange() 
+    {
+        SetActiveInjuryColor(previousColor);
     }
 
     public void SetPreviousRotation() {
@@ -208,15 +215,12 @@ public class WeaponModelManager : MonoBehaviour
         tempModel = null;
     }
 
-    public static void SetParent(GameObject newParent) {
-        tempModel = newParent;
-    }
-
     public void ResetModel(){
         if(tempModel != null && (!InjuryManager.activeInjury.HasMarker() || tempModel != InjuryManager.activeInjury.Marker.GetWeaponModel())) 
         {
             Destroy(tempModel);
-            tempModel = null;
         }
+        tempModel = null;
+
     }
 }
