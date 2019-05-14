@@ -23,12 +23,13 @@ public abstract class Injury
 
     public Guid Id { get; }
     public Marker Marker { get; protected set; }
-    public CameraSettings CameraSettings { get; set; }
-    public BodyPose BodyPose { get; set; }
-    //public Color Color { get; set; }
-    public string InfoText { get; set; }
-    public string Name { get; set; }
-    public Texture woundIcon { get; set; } //Should be a sprite, as the woundIcons exists as sprites as well.
+    public CameraSettings CameraSettings;
+    public BodyPose BodyPose;
+    public string InfoText;
+    public string Name;
+
+    [NonSerialized]
+    public Texture woundIcon;//Should be a sprite, as the woundIcons exists as sprites as well.
 
     public bool isInHole = true;
 
@@ -49,7 +50,6 @@ public abstract class Injury
         Marker = oldInjury.Marker;
         CameraSettings = oldInjury.CameraSettings;
         BodyPose = oldInjury.BodyPose;
-        //Color = oldInjury.Color;
         InfoText = oldInjury.InfoText;
         Name = oldInjury.Name;
         images = oldInjury.images;
@@ -57,17 +57,19 @@ public abstract class Injury
 
         if(oldInjury.injuryMarkerObj != null) 
         {
-            GameObject newMarkerObj = InstantiateMarker(oldInjury.injuryMarkerObj.transform.position, oldInjury.injuryMarkerObj.transform.rotation, oldInjury.injuryMarkerObj.transform.parent);
+            Transform oldMarker = oldInjury.injuryMarkerObj.transform;
+            GameObject newMarkerObj = InstantiateMarker(oldMarker.position, oldMarker.rotation, oldMarker.transform.parent);
             UnityEngine.Object.Destroy(oldInjury.injuryMarkerObj);
             injuryMarkerObj = newMarkerObj;
         }
 
         if (oldInjury.HasMarker())
         {
-            Transform oldModel = oldInjury.Marker.GetParent().transform;
-            GameObject newModelObj = InstantiateModel(oldModel.position, oldModel.rotation, oldModel.parent);
-            UnityEngine.Object.Destroy(oldInjury.Marker.GetParent());
-            Marker.SetParent(newModelObj);
+            GameObject oldModel = oldInjury.Marker.GetWeaponModel();
+            GameObject newModelObj = InstantiateModel(oldModel.transform.position, oldModel.transform.rotation, oldModel.transform.parent);
+            newModelObj.GetComponent<InjuryModelGizmos>().gizmo = oldModel.GetComponent<InjuryModelGizmos>().gizmo;
+            UnityEngine.Object.Destroy(oldModel);
+            Marker.SetWeaponModel(newModelObj);
         }
     }
 
@@ -111,25 +113,15 @@ public abstract class Injury
         set
         {
             injuryMarkerObj = value;
-            if(value != null) Marker = new Marker(value);
-        }
-    }
-    /*
-    public GameObject InjuryModelObj
-    {
-        get { return injuryModelObj; }
-
-        // When a model object is added the serializable Marker is also set to match the object.
-        set
-        {
-            injuryModelObj = value;
-            if (value != null && Marker != null)
+            if (value != null && Marker == null)
             {
-                Marker.ModelUpdate(value);
+                Marker = new Marker(value);
+            } else if(value != null) 
+            {
+                Marker.MarkerDataUpdate(value);
             }
         }
     }
-    */
 
     // Save current pose
     public void SaveBodyPose()
@@ -152,7 +144,7 @@ public abstract class Injury
 
     public void RemoveInjuryMarker() {
         if (InjuryMarkerObj == null) return;
-        GameObject.Destroy(injuryMarkerObj);
+        UnityEngine.Object.Destroy(injuryMarkerObj);
         Marker.RemoveMarker();
     }
 
@@ -175,25 +167,20 @@ public abstract class Injury
     }
 
     public void AddModel(GameObject model) {
-        //GameObject newModel = InstantiateModel(model.transform.position, model.transform.rotation, model.transform.parent);
-        Marker.SetParent(model);
-        //Marker.SetParent(GameObject.Instantiate(newModel,newModel.transform.position,newModel.transform.rotation,newModel.transform.parent));
-        //Marker.parent.SetActive(Marker.active);
-        //Marker.InsertModel();
-        //Marker.ToggleModel(newModel.active);
+        Marker.SetWeaponModel(model);
     }
 
     public void RemoveCurrent() {
         if(injuryMarkerObj != null) RemoveInjuryMarker();
-        if (Marker != null && Marker.GetParent() != null) Marker.RemoveModel();
+        if (Marker != null && Marker.GetWeaponModel() != null) Marker.RemoveModel();
     }
 
     public bool HasMarker() {
-        return Marker != null && Marker.GetParent() != null;
+        return Marker != null && Marker.GetWeaponModel() != null;
     }
 
     public bool IsSameMarker(GameObject parent) {
-        return parent == Marker.GetParent();
+        return parent == Marker.GetWeaponModel();
     }
     
     public override abstract string ToString();
