@@ -5,12 +5,12 @@ using UnityEngine;
 public class GridButtonProperies : MonoBehaviour
 {
     public Texture2D image; 
-    public string modelPath;
+    public GameObject model;
 
     // Start is called before the first frame update
-    public GridButtonProperies(string path, Texture2D image)
+    public GridButtonProperies(GameObject model, Texture2D image)
     {
-        modelPath = path;
+        this.model = model;
         this.image = image;
     }
 }
