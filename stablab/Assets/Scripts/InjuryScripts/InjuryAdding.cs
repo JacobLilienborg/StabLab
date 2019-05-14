@@ -62,7 +62,6 @@ public class InjuryAdding : MonoBehaviour
                     }
 
                     modelManager.UpdateModel();
-                    //currentInjuryState = InjuryState.Inactive;
                 }
                 else if (hit.collider.tag == "Marker")
                 {
@@ -79,23 +78,32 @@ public class InjuryAdding : MonoBehaviour
 
 
     public void Reset() {
-        //modelManager.RemoveModel();
+        SetStateToInactive();
+
         modelManager.ResetModel();
         Destroy(newMarker);
         newMarker = null;
-        if (InjuryManager.activeInjury.HasMarker()) InjuryManager.activeInjury.Marker.GetParent().SetActive(true);
-        if (InjuryManager.activeInjury.injuryMarkerObj != null) InjuryManager.activeInjury.ToggleMarker(true);
+        if (InjuryManager.activeInjury.HasMarker())
+        {
+            InjuryManager.activeInjury.Marker.GetWeaponModel().SetActive(true);
+        }
+
+        if (InjuryManager.activeInjury.injuryMarkerObj != null)
+        {
+            InjuryManager.activeInjury.ToggleMarker(true);
+        }
     }
 
     // Save the added marker to the active injury
     public void SaveMarker()
     {
+        SetStateToInactive();
+
         if (newMarker == null) return;
 
 
         InjuryManager.activeInjury.RemoveCurrent();
         InjuryManager.activeInjury.AddInjuryMarker(newMarker);
-        //modelManager.SaveModel();
 
         newMarker = null;
     }
@@ -166,7 +174,7 @@ public class InjuryAdding : MonoBehaviour
             throw new System.Exception("Injury has no Marker");
         }
 
-        ModelController.SetBodyPose(injury.BodyPose);
+        //ModelController.SetBodyPose(injury.BodyPose);
         Transform parent = GameObject.Find(injury.Marker.BodyPartParent).transform;
         return AddMarker(injury.Marker.MarkerPosition, parent, injury.Marker.MarkerRotation);
     }
@@ -176,10 +184,10 @@ public class InjuryAdding : MonoBehaviour
             throw new System.Exception("Injury has no Marker");
         }
         Transform parent = GameObject.Find(injury.Marker.BodyPartParent).transform;
-        GameObject model = injury.InstantiateModel(injury.Marker.ModelPosition, injury.Marker.ModelRotation, parent);
-        model.GetComponent<InjuryModelGizmos>().gizmo = modelManager.gizmo;
-        modelManager.SetModelColor(injury.Marker.modelColorIndex,injury);
-        return model;
+        GameObject weapon = injury.InstantiateModel(injury.Marker.ModelPosition, injury.Marker.ModelRotation, parent);
+        weapon.GetComponent<InjuryModelGizmos>().gizmo = modelManager.gizmo;
+        modelManager.SetModelColor(injury.Marker.modelColorIndex,injury, weapon);
+        return weapon;
     }
 
     // Called when the DeleteButton is pressed
