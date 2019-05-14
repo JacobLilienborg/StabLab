@@ -22,11 +22,13 @@ public abstract class Injury
 
     public Guid Id { get; }
     public Marker Marker { get; protected set; }
-    public CameraSettings CameraSettings { get; set; }
-    public BodyPose BodyPose { get; set; }
-    public string InfoText { get; set; }
-    public string Name { get; set; }
-    public Texture woundIcon { get; set; } //Should be a sprite, as the woundIcons exists as sprites as well.
+    public CameraSettings CameraSettings;
+    public BodyPose BodyPose;
+    public string InfoText;
+    public string Name;
+
+    [NonSerialized]
+    public Texture woundIcon;//Should be a sprite, as the woundIcons exists as sprites as well.
 
     public bool isInHole = true;
 

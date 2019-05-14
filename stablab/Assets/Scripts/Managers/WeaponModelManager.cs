@@ -165,14 +165,15 @@ public class WeaponModelManager : MonoBehaviour
         RemoveGizmoFromModel();
         InjuryManager.activeInjury.Marker.activeInPresentation = tempWeapon.activeSelf;
         InjuryManager.activeInjury.Marker.SetWeaponModel(tempWeapon);
+        Debug.Log("ActiveInjury Model: " + InjuryManager.activeInjury.Marker.GetWeaponModel());
         tempWeapon = null;
     }
 
     public void SetActiveInjuryColor(int colorIndex) {
-        SetModelColor(colorIndex, InjuryManager.activeInjury);
+        SetModelColor(colorIndex, InjuryManager.activeInjury, InjuryManager.activeInjury.Marker.GetWeaponModel());
     }
 
-    public void SetModelColor(int colorIndex,Injury injury) {
+    public void SetModelColor(int colorIndex,Injury injury, GameObject weapon) {
         Color color;
         Material m;
         switch (colorIndex) {
@@ -191,7 +192,7 @@ public class WeaponModelManager : MonoBehaviour
         }
        //if (!injury.HasMarker()) return;
 
-        MeshRenderer mesh = injury.Marker.GetWeaponModel().transform.GetComponentInChildren<MeshRenderer>();
+        MeshRenderer mesh = weapon.transform.GetComponentInChildren<MeshRenderer>();
         if (mesh == null) return;
         m = mesh.material;
         m.color = color;

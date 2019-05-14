@@ -184,10 +184,10 @@ public class InjuryAdding : MonoBehaviour
             throw new System.Exception("Injury has no Marker");
         }
         Transform parent = GameObject.Find(injury.Marker.BodyPartParent).transform;
-        GameObject model = injury.InstantiateModel(injury.Marker.ModelPosition, injury.Marker.ModelRotation, parent);
-        model.GetComponent<InjuryModelGizmos>().gizmo = modelManager.gizmo;
-        modelManager.SetModelColor(injury.Marker.modelColorIndex,injury); // This is the problem - - - - - - - - - - - - - - - - 
-        return model;
+        GameObject weapon = injury.InstantiateModel(injury.Marker.ModelPosition, injury.Marker.ModelRotation, parent);
+        weapon.GetComponent<InjuryModelGizmos>().gizmo = modelManager.gizmo;
+        modelManager.SetModelColor(injury.Marker.modelColorIndex,injury, weapon);
+        return weapon;
     }
 
     // Called when the DeleteButton is pressed
