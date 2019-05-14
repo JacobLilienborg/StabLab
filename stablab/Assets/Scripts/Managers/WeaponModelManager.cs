@@ -5,9 +5,8 @@ using UnityEngine;
 public class WeaponModelManager : MonoBehaviour
 {
 
-    public List<GameObject> models;
     private bool modelActive = false;
-    private static GameObject tempModel;
+    private static GameObject tempWeapon;
 
     public GameObject injuryAddingObj;
     private InjuryAdding injuryAdding;
@@ -26,27 +25,30 @@ public class WeaponModelManager : MonoBehaviour
     }
 
     public void Reset() {
-        if (tempModel == null || InjuryManager.activeInjury == null || !InjuryManager.activeInjury.HasMarker()) return;
-        tempModel.transform.rotation = previousRotation;
-        InjuryManager.activeInjury.AddModel(tempModel);
+        if (tempWeapon == null || InjuryManager.activeInjury == null || !InjuryManager.activeInjury.HasMarker()) return;
+        tempWeapon.transform.rotation = previousRotation;
+        InjuryManager.activeInjury.AddModel(tempWeapon);
 
-        Destroy(tempModel);
-        tempModel = null;
+        Destroy(tempWeapon);
+        tempWeapon = null;
     }
 
     public void ToggleCurrentModel() {
+
+        Debug.Log(InjuryManager.activeInjury.isInHole);
         SetParentIfNonExisting();
-        InjuryModelGizmos modelGizmo = tempModel.GetComponentInChildren<InjuryModelGizmos>();
-        if (tempModel != null)
+        if (tempWeapon != null)
         {
+            InjuryModelGizmos modelGizmo = tempWeapon.GetComponentInChildren<InjuryModelGizmos>();
+
             if(InjuryManager.activeInjury.HasMarker()){
-                InjuryManager.activeInjury.Marker.activeInPresentation = !tempModel.activeSelf;
+                InjuryManager.activeInjury.Marker.activeInPresentation = !tempWeapon.activeSelf;
             }
 
-            tempModel.SetActive(!tempModel.activeSelf);
-            modelActive = tempModel.activeSelf;
+            tempWeapon.SetActive(!tempWeapon.activeSelf);
+            modelActive = tempWeapon.activeSelf;
             //gizmo.enabled = parent.activeSelf;
-            if(!tempModel.activeSelf){
+            if(!tempWeapon.activeSelf){
                 RemoveGizmoFromModel();
                 modelGizmo.gizmoActive = false;
             }
@@ -56,8 +58,8 @@ public class WeaponModelManager : MonoBehaviour
 
     public void ToggleGizmo() {
         SetParentIfNonExisting();
-        if (tempModel == null || tempModel.activeSelf == false) return;
-        InjuryModelGizmos modelGizmo = tempModel.GetComponentInChildren<InjuryModelGizmos>();
+        if (tempWeapon == null || tempWeapon.activeSelf == false) return;
+        InjuryModelGizmos modelGizmo = tempWeapon.GetComponentInChildren<InjuryModelGizmos>();
         if (modelGizmo.gizmoActive) {
             //SaveRotation();
             RemoveGizmoFromModel();
@@ -71,7 +73,7 @@ public class WeaponModelManager : MonoBehaviour
     {
         SetParentIfNonExisting();
         GameObject curModel = InjuryManager.activeInjury.Marker.GetWeaponModel(); ;
-        if (curModel == null || tempModel.activeSelf == false) return;
+        if (curModel == null || tempWeapon.activeSelf == false) return;
         InjuryModelGizmos comp = curModel.GetComponentInChildren<InjuryModelGizmos>();
         RuntimeGizmos.TransformGizmo transGizmo = comp.gizmo;
         comp.AddGizmo(curModel);
@@ -91,22 +93,22 @@ public class WeaponModelManager : MonoBehaviour
 
     public void AddModel()
     {
-        if (tempModel != null) tempModel.SetActive(true);
+        if (tempWeapon != null) tempWeapon.SetActive(true);
         modelActive = true;
     }
 
     public void RemoveModel()
     {
-        if (tempModel != null) tempModel.SetActive(false);
+        if (tempWeapon != null) tempWeapon.SetActive(false);
         modelActive = false;
     }
 
     public void UpdateModel()
     {
         if (InjuryManager.activeInjury == null) return;
-        if (tempModel != null)
+        if (tempWeapon != null)
         {
-            Destroy(tempModel);
+            Destroy(tempWeapon);
         }
 
         if (InjuryManager.activeInjury.HasMarker())
@@ -114,24 +116,24 @@ public class WeaponModelManager : MonoBehaviour
             InjuryManager.activeInjury.Marker.GetWeaponModel().SetActive(false);
         }
 
-        tempModel = InjuryManager.activeInjury.InstantiateModel(Vector3.zero, Quaternion.identity, null);
-        tempModel.GetComponent<InjuryModelGizmos>().gizmo = this.gizmo;
+        tempWeapon = InjuryManager.activeInjury.InstantiateModel(Vector3.zero, Quaternion.identity, null);
+        tempWeapon.GetComponent<InjuryModelGizmos>().gizmo = this.gizmo;
 
         UpdateParentAndChild();
         RotateModel();
     }
 
     public void UpdateParentAndChild() {
-        tempModel.transform.parent = injuryAdding.hitPart;
-        tempModel.transform.position = injuryAdding.markerPos;
-        tempModel.SetActive(true);
+        tempWeapon.transform.parent = injuryAdding.hitPart;
+        tempWeapon.transform.position = injuryAdding.markerPos;
+        tempWeapon.SetActive(true);
         modelActive = true;
     }
 
     public void SetParentIfNonExisting() {
-        if (tempModel == null && InjuryManager.activeInjury != null &&InjuryManager.activeInjury.HasMarker())
+        if (tempWeapon == null && InjuryManager.activeInjury != null &&InjuryManager.activeInjury.HasMarker())
         {
-            tempModel = InjuryManager.activeInjury.Marker.GetWeaponModel();
+            tempWeapon = InjuryManager.activeInjury.Marker.GetWeaponModel();
 
         }
     }
@@ -142,14 +144,14 @@ public class WeaponModelManager : MonoBehaviour
 
         Vector3 cameraPos = Camera.main.transform.position;
 
-        tempModel.transform.rotation = Quaternion.FromToRotation(Vector3.left, cameraPos - injuryAdding.markerPos);
+        tempWeapon.transform.rotation = Quaternion.FromToRotation(Vector3.left, cameraPos - injuryAdding.markerPos);
     }
 
     public void SaveRotation() {
         // Save the rotation from the gizmo to the temporary model.
         if (InjuryManager.activeInjury != null && InjuryManager.activeInjury.HasMarker())
         {
-            InjuryManager.activeInjury.Marker.SetModelRotation(tempModel.transform.rotation);
+            InjuryManager.activeInjury.Marker.SetModelRotation(tempWeapon.transform.rotation);
         }
     }
 
@@ -158,12 +160,12 @@ public class WeaponModelManager : MonoBehaviour
         // Add the temporary model to the injury and reset variables
 
         SetParentIfNonExisting();
-        if (tempModel == null) return;
+        if (tempWeapon == null) return;
 
         RemoveGizmoFromModel();
-        InjuryManager.activeInjury.Marker.activeInPresentation = tempModel.activeSelf;
-        InjuryManager.activeInjury.Marker.SetWeaponModel(tempModel);
-        tempModel = null;
+        InjuryManager.activeInjury.Marker.activeInPresentation = tempWeapon.activeSelf;
+        InjuryManager.activeInjury.Marker.SetWeaponModel(tempWeapon);
+        tempWeapon = null;
     }
 
     public void SetActiveInjuryColor(int colorIndex) {
@@ -198,7 +200,7 @@ public class WeaponModelManager : MonoBehaviour
         injury.Marker.modelColorIndex = colorIndex;
     }
 
-    public void RevertColorChange() 
+    public void RevertColorChange()
     {
         SetActiveInjuryColor(previousColor);
     }
@@ -208,19 +210,19 @@ public class WeaponModelManager : MonoBehaviour
         previousRotation = InjuryManager.activeInjury.Marker.ModelRotation;
     }
 
-    public void RevertRotationChange() 
+    public void RevertRotationChange()
     {
         RemoveGizmoFromModel();
         InjuryManager.activeInjury.Marker.GetWeaponModel().transform.rotation = previousRotation;
-        tempModel = null;
+        tempWeapon = null;
     }
 
     public void ResetModel(){
-        if(tempModel != null && (!InjuryManager.activeInjury.HasMarker() || tempModel != InjuryManager.activeInjury.Marker.GetWeaponModel())) 
+        if(tempWeapon != null && (!InjuryManager.activeInjury.HasMarker() || tempWeapon != InjuryManager.activeInjury.Marker.GetWeaponModel()))
         {
-            Destroy(tempModel);
+            Destroy(tempWeapon);
         }
-        tempModel = null;
+        tempWeapon = null;
 
     }
 }
