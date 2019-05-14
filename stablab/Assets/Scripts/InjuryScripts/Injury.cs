@@ -19,6 +19,7 @@ public abstract class Injury
     protected abstract string MarkerName { get; }
     protected abstract string ModelName { get; }
     protected abstract string IconName { get; }
+    protected abstract string ModelPath { get; }
 
     public Guid Id { get; }
     public Marker Marker { get; protected set; }
@@ -36,6 +37,10 @@ public abstract class Injury
     protected Injury(Guid id)
     {
         Id = id;
+    }
+
+    public string GetModelPath() {
+        return ModelPath;
     }
 
     protected Injury(Injury oldInjury)

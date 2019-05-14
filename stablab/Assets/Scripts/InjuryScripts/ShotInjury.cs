@@ -9,6 +9,7 @@ public class ShotInjury : Injury
     protected override string MarkerName { get { return "Markers/ShotMarker"; } }
     protected override string ModelName { get { return modelName; } }
     protected override string IconName { get { return "Icons/Shot"; } }
+    protected override string ModelPath { get { return modelPath; } }
     public string modelName = "Models/Shot/shotModel";
     public static readonly string modelPath = "Models/Shot";
 
