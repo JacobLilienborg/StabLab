@@ -51,9 +51,9 @@ public class ProjectManager : MonoBehaviour
     public void Create(string name, string directory)
     {
         currentProject = new ProjectData(name, directory, projectVersion);
-        dataManager.SetWorkingDirectory(currentProject.GetDirectory());
+        DataManager.instance.SetWorkingDirectory(currentProject.GetDirectory());
         Load(true);
-        viewManager.ChangeScene(2);
+        ViewManager.instance.ChangeScene(2);
     }
 
     public void Open()
@@ -63,9 +63,9 @@ public class ProjectManager : MonoBehaviour
         {
             string path = FileManager.OpenFileBrowser("");
             currentProject = FileManager.Load<ProjectData>(Path.Combine(path, "Data", "project"));
-            dataManager.SetWorkingDirectory(currentProject.GetDirectory());
+            DataManager.instance.SetWorkingDirectory(currentProject.GetDirectory());
             Load(true);
-            viewManager.ChangeScene(3);
+            ViewManager.instance.ChangeScene(3);
         }
         catch (FileNotFoundException) //Just an example of what we might catch, probably more/other exception is needed
         {
@@ -83,7 +83,7 @@ public class ProjectManager : MonoBehaviour
     //Saves the current project
     public void Save()
     {
-        dataManager.Save();
+        DataManager.instance.Save();
     }
 
     //Loads a project's data files
@@ -92,8 +92,8 @@ public class ProjectManager : MonoBehaviour
         try
         {
             if (reset) ResetTrackingData();
-            dataManager.Load();
-            dataManager.UpdateScene();
+            DataManager.instance.Load();
+            DataManager.instance.UpdateScene();
         }
         catch(FileNotFoundException) //Just an example of what we might catch, probably more/other exception is needed
         {
@@ -104,9 +104,9 @@ public class ProjectManager : MonoBehaviour
 
     private void ResetTrackingData()
     {
-        dataManager.Reset();
-        dataManager.Track(currentProject);
-        dataManager.Track(new InjuryListData());
+        DataManager.instance.Reset();
+        DataManager.instance.Track(currentProject);
+        DataManager.instance.Track(new InjuryListData());
     }
 
     /*private void AddToRecent()
