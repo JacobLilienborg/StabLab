@@ -53,4 +53,8 @@ public class Settings : MonoBehaviour
         }
     }
 
+    public void ExitProgram()
+    {
+        Application.Quit();
+    }
 }
