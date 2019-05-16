@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657868, g: 0.49641263, b: 0.5748171, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -11077,7 +11077,7 @@ PrefabInstance:
     - target: {fileID: 6701885534270600594, guid: c5d90dc30b301f647bd40bdc7f1c9719,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
-      value: RevertRotationChange
+      value: Reset
       objectReference: {fileID: 0}
     - target: {fileID: 6701885534270600594, guid: c5d90dc30b301f647bd40bdc7f1c9719,
         type: 3}
@@ -25416,6 +25416,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   area: {fileID: 217432010}
+  gizmoObj: {fileID: 402647056}
 --- !u!224 &2132537536 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7341108222569288477, guid: dd98ea3d262c24a4caff0da3cbd8828b,
@@ -26095,11 +26096,31 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3901706659626921708, guid: d0fdde322b14cd54189ac641633f68c9,
+    - target: {fileID: 2489670083279981091, guid: d0fdde322b14cd54189ac641633f68c9,
         type: 3}
-      propertyPath: m_Name
-      value: Settings
-      objectReference: {fileID: 0}
+      propertyPath: gizmoObj
+      value: 
+      objectReference: {fileID: 402647056}
+    - target: {fileID: 2489670083279981091, guid: d0fdde322b14cd54189ac641633f68c9,
+        type: 3}
+      propertyPath: injuryAddingObj
+      value: 
+      objectReference: {fileID: 141239032}
+    - target: {fileID: 2489670083279981091, guid: d0fdde322b14cd54189ac641633f68c9,
+        type: 3}
+      propertyPath: weaponModelObj
+      value: 
+      objectReference: {fileID: 1295256604}
+    - target: {fileID: 2489670083279981090, guid: d0fdde322b14cd54189ac641633f68c9,
+        type: 3}
+      propertyPath: objectsToDisable.Array.data[0]
+      value: 
+      objectReference: {fileID: 240002039}
+    - target: {fileID: 2489670083279981090, guid: d0fdde322b14cd54189ac641633f68c9,
+        type: 3}
+      propertyPath: objectsToDisable.Array.data[1]
+      value: 
+      objectReference: {fileID: 1478998515}
     - target: {fileID: 3578876100246740917, guid: d0fdde322b14cd54189ac641633f68c9,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -26155,30 +26176,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2489670083279981091, guid: d0fdde322b14cd54189ac641633f68c9,
+    - target: {fileID: 3901706659626921708, guid: d0fdde322b14cd54189ac641633f68c9,
         type: 3}
-      propertyPath: gizmoObj
-      value: 
-      objectReference: {fileID: 402647056}
-    - target: {fileID: 2489670083279981091, guid: d0fdde322b14cd54189ac641633f68c9,
-        type: 3}
-      propertyPath: injuryAddingObj
-      value: 
-      objectReference: {fileID: 141239032}
-    - target: {fileID: 2489670083279981091, guid: d0fdde322b14cd54189ac641633f68c9,
-        type: 3}
-      propertyPath: weaponModelObj
-      value: 
-      objectReference: {fileID: 1295256604}
-    - target: {fileID: 2489670083279981090, guid: d0fdde322b14cd54189ac641633f68c9,
-        type: 3}
-      propertyPath: objectsToDisable.Array.data[0]
-      value: 
-      objectReference: {fileID: 240002039}
-    - target: {fileID: 2489670083279981090, guid: d0fdde322b14cd54189ac641633f68c9,
-        type: 3}
-      propertyPath: objectsToDisable.Array.data[1]
-      value: 
-      objectReference: {fileID: 1478998515}
+      propertyPath: m_Name
+      value: Settings
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d0fdde322b14cd54189ac641633f68c9, type: 3}

@@ -12,10 +12,13 @@ public class ButtonGrid : MonoBehaviour
     private int padding = 5;
     private List<GameObject> gridObjects = new List<GameObject>();
     private float sizeOfbuttons;
-    private int numCols = 3;
+    private int numCols = 5;
+    public GameObject gizmoObj;
+    private RuntimeGizmos.TransformGizmo gizmo;
 
     private void Start()
     {
+        gizmo = gizmoObj.GetComponent<RuntimeGizmos.TransformGizmo>();
         areaX = ((RectTransform)area.transform).rect.x;
         areaY = ((RectTransform)area.transform).rect.y;
     }
@@ -80,6 +83,8 @@ public class ButtonGrid : MonoBehaviour
         //Texture2D image = new Texture2D(10,10);
 
         Button curButton = buttonObj.GetComponent<Button>();
+        o.transform.position = InjuryManager.activeInjury.Marker.GetWeaponModel().transform.position;
+        o.transform.rotation = InjuryManager.activeInjury.Marker.GetWeaponModel().transform.rotation;
         curButton.onClick.AddListener(delegate { SetNewModel(o); });
         buttonObj.AddComponent<GridButtonProperies>().model = o;
 
@@ -94,7 +99,13 @@ public class ButtonGrid : MonoBehaviour
         {
 
             Debug.Log(o.name);
-            InjuryManager.activeInjury.Marker.SetWeaponModel(Instantiate(o,o.transform.position,o.transform.rotation,o.transform.parent));
+            GameObject copy = Instantiate(o, o.transform.position, o.transform.rotation, o.transform.parent);
+            copy.GetComponent<InjuryModelGizmos>().gizmo = this.gizmo;
+            copy.transform.parent = InjuryManager.activeInjury.Marker.GetWeaponModel().transform.parent;
+            if (this.gizmo == null) Debug.Log("WTAF");
+            InjuryManager.activeInjury.Marker.SetWeaponModel(copy);
+            
+            WeaponModelManager.DeleteModel();
         }
         //InjuryManager.activeInjury.SetModelName(path);
     }

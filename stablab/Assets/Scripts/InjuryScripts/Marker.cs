@@ -42,6 +42,7 @@ public class Marker
         {
             ModelPosition = weaponModel.transform.position;
             ModelRotation = weaponModel.transform.rotation;
+
         }
     }
 
@@ -144,7 +145,8 @@ public class Marker
             UnityEngine.Object.Destroy(weaponModel);
         }
         weaponModel = model;
-        model.SetActive(activeInPresentation);
+        weaponModel.SetActive(activeInPresentation);
+        
         ModelDataUpdate();
     }
 
