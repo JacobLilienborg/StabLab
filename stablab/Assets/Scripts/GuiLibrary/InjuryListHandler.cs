@@ -81,13 +81,13 @@ public class InjuryListHandler : MonoBehaviour
         }
 
         // Remove if we have to many buttons, add if to few and enable next button if there are more injuries available
-        foreach (Injury injury in InjuryManager.injuries)
+        foreach (Injury injury in InjuryManager.instance.injuries)
         {
-            if (injuryButtons.Count > InjuryManager.injuries.Count)
+            if (injuryButtons.Count > InjuryManager.instance.injuries.Count)
             {
                 RemoveButton();
             }
-            else if (totalButtonAmount > injuryButtons.Count && injuryButtons.Count < InjuryManager.injuries.Count)
+            else if (totalButtonAmount > injuryButtons.Count && injuryButtons.Count < InjuryManager.instance.injuries.Count)
             {
                 AddButton();
             }
@@ -103,8 +103,8 @@ public class InjuryListHandler : MonoBehaviour
     // Add a new injury and set is as the active
     public void AddInjury()
     {
-        InjuryManager.AddNewInjury();
-        if (totalButtonAmount > injuryButtons.Count && injuryButtons.Count < InjuryManager.injuries.Count)
+        InjuryManager.instance.AddNewInjury();
+        if (totalButtonAmount > injuryButtons.Count && injuryButtons.Count < InjuryManager.instance.injuries.Count)
         {
             AddButton().Checked(); // Add a new button and check it
             CheckInteractability();
@@ -119,7 +119,7 @@ public class InjuryListHandler : MonoBehaviour
     public void GoToNext(bool newInjury = false)
     {
         // If there is no active injury we just want to move the list to the next and not check anything
-        if (InjuryManager.activeInjury == null && !newInjury)
+        if (InjuryManager.instance.act.injuryiveInjury == null && !newInjury)
         {
             JumpList(rightMostIndex + 1);
         }
@@ -131,10 +131,10 @@ public class InjuryListHandler : MonoBehaviour
             // If we have created a new injury, we will go straight to it
             if (newInjury)
             {
-                activeIndex = InjuryManager.injuries.Count - 1;
+                activeIndex = InjuryManager.instance.injuries.Count - 1;
             }
             // As long as the active injury is not the last injury we switch the active injury to the next one
-            else if (activeIndex < InjuryManager.injuries.Count - 1)
+            else if (activeIndex < InjuryManager.instance.injuries.Count - 1)
             {
                 activeIndex++;
             }
@@ -151,7 +151,7 @@ public class InjuryListHandler : MonoBehaviour
     public void GoToPrevious()
     {
         // If there is no active injury we just want to move the list to the previous and not check anything
-        if (InjuryManager.activeInjury == null)
+        if (InjuryManager.instance.act.injuryiveInjury == null)
         {
             JumpList(rightMostIndex - 1);
         }
@@ -188,17 +188,17 @@ public class InjuryListHandler : MonoBehaviour
             RemoveButton();
         }
         // If the injury with the highest index is not visible, the shrinking excluded it and the next button will be active 
-        if ((rightMostIndex + 1) < InjuryManager.injuries.Count) nextButton.interactable = true;
+        if ((rightMostIndex + 1) < InjuryManager.instance.injuries.Count) nextButton.interactable = true;
 
         // Reposition the buttons according to the adjustments
         RepositionButtons();
 
 
         // Add buttons if more buttons can be put in the button area
-        while (totalButtonAmount > injuryButtons.Count && injuryButtons.Count < InjuryManager.injuries.Count)
+        while (totalButtonAmount > injuryButtons.Count && injuryButtons.Count < InjuryManager.instance.injuries.Count)
         {
             // If the injury with the highest index is visible, the expansion will include the previous injuries
-            if ((rightMostIndex + 1) == InjuryManager.injuries.Count) JumpList(rightMostIndex - 1);
+            if ((rightMostIndex + 1) == InjuryManager.instance.injuries.Count) JumpList(rightMostIndex - 1);
             AddButton();
         }
         Check(ActiveIndex());
@@ -254,14 +254,14 @@ public class InjuryListHandler : MonoBehaviour
         InjuryButton ib = Instantiate(injuryButton, buttonArea);
 
         // Make Injury Manager a listener if the buttons are pressed
-        ib.OnCheckedInjury.AddListener(InjuryManager.SetActiveInjury);
-        ib.OnUncheckedInjury.AddListener(InjuryManager.DeselectInjury);
+        ib.OnCheckedInjury.AddListener(InjuryManager.instance.SetActiveInjury);
+        ib.OnUncheckedInjury.AddListener(InjuryManager.instance.DeselectInjury);
 
         // Since a injury can be activated in other way, we need to respond to these as well
-        InjuryManager.AddActivationListener(CheckWithoutTrigger);
-        InjuryManager.AddDeactivationListener(UncheckWithoutTrigger);
-        InjuryManager.AddActivationListener(CheckInteractability);
-        InjuryManager.AddDeactivationListener(CheckInteractability);
+        InjuryManager.instance.AddActivationListener(CheckWithoutTrigger);
+        InjuryManager.instance.AddDeactivationListener(UncheckWithoutTrigger);
+        InjuryManager.instance.AddActivationListener(CheckInteractability);
+        InjuryManager.instance.AddDeactivationListener(CheckInteractability);
 
         // We position the button where the green add button is and reposition the add button
         ib.transform.position = addButton.transform.position;
@@ -280,13 +280,13 @@ public class InjuryListHandler : MonoBehaviour
     private void CheckInteractability(int i = 0)
     {
         previousButton.interactable = ((rightMostIndex + 1) != injuryButtons.Count);
-        nextButton.interactable = ((rightMostIndex + 1) != InjuryManager.injuries.Count);
+        nextButton.interactable = ((rightMostIndex + 1) != InjuryManager.instance.injuries.Count);
 
         // If active injury
-        if (InjuryManager.activeInjury != null)
+        if (InjuryManager.instance.act.injuryiveInjury != null)
         {
-            previousButton.interactable |= InjuryManager.activeInjury != InjuryManager.injuries[injuryButtons[0].index];
-            nextButton.interactable |= InjuryManager.activeInjury != InjuryManager.injuries[rightMostIndex];
+            previousButton.interactable |= InjuryManager.instance.act.injuryiveInjury != InjuryManager.instance.injuries[injuryButtons[0].index];
+            nextButton.interactable |= InjuryManager.instance.act.injuryiveInjury != InjuryManager.instance.injuries[rightMostIndex];
         }
     }
 
@@ -321,10 +321,10 @@ public class InjuryListHandler : MonoBehaviour
     // Help function to get the index of the active injury
     private int ActiveIndex()
     {
-        for (int i = 0; i < InjuryManager.injuries.Count; i++)
+        for (int i = 0; i < InjuryManager.instance.injuries.Count; i++)
         {
-            Injury injury = InjuryManager.injuries[i];
-            if (injury == InjuryManager.activeInjury) return i;
+            Injury injury = InjuryManager.instance.injuries[i];
+            if (injury == InjuryManager.instance.act.injuryiveInjury) return i;
         }
         return -1;
     }

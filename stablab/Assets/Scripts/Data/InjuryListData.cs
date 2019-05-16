@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿﻿using System.Collections.Generic;
 using System;
 using UnityEngine;
 
@@ -14,12 +14,20 @@ public class InjuryListData : AData
     public InjuryListData() : base("injuryList", "Injuries")
     {
         Debug.Log("Creating injurylist data");
-        injuries = InjuryManager.injuries;
+        foreach(InjuryController injuryController in InjuryManager.instance.injuries)
+        {
+            injuries.Add(injuryController.injury);
+        }
     }
 
     public override void Update()
     {
-        InjuryManager.injuries = injuries;
+        foreach(Injury injury in injuries)
+        {
+            InjuryManager.instance.CreateInjury(injury);
+            // Temporary!!
+            InjuryManager.instance.PlaceInjury(null, null);
+        }
     }
 
 }

@@ -1,8 +1,7 @@
-﻿using UnityEngine;
+﻿﻿using UnityEngine;
 using UnityEngine.Events;
 
-[System.Serializable] public class OnClickPoint : UnityEvent<Vector3>{}
-[System.Serializable] public class OnClickBone : UnityEvent<Transform>{}
+[System.Serializable] public class OnClick : UnityEvent<Transform, Transform>{}
 
 
 /*
@@ -11,8 +10,7 @@ using UnityEngine.Events;
 
 public class ModelController : MonoBehaviour
 {
-    public OnClickPoint onClickPoint = new OnClickPoint();
-    public OnClickBone onClickBone = new OnClickBone();
+    public OnClick onClick = new OnClick();
     public SkinnedMeshRenderer smr = null;
     public MeshCollider meshCollider = null;
     private Mesh mesh = null; 
@@ -45,8 +43,7 @@ public class ModelController : MonoBehaviour
             RaycastHit hit;  //Where the ray hits (the injury position)
 
             if (Physics.Raycast(ray, out hit) && (hit.collider == meshCollider)){
-                onClickPoint.Invoke(hit.point);
-                onClickBone.Invoke(GetClosestBone(hit.transform));
+                onClick.Invoke(hit.transform, GetClosestBone(hit.transform));
             }
         }
     }

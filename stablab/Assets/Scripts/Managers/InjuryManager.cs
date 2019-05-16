@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿﻿using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEngine.Events;
@@ -21,40 +21,22 @@ public enum InjuryType
  */
 
 [System.Serializable]
-public class InjuryEvent : UnityEvent<Injury>
-{
-}
-
-[System.Serializable]
-public class IndexEvent : UnityEvent<int>
-{
-}
+public class IndexEvent : UnityEvent<int>{}
 
 public class InjuryManager : MonoBehaviour
 {
     public static InjuryManager instance = null;
-
-    // Scripts from the body model
-    private InjuryAdding injuryAdding;
-    public List<Injury> injuries = new List<Injury>();
-    public Injury activeInjury = null;
+    public InjuryController injuryController = null;
+    public List<InjuryController> injuries = new List<InjuryController>();
+    public InjuryController activeInjury = null;
 
     // Setting up the listeners system. There are optional events depending of what return type you want
-    private InjuryEvent InjuryActivationEvent = new InjuryEvent();
-    private InjuryEvent InjuryDeactivationEvent = new InjuryEvent();
     private IndexEvent IndexActivationEvent = new IndexEvent();
     private IndexEvent IndexDeactivationEvent = new IndexEvent();
     private UnityEvent ActivationEvent = new UnityEvent();
     private UnityEvent DeactivationEvent = new UnityEvent();
+    private UnityEvent OnChange = new UnityEvent();
 
-    public void AddActivationListener(UnityAction<Injury> action)
-    {
-        InjuryActivationEvent.AddListener(action);
-    }
-    public void AddDeactivationListener(UnityAction<Injury> action)
-    {
-        InjuryDeactivationEvent.AddListener(action);
-    }
     public void AddActivationListener(UnityAction<int> action)
     {
         IndexActivationEvent.AddListener(action);
@@ -71,7 +53,6 @@ public class InjuryManager : MonoBehaviour
     {
         DeactivationEvent.AddListener(action);
     }
-
 
     // Setup instance of Injury Manager
     void Awake()
@@ -94,36 +75,63 @@ public class InjuryManager : MonoBehaviour
     // Find the model and load markers in to the scene
     public void Start()
     {
-        GameObject body = GameObject.FindWithTag("Player");
-        injuryAdding = body.GetComponent<InjuryAdding>();
         LoadInjuries();
     }
 
     // Creates and add the new injury to the list of injuries.
-    public void AddNewInjury()
+    public void CreateInjury()
     {
-        Injury newInjury = new UndefinedInjury(Guid.NewGuid());
-        injuries.Add(newInjury);
+        Injury injury = new UndefinedInjury(Guid.NewGuid());
+        InjuryController ic = Instantiate(injuryController, transform);
+        ic.injury = injury;
+        injuries.Add(ic);
+        OnChange.Invoke();
+    }
+    public void LoadInjury(Injury newInjury)
+    {
+        InjuryController ic = Instantiate(injuryController, transform);
+        ic.injury = newInjury;
+        //ic.PlaceInjury()
+        injuries.Add(ic);
+        OnChange.Invoke();
+    }
+
+    public void PlaceInjury(Transform mesh, Transform bone)
+    {
+        // If no active injury is present, create one
+        if(mesh == null || bone == null)
+        {
+            return;
+        }
+        if(activeInjury.markerCollider == null)
+        {
+            activeInjury.injury.InjuryMarkerObj = Instantiate((GameObject)Resources.Load(activeInjury.injury.ModelName), mesh.position, Quaternion.identity, bone);
+        }
+        else 
+        {
+            activeInjury.injury.InjuryMarkerObj.transform.position = mesh.position;
+            activeInjury.injury.InjuryMarkerObj.transform.parent = bone;
+        }
     }
 
     // Remove the currently active injury
     public void RemoveInjury()
     {
         injuries.Remove(activeInjury);
+        OnChange.Invoke();
     }
 
     // Sets the active injury by id. Is called from the marker that is clicked
-    public void SetActiveInjury(Guid id)
+    public void ActivateInjury(Guid id)
     {
         for(int index = 0; index < injuries.Count; index++)
         {
-            Injury injury = injuries[index];
-            if (injury.Id == id)
+            InjuryController injuryController = injuries[index];
+            if (injuryController.injury.Id == id)
             {
-                if (activeInjury != injury)
+                if (activeInjury != injuryController)
                 {
-                    activeInjury = injury;
-                    InjuryActivationEvent.Invoke(activeInjury);
+                    activeInjury = injuryController;
                     IndexActivationEvent.Invoke(index);
                     ActivationEvent.Invoke();
                     return;
@@ -133,29 +141,27 @@ public class InjuryManager : MonoBehaviour
     }
 
     // Sets the active injury by index.
-    public void SetActiveInjury(int index)
+    public void ActivateInjury(int index)
     {
         if(activeInjury != injuries[index])
         {
-
             activeInjury = injuries[index];
-            InjuryActivationEvent.Invoke(activeInjury);
             IndexActivationEvent.Invoke(index);
             ActivationEvent.Invoke();
-            if (activeInjury.HasMarker())
+            if (activeInjury.injury.HasMarker())
             {
-                activeInjury.Marker.GetParent().SetActive(Settings.IsActiveModel(true));
+                activeInjury.injury.Marker.GetParent().SetActive(Settings.IsActiveModel(true));
             }
         }
         
     }
 
     // Set the active injury 
-    public void SetActiveInjury(Injury newInjury)
+    public void ActivateInjury(Injury newInjury)
     {
-        int activeIndex = injuries.IndexOf(activeInjury);
-        injuries[activeIndex] = newInjury;
-        activeInjury = newInjury;
+        //int activeIndex = injuries.IndexOf(activeInjury);
+        //injuries[activeIndex].injury = newInjury;
+        //activeInjury = newInjury;
 
     }
 
@@ -164,10 +170,9 @@ public class InjuryManager : MonoBehaviour
     {
         if (injuries[index] == activeInjury)
         {
-            InjuryDeactivationEvent.Invoke(activeInjury);
             IndexDeactivationEvent.Invoke(index);
             DeactivationEvent.Invoke();
-            if (activeInjury.HasMarker()) activeInjury.Marker.GetParent().SetActive(Settings.IsActiveModel(false));
+            if (activeInjury.injury.HasMarker()) activeInjury.injury.Marker.GetParent().SetActive(Settings.IsActiveModel(false));
             activeInjury = null;
              //invoke null? 
         }
@@ -176,21 +181,21 @@ public class InjuryManager : MonoBehaviour
     // Change order of injuri in the list.
     public void ChangeOrder(int oldIndex, int newIndex)
     {
-        Injury injury = injuries[oldIndex];
+        InjuryController injury = injuries[oldIndex];
         injuries.RemoveAt(oldIndex);
         injuries.Insert(newIndex, injury);
+        OnChange.Invoke();
     }
 
     // Load all injuries from the list in to the scene.
     public void LoadInjuries()
     {
-        foreach (Injury injury in injuries)
+        foreach (InjuryController injury in injuries)
         {
             activeInjury = injury;
-            if(injury.Marker != null)
+            if(injury.injury.Marker != null)
             {
-                injury.InjuryMarkerObj = injuryAdding.LoadMarker(injury);
-                injury.AddModel(injuryAdding.LoadModel(injury));
+
             }
         }
     }
@@ -203,28 +208,28 @@ public class InjuryManager : MonoBehaviour
         switch(type) 
         {
             case InjuryType.Shot:
-                newInjury = new ShotInjury(activeInjury);
+                newInjury = new ShotInjury(activeInjury.injury);
                 break;
             case InjuryType.Crush:
-                newInjury = new CrushInjury(activeInjury);
+                newInjury = new CrushInjury(activeInjury.injury);
                 break;
             case InjuryType.Cut:
-                newInjury = new CutInjury(activeInjury);
+                newInjury = new CutInjury(activeInjury.injury);
                 break;
             case InjuryType.Stab:
-                newInjury = new StabInjury(activeInjury);
+                newInjury = new StabInjury(activeInjury.injury);
                 break;
             case InjuryType.Undefined:
-                newInjury = new UndefinedInjury(activeInjury);
+                newInjury = new UndefinedInjury(activeInjury.injury);
                 break;
             default:
-                newInjury = new UndefinedInjury(activeInjury);
+                newInjury = new UndefinedInjury(activeInjury.injury);
                 Debug.Log("Unknown type");
                 break;
 
         }
 
-        SetActiveInjury(newInjury);
+        ActivateInjury(newInjury);
     }
 
 }

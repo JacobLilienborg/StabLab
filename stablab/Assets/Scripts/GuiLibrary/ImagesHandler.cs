@@ -25,7 +25,7 @@ public class ImagesHandler : MonoBehaviour
         foreach(RawImage image in images) { Destroy(image.gameObject); }
         images.Clear();
 
-        for(int i = 0; i < InjuryManager.activeInjury.images.Count; i++)
+        for(int i = 0; i < InjuryManager.instance.act.injuryiveInjury.images.Count; i++)
         {
             LoadImage(i);
         }
@@ -37,15 +37,15 @@ public class ImagesHandler : MonoBehaviour
     public void AddImage()
     {
         string imagePath = FileManager.OpenFileBrowser("png,jpg"); // Let the user pick an image
-        InjuryManager.activeInjury.AddImage(FileManager.ReadBytes(imagePath)); // Save the image to active injury
-        LoadImage(InjuryManager.activeInjury.images.Count -1);
+        InjuryManager.instance.act.injuryiveInjury.AddImage(FileManager.ReadBytes(imagePath)); // Save the image to active injury
+        LoadImage(InjuryManager.instance.act.injuryiveInjury.images.Count -1);
     }
 
     // Load an image in to the UI in the right position.
     private void LoadImage(int index) 
     {
         Texture2D imgTexture = new Texture2D(2, 2);
-        imgTexture.LoadImage(InjuryManager.activeInjury.images[index]);
+        imgTexture.LoadImage(InjuryManager.instance.act.injuryiveInjury.images[index]);
         imgTexture.Compress(false);
 
         RawImage image = Instantiate(emptyImage, imageArea);

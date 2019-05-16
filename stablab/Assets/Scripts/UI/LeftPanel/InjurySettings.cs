@@ -36,16 +36,16 @@ public class InjurySettings : MonoBehaviour
 
     private void OnEnable()
     {
-        if (InjuryManager.activeInjury != null)
+        if (InjuryManager.instance.act.injuryiveInjury != null)
         {
-            activeInjury = InjuryManager.activeInjury;
+            activeInjury = InjuryManager.instance.act.injuryiveInjury;
             LoadActiveInjury(false);
         }
     }
 
     private void Update()
     {
-        if(InjuryManager.activeInjury != activeInjury)
+        if(InjuryManager.instance.act.injuryiveInjury != activeInjury)
         {
             LoadActiveInjury(true);
         }
@@ -53,10 +53,10 @@ public class InjurySettings : MonoBehaviour
 
     public void LoadActiveInjury(bool withCamera)
     {
-        if (InjuryManager.activeInjury != null)
+        if (InjuryManager.instance.act.injuryiveInjury != null)
         {
-            index.text = InjuryManager.injuries.IndexOf(InjuryManager.activeInjury).ToString();
-            activeInjury = InjuryManager.activeInjury;
+            index.text = InjuryManager.instance.injuries.IndexOf(InjuryManager.ins.injurytance.activeInjury).ToString();
+            activeInjury = InjuryManager.instance.act.injuryiveInjury;
             LoadNameText();
             LoadTypeText();
             LoadPositionText();
@@ -71,7 +71,7 @@ public class InjurySettings : MonoBehaviour
 
     public void RemoveModel()
     {
-        InjuryManager.activeInjury.Marker.RemoveModel();
+        InjuryManager.instance.act.injuryiveInjury.Marker.RemoveModel();
     }
 
     public void UpdateName(string name)

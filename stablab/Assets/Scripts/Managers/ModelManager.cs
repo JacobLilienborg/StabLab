@@ -1,14 +1,13 @@
-﻿using System.Collections;
+﻿﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class ModelManager : MonoBehaviour
 {
     public static ModelManager instance;
-    public ViewManager viewManager;
-
     public enum Type { man, woman, child, none};
     public ModelController activeModel = null;
     [SerializeField] private ModelController man;
@@ -17,11 +16,10 @@ public class ModelManager : MonoBehaviour
 
     void Start()
     {
-        viewManager.onSceneChange.AddListener(Finished);
+        SceneManager.sceneLoaded += Finished;
     }
     private void Awake()
     {
-
         // If instance doesn't exist set it to this, else destroy this
         if (instance == null)
         {
@@ -35,16 +33,20 @@ public class ModelManager : MonoBehaviour
         DontDestroyOnLoad(this);
     }
 
-    public void AddOnClickPointListener(UnityAction<Vector3> action){
-        activeModel.onClickPoint.AddListener(action);
-    }
-    public void AddOnClickBoneListener(UnityAction<Transform> action){
-        activeModel.onClickBone.AddListener(action);
+    public void AddOnClickListener(UnityAction<Transform, Transform> action)
+    {
+        activeModel.onClick.AddListener(action);
     }
 
-    private void Finished(Scenes scene)
+    public void RemoveOnClickListener(UnityAction<Transform, Transform> action)
     {
-        if(scene == Scenes.editing)
+        activeModel.onClick.RemoveListener(action);
+    }
+
+    private void Finished(Scene scene, LoadSceneMode mode)
+    {
+        Debug.Log(scene.name);
+        if(scene.name == "InjuryMode")
         {
             Mesh mesh = new Mesh();
             activeModel.smr.BakeMesh(mesh);

@@ -25,9 +25,9 @@ public class WeaponModelManager : MonoBehaviour
     }
 
     public void Reset() {
-        if (parent == null || InjuryManager.activeInjury == null || !InjuryManager.activeInjury.HasMarker()) return;
+        if (parent == null || InjuryManager.instance.activeInjury == null || !InjuryManager.instance.activeInjury.HasMarker()) return;
         parent.transform.rotation = previousRotation;
-        InjuryManager.activeInjury.AddModel(parent);
+        InjuryManager.instance.activeInjury.AddModel(parent);
 
         Destroy(parent);
         parent = null;
@@ -38,8 +38,8 @@ public class WeaponModelManager : MonoBehaviour
         InjuryModelGizmos modelGizmo = parent.GetComponentInChildren<InjuryModelGizmos>();
         if (parent != null)
         {
-            if(InjuryManager.activeInjury.HasMarker()){
-                InjuryManager.activeInjury.Marker.activeInPresentation = !parent.activeSelf;
+            if(InjuryManager.instance.activeInjury.HasMarker()){
+                InjuryManager.instance.activeInjury.Marker.activeInPresentation = !parent.activeSelf;
             }
             
             parent.SetActive(!parent.activeSelf);
@@ -69,7 +69,7 @@ public class WeaponModelManager : MonoBehaviour
     public void AddGizmoToModel()
     {
         SetParentIfNonExisting();
-        GameObject curModel = InjuryManager.activeInjury.Marker.GetParent(); ;
+        GameObject curModel = InjuryManager.instance.activeInjury.Marker.GetParent(); ;
         Debug.Log("Nuär jag här1111");
         if (curModel == null || parent.activeSelf == false) return;
         Debug.Log("Nuär jag här222222");
@@ -82,7 +82,7 @@ public class WeaponModelManager : MonoBehaviour
     public void RemoveGizmoFromModel()
     {
         SetParentIfNonExisting();
-        GameObject curModel = InjuryManager.activeInjury.Marker.GetParent();
+        GameObject curModel = InjuryManager.instance.activeInjury.Marker.GetParent();
         if (curModel == null) return;
         InjuryModelGizmos comp = curModel.GetComponentInChildren<InjuryModelGizmos>();
         RuntimeGizmos.TransformGizmo transGizmo = comp.gizmo;
@@ -119,14 +119,14 @@ public class WeaponModelManager : MonoBehaviour
         }
 
         //GameObject currentModel = GetCurrentModel();
-        if (InjuryManager.activeInjury.HasMarker())
+        if (InjuryManager.instance.activeInjury.HasMarker())
         {
-            InjuryManager.activeInjury.Marker.GetParent().SetActive(false);
+            InjuryManager.instance.activeInjury.Marker.GetParent().SetActive(false);
             //UpdateParentAndChild();
         }
 
-        if (InjuryManager.activeInjury == null) return;
-        parent = InjuryManager.activeInjury.InstantiateModel(Vector3.zero, Quaternion.identity, null);//GameObject.Instantiate(currentModel);
+        if (InjuryManager.instance.activeInjury == null) return;
+        parent = InjuryManager.instance.activeInjury.injury.InstantiateModel(Vector3.zero, Quaternion.identity, null);//GameObject.Instantiate(currentModel);
         parent.GetComponent<InjuryModelGizmos>().gizmo = this.gizmo;
 
         //parent = new GameObject("parentToWeaponModel to " + InjuryManager.activeInjury.Name);
@@ -142,9 +142,9 @@ public class WeaponModelManager : MonoBehaviour
     }
 
     public void SetParentIfNonExisting() {
-        if (parent == null && InjuryManager.activeInjury != null &&InjuryManager.activeInjury.HasMarker())
+        if (parent == null && InjuryManager.instance.activeInjury != null &&InjuryManager.instance.activeInjury.injury.HasMarker())
         {
-            parent = InjuryManager.activeInjury.Marker.GetParent();
+            parent = InjuryManager.instance.activeInjury.injury.Marker.GetParent();
 
         }
     }
@@ -167,9 +167,9 @@ public class WeaponModelManager : MonoBehaviour
             Quaternion rot = comp.GetRotation();
             if (rot != null) parent.transform.rotation = rot;
         }*/
-        if (InjuryManager.activeInjury != null && InjuryManager.activeInjury.HasMarker())
+        if (InjuryManager.instance.activeInjury != null && InjuryManager.instance.activeInjury.HasMarker())
         {
-            InjuryManager.activeInjury.Marker.SetModelRotation(parent.transform.rotation);
+            InjuryManager.instance.activeInjury.Marker.SetModelRotation(parent.transform.rotation);
             //InjuryManager.activeInjury.injuryMarkerObj.transform.rotation = parent.transform.rotation;
         }
     }
@@ -183,8 +183,8 @@ public class WeaponModelManager : MonoBehaviour
 
         //SaveRotation();
         RemoveGizmoFromModel();
-        InjuryManager.activeInjury.Marker.activeInPresentation = parent.activeSelf;
-        InjuryManager.activeInjury.AddModel(parent);
+        InjuryManager.instance.activeInjury.Marker.activeInPresentation = parent.activeSelf;
+        InjuryManager.instance.activeInjury.AddModel(parent);
         //Destroy(parent);
         parent = null;
     }
@@ -215,7 +215,7 @@ public class WeaponModelManager : MonoBehaviour
     }
     */
     public void SetActiveInjuryColor(int colorIndex) {
-        SetModelColor(colorIndex, InjuryManager.activeInjury);
+        SetModelColor(colorIndex, InjuryManager.instance.activeInjury);
     }
 
     public void SetModelColor(int colorIndex,Injury injury) {
@@ -235,7 +235,7 @@ public class WeaponModelManager : MonoBehaviour
                 color = Color.white;
                 break;
         }
-        if (!InjuryManager.activeInjury.HasMarker()) return;
+        if (!InjuryManager.instance.activeInjury.HasMarker()) return;
 
         MeshRenderer mesh = injury.Marker.GetParent().transform.GetComponentInChildren<MeshRenderer>();
         if (mesh == null) return;
@@ -246,8 +246,8 @@ public class WeaponModelManager : MonoBehaviour
     }
 
     public void SetPreviousRotation() {
-        if (InjuryManager.activeInjury == null || !InjuryManager.activeInjury.HasMarker()) return;
-        previousRotation = InjuryManager.activeInjury.Marker.MarkerRotation;
+        if (InjuryManager.instance.activeInjury == null || !InjuryManager.instance.activeInjury.HasMarker()) return;
+        previousRotation = InjuryManager.instance.activeInjury.Marker.MarkerRotation;
     }
 
     public static void SetParent(GameObject newParent) {
