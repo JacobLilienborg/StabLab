@@ -91,7 +91,9 @@ public class InjuryManager : MonoBehaviour
     public void CreateInjury()
     {
         InjuryData injuryData = new UndefinedInjuryData(Guid.NewGuid());
-        InjuryController ic = Instantiate(injuryController, transform);
+        GameObject go = new GameObject("injury" + injuries.Count, typeof(InjuryController));
+        go.transform.SetParent(transform);
+        InjuryController ic = go.GetComponent<InjuryController>();
         ic.injuryData = injuryData;
         injuries.Add(ic);
         OnChange.Invoke();
@@ -111,7 +113,9 @@ public class InjuryManager : MonoBehaviour
     // Remove the currently active injury
     public void RemoveInjury()
     {
+        Destroy(activeInjury.gameObject);
         injuries.Remove(activeInjury);
+        activeInjury = null;
         OnChange.Invoke();
     }
 
