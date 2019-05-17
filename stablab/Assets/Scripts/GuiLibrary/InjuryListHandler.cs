@@ -40,8 +40,12 @@ public class InjuryListHandler : MonoBehaviour
         // We listen to when an injury gets changed.
         InjuryManager.AddActivationListener(RefreshActive);
 
+        //We listen to when an injury gets removed
+        InjuryManager.AddRemovalListener(RemoveActive);
+
         // Calculate the padding, button size and the total button amount
         CalculateScreenAdjustments();
+        
 
         // Spawn the add button and resize it according to the button area
         addButton = Instantiate(addButton, buttonArea);
@@ -69,6 +73,7 @@ public class InjuryListHandler : MonoBehaviour
             Resize();
             res.x = Screen.width;
             res.y = Screen.height;
+            CheckInteractability();
 
         }
     }
@@ -336,6 +341,38 @@ public class InjuryListHandler : MonoBehaviour
         return -1;
     }
 
+    public void RemoveActive(int activeIndex)
+    {
+        if (InjuryManager.injuries.Count <= totalButtonAmount)
+        {
+
+            RemoveButton();
+            for (int i = activeIndex + 1; i < rightMostIndex; i++)
+            {
+                InjuryButton ib = injuryButtons[i];
+                ib.index = i - 1;
+            }
+            addButton.transform.position -= new Vector3(buttonSize + padding, 0, 0);
+        }
+        else
+        {
+            rightMostIndex--;
+            if (injuryButtons[0].index == 0)
+            {
+                JumpListToActive(rightMostIndex, activeIndex);
+            }
+            else
+            {
+                JumpList(rightMostIndex);
+            }
+
+        }
+
+        CheckInteractability();
+        RefreshActive();
+    }
+
+
     // Help function to move the entire list
     private void JumpList(int newRightMostIndex)
     {
@@ -344,6 +381,18 @@ public class InjuryListHandler : MonoBehaviour
         {
             InjuryButton button = injuryButtons[injuryButtons.Count - 1 - i];
             button.SetIndex(rightMostIndex - i);
+        }
+    }
+
+    private void JumpListToActive(int newRightMostIndex, int activeIndex)
+    {
+        rightMostIndex = newRightMostIndex;
+
+        for (int i = activeIndex; i > 0; i--)
+        {
+            InjuryButton button = injuryButtons[injuryButtons.Count - i];
+            button.SetIndex(totalButtonAmount - i);
+
         }
     }
 

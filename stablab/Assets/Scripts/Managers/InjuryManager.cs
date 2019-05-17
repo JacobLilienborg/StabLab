@@ -46,6 +46,8 @@ public class InjuryManager : MonoBehaviour
     private static IndexEvent IndexDeactivationEvent = new IndexEvent();
     private static UnityEvent ActivationEvent = new UnityEvent();
     private static UnityEvent DeactivationEvent = new UnityEvent();
+    private static IndexEvent RemovalEvent = new IndexEvent();
+
 
     public static void AddActivationListener(UnityAction<Injury> action)
     {
@@ -70,6 +72,10 @@ public class InjuryManager : MonoBehaviour
     public static void AddDeactivationListener(UnityAction action)
     {
         DeactivationEvent.AddListener(action);
+    }
+    public static void AddRemovalListener(UnityAction<int> action)
+    {
+        RemovalEvent.AddListener(action);
     }
 
 
@@ -107,9 +113,15 @@ public class InjuryManager : MonoBehaviour
     }
 
     // Remove the currently active injury
-    public static void RemoveInjury()
+    public void RemoveInjury()
     {
-        injuries.Remove(activeInjury);
+        int activeIndex = GetActiveInjuryIndex();
+
+        DeselectInjury(activeIndex);
+        RemovalEvent.Invoke(activeIndex);
+        injuries.Remove(injuries[activeIndex]);
+        LoadInjuries();
+
     }
 
     // Sets the active injury by id. Is called from the marker that is clicked
@@ -232,6 +244,17 @@ public class InjuryManager : MonoBehaviour
     public static Injury GetActiveInjury()
     {
         return activeInjury;
+    }
+
+    public static int GetActiveInjuryIndex()
+    {
+
+        for (int i = 0; i < injuries.Count; i++)
+        {
+            Injury injury = injuries[i];
+            if (injury == activeInjury) return i;
+        }
+        return -1;
     }
 
 }
