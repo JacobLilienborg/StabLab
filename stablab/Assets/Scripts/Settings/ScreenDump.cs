@@ -18,7 +18,7 @@ public class ScreenDump : MonoBehaviour
 
         string name;
         ToggleObjects(false);
-        if (InjuryManager.activeInjury != null && InjuryManager.activeInjury.Name != null) name = "Screenshot of " + InjuryManager.activeInjury.Name + ".png";
+        if (InjuryManager.instance.activeInjury != null && InjuryManager.instance.activeInjury.injuryData.name != null) name = "Screenshot of " + InjuryManager.instance.activeInjury.injuryData.name + ".png";
         else name = "unknown" + Time.time.ToString() + ".png";
 
         yield return new WaitForEndOfFrame();

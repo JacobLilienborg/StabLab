@@ -13,7 +13,7 @@ public class InjurySettings : MonoBehaviour
     public ImagesHandler imagesHandler;
     public Text index; // New
 
-    private Injury activeInjury;
+    private InjuryController activeInjury;
 
     private string nameDefault;
     private string woundTypeDefault;
@@ -31,21 +31,21 @@ public class InjurySettings : MonoBehaviour
         certaintyDefault = certainty.text;
         infoDefault = info.text;
         camDefault = new CameraSettings(Camera.main);
-        poseDefault = ModelController.GetBodyPose();
+        //poseDefault = ModelController.GetBodyPose();
     }
 
     private void OnEnable()
     {
-        if (InjuryManager.activeInjury != null)
+        if (InjuryManager.instance.activeInjury != null)
         {
-            activeInjury = InjuryManager.activeInjury;
+            activeInjury = InjuryManager.instance.activeInjury;
             LoadActiveInjury(false);
         }
     }
 
     private void Update()
     {
-        if(InjuryManager.activeInjury != activeInjury)
+        if(InjuryManager.instance.activeInjury != activeInjury)
         {
             LoadActiveInjury(true);
         }
@@ -53,10 +53,10 @@ public class InjurySettings : MonoBehaviour
 
     public void LoadActiveInjury(bool withCamera)
     {
-        if (InjuryManager.activeInjury != null)
+        if (InjuryManager.instance.activeInjury != null)
         {
-            index.text = InjuryManager.injuries.IndexOf(InjuryManager.activeInjury).ToString();
-            activeInjury = InjuryManager.activeInjury;
+            index.text = InjuryManager.instance.injuries.IndexOf(InjuryManager.instance.activeInjury).ToString();
+            activeInjury = InjuryManager.instance.activeInjury;
             LoadNameText();
             LoadTypeText();
             LoadPositionText();
@@ -71,39 +71,30 @@ public class InjurySettings : MonoBehaviour
 
     public void RemoveModel()
     {
-        InjuryManager.activeInjury.Marker.RemoveModel();
+
     }
 
     public void UpdateName(string name)
     {
-        activeInjury.Name = name;
+        activeInjury.injuryData.name = name;
     }
 
     public void UpdateInfo(string info)
     {
-        activeInjury.InfoText = info;
+        activeInjury.injuryData.infoText = info;
     }
 
     public void SetCamera()
     {
-        activeInjury.CameraSettings = new CameraSettings(Camera.main);
     }
 
     public void SetPose()
     {
-        activeInjury.SaveBodyPose();
     }
 
     private void LoadNameText()
     {
-        if (!string.IsNullOrEmpty(activeInjury.Name))
-        {
-            injuryName.text = activeInjury.Name;
-        }
-        else
-        {
-            injuryName.text = nameDefault;
-        }
+
 
     }
 
@@ -114,14 +105,7 @@ public class InjurySettings : MonoBehaviour
 
     private void LoadPositionText()
     {
-        if (activeInjury.Marker != null)
-        {
-            position.text = activeInjury.Marker.BodyPartParent;
-        }
-        else
-        {
-            position.text = positionDefault;
-        }
+
     }
 
     private void LoadCertaintyText()
@@ -145,37 +129,16 @@ public class InjurySettings : MonoBehaviour
 
     private void LoadInfoText()
     {
-        if (!string.IsNullOrEmpty(activeInjury.InfoText))
-        {
-            info.text = activeInjury.InfoText;
-        }
-        else
-        {
-            info.text = infoDefault;
-        }
+
     }
 
     private void LoadCamera()
     {
-        CameraSettings newCam = camDefault;
-        if(activeInjury.CameraSettings != null)
-        {
-            newCam = activeInjury.CameraSettings;
-        }
 
-        Camera.main.transform.position = newCam.GetPosition();
-        Camera.main.transform.rotation = newCam.GetRotation();
-        Camera.main.fieldOfView = newCam.GetFieldOfView();
     }
 
     private void LoadPose()
     {
-        BodyPose newPose = poseDefault;
-        if (activeInjury.BodyPose != null)
-        {
-            newPose = activeInjury.BodyPose;
-        }
 
-        ModelController.SetBodyPose(newPose);
     }
 }

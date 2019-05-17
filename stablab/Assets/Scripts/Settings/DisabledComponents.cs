@@ -7,11 +7,11 @@ public class DisabledComponents : MonoBehaviour
     public GameObject gizmoObj;
     private static RuntimeGizmos.TransformGizmo gizmo;
 
-    public GameObject injuryAddingObj;
-    private static  InjuryAdding injuryAdding;
+    //public GameObject injuryAddingObj;
+    //private static  InjuryAdding injuryAdding;
 
     public GameObject weaponModelObj;
-    private static WeaponModelManager modelManager;
+    //private static WeaponModelManager modelManager;
 
 
 
@@ -20,19 +20,18 @@ public class DisabledComponents : MonoBehaviour
     void Start()
     {
         gizmo = Camera.main.gameObject.GetComponent<RuntimeGizmos.TransformGizmo>();
-        injuryAdding = injuryAddingObj.GetComponent<InjuryAdding>();
-        modelManager = weaponModelObj.GetComponent<WeaponModelManager>();
+        //injuryAdding = injuryAddingObj.GetComponent<InjuryAdding>();
+       // modelManager = weaponModelObj.GetComponent<WeaponModelManager>();
     }
 
     public static void DisableAll() {
-        Camera.main.gameObject.GetComponent<RuntimeGizmos.TransformGizmo>().enabled = false;
+        //Camera.main.gameObject.GetComponent<RuntimeGizmos.TransformGizmo>().enabled = false;
         //modelManager.SaveModel();
         //modelManager.ResetModel();//SaveModel();
         //injuryAdding.SaveMarker();
-        if(injuryAdding != null){
-            injuryAdding.Reset();
-            injuryAdding.SetStateToInactive();
-        }
-    
+        //if(injuryAdding != null){
+        //    injuryAdding.Reset();
+        //    injuryAdding.SetStateToInactive();
+        //}
     }
 }

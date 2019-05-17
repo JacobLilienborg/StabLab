@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 /*
  * ImageHandler has the functionality to add/remove images to an injury and go through the images one at a time by cklicking left/right arrows.
- * 
+ *
  * TODO: Remove image, fix left/right arrows.
  */
 
@@ -15,7 +15,7 @@ public class ImagesHandler : MonoBehaviour
     [SerializeField] private InjuryImage emptyImage;
     [SerializeField] private Button previousButton;
     [SerializeField] private Button nextButton;
-    
+
     private List<InjuryImage> images = new List<InjuryImage>();
     private int activeIndex = 1; // 0 <= activeIndex >= images.Count , images.Count is addButton
 
@@ -27,12 +27,12 @@ public class ImagesHandler : MonoBehaviour
     }
 
     // Load all images saved to the active injury
-    public void LoadAllImages() 
+    public void LoadAllImages()
     {
         foreach(InjuryImage image in images) { Destroy(image.gameObject); }
         images.Clear();
 
-        for(int i = 0; i < InjuryManager.activeInjury.images.Count; i++)
+        for(int i = 0; i < InjuryManager.instance.activeInjury.injuryData.images.Count; i++)
         {
             LoadImage(i);
         }
@@ -44,15 +44,15 @@ public class ImagesHandler : MonoBehaviour
     public void AddImage()
     {
         string imagePath = FileManager.OpenFileBrowser("png,jpg"); // Let the user pick an image
-        InjuryManager.activeInjury.AddImage(FileManager.ReadBytes(imagePath)); // Save the image to active injury
-        LoadImage(InjuryManager.activeInjury.images.Count -1);
+        //InjuryManager.instance.activeInjury.injuryData.AddImage(FileManager.ReadBytes(imagePath)); // Save the image to active injury
+        LoadImage(InjuryManager.instance.activeInjury.injuryData.images.Count -1);
     }
 
     // Load an image in to the UI in the right position.
-    private void LoadImage(int index) 
+    private void LoadImage(int index)
     {
         Texture2D imgTexture = new Texture2D(2, 2);
-        imgTexture.LoadImage(InjuryManager.activeInjury.images[index]);
+        imgTexture.LoadImage(InjuryManager.instance.activeInjury.injuryData.images[index]);
         imgTexture.Compress(false);
 
         InjuryImage image = Instantiate(emptyImage, imageArea);
@@ -90,7 +90,7 @@ public class ImagesHandler : MonoBehaviour
     // Show previous image
     public void ShowPrevImage()
     {
-        if(activeIndex >= 1) 
+        if(activeIndex >= 1)
         {
             ShowImage(activeIndex - 1);
         }
@@ -99,7 +99,7 @@ public class ImagesHandler : MonoBehaviour
     // Make the image with the index from input visible and the rest invisible
     private void ShowImage(int index)
     {
- 
+
         for(int i = 0; i < images.Count; i++)
         {
             images[i].gameObject.SetActive(i == index);
