@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.45142567, g: 0.50066656, b: 0.5709645, a: 1}
+  m_IndirectSpecularColor: {r: 0.45142543, g: 0.5006666, b: 0.5709641, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -11492,6 +11492,28 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 5fb72ed2d5717d047b460b4e20527a2c,
         type: 3}
+    - target: {fileID: 6701885534270600594, guid: c5d90dc30b301f647bd40bdc7f1c9719,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 6538740731370075416, guid: a671bf0e0685742febefa5426d17349e,
+        type: 3}
+    - target: {fileID: 6701885534270600594, guid: c5d90dc30b301f647bd40bdc7f1c9719,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: RemoveInjury
+      objectReference: {fileID: 0}
+    - target: {fileID: 6701885534270600594, guid: c5d90dc30b301f647bd40bdc7f1c9719,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 6701885534270600594, guid: c5d90dc30b301f647bd40bdc7f1c9719,
+        type: 3}
+      propertyPath: m_SpriteState.m_SelectedSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 1b523dc63c1a2cf479304b8cc4bca611,
+        type: 3}
     - target: {fileID: 6701885534270600597, guid: c5d90dc30b301f647bd40bdc7f1c9719,
         type: 3}
       propertyPath: m_Sprite
@@ -20916,7 +20938,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1727426651
 RectTransform:
   m_ObjectHideFlags: 0
@@ -25469,7 +25491,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2130531208
 RectTransform:
   m_ObjectHideFlags: 0
