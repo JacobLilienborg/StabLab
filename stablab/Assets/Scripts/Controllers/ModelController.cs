@@ -111,7 +111,6 @@ public class ModelController : MonoBehaviour
         Transform closestBone = null;
         float closestDistance = Mathf.Infinity;
         Transform[] bones = skeleton.GetComponentsInChildren<Transform>();
-        Debug.Log(hit);
         foreach (Transform bone in bones){
             if (closestDistance > Vector3.Distance(hit, bone.position)){
                 closestBone = bone;

@@ -45,9 +45,9 @@ public class ModelManager : MonoBehaviour
 
     private void Finished(Scene scene, LoadSceneMode mode)
     {
-        Debug.Log(scene.name);
         if(scene.name == "InjuryMode")
         {
+            Debug.Log(scene.name);
             Mesh mesh = new Mesh();
             activeModel.smr.BakeMesh(mesh);
             activeModel.meshCollider.sharedMesh = mesh;
