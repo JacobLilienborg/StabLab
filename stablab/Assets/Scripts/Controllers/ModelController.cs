@@ -50,12 +50,13 @@ public class ModelController : MonoBehaviour
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition); //Ray from mouseclick on screen
             RaycastHit hit;  //Where the ray hits (the injury position)
-
             if (Physics.Raycast(ray, out hit) && (hit.collider == meshCollider))
             {
                 onClick.Invoke(hit.point, GetClosestBone(hit.point));
             }
         }
+        // UGLY SOLUTION!
+        else if (Input.GetMouseButtonUp(0) && gizmo != null && gizmo.enabled){ BakeMesh(); }
     }
 
     // There is a bug, if the sliders are changed to fast the blend shapes will fuck up
@@ -122,11 +123,12 @@ public class ModelController : MonoBehaviour
 
     public void AddGizmo(Vector3 point, Transform bone)
     {
+        if(gizmo.isTransforming) return;
         gizmo = Camera.main.GetComponent<RuntimeGizmos.TransformGizmo>();
         gizmo.ClearTargets();
         gizmo.AddTarget(bone);
         gizmo.enabled = true;
-        Debug.Log(bone.ToString());
+
     }
 
     public void RemoveGizmo()

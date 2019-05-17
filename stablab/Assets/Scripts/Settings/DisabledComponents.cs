@@ -10,7 +10,7 @@ public class DisabledComponents : MonoBehaviour
     //public GameObject injuryAddingObj;
     //private static  InjuryAdding injuryAdding;
 
-    public GameObject weaponModelObj;
+    //public GameObject weaponModelObj;
     //private static WeaponModelManager modelManager;
 
 
@@ -19,7 +19,7 @@ public class DisabledComponents : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        gizmo = Camera.main.gameObject.GetComponent<RuntimeGizmos.TransformGizmo>();
+        //gizmo = Camera.main.gameObject.GetComponent<RuntimeGizmos.TransformGizmo>();
         //injuryAdding = injuryAddingObj.GetComponent<InjuryAdding>();
        // modelManager = weaponModelObj.GetComponent<WeaponModelManager>();
     }

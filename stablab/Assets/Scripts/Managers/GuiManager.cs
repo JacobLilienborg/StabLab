@@ -14,11 +14,11 @@ public class GuiManager : MonoBehaviour
     {
         if(active)
         {
-            ModelManager.instance.activeModel.onClick.AddListener(ModelManager.instance.activeModel.AddGizmo);
+            ModelManager.instance.AddOnClickListener(ModelManager.instance.activeModel.AddGizmo);
         }
         else 
         {
-            ModelManager.instance.activeModel.onClick.RemoveListener(ModelManager.instance.activeModel.AddGizmo);
+            ModelManager.instance.RemoveOnClickListener(ModelManager.instance.activeModel.AddGizmo);
         }
     }
 }

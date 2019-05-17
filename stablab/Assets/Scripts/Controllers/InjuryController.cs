@@ -91,8 +91,11 @@ public class InjuryController : MonoBehaviour
 
     public void AddGizmo()
     {
+        if(gizmo.isTransforming) return;
+        gizmo = Camera.main.GetComponent<RuntimeGizmos.TransformGizmo>();
         gizmo.ClearTargets();
         gizmo.AddTarget(weaponObj.transform);
+        gizmo.enabled = true;
     }
 
     public void RemoveGizmo()

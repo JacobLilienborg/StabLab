@@ -14,8 +14,6 @@ namespace RuntimeGizmos
 	public class TransformGizmo : MonoBehaviour
 	{
 
-        public Highlighting highlighter;
-
         //-------------- 
 		public TransformSpace space = TransformSpace.Global;
 		public TransformType transformType = TransformType.Move;
@@ -141,7 +139,6 @@ namespace RuntimeGizmos
 		{
             myCamera = Camera.main;// GetComponent<Camera>();
 			SetMaterial();
-            highlighter = GetComponent<Highlighting>();
 		}
 
 		void OnEnable()
@@ -640,17 +637,6 @@ namespace RuntimeGizmos
 			if(target != null)
 			{
 				target.GetComponentsInChildren<Renderer>(true, renderers);
-                foreach (string name in highlighter.meshParts.Keys) {
-                    if (name == target.gameObject.name)
-                    {
-                        string val;
-                        highlighter.meshParts.TryGetValue(name, out val);
-                        renderers.Add(GameObject.Find(val).GetComponent<SkinnedMeshRenderer>());
-                    }
-                    else {
-                        highlighter.PaintParts(target, false);
-                    }
-                }
 			}
 		}
 
