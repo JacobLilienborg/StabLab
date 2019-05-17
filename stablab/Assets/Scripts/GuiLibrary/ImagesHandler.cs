@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /*
- * ImageHandler has the functionality to add/remove images to an injury and go through the images one at a time by cklicking left/right arrows.
+ * ImageHandler has the functionality to add/remove images to an injury and go through the images one at a time by clicking left/right arrows.
  * 
  * TODO: Remove image, fix left/right arrows.
  */
@@ -12,6 +12,7 @@ public class ImagesHandler : MonoBehaviour
 {
     [SerializeField] private RectTransform imageArea;
     [SerializeField] private Button addButton;
+    [SerializeField] private Button removeButton;
     [SerializeField] private InjuryImage emptyImage;
     [SerializeField] private Button previousButton;
     [SerializeField] private Button nextButton;
@@ -46,6 +47,14 @@ public class ImagesHandler : MonoBehaviour
         string imagePath = FileManager.OpenFileBrowser("png,jpg"); // Let the user pick an image
         InjuryManager.activeInjury.AddImage(FileManager.ReadBytes(imagePath)); // Save the image to active injury
         LoadImage(InjuryManager.activeInjury.images.Count -1);
+    }
+
+    // Removes the active image from the injury
+    public void RemoveImage()
+    {
+        Destroy(images[activeIndex].gameObject);
+        images.Remove(images[activeIndex]);
+        ShowImage(activeIndex);
     }
 
     // Load an image in to the UI in the right position.
@@ -125,8 +134,16 @@ public class ImagesHandler : MonoBehaviour
     private void CheckInteractability()
     {
         previousButton.interactable = activeIndex > 0;
-        if(addButton != null) nextButton.interactable = activeIndex < images.Count;
-        else nextButton.interactable = activeIndex < images.Count - 1;
+        if (addButton != null)
+        {
+            nextButton.interactable = activeIndex < images.Count;
+            removeButton.gameObject.SetActive(activeIndex < images.Count);
+        }
+        else {
+            nextButton.interactable = activeIndex < images.Count - 1;
+            removeButton.gameObject.SetActive(activeIndex < images.Count - 1);
+        }
+    
     }
 
 }

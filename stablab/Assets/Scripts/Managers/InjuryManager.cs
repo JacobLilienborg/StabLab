@@ -174,7 +174,7 @@ public class InjuryManager : MonoBehaviour
         }
     }
 
-    // Change order of injuri in the list.
+    // Change order of injury in the list.
     public static void ChangeOrder(int oldIndex, int newIndex)
     {
         Injury injury = injuries[oldIndex];
