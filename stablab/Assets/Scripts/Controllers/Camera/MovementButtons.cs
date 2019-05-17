@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 
 enum MOVEMENTTYPE {
@@ -18,14 +19,11 @@ public class MovementButtons : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     public  int          directionNumber;
     public  int          typeNumber;
     private Vector3      direction;
-    private int          speed    = 5;
-    private bool         move     = false;
-    private MOVEMENTTYPE MoveType = MOVEMENTTYPE.PAN;
-
-    private float        yDeg     = 0.0f;
-    private static int   yMin     = -80, 
-                         yMax     = 80;
-
+    private int          speed          = 5,
+                         rotationSpeed  = 60;
+    private bool         move           = false;
+    private MOVEMENTTYPE MoveType       = MOVEMENTTYPE.PAN;
+    private Vector3      rotationCenter = Vector3.zero;
 
     // Start is called before the first frame update
     void Start()
@@ -59,10 +57,10 @@ public class MovementButtons : MonoBehaviour, IPointerDownHandler, IPointerUpHan
                 switch (directionNumber)
                 {
                     case 1:
-                        direction = Vector3.up;
+                        direction = Vector3.down;
                         break;
                     case 2:
-                        direction = Vector3.down;
+                        direction = Vector3.up;
                         break;
                     case 3:
                         direction = Vector3.right;
@@ -89,10 +87,16 @@ public class MovementButtons : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     // Update is called once per frame
     void Update()
     {
-        // Without a model, we have nothing to rotate around.
-        if (ModelManager.instance.activeModel == null)
+        Vector3 modelCenter;
+        // Without a model (or an instance), we have nothing to rotate around.
+        if (ModelManager.instance != null)
+        { 
+            if (ModelManager.instance.activeModel == null)
+                return;
+        }
+        else
             return;
-       
+
         if (move)
         {
             if ((MoveType == MOVEMENTTYPE.PAN))
@@ -102,14 +106,19 @@ public class MovementButtons : MonoBehaviour, IPointerDownHandler, IPointerUpHan
             else if (MoveType == MOVEMENTTYPE.ROTATE)
             {
                 if (direction == Vector3.up || direction == Vector3.down)
-                    target.RotateAround(Vector3.zero, direction, Time.deltaTime * speed * Camera.main.gameObject.GetComponent<CameraController>().fov / 10);
+                    target.RotateAround(Vector3.zero, direction, Time.deltaTime * rotationSpeed);
                 else
                 {
-                    if(direction == Vector3.right)
-                        target.RotateAround(Vector3.zero, target.right, Time.deltaTime * speed * Camera.main.gameObject.GetComponent<CameraController>().fov / 10);
+                    //We change the rotationCenter to be the approximate middle of the model.
+                    //I do not know why this value is a good approximation.
+                    rotationCenter = new Vector3(
+                        0,
+                        ModelManager.instance.activeModel.meshCollider.bounds.center.y * 5 / Camera.main.scaledPixelHeight
+                    );
+                    if (direction == Vector3.right)
+                        target.RotateAround(rotationCenter, target.right, Time.deltaTime * rotationSpeed);
                     else
-                        target.RotateAround(Vector3.zero, target.right*-1, Time.deltaTime * speed * Camera.main.gameObject.GetComponent<CameraController>().fov / 10);
-                    //target.RotateAround(Vector3.zero, direction, Time.deltaTime * speed * Camera.main.gameObject.GetComponent<CameraController>().fov / 10);
+                        target.RotateAround(rotationCenter, target.right*-1, Time.deltaTime * rotationSpeed);
                 }
             }
             else if (MoveType == MOVEMENTTYPE.ZOOM)
@@ -139,15 +148,6 @@ public class MovementButtons : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         target.rotation = Camera.main.gameObject.GetComponent<CameraController>().stdRot;
         Camera.main.fieldOfView = Camera.main.gameObject.GetComponent<CameraController>().stdFov;
     }
-
-    private float LimitAngle(float angle)
-    {
-        if (angle < -360)
-            angle += 360;
-        if (angle > 360)
-            angle -= 360;
-        return Mathf.Clamp(angle, yMin, yMax);
-    }
-
+    
 }
 
