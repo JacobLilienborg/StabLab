@@ -13,7 +13,7 @@ public class WeaponModelManager : MonoBehaviour
 
     public RuntimeGizmos.TransformGizmo gizmo;
 
-    Quaternion previousRotation;
+    GameObject previousWeaponModel;
     int previousColor;
 
     private bool staticChange;
@@ -25,9 +25,11 @@ public class WeaponModelManager : MonoBehaviour
     }
 
     public void Reset() {
-        if (tempWeapon == null || InjuryManager.activeInjury == null || !InjuryManager.activeInjury.HasMarker()) return;
-        tempWeapon.transform.rotation = previousRotation;
-        InjuryManager.activeInjury.AddModel(tempWeapon);
+        //if (tempWeapon == null || InjuryManager.activeInjury == null || !InjuryManager.activeInjury.HasMarker() 
+        //   || previousWeaponModel == null) return;
+        //tempWeapon.transform.rotation = previousRotation;
+        previousWeaponModel.SetActive(true);
+        InjuryManager.activeInjury.AddModel(previousWeaponModel);
 
         Destroy(tempWeapon);
         tempWeapon = null;
@@ -101,6 +103,11 @@ public class WeaponModelManager : MonoBehaviour
     {
         if (tempWeapon != null) tempWeapon.SetActive(false);
         modelActive = false;
+    }
+
+    public static void DeleteModel() {
+        Destroy(tempWeapon);
+        tempWeapon = null;
     }
 
     public void UpdateModel()
@@ -208,13 +215,16 @@ public class WeaponModelManager : MonoBehaviour
 
     public void SetPreviousRotation() {
         if (InjuryManager.activeInjury == null || !InjuryManager.activeInjury.HasMarker()) return;
-        previousRotation = InjuryManager.activeInjury.Marker.ModelRotation;
+        //previousRotation = InjuryManager.activeInjury.Marker.ModelRotation;
+        GameObject currentModel = InjuryManager.activeInjury.Marker.GetWeaponModel();
+        previousWeaponModel = Instantiate(currentModel, currentModel.transform.position, currentModel.transform.rotation, currentModel.transform.parent);
+        previousWeaponModel.SetActive(false);
     }
 
     public void RevertRotationChange()
     {
         RemoveGizmoFromModel();
-        InjuryManager.activeInjury.Marker.GetWeaponModel().transform.rotation = previousRotation;
+        //InjuryManager.activeInjury.Marker.GetWeaponModel().transform.rotation = previousRotation;
         tempWeapon = null;
     }
 

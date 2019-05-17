@@ -9,6 +9,7 @@ public class CutInjury : Injury
     protected override string MarkerName { get { return "Markers/CutMarker"; } }
     protected override string ModelName { get { return modelName; } }
     protected override string IconName { get { return "Icons/Cut"; } }
+    protected override string ModelPath { get { return modelPath; } }
     public string modelName                 = "Models/Cut/cutModel";
     public static readonly string modelPath = "Models/Cut";
 
