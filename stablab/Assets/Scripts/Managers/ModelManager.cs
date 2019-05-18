@@ -2,12 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-<<<<<<< HEAD
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
-=======
 using System;
->>>>>>> 09ce8ce941fc8271fd8cc1d5161dcf35210fea1e
 
 public class ModelManager : MonoBehaviour
 {
@@ -105,8 +102,6 @@ public class ModelManager : MonoBehaviour
         activeModel.muscles = slider.value;
     }
 
-<<<<<<< HEAD
-
     // Set the pose to the BodyPose input
     public void SetBodyPose(BodyPose body)
     {/*
@@ -133,7 +128,8 @@ public class ModelManager : MonoBehaviour
     public BodyPose GetBodyPose()
     {
         return new BodyPose(new GameObject());
-=======
+    }
+
     public void adjustHeight(InputField height)
     {
         try
@@ -156,6 +152,5 @@ public class ModelManager : MonoBehaviour
     public int GetStandardHeight()
     {
         return referenceHeightValue;
->>>>>>> 09ce8ce941fc8271fd8cc1d5161dcf35210fea1e
     }
 }
