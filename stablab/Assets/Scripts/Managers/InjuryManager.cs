@@ -191,7 +191,7 @@ public class InjuryManager : MonoBehaviour
             //activeInjury = injury;
             if(injury.Marker != null)
             {
-                ModelController.SetBodyPose(injury.BodyPose);
+                //ModelController.SetBodyPose(injury.BodyPose);
                 injury.InjuryMarkerObj = injuryAdding.LoadMarker(injury);
                 injury.Marker.SetWeaponModel(injuryAdding.LoadModel(injury));
             }

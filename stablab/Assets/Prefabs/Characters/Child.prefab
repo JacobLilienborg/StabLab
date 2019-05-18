@@ -313,8 +313,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c08bc4f4cb393043bac9ea411b63f84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onClick:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: OnClick, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   smr: {fileID: 6900196420258404696}
-  skeleton: {fileID: 0}
+  meshCollider: {fileID: 0}
+  skeleton: {fileID: 5509181453220618860}
 --- !u!1 &2437414198939090976
 GameObject:
   m_ObjectHideFlags: 0
