@@ -54,6 +54,7 @@ public class ImagesHandler : MonoBehaviour
     {
         Destroy(images[activeIndex].gameObject);
         images.Remove(images[activeIndex]);
+        InjuryManager.activeInjury.RemoveImage(activeIndex);
         ShowImage(activeIndex);
     }
 
@@ -137,10 +138,12 @@ public class ImagesHandler : MonoBehaviour
         if (addButton != null)
         {
             nextButton.interactable = activeIndex < images.Count;
+            if (removeButton == null) return;
             removeButton.gameObject.SetActive(activeIndex < images.Count);
         }
         else {
             nextButton.interactable = activeIndex < images.Count - 1;
+            if (removeButton == null) return;
             removeButton.gameObject.SetActive(activeIndex < images.Count - 1);
         }
     
