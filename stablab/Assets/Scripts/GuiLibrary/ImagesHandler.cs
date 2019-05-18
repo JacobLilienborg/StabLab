@@ -29,6 +29,9 @@ public class ImagesHandler : MonoBehaviour
     // Load all images saved to the active injury
     public void LoadAllImages() 
     {
+        if (InjuryManager.activeInjury == null)
+            return;
+
         foreach(InjuryImage image in images) { Destroy(image.gameObject); }
         images.Clear();
 
