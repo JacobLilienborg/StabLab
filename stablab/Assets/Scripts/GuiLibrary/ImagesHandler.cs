@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 /*
  * ImageHandler has the functionality to add/remove images to an injury and go through the images one at a time by cklicking left/right arrows.
@@ -15,7 +16,7 @@ public class ImagesHandler : MonoBehaviour
     [SerializeField] private InjuryImage emptyImage;
     [SerializeField] private Button previousButton;
     [SerializeField] private Button nextButton;
-    
+
     private List<InjuryImage> images = new List<InjuryImage>();
     private int activeIndex = 1; // 0 <= activeIndex >= images.Count , images.Count is addButton
 
