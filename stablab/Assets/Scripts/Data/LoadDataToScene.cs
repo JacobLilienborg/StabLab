@@ -15,7 +15,8 @@ public class LoadDataToScene : MonoBehaviour
         text = textObj.GetComponent<Text>();
         imageHandeler.LoadAllImages();
         //if(text != null) Debug.Log("asd");
-        text.text = InjuryManager.activeInjury.InfoText;
+        if(InjuryManager.activeInjury != null)
+            text.text = InjuryManager.activeInjury.InfoText;
         InjuryManager.AddActivationListener(UpdateInjuryData);
     }
     void UpdateInjuryData(Injury injury)
