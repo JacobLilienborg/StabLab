@@ -54,7 +54,7 @@ public class InjuryAdding : MonoBehaviour
 
                     if(newMarker == null) 
                     {
-                        newMarker = AddMarker(markerPos, hitPart, Quaternion.identity);
+                        newMarker = AddMarker(markerPos, hitPart, Quaternion.identity,InjuryManager.activeInjury);
                     }
                     else 
                     {
@@ -83,14 +83,17 @@ public class InjuryAdding : MonoBehaviour
         modelManager.ResetModel();
         Destroy(newMarker);
         newMarker = null;
-        if (InjuryManager.activeInjury.HasMarker())
+        if (InjuryManager.activeInjury != null)
         {
-            InjuryManager.activeInjury.Marker.GetWeaponModel().SetActive(true);
-        }
+            if (InjuryManager.activeInjury.HasMarker())
+            {
+                InjuryManager.activeInjury.Marker.GetWeaponModel().SetActive(true);
+            }
 
-        if (InjuryManager.activeInjury.injuryMarkerObj != null)
-        {
-            InjuryManager.activeInjury.ToggleMarker(true);
+            if (InjuryManager.activeInjury.injuryMarkerObj != null)
+            {
+                InjuryManager.activeInjury.ToggleMarker(true);
+            }
         }
     }
 
@@ -143,12 +146,12 @@ public class InjuryAdding : MonoBehaviour
     }
 
     // Instantiate a marker based on position and make it a child of parent input.
-    private GameObject AddMarker(Vector3 position, Transform parent, Quaternion rotation)
+    private GameObject AddMarker(Vector3 position, Transform parent, Quaternion rotation, Injury injury)
     {
-        if (InjuryManager.activeInjury.injuryMarkerObj != null) {
-            InjuryManager.activeInjury.ToggleMarker(false);
+        if (injury.injuryMarkerObj != null) {
+            injury.ToggleMarker(false);
         }
-        GameObject markerObj = InjuryManager.activeInjury.InstantiateMarker(position, rotation, parent);
+        GameObject markerObj = injury.InstantiateMarker(position, rotation, parent);
 
         //markerObj.transform.rotation = rotation;
         return markerObj;
@@ -176,7 +179,7 @@ public class InjuryAdding : MonoBehaviour
 
         //ModelController.SetBodyPose(injury.BodyPose);
         Transform parent = GameObject.Find(injury.Marker.BodyPartParent).transform;
-        return AddMarker(injury.Marker.MarkerPosition, parent, injury.Marker.MarkerRotation);
+        return AddMarker(injury.Marker.MarkerPosition, parent, injury.Marker.MarkerRotation,injury);
     }
 
     public GameObject LoadModel(Injury injury) {

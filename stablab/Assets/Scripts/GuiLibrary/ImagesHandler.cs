@@ -31,7 +31,7 @@ public class ImagesHandler : MonoBehaviour
     {
         foreach(InjuryImage image in images) { Destroy(image.gameObject); }
         images.Clear();
-
+        if (InjuryManager.activeInjury == null) return;
         for(int i = 0; i < InjuryManager.activeInjury.images.Count; i++)
         {
             LoadImage(i);
