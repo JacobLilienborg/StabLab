@@ -86,4 +86,9 @@ public class DataManager : MonoBehaviour
         }
     }
 
+    public string GetWorkingDirectory()
+    {
+        return workingDirectory;
+    }
+
 }
