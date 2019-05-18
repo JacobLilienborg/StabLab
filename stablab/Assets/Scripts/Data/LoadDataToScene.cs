@@ -15,10 +15,6 @@ public class LoadDataToScene : MonoBehaviour
         text = textObj.GetComponent<Text>();
         InjuryManager.AddActivationListener(SetMetadata);
         InjuryManager.AddDeactivationListener(ResetMetadata);
-
-        if(InjuryManager.activeInjury != null)
-            text.text = InjuryManager.activeInjury.InfoText;
-        InjuryManager.AddActivationListener(UpdateInjuryData);
     }
 
     void SetMetadata()
