@@ -95,6 +95,7 @@ public class InjuryManager : MonoBehaviour
     public void Start()
     {
         GameObject body = GameObject.FindWithTag("Player");
+        if(body == null) return;
         injuryAdding = body.GetComponent<InjuryAdding>();
         LoadInjuries();
     }
@@ -135,9 +136,8 @@ public class InjuryManager : MonoBehaviour
     // Sets the active injury by index.
     public static void SetActiveInjury(int index)
     {
-        if(activeInjury != injuries[index])
+        if (activeInjury != injuries[index])
         {
-
             activeInjury = injuries[index];
             InjuryActivationEvent.Invoke(activeInjury);
             IndexActivationEvent.Invoke(index);
@@ -164,6 +164,7 @@ public class InjuryManager : MonoBehaviour
     // Needed this code to be listener
     public static void DeselectInjury(int index)
     {
+        //Debug.Log("deselect injury" + index.ToString());
         if (injuries[index] == activeInjury)
         {
             InjuryDeactivationEvent.Invoke(activeInjury);
@@ -174,7 +175,7 @@ public class InjuryManager : MonoBehaviour
         }
     }
 
-    // Change order of injuri in the list.
+    // Change order of injury in the list.
     public static void ChangeOrder(int oldIndex, int newIndex)
     {
         Injury injury = injuries[oldIndex];
@@ -187,7 +188,7 @@ public class InjuryManager : MonoBehaviour
     {
         foreach (Injury injury in injuries)
         {
-            activeInjury = injury;
+            //activeInjury = injury;
             if(injury.Marker != null)
             {
                 //ModelController.SetBodyPose(injury.BodyPose);

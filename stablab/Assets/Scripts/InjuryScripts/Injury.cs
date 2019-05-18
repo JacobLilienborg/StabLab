@@ -154,6 +154,11 @@ public abstract class Injury
         images.Add(image);
     }
 
+    public void RemoveImage(int index)
+    {
+        images.RemoveAt(index);
+    }
+
     public void ToggleMarker(bool active) {
         injuryMarkerObj.SetActive(active);
     }

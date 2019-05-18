@@ -11,7 +11,7 @@ public class GUIController : MonoBehaviour
 
     private ModelController activeModel = null;
 
-    [SerializeField] private List<Button> radiobuttons;
+    [SerializeField] private List<RadiobuttonController> radiobuttons;
     [SerializeField] private Sprite checkedButton;
     [SerializeField] private Sprite uncheckedButton;
 
