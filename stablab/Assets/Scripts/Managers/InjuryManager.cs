@@ -95,6 +95,7 @@ public class InjuryManager : MonoBehaviour
     public void Start()
     {
         GameObject body = GameObject.FindWithTag("Player");
+        if (body == null) return;
         injuryAdding = body.GetComponent<InjuryAdding>();
         LoadInjuries();
     }
