@@ -30,9 +30,6 @@ public class HeightTracker : MonoBehaviour
             standardHeight = 180;
             modelHeight = 180;
         }
-        
-        /*FOR TESTING PURPUSE */
-        StartTrackingHeight();
     }
     public void StartTrackingHeight()
     {

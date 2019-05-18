@@ -15,7 +15,7 @@ public class MarkerHandler : MonoBehaviour
     private void Start()
     {
         rend = GetComponent<Renderer>();
-        Id = InjuryManager.activeInjury.Id;
+        if(InjuryManager.activeInjury != null) Id = InjuryManager.activeInjury.Id;
     }
 
     //Changes the material while hovering over a marker
