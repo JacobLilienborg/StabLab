@@ -74,6 +74,7 @@ public class InjuryListHandler : MonoBehaviour
             res.x = Screen.width;
             res.y = Screen.height;
             CheckInteractability();
+            Debug.Log(rightMostIndex);
 
         }
     }
@@ -305,6 +306,7 @@ public class InjuryListHandler : MonoBehaviour
     // This function will be invoked if an injury is activated independent of the buttons
     private void CheckWithoutTrigger(int index)
     {
+        Debug.Log("RIght " + rightMostIndex);
         foreach (InjuryButton button in injuryButtons)
         {
             if (button.index == index) button.Checked(false);
@@ -343,6 +345,7 @@ public class InjuryListHandler : MonoBehaviour
 
     public void RemoveActive(int activeIndex)
     {
+
         if (InjuryManager.injuries.Count <= totalButtonAmount)
         {
 
@@ -354,12 +357,12 @@ public class InjuryListHandler : MonoBehaviour
             }
             addButton.transform.position -= new Vector3(buttonSize + padding, 0, 0);
         }
+
         else
         {
-            rightMostIndex--;
             if (injuryButtons[0].index == 0)
             {
-                JumpListToActive(rightMostIndex, activeIndex);
+                JumpListToActive(activeIndex);
             }
             else
             {
@@ -384,9 +387,8 @@ public class InjuryListHandler : MonoBehaviour
         }
     }
 
-    private void JumpListToActive(int newRightMostIndex, int activeIndex)
+    private void JumpListToActive(int activeIndex)
     {
-        rightMostIndex = newRightMostIndex;
 
         for (int i = activeIndex; i > 0; i--)
         {

@@ -116,11 +116,11 @@ public class InjuryManager : MonoBehaviour
     public void RemoveInjury()
     {
         int activeIndex = GetActiveInjuryIndex();
-
+        GetActiveInjury().RemoveInjuryMarker();
         DeselectInjury(activeIndex);
         RemovalEvent.Invoke(activeIndex);
         injuries.Remove(injuries[activeIndex]);
-        LoadInjuries();
+
 
     }
 
