@@ -42,13 +42,15 @@ public class InjuryListHandler : MonoBehaviour
 
         // Calculate the padding, button size and the total button amount
         CalculateScreenAdjustments();
-
         // Spawn the add button and resize it according to the button area
-        addButton = Instantiate(addButton, buttonArea);
-        addButton.onClick.AddListener(AddInjury);
-        RectTransform rtab = (RectTransform)addButton.transform;
-        rtab.sizeDelta = new Vector2(buttonSize, buttonSize);
-        rtab.anchoredPosition = new Vector2(buttonSize / 2, 0);
+        if (ViewManager.instance.scene != Scenes.presentation)
+        {
+            addButton = Instantiate(addButton, buttonArea);
+            addButton.onClick.AddListener(AddInjury);
+            RectTransform rtab = (RectTransform)addButton.transform;
+            rtab.sizeDelta = new Vector2(buttonSize, buttonSize);
+            rtab.anchoredPosition = new Vector2(buttonSize / 2, 0);
+        }
 
         // Set the correct size for the injury buttons
         RectTransform rtib = (RectTransform)injuryButton.transform;
@@ -62,9 +64,7 @@ public class InjuryListHandler : MonoBehaviour
 
     private void OnDisable()
     {
-        //Debug.Log("DISABLED");
         foreach (InjuryButton i in injuryButtons) {
-            //Debug.Log("button");
             UncheckWithTrigger(i.index);
         }
     }
@@ -132,6 +132,7 @@ public class InjuryListHandler : MonoBehaviour
     // This will "move" the entire list one step to the right except if an injury is active then it will select the next injury instead
     public void GoToNext(bool newInjury = false)
     {
+
         // If there is no active injury we just want to move the list to the next and not check anything
         if (InjuryManager.activeInjury == null && !newInjury)
         {
@@ -236,7 +237,10 @@ public class InjuryListHandler : MonoBehaviour
             padding = (width - buttonSize * totalButtonAmount) / (totalButtonAmount - 1);
         }
 
-        totalButtonAmount -= 1; // Since the add button is already in the button area
+        if (ViewManager.instance.scene != Scenes.presentation)
+        {
+            totalButtonAmount -= 1; // Since the add button is already in the button area
+        }
     }
 
     // Removes the right most buttons from the list 
@@ -258,8 +262,11 @@ public class InjuryListHandler : MonoBehaviour
             rt.anchoredPosition = new Vector2(xpos, 0);
             xpos += buttonSize + padding;
         }
-        RectTransform rtab = (RectTransform)addButton.transform;
-        rtab.anchoredPosition = new Vector2(xpos, 0);
+        if (ViewManager.instance.scene != Scenes.presentation)
+        {
+            RectTransform rtab = (RectTransform)addButton.transform;
+            rtab.anchoredPosition = new Vector2(xpos, 0);
+        }
     }
 
     private InjuryButton AddButton()
@@ -278,8 +285,9 @@ public class InjuryListHandler : MonoBehaviour
         InjuryManager.AddDeactivationListener(CheckInteractability);
 
         // We position the button where the green add button is and reposition the add button
-        ib.transform.position = addButton.transform.position;
-        addButton.transform.position += new Vector3(buttonSize + padding, 0, 0);
+        Vector3 positionChange = new Vector3(padding * (injuryButtons.Count) + buttonSize * injuryButtons.Count + buttonSize / 2, 0, 0);
+        ib.transform.position = buttonArea.transform.position - new Vector3(((RectTransform)buttonArea.transform).rect.width / 2, 0, 0) + positionChange;
+        if(addButton != null) addButton.transform.position += new Vector3(buttonSize + padding, 0, 0);
 
         // The button id will be the new rightmost index in the list
         ib.SetIndex(++rightMostIndex);
@@ -296,7 +304,7 @@ public class InjuryListHandler : MonoBehaviour
     // Check if the previous/next button are going to be interactable
     private void CheckInteractability(int i = 0)
     {
-        previousButton.interactable = ((rightMostIndex + 1) != injuryButtons.Count);
+        previousButton.interactable = ((rightMostIndex + 1) != injuryButtons.Count) ;
         nextButton.interactable = ((rightMostIndex + 1) != InjuryManager.injuries.Count);
 
         // If active injury
@@ -361,6 +369,7 @@ public class InjuryListHandler : MonoBehaviour
         {
             InjuryButton button = injuryButtons[injuryButtons.Count - 1 - i];
             button.SetIndex(rightMostIndex - i);
+            button.setImage(InjuryManager.injuries[rightMostIndex - i].woundIcon);
         }
     }
 
@@ -369,6 +378,7 @@ public class InjuryListHandler : MonoBehaviour
     {
         for (int i = 0; i < injuryButtons.Count; i++)
         {
+            
             if(injuryButtons[i].index == ActiveIndex())
                 injuryButtons[i].setImage(InjuryManager.GetActiveInjury().woundIcon);
         }

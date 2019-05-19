@@ -116,7 +116,7 @@ public class InjuryManager : MonoBehaviour
     // Sets the active injury by id. Is called from the marker that is clicked
     public static void SetActiveInjury(Guid id)
     {
-        for(int index = 0; index < injuries.Count; index++)
+        for (int index = 0; index < injuries.Count; index++)
         {
             Injury injury = injuries[index];
             if (injury.Id == id)
@@ -164,14 +164,13 @@ public class InjuryManager : MonoBehaviour
     // Needed this code to be listener
     public static void DeselectInjury(int index)
     {
-        //Debug.Log("deselect injury" + index.ToString());
         if (injuries[index] == activeInjury)
         {
             InjuryDeactivationEvent.Invoke(activeInjury);
-            IndexDeactivationEvent.Invoke(index);
-            DeactivationEvent.Invoke();
             if (activeInjury.HasMarker()) activeInjury.Marker.GetWeaponModel().SetActive(Settings.IsActiveModel(false));
             activeInjury = null;
+            IndexDeactivationEvent.Invoke(index);
+            DeactivationEvent.Invoke();
         }
     }
 
