@@ -117,12 +117,11 @@ public class InjuryManager : MonoBehaviour
     public void RemoveInjury()
     {
         int activeIndex = GetActiveInjuryIndex();
-        GetActiveInjury().RemoveInjuryMarker();
+        //Debug.Log(InjuryManager.activeInjury.Name);
         DeselectInjury(activeIndex);
-        RemovalEvent.Invoke(activeIndex);
+        injuries[activeIndex].RemoveCurrent();
         injuries.Remove(injuries[activeIndex]);
-
-
+        RemovalEvent.Invoke(activeIndex);
     }
 
     // Sets the active injury by id. Is called from the marker that is clicked

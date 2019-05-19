@@ -134,6 +134,15 @@ public class InjuryListHandler : MonoBehaviour
         }
     }
 
+    private void UpdateWoundIcons()
+    {
+        foreach (InjuryButton button in injuryButtons)
+        {
+            button.setImage(InjuryManager.injuries[button.index].woundIcon);
+        }
+
+    }
+
     // This will "move" the entire list one step to the right except if an injury is active then it will select the next injury instead
     public void GoToNext(bool newInjury = false)
     {
@@ -323,7 +332,6 @@ public class InjuryListHandler : MonoBehaviour
     // This function will be invoked if an injury is activated independent of the buttons
     private void CheckWithoutTrigger(int index)
     {
-        Debug.Log("RIght " + rightMostIndex);
         foreach (InjuryButton button in injuryButtons)
         {
             if (button.index == index) button.Checked(false);
@@ -370,9 +378,9 @@ public class InjuryListHandler : MonoBehaviour
     public void RemoveActive(int activeIndex)
     {
 
-        if (InjuryManager.injuries.Count <= totalButtonAmount)
+        if (InjuryManager.injuries.Count < totalButtonAmount)
         {
-
+            Debug.Log("first");
             RemoveButton();
             for (int i = activeIndex + 1; i < rightMostIndex; i++)
             {
@@ -384,6 +392,7 @@ public class InjuryListHandler : MonoBehaviour
 
         else
         {
+            Debug.Log("second");
             if (injuryButtons[0].index == 0)
             {
                 JumpListToActive(activeIndex);
@@ -394,9 +403,9 @@ public class InjuryListHandler : MonoBehaviour
             }
 
         }
-
+        UpdateWoundIcons();
         CheckInteractability();
-        RefreshActive();
+        //RefreshActive();
     }
 
 
@@ -419,6 +428,7 @@ public class InjuryListHandler : MonoBehaviour
         {
             InjuryButton button = injuryButtons[injuryButtons.Count - i];
             button.SetIndex(totalButtonAmount - i);
+            button.setImage(InjuryManager.injuries[totalButtonAmount - i].woundIcon);
 
         }
     }
