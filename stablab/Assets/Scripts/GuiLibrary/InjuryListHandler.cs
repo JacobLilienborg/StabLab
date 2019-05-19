@@ -139,6 +139,7 @@ public class InjuryListHandler : MonoBehaviour
         foreach (InjuryButton button in injuryButtons)
         {
             button.setImage(InjuryManager.injuries[button.index].woundIcon);
+            Debug.Log(button.index);
         }
 
     }
@@ -379,32 +380,29 @@ public class InjuryListHandler : MonoBehaviour
     {
 
         if (InjuryManager.injuries.Count < totalButtonAmount)
-        {
-            Debug.Log("first");
+        {            
             RemoveButton();
-            for (int i = activeIndex + 1; i < rightMostIndex; i++)
-            {
-                InjuryButton ib = injuryButtons[i];
-                ib.index = i - 1;
-            }
             addButton.transform.position -= new Vector3(buttonSize + padding, 0, 0);
         }
 
         else
         {
-            Debug.Log("second");
             if (injuryButtons[0].index == 0)
             {
                 JumpListToActive(activeIndex);
             }
-            else
+            else 
             {
+                rightMostIndex--;
                 JumpList(rightMostIndex);
             }
+            Debug.Log("injuries" + InjuryManager.injuries.Count);
+
 
         }
         UpdateWoundIcons();
         CheckInteractability();
+
         //RefreshActive();
     }
 
@@ -417,7 +415,7 @@ public class InjuryListHandler : MonoBehaviour
         {
             InjuryButton button = injuryButtons[injuryButtons.Count - 1 - i];
             button.SetIndex(rightMostIndex - i);
-            button.setImage(InjuryManager.injuries[rightMostIndex - i].woundIcon);
+            //button.setImage(InjuryManager.injuries[rightMostIndex - i].woundIcon);
         }
     }
 
@@ -428,7 +426,7 @@ public class InjuryListHandler : MonoBehaviour
         {
             InjuryButton button = injuryButtons[injuryButtons.Count - i];
             button.SetIndex(totalButtonAmount - i);
-            button.setImage(InjuryManager.injuries[totalButtonAmount - i].woundIcon);
+           // button.setImage(InjuryManager.injuries[totalButtonAmount - i].woundIcon);
 
         }
     }
