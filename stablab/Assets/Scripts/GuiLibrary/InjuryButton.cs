@@ -31,7 +31,7 @@ public class InjuryButton : RadiobuttonController
     public override void Unchecked(bool trigger = true)
     {
         base.Unchecked(trigger);
-        if(trigger) OnUncheckedInjury.Invoke(index);
+        if (trigger) OnUncheckedInjury.Invoke(index);
     }
 
     public void SetIndex(int index)

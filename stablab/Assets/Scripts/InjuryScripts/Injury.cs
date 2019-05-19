@@ -126,12 +126,12 @@ public abstract class Injury
     // Save current pose
     public void SaveBodyPose()
     {
-        BodyPose = ModelController.GetBodyPose();
+        /*BodyPose = ModelController.GetBodyPose();
         if(Marker != null)
         {
             Marker.MarkerDataUpdate(injuryMarkerObj);
             Marker.ModelDataUpdate();
-        }
+        }*/
     }
 
     // Add a marker to the injury.
@@ -152,6 +152,11 @@ public abstract class Injury
     public void AddImage(byte[] image)
     {
         images.Add(image);
+    }
+
+    public void RemoveImage(int index)
+    {
+        images.RemoveAt(index);
     }
 
     public void ToggleMarker(bool active) {

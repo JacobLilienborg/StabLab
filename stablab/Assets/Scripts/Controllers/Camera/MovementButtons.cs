@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 
 enum MOVEMENTTYPE {
@@ -12,15 +13,18 @@ enum MOVEMENTTYPE {
     RESET
 };
 
-public class MovementButtons : MonoBehaviour,IPointerDownHandler, IPointerUpHandler
+public class MovementButtons : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
-    private Transform target;
-    public int directionNumber;
-    public int typeNumber;
-    private Vector3 direction;
-    private int speed = 5;
-    private bool move = false;
-    private MOVEMENTTYPE MoveType = MOVEMENTTYPE.PAN;
+    private Transform    target;
+    public  int          directionNumber;
+    public  int          typeNumber;
+    private Vector3      direction;
+    private int          speed          = 5,
+                         rotationSpeed  = 60;
+    private bool         move           = false;
+    private MOVEMENTTYPE MoveType       = MOVEMENTTYPE.PAN;
+    private Vector3      rotationCenter = Vector3.zero;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -28,19 +32,19 @@ public class MovementButtons : MonoBehaviour,IPointerDownHandler, IPointerUpHand
         switch (typeNumber) {
             case 0: //pan
                 MoveType = MOVEMENTTYPE.PAN;
-                speed = 5;
+                speed    = 5;
                 switch (directionNumber) {
                     case 1:
-                        direction = Vector3.left;
-                        break;
-                    case 2:
                         direction = Vector3.right;
                         break;
+                    case 2:
+                        direction = Vector3.left;
+                        break;
                     case 3:
-                        direction = Vector3.down;
+                        direction = Vector3.up;
                         break;
                     case 4:
-                        direction = Vector3.up;
+                        direction = Vector3.down;
                         break;
                     default:
                         direction = Vector3.zero;
@@ -49,20 +53,20 @@ public class MovementButtons : MonoBehaviour,IPointerDownHandler, IPointerUpHand
                 break;
             case 1: //rotation
                 MoveType = MOVEMENTTYPE.ROTATE;
-                speed = 20;
+                speed    = 20;
                 switch (directionNumber)
                 {
                     case 1:
-                        direction = Vector3.up;
-                        break;
-                    case 2:
                         direction = Vector3.down;
                         break;
+                    case 2:
+                        direction = Vector3.up;
+                        break;
                     case 3:
-                        direction = Vector3.left;
+                        direction = Vector3.right;
                         break;
                     case 4:
-                        direction = Vector3.right;
+                        direction = Vector3.left;
                         break;
                     default:
                         direction = Vector3.zero;
@@ -71,7 +75,7 @@ public class MovementButtons : MonoBehaviour,IPointerDownHandler, IPointerUpHand
                 break;
             case 2: // zoom
                 MoveType = MOVEMENTTYPE.ZOOM;
-                speed = 20;
+                speed    = 20;
                 break;
             case 3:
                 MoveType = MOVEMENTTYPE.RESET;
@@ -83,6 +87,16 @@ public class MovementButtons : MonoBehaviour,IPointerDownHandler, IPointerUpHand
     // Update is called once per frame
     void Update()
     {
+        Vector3 modelCenter;
+        // Without a model (or an instance), we have nothing to rotate around.
+        if (ModelManager.instance != null)
+        { 
+            if (ModelManager.instance.activeModel == null)
+                return;
+        }
+        else
+            return;
+
         if (move)
         {
             if ((MoveType == MOVEMENTTYPE.PAN))
@@ -91,7 +105,21 @@ public class MovementButtons : MonoBehaviour,IPointerDownHandler, IPointerUpHand
             }
             else if (MoveType == MOVEMENTTYPE.ROTATE)
             {
-                target.RotateAround(Vector3.zero,direction,Time.deltaTime * speed * Camera.main.gameObject.GetComponent<CameraController>().fov / 10);
+                if (direction == Vector3.up || direction == Vector3.down)
+                    target.RotateAround(Vector3.zero, direction, Time.deltaTime * rotationSpeed);
+                else
+                {
+                    //We change the rotationCenter to be the approximate middle of the model.
+                    //I do not know why this value is a good approximation.
+                    rotationCenter = new Vector3(
+                        0,
+                        ModelManager.instance.activeModel.meshCollider.bounds.center.y * 5 / Camera.main.scaledPixelHeight
+                    );
+                    if (direction == Vector3.right)
+                        target.RotateAround(rotationCenter, target.right, Time.deltaTime * rotationSpeed);
+                    else
+                        target.RotateAround(rotationCenter, target.right*-1, Time.deltaTime * rotationSpeed);
+                }
             }
             else if (MoveType == MOVEMENTTYPE.ZOOM)
             {
@@ -99,7 +127,7 @@ public class MovementButtons : MonoBehaviour,IPointerDownHandler, IPointerUpHand
                 fov = Camera.main.fieldOfView;
 
                 fov -= directionNumber * Time.deltaTime * speed;
-                fov = Mathf.Clamp(fov, 0, 100);
+                fov  = Mathf.Clamp(fov, 0, 100);
                 Camera.main.fieldOfView = fov;
             }
         }
@@ -120,4 +148,6 @@ public class MovementButtons : MonoBehaviour,IPointerDownHandler, IPointerUpHand
         target.rotation = Camera.main.gameObject.GetComponent<CameraController>().stdRot;
         Camera.main.fieldOfView = Camera.main.gameObject.GetComponent<CameraController>().stdFov;
     }
+    
 }
+
