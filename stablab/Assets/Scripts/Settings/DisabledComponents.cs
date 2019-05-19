@@ -22,10 +22,14 @@ public class DisabledComponents : MonoBehaviour
         gizmo = Camera.main.gameObject.GetComponent<RuntimeGizmos.TransformGizmo>();
         injuryAdding = injuryAddingObj.GetComponent<InjuryAdding>();
         modelManager = weaponModelObj.GetComponent<WeaponModelManager>();
+        InjuryManager.AddDeactivationListener(DisableAll);
     }
 
     public static void DisableAll() {
-        Camera.main.gameObject.GetComponent<RuntimeGizmos.TransformGizmo>().enabled = false;
+        if (Camera.main != null)
+        {
+            Camera.main.gameObject.GetComponent<RuntimeGizmos.TransformGizmo>().enabled = false;
+        }
         //modelManager.SaveModel();
         //modelManager.ResetModel();//SaveModel();
         //injuryAdding.SaveMarker();

@@ -101,6 +101,7 @@ public class InjuryManager : MonoBehaviour
     public void Start()
     {
         GameObject body = GameObject.FindWithTag("Player");
+        if(body == null) return;
         injuryAdding = body.GetComponent<InjuryAdding>();
         LoadInjuries();
     }
@@ -127,7 +128,7 @@ public class InjuryManager : MonoBehaviour
     // Sets the active injury by id. Is called from the marker that is clicked
     public static void SetActiveInjury(Guid id)
     {
-        for(int index = 0; index < injuries.Count; index++)
+        for (int index = 0; index < injuries.Count; index++)
         {
             Injury injury = injuries[index];
             if (injury.Id == id)
@@ -147,9 +148,8 @@ public class InjuryManager : MonoBehaviour
     // Sets the active injury by index.
     public static void SetActiveInjury(int index)
     {
-        if(activeInjury != injuries[index])
+        if (activeInjury != injuries[index])
         {
-
             activeInjury = injuries[index];
             InjuryActivationEvent.Invoke(activeInjury);
             IndexActivationEvent.Invoke(index);
@@ -179,14 +179,14 @@ public class InjuryManager : MonoBehaviour
         if (injuries[index] == activeInjury)
         {
             InjuryDeactivationEvent.Invoke(activeInjury);
-            IndexDeactivationEvent.Invoke(index);
-            DeactivationEvent.Invoke();
             if (activeInjury.HasMarker()) activeInjury.Marker.GetWeaponModel().SetActive(Settings.IsActiveModel(false));
             activeInjury = null;
+            IndexDeactivationEvent.Invoke(index);
+            DeactivationEvent.Invoke();
         }
     }
 
-    // Change order of injuri in the list.
+    // Change order of injury in the list.
     public static void ChangeOrder(int oldIndex, int newIndex)
     {
         Injury injury = injuries[oldIndex];
@@ -199,10 +199,10 @@ public class InjuryManager : MonoBehaviour
     {
         foreach (Injury injury in injuries)
         {
-            activeInjury = injury;
+            //activeInjury = injury;
             if(injury.Marker != null)
             {
-                ModelController.SetBodyPose(injury.BodyPose);
+                //ModelController.SetBodyPose(injury.BodyPose);
                 injury.InjuryMarkerObj = injuryAdding.LoadMarker(injury);
                 injury.Marker.SetWeaponModel(injuryAdding.LoadModel(injury));
             }

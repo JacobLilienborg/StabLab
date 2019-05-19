@@ -31,7 +31,7 @@ public class InjurySettings : MonoBehaviour
         certaintyDefault = certainty.text;
         infoDefault = info.text;
         camDefault = new CameraSettings(Camera.main);
-        poseDefault = ModelController.GetBodyPose();
+        //poseDefault = ModelController.GetBodyPose();
     }
 
     private void OnEnable()
@@ -176,6 +176,6 @@ public class InjurySettings : MonoBehaviour
             newPose = activeInjury.BodyPose;
         }
 
-        ModelController.SetBodyPose(newPose);
+        //ModelController.SetBodyPose(newPose);
     }
 }

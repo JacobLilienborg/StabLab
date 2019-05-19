@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 /*
- * ImageHandler has the functionality to add/remove images to an injury and go through the images one at a time by cklicking left/right arrows.
+ * ImageHandler has the functionality to add/remove images to an injury and go through the images one at a time by clicking left/right arrows.
  * 
  * TODO: Remove image, fix left/right arrows.
  */
@@ -12,10 +13,11 @@ public class ImagesHandler : MonoBehaviour
 {
     [SerializeField] private RectTransform imageArea;
     [SerializeField] private Button addButton;
+    [SerializeField] private Button removeButton;
     [SerializeField] private InjuryImage emptyImage;
     [SerializeField] private Button previousButton;
     [SerializeField] private Button nextButton;
-    
+
     private List<InjuryImage> images = new List<InjuryImage>();
     private int activeIndex = 1; // 0 <= activeIndex >= images.Count , images.Count is addButton
 
@@ -29,9 +31,12 @@ public class ImagesHandler : MonoBehaviour
     // Load all images saved to the active injury
     public void LoadAllImages() 
     {
+        if (InjuryManager.activeInjury == null)
+            return;
+
         foreach(InjuryImage image in images) { Destroy(image.gameObject); }
         images.Clear();
-
+        if (InjuryManager.activeInjury == null) return;
         for(int i = 0; i < InjuryManager.activeInjury.images.Count; i++)
         {
             LoadImage(i);
@@ -46,6 +51,15 @@ public class ImagesHandler : MonoBehaviour
         string imagePath = FileManager.OpenFileBrowser("png,jpg"); // Let the user pick an image
         InjuryManager.activeInjury.AddImage(FileManager.ReadBytes(imagePath)); // Save the image to active injury
         LoadImage(InjuryManager.activeInjury.images.Count -1);
+    }
+
+    // Removes the active image from the injury
+    public void RemoveImage()
+    {
+        Destroy(images[activeIndex].gameObject);
+        images.Remove(images[activeIndex]);
+        InjuryManager.activeInjury.RemoveImage(activeIndex);
+        ShowImage(activeIndex);
     }
 
     // Load an image in to the UI in the right position.
@@ -125,8 +139,18 @@ public class ImagesHandler : MonoBehaviour
     private void CheckInteractability()
     {
         previousButton.interactable = activeIndex > 0;
-        if(addButton != null) nextButton.interactable = activeIndex < images.Count;
-        else nextButton.interactable = activeIndex < images.Count - 1;
+        if (addButton != null)
+        {
+            nextButton.interactable = activeIndex < images.Count;
+            if (removeButton == null) return;
+            removeButton.gameObject.SetActive(activeIndex < images.Count);
+        }
+        else {
+            nextButton.interactable = activeIndex < images.Count - 1;
+            if (removeButton == null) return;
+            removeButton.gameObject.SetActive(activeIndex < images.Count - 1);
+        }
+    
     }
 
 }
