@@ -7,7 +7,7 @@ public class ShowPanelButton : MonoBehaviour
 {
     void Start()
     {
-        InjuryManager.AddDeactivationListener(Hide);
+        InjuryManager.instance.AddDeactivationListener(Hide);
     }
 
     void Hide()

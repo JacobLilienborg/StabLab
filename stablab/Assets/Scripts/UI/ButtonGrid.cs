@@ -59,7 +59,7 @@ public class ButtonGrid : MonoBehaviour
     {
         /*DirectoryInfo levelDirectoryPath = new DirectoryInfo(InjuryManager.activeInjury.GetModelPath());
         FileInfo[] fileInfo = levelDirectoryPath.GetFiles("*.*", SearchOption.AllDirectories);*/
-        foreach(GameObject i in Resources.LoadAll<GameObject>(InjuryManager.activeInjury.GetModelPath()))
+        foreach(GameObject i in Resources.LoadAll<GameObject>(InjuryManager.instance.activeInjury.injuryData.weaponData.resourcePath))
         {
             GameObject modelCopy = Instantiate(i);
             modelCopy.SetActive(false);
@@ -83,8 +83,8 @@ public class ButtonGrid : MonoBehaviour
         //Texture2D image = new Texture2D(10,10);
 
         Button curButton = buttonObj.GetComponent<Button>();
-        o.transform.position = InjuryManager.activeInjury.Marker.GetWeaponModel().transform.position;
-        o.transform.rotation = InjuryManager.activeInjury.Marker.GetWeaponModel().transform.rotation;
+        //o.transform.position = InjuryManager.instance.activeInjury.injuryData.weaponData.GetWeaponModel().transform.position;
+        //o.transform.rotation = InjuryManager.activeInjury.Marker.GetWeaponModel().transform.rotation;
         curButton.onClick.AddListener(delegate { SetNewModel(o); });
         buttonObj.AddComponent<GridButtonProperies>().model = o;
 
@@ -94,7 +94,7 @@ public class ButtonGrid : MonoBehaviour
 
     public void SetNewModel(GameObject o) {
 
-        //InjuryManager.TransformActive(GetTypeFromObjectName(o),InjuryManager.activeInjury.isInHole);
+        /*InjuryManager.TransformActive(GetTypeFromObjectName(o),InjuryManager.activeInjury.isInHole);
         if (InjuryManager.activeInjury.HasMarker())
         {
 
@@ -107,6 +107,6 @@ public class ButtonGrid : MonoBehaviour
             
             WeaponModelManager.DeleteModel();
         }
-        //InjuryManager.activeInjury.SetModelName(path);
+        //InjuryManager.activeInjury.SetModelName(path);*/
     }
 }

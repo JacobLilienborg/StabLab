@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &2546849370113360023
+--- !u!1 &2064041580437192121
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,45 +8,42 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 2546849370113360021}
-  - component: {fileID: 2546849370113360022}
+  - component: {fileID: 2064041580437192123}
+  - component: {fileID: 2064041580437192122}
   m_Layer: 0
-  m_Name: WeaponModelManager
+  m_Name: ModelManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &2546849370113360021
+--- !u!4 &2064041580437192123
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2546849370113360023}
+  m_GameObject: {fileID: 2064041580437192121}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 610.78955, y: 234.9637, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2546849370113360022
+--- !u!114 &2064041580437192122
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2546849370113360023}
+  m_GameObject: {fileID: 2064041580437192121}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ecffae26b2ee2a4d9979076cbd9d4dc, type: 3}
+  m_Script: {fileID: 11500000, guid: 88b7039b4d35b0a4e862280ed67f3c8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  models:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  injuryAddingObj: {fileID: 0}
-  transformGizmoObj: {fileID: 0}
+  activeModel: {fileID: 0}
+  man: {fileID: 2548654595339674522, guid: a0b743c27131ab24c8b47aea76d5d05d, type: 3}
+  woman: {fileID: 697398809687054390, guid: 5df0353eeaa0c63498d7546e2e68f8cc, type: 3}
+  child: {fileID: 4795327382687049666, guid: de7522ce8d9ed1e45addeb3edbd9487c, type: 3}

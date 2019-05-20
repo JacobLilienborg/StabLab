@@ -52,7 +52,7 @@ public class BodyPart
 [Serializable]
 public class BodyPose
 {
-    private const string BODYPART_TAG = "Body";
+    private const string BONE_TAG = "Untagged";
 
     private float[] position = new float[3];
     private float[] rotation = new float[4];
@@ -96,7 +96,7 @@ public class BodyPose
         Transform[] children = body.GetComponentsInChildren<Transform>();
         for (int i = 0; i < children.Length; i++)
         {
-            if (children[i].tag == BODYPART_TAG)
+            if (children[i].tag == BONE_TAG)
             {
                 bodyParts.Add(new BodyPart(children[i]));
             }

@@ -4,14 +4,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
-using System;
 
+public enum ModelType { man, woman, child, none};
 public class ModelManager : MonoBehaviour
 {
     public static ModelManager instance;
-    public enum Type { man, woman, child, none};
-    private int modelHeight = 0;
-    private int referenceHeightValue;
     public ModelController activeModel = null;
     [SerializeField] private ModelController man;
     [SerializeField] private ModelController woman;
@@ -48,17 +45,15 @@ public class ModelManager : MonoBehaviour
 
     private void Finished(Scene scene, LoadSceneMode mode)
     {
-        Debug.Log(scene.name);
         if(scene.name == "InjuryMode")
         {
-            Mesh mesh = new Mesh();
-            activeModel.smr.BakeMesh(mesh);
-            activeModel.meshCollider.sharedMesh = mesh;
+            Debug.Log(scene.name);
+            activeModel.BakeMesh();
         }
     }
 
     // Sets the active model to either man, woman, child
-    public void setActiveModel(int type)
+    public void SetActiveModel(int type)
     {
 
         if (activeModel)
@@ -67,24 +62,21 @@ public class ModelManager : MonoBehaviour
             activeModel = null;
         }
 
-        switch ((Type)type)
+        switch ((ModelType)type)
         {
-            case Type.man:
+            case ModelType.man:
                 {
                     activeModel = Instantiate(man, transform);
-                    referenceHeightValue = 180;
                     break;
                 }
-            case Type.woman:
+            case ModelType.woman:
                 {
                     activeModel = Instantiate(woman, transform);
-                    referenceHeightValue = 162;
                     break;
                 }
-            case Type.child:
+            case ModelType.child:
                 {
                     activeModel = Instantiate(child, transform);
-                    referenceHeightValue = 108;
                     break;
                 }
             default:
@@ -93,67 +85,27 @@ public class ModelManager : MonoBehaviour
         }
     }
 
-    public void adjustWeight(Slider slider)
+    public void AdjustWeight(Slider slider)
     {
         if (activeModel == null) return;
         activeModel.weight = slider.value;
     }
 
-    public void adjustMuscles(Slider slider)
+    public void AdjustMuscles(Slider slider)
     {
         if (activeModel == null) return;
         activeModel.muscles = slider.value;
     }
-
-    // Set the pose to the BodyPose input
-    public void SetBodyPose(BodyPose body)
-    {/*
-        if (body == null) return; // set to a standard pose later
-
-        skeleton.position = body.GetPosition();
-        skeleton.rotation = body.GetRotation();
-
-        Transform[] children = skeleton.GetComponentsInChildren<Transform>();
-        int bodyIndex = 0;
-        foreach (Transform child in children)
+    public void AdjustHeight(InputField height)
+    {
+        if(activeModel == null) return;
+        try 
         {
-            if (child.tag == BODYPART_TAG)
-            {
-                child.position = body.bodyParts[bodyIndex].GetPosition();
-                child.rotation = body.bodyParts[bodyIndex].GetRotation();
-                bodyIndex++;
-            }
+            activeModel.height = System.Int32.Parse(height.text);
         }
-        */
-    }
-
-    // Return current pose
-    public BodyPose GetBodyPose()
-    {
-        return new BodyPose(new GameObject());
-    }
-
-    public void adjustHeight(InputField height)
-    {
-        try
+        catch (System.FormatException)
         {
-            modelHeight = Int32.Parse(height.text);
+            Debug.Log($"Unable to parse '{height.text}'");
         }
-        catch (FormatException)
-        {
-            Console.WriteLine($"Unable to parse '{height.text}'");
-        }
-
-    }
-
-    public int GetHeight()
-    {
-        if (modelHeight == 0) return referenceHeightValue;
-        return modelHeight;
-    }
-
-    public int GetStandardHeight()
-    {
-        return referenceHeightValue;
     }
 }
