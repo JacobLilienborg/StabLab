@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using TMPro;
 
 [System.Serializable]
 public class MyIntEvent : UnityEvent<int>
@@ -20,7 +21,7 @@ public class InjuryButton : RadiobuttonController
     public MyIntEvent OnCheckedInjury   = new MyIntEvent();
     public MyIntEvent OnUncheckedInjury = new MyIntEvent();
 
-    [SerializeField] private Text     indexText;
+    [SerializeField] private TMP_Text indexText;
 
     public override void Checked(bool trigger = true)
     {
