@@ -24,6 +24,7 @@ public class DisableButton : MonoBehaviour
 
     public Slider weightSlider;
     public Slider muscleSlider;
+    public InputField heightInput;
 
     private bool heightChanged = false;
     private bool modelActive = false;
@@ -41,7 +42,6 @@ public class DisableButton : MonoBehaviour
 
     private void Start()
     {
-
         ModelManager.instance.heightChangedEvent.AddListener(HeightChanged);
         ModelManager.instance.modelEnabledEvent.AddListener(OnModelActive);
         ModelManager.instance.modelDisabledEvent.AddListener(OnModelInActive);
@@ -123,7 +123,7 @@ public class DisableButton : MonoBehaviour
     }
 
     private void HeightChanged()
-    {
+    { 
         heightChanged = true;
         if (modelActive)
         {
@@ -138,8 +138,10 @@ public class DisableButton : MonoBehaviour
 
     private void OnModelActive()
     {
+        ResetHeightInput();
         weightSlider.interactable = true;
         muscleSlider.interactable = true;
+        heightInput.interactable = true;
         if(heightChanged) ShowButton(sceneChangeButton);
         ResetSliders();
         modelActive = true;
@@ -147,6 +149,8 @@ public class DisableButton : MonoBehaviour
 
     private void OnModelInActive()
     {
+        ResetHeightInput();
+        heightInput.interactable = false;
         muscleSlider.interactable = false;
         weightSlider.interactable = false;
         HideButton(sceneChangeButton);
@@ -158,6 +162,12 @@ public class DisableButton : MonoBehaviour
     {
         weightSlider.value = 0;
         muscleSlider.value = 0;
+    }
+
+    public void ResetHeightInput()
+    {
+        heightChanged = false;
+        heightInput.text = "";
     }
 
 

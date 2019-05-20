@@ -57,12 +57,13 @@ public class HeightTracker : MonoBehaviour
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
-            if (Physics.Raycast(ray, out hit) && hit.transform.tag == "Body")
+            if (Physics.Raycast(ray, out hit) && hit.collider == ModelManager.instance.activeModel.meshCollider)
             {
                 Vector3 curDiffrence = hit.point - basePos;
+                float meshHeight = ModelManager.instance.activeModel.meshCollider.bounds.size.y;
                 double heightIfStandardHeight = Math.Round(curDiffrence.y, 1, MidpointRounding.ToEven) * scalingCoeff;
-                //double correctHeight = (modelHeight / standardHeight) * heightIfStandardHeight;
-                //text.text = Math.Round(correctHeight).ToString();
+                double correctHeight = (modelHeight / meshHeight) * curDiffrence.y;
+                text.text = Math.Round(correctHeight).ToString();
                 textObj.transform.position = Input.mousePosition + textOffset;
             }
             else
