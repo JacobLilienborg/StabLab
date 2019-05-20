@@ -96,7 +96,7 @@ public class InjuryManager : MonoBehaviour
         InjuryController ic = go.GetComponent<InjuryController>();
         ic.injuryData = injuryData;
         injuries.Add(ic);
-        OnChange.Invoke();
+        ActivateInjury(ic.injuryData.id);
     }
     public void LoadInjury(InjuryData newInjury)
     {
@@ -113,36 +113,31 @@ public class InjuryManager : MonoBehaviour
     // Remove the currently active injury
     public void RemoveInjury()
     {
-        Destroy(activeInjury.gameObject);
+        if(!activeInjury) return;
         injuries.Remove(activeInjury);
-        activeInjury = null;
+        InjuryController ic = activeInjury;
+        DeactivateInjury(activeInjury);
+        Destroy(ic.gameObject);
         OnChange.Invoke();
     }
 
     // Sets the active injury by id. Is called from the marker that is clicked
     public void ActivateInjury(Guid id)
     {
-        int i = 0;
-        foreach(InjuryController injuryController in injuries)
-        {
-            if (injuryController.injuryData.id == id)
-            {
-                ActivateInjury(i);
-            }
-            i++;
-        }
+        ActivateInjury(injuries.FindIndex(x => x.injuryData.id == id));
     }
 
     // Sets the active injury by index.
     public void ActivateInjury(int index)
     {
-        if (activeInjury != injuries[index])
+        if (index != -1 && activeInjury != injuries[index])
         {
             if(activeInjury) activeInjury.ToggleWeapon(false);
             activeInjury = injuries[index];
             activeInjury.ToggleWeapon(true);
             IndexActivationEvent.Invoke(index);
             ActivationEvent.Invoke();
+            OnChange.Invoke();
         }
 
     }
@@ -150,28 +145,22 @@ public class InjuryManager : MonoBehaviour
     // Set the active injury
     public void ActivateInjury(InjuryController injuryController)
     {
-        int i = 0;
-        foreach(InjuryController ic in injuries)
-        {
-            if (ic == injuryController)
-            {
-                ActivateInjury(i);
-            }
-            i++;
-        }
+        ActivateInjury(injuries.FindIndex(x => x == injuryController));
     }
 
-    // Needed this code to be listener
     public void DeactivateInjury(int index)
     {
-        if (injuries[index] == activeInjury)
+        if (index != -1 && injuries[index] == activeInjury)
         {
+            activeInjury = null;
             IndexDeactivationEvent.Invoke(index);
             DeactivationEvent.Invoke();
-            //if (activeInjury.injury.HasMarker()) activeInjury.injury.Marker.GetParent().SetActive(Settings.IsActiveModel(false));
-            activeInjury = null;
-             //invoke null?
+            OnChange.Invoke();
         }
+    }
+    public void DeactivateInjury(InjuryController injury)
+    {
+        DeactivateInjury(injuries.FindIndex(x => x == injuryController));
     }
 
     // Change order of injuri in the list.

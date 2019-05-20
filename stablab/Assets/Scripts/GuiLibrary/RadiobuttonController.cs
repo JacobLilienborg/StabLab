@@ -13,23 +13,20 @@ public class RadiobuttonController : CheckboxController
 
     public override void Checked(bool trigger = true)
     {
-        if (trigger)
+        if (RadioGroup)
         {
-            if (RadioGroup)
+            foreach (Transform child in RadioGroup.transform)
             {
-                foreach (Transform child in RadioGroup.transform)
+                RadiobuttonController btn = child.GetComponent<RadiobuttonController>();
+                if (btn != null && btn != this && btn.mode != Mode.Disabled)
                 {
-                    RadiobuttonController btn = child.GetComponent<RadiobuttonController>();
-                    if (btn != null && btn != this && btn.mode != Mode.Disabled)
-                    {
-                        btn.Unchecked(true);
-                    }
+                    btn.Unchecked(true);
                 }
-            } 
-            else
-            {
-                Debug.Log("WARNING: There appear to be no parent");
             }
+        } 
+        else
+        {
+            Debug.Log("WARNING: There appear to be no parent");
         }
         base.Checked(trigger);
     }
