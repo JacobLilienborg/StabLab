@@ -78,12 +78,12 @@ public class InjuryController : MonoBehaviour
 
     public void ToggleWeapon(bool active)
     {
-        weaponObj.SetActive(active);
+        if(weaponObj) weaponObj.SetActive(active);
     }
 
     public void SetColor(Color color)
     {
-        weaponObj.GetComponentInChildren<MeshRenderer>().material.color = color;
+        if(weaponObj) weaponObj.GetComponentInChildren<MeshRenderer>().material.color = color;
     }
 
     public void AddGizmo()

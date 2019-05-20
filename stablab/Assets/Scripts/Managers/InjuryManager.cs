@@ -122,19 +122,14 @@ public class InjuryManager : MonoBehaviour
     // Sets the active injury by id. Is called from the marker that is clicked
     public void ActivateInjury(Guid id)
     {
-        for(int index = 0; index < injuries.Count; index++)
+        int i = 0;
+        foreach(InjuryController injuryController in injuries)
         {
-            InjuryController injuryController = injuries[index];
             if (injuryController.injuryData.id == id)
             {
-                if (activeInjury != injuryController)
-                {
-                    activeInjury = injuryController;
-                    IndexActivationEvent.Invoke(index);
-                    ActivationEvent.Invoke();
-                    return;
-                }
+                ActivateInjury(i);    
             }
+            i++;
         }
     }
 
@@ -143,13 +138,11 @@ public class InjuryManager : MonoBehaviour
     {
         if(activeInjury != injuries[index])
         {
+            if(activeInjury) activeInjury.ToggleWeapon(false);
             activeInjury = injuries[index];
+            activeInjury.ToggleWeapon(true);
             IndexActivationEvent.Invoke(index);
             ActivationEvent.Invoke();
-            //if (activeInjury.injury.HasMarker())
-            //{
-            //    activeInjury.injury.Marker.GetParent().SetActive(Settings.IsActiveModel(true));
-            //}
         }
 
     }
@@ -157,10 +150,15 @@ public class InjuryManager : MonoBehaviour
     // Set the active injury
     public void ActivateInjury(InjuryController injuryController)
     {
-        //int activeIndex = injuries.IndexOf(activeInjury);
-        //injuries[activeIndex].injury = newInjury;
-        //activeInjury = newInjury;
-
+        int i = 0;
+        foreach(InjuryController ic in injuries)
+        {
+            if (ic == injuryController)
+            {
+                ActivateInjury(i);
+            }
+            i++;
+        }
     }
 
     // Needed this code to be listener
