@@ -17,6 +17,9 @@ public class ModelManager : MonoBehaviour
     [SerializeField] private ModelController woman;
     [SerializeField] private ModelController child;
 
+    public UnityEvent modelEnabledEvent = new UnityEvent();
+    public UnityEvent modelDisabledEvent = new UnityEvent();
+
     void Start()
     {
         SceneManager.sceneLoaded += Finished;
@@ -71,24 +74,27 @@ public class ModelManager : MonoBehaviour
         {
             case Type.man:
                 {
+                    modelEnabledEvent.Invoke();
                     activeModel = Instantiate(man, transform);
                     referenceHeightValue = 180;
                     break;
                 }
             case Type.woman:
                 {
+                    modelEnabledEvent.Invoke();
                     activeModel = Instantiate(woman, transform);
                     referenceHeightValue = 162;
                     break;
                 }
             case Type.child:
                 {
+                    modelEnabledEvent.Invoke();
                     activeModel = Instantiate(child, transform);
                     referenceHeightValue = 108;
                     break;
                 }
             default:
-
+                modelDisabledEvent.Invoke();
                 break;
         }
     }

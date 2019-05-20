@@ -6491,8 +6491,8 @@ MonoBehaviour:
     images are saved, check settings (section 6).\n\n6 SETTINGS\nThe settings tab
     will be enabled when you press the icon with an wrench in the menu. The changes
     made will be activated when pressing the DONE button.\n\n\n\nDEVELOPERS:\nSimon
-    Gustavsson\nYohan Ayun\nJohan Fallstr\xF6m\nViktor Barr\nMartin Jirenius\nArin
-    Rashin\nJacob Olausson\n"
+    Gustavsson\nYohan Ayoub\nJohan Fallstr\xF6m\nViktor Barr\nMartin Jirenius\nArin
+    Rashid\nJacob Olausson\n"
 --- !u!222 &379321634
 CanvasRenderer:
   m_ObjectHideFlags: 0

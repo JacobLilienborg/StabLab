@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 170076734}
-  m_IndirectSpecularColor: {r: 0.4514259, g: 0.5006668, b: 0.57096446, a: 1}
+  m_IndirectSpecularColor: {r: 0.45142597, g: 0.5006672, b: 0.5709652, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -655,7 +655,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 8.25e-43, y: 0, z: 0, w: 0}
+  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
@@ -3154,7 +3154,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 8.25e-43, y: 0, z: 0, w: 1.29e-43}
+  m_BoundingSphereOverride: {x: 6.54e-43, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
@@ -3243,14 +3243,14 @@ MonoBehaviour:
       type: 3}
     m_PressedSprite: {fileID: 21300000, guid: 9d518eb847ed3f64b9e1b43afb9eae64, type: 3}
     m_SelectedSprite: {fileID: 21300000, guid: 7ad28522eb5ccfe47a8603d0018926a6, type: 3}
-    m_DisabledSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 21300000, guid: 9d518eb847ed3f64b9e1b43afb9eae64, type: 3}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
     m_HighlightedTrigger: Highlighted
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Highlighted
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 461467721}
   m_OnClick:
     m_PersistentCalls:
@@ -5629,6 +5629,16 @@ MonoBehaviour:
   man: {fileID: 2548654595339674522, guid: a0b743c27131ab24c8b47aea76d5d05d, type: 3}
   woman: {fileID: 697398809687054390, guid: 5df0353eeaa0c63498d7546e2e68f8cc, type: 3}
   child: {fileID: 4795327382687049666, guid: de7522ce8d9ed1e45addeb3edbd9487c, type: 3}
+  modelEnabledEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  modelDisabledEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!4 &839755143
 Transform:
   m_ObjectHideFlags: 0
@@ -11106,6 +11116,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2135094235}
+  - component: {fileID: 2135094236}
   m_Layer: 5
   m_Name: LeftPanel
   m_TagString: Untagged
@@ -11137,3 +11148,21 @@ RectTransform:
   m_AnchoredPosition: {x: 215.9, y: 0}
   m_SizeDelta: {x: 431.9, y: 4}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2135094236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2135094234}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0b6d34c2fda28e47a442b5a66d92de7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  typeButton: {fileID: 0}
+  positionButton: {fileID: 0}
+  modelButton: {fileID: 0}
+  colorButton: {fileID: 0}
+  sceneChangeButton: {fileID: 461467720}
+  positionDoneButton: {fileID: 0}

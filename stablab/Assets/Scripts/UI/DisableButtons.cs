@@ -18,31 +18,58 @@ public class ButtonEvent : UnityEvent<ButtonType>
 public class DisableButtons : MonoBehaviour
 {
 
-    public Button typeButton;
-    public Button positionButton;
-    public Button modelButton;
-    public Button colorButton;
+    private Button typeButton;
+    private Button positionButton;
+    private Button modelButton;
+    private Button colorButton;
 
-    public Button positionDoneButton;
+    private Button sceneChangeButton;
+
+    private Button positionDoneButton;
 
     public List<Button> standardDisabled = new List<Button>();
 
-    public ButtonEvent typeEvent = new ButtonEvent();
-    public ButtonEvent positionEvent = new ButtonEvent();
-    public ButtonEvent modelEvent = new ButtonEvent();
-    public ButtonEvent colorEvent = new ButtonEvent();
+    private ButtonEvent typeEvent = new ButtonEvent();
+    private ButtonEvent positionEvent = new ButtonEvent();
+    private ButtonEvent modelEvent = new ButtonEvent();
+    private ButtonEvent colorEvent = new ButtonEvent();
+
+    private UnityEvent ModelEnabledEvent = new UnityEvent();
+    private UnityEvent ModelDisabledEvent = new UnityEvent();
 
     private void Start()
     {
-        standardDisabled.Add(positionDoneButton);
-        standardDisabled.Add(modelButton);
-        standardDisabled.Add(colorButton);
+        ModelManager.instance.modelEnabledEvent.AddListener(EnableSceneChange);
+        ModelManager.instance.modelDisabledEvent.AddListener(DisableSceneChange);
 
+        ModelDisabledEvent.AddListener(DisableSceneChange);
         typeEvent.AddListener(ButtonPressed);
         positionEvent.AddListener(ButtonPressed);
+
+        if(typeButton != null) typeButton.onClick.AddListener(InvokeTypeButton);
+
+        if (positionButton != null)
+        {
+            standardDisabled.Add(positionDoneButton);
+            positionButton.onClick.AddListener(InvokePositionButton);
+        }
+
+        if (modelButton != null)
+        {
+            standardDisabled.Add(modelButton);
+            modelButton.onClick.AddListener(InvokeModelButton);
+        }
+
+        if (colorButton != null)
+        {
+            standardDisabled.Add(colorButton);
+            colorButton.onClick.AddListener(InvokeColorButton);
+        }
+
         InjuryAdding.AddPositionChangeListener(PositionConfirmEnable);
         InjuryAdding.AddPositionResetListener(PositionConfirmDisable);
         InjuryManager.AddActivationListener(SetButtonInteractability);
+
         SetButtonInteractability();
     }
 
@@ -116,4 +143,16 @@ public class DisableButtons : MonoBehaviour
     {
         HideButton(positionDoneButton);
     }
+
+    private void EnableSceneChange()
+    {
+        ShowButton(sceneChangeButton);
+    }
+
+    private void DisableSceneChange()
+    {
+        HideButton(sceneChangeButton);
+    }
+
+
 }
