@@ -14,6 +14,7 @@ public class ViewManager : MonoBehaviour
 
     public SceneEvent onSceneChange;
     public static ViewManager instance;
+    public Scenes scene;
 
     private void Awake()
     {
@@ -24,6 +25,7 @@ public class ViewManager : MonoBehaviour
         }
         else if (instance != this)
         {
+            scene = instance.scene;
             Destroy(instance.gameObject);
             instance = this;
         }
@@ -34,7 +36,9 @@ public class ViewManager : MonoBehaviour
 
     public void ChangeScene(int index)
     {
-        SceneManager.LoadScene(index);
+        scene = (Scenes)index;
         onSceneChange.Invoke((Scenes)index);
+        SceneManager.LoadScene(index);
+       
     }
 }

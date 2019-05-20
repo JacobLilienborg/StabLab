@@ -46,6 +46,8 @@ public class InjuryManager : MonoBehaviour
     private static IndexEvent IndexDeactivationEvent = new IndexEvent();
     private static UnityEvent ActivationEvent = new UnityEvent();
     private static UnityEvent DeactivationEvent = new UnityEvent();
+    private static IndexEvent RemovalEvent = new IndexEvent();
+
 
     public static void AddActivationListener(UnityAction<Injury> action)
     {
@@ -71,6 +73,10 @@ public class InjuryManager : MonoBehaviour
     {
         DeactivationEvent.AddListener(action);
     }
+    public static void AddRemovalListener(UnityAction<int> action)
+    {
+        RemovalEvent.AddListener(action);
+    }
 
 
     // Setup instance of Injury Manager
@@ -95,6 +101,7 @@ public class InjuryManager : MonoBehaviour
     public void Start()
     {
         GameObject body = GameObject.FindWithTag("Player");
+        if(body == null) return;
         injuryAdding = body.GetComponent<InjuryAdding>();
         LoadInjuries();
     }
@@ -107,15 +114,20 @@ public class InjuryManager : MonoBehaviour
     }
 
     // Remove the currently active injury
-    public static void RemoveInjury()
+    public void RemoveInjury()
     {
-        injuries.Remove(activeInjury);
+        int activeIndex = GetActiveInjuryIndex();
+        //Debug.Log(InjuryManager.activeInjury.Name);
+        DeselectInjury(activeIndex);
+        injuries[activeIndex].RemoveCurrent();
+        injuries.Remove(injuries[activeIndex]);
+        RemovalEvent.Invoke(activeIndex);
     }
 
     // Sets the active injury by id. Is called from the marker that is clicked
     public static void SetActiveInjury(Guid id)
     {
-        for(int index = 0; index < injuries.Count; index++)
+        for (int index = 0; index < injuries.Count; index++)
         {
             Injury injury = injuries[index];
             if (injury.Id == id)
@@ -135,16 +147,15 @@ public class InjuryManager : MonoBehaviour
     // Sets the active injury by index.
     public static void SetActiveInjury(int index)
     {
-        if(activeInjury != injuries[index])
+        if (activeInjury != injuries[index])
         {
-
             activeInjury = injuries[index];
             InjuryActivationEvent.Invoke(activeInjury);
             IndexActivationEvent.Invoke(index);
             ActivationEvent.Invoke();
             if (activeInjury.HasMarker())
             {
-                activeInjury.Marker.GetParent().SetActive(Settings.IsActiveModel(true));
+                activeInjury.Marker.GetWeaponModel().SetActive(Settings.IsActiveModel(true));
             }
         }
         
@@ -167,15 +178,14 @@ public class InjuryManager : MonoBehaviour
         if (injuries[index] == activeInjury)
         {
             InjuryDeactivationEvent.Invoke(activeInjury);
+            if (activeInjury.HasMarker()) activeInjury.Marker.GetWeaponModel().SetActive(Settings.IsActiveModel(false));
+            activeInjury = null;
             IndexDeactivationEvent.Invoke(index);
             DeactivationEvent.Invoke();
-            if (activeInjury.HasMarker()) activeInjury.Marker.GetParent().SetActive(Settings.IsActiveModel(false));
-            activeInjury = null;
-             //invoke null? 
         }
     }
 
-    // Change order of injuri in the list.
+    // Change order of injury in the list.
     public static void ChangeOrder(int oldIndex, int newIndex)
     {
         Injury injury = injuries[oldIndex];
@@ -188,11 +198,12 @@ public class InjuryManager : MonoBehaviour
     {
         foreach (Injury injury in injuries)
         {
-            activeInjury = injury;
+            //activeInjury = injury;
             if(injury.Marker != null)
             {
+                //ModelController.SetBodyPose(injury.BodyPose);
                 injury.InjuryMarkerObj = injuryAdding.LoadMarker(injury);
-                injury.AddModel(injuryAdding.LoadModel(injury));
+                injury.Marker.SetWeaponModel(injuryAdding.LoadModel(injury));
             }
         }
     }
@@ -232,6 +243,17 @@ public class InjuryManager : MonoBehaviour
     public static Injury GetActiveInjury()
     {
         return activeInjury;
+    }
+
+    public static int GetActiveInjuryIndex()
+    {
+
+        for (int i = 0; i < injuries.Count; i++)
+        {
+            Injury injury = injuries[i];
+            if (injury == activeInjury) return i;
+        }
+        return -1;
     }
 
 }

@@ -54,7 +54,7 @@ public class InjuryAdding : MonoBehaviour
 
                     if(newMarker == null) 
                     {
-                        newMarker = AddMarker(markerPos, hitPart, Quaternion.identity);
+                        newMarker = AddMarker(markerPos, hitPart, Quaternion.identity,InjuryManager.activeInjury);
                     }
                     else 
                     {
@@ -62,7 +62,6 @@ public class InjuryAdding : MonoBehaviour
                     }
 
                     modelManager.UpdateModel();
-                    //currentInjuryState = InjuryState.Inactive;
                 }
                 else if (hit.collider.tag == "Marker")
                 {
@@ -79,23 +78,35 @@ public class InjuryAdding : MonoBehaviour
 
 
     public void Reset() {
-        //modelManager.RemoveModel();
+        SetStateToInactive();
+
         modelManager.ResetModel();
         Destroy(newMarker);
         newMarker = null;
-        if (InjuryManager.activeInjury.HasMarker()) InjuryManager.activeInjury.Marker.GetParent().SetActive(true);
-        if (InjuryManager.activeInjury.injuryMarkerObj != null) InjuryManager.activeInjury.ToggleMarker(true);
+        if (InjuryManager.activeInjury != null)
+        {
+            if (InjuryManager.activeInjury.HasMarker())
+            {
+                InjuryManager.activeInjury.Marker.GetWeaponModel().SetActive(true);
+            }
+
+            if (InjuryManager.activeInjury.injuryMarkerObj != null)
+            {
+                InjuryManager.activeInjury.ToggleMarker(true);
+            }
+        }
     }
 
     // Save the added marker to the active injury
     public void SaveMarker()
     {
+        SetStateToInactive();
+
         if (newMarker == null) return;
 
 
         InjuryManager.activeInjury.RemoveCurrent();
         InjuryManager.activeInjury.AddInjuryMarker(newMarker);
-        //modelManager.SaveModel();
 
         newMarker = null;
     }
@@ -135,12 +146,12 @@ public class InjuryAdding : MonoBehaviour
     }
 
     // Instantiate a marker based on position and make it a child of parent input.
-    private GameObject AddMarker(Vector3 position, Transform parent, Quaternion rotation)
+    private GameObject AddMarker(Vector3 position, Transform parent, Quaternion rotation, Injury injury)
     {
-        if (InjuryManager.activeInjury.injuryMarkerObj != null) {
-            InjuryManager.activeInjury.ToggleMarker(false);
+        if (injury.injuryMarkerObj != null) {
+            injury.ToggleMarker(false);
         }
-        GameObject markerObj = InjuryManager.activeInjury.InstantiateMarker(position, rotation, parent);
+        GameObject markerObj = injury.InstantiateMarker(position, rotation, parent);
 
         //markerObj.transform.rotation = rotation;
         return markerObj;
@@ -166,9 +177,9 @@ public class InjuryAdding : MonoBehaviour
             throw new System.Exception("Injury has no Marker");
         }
 
-        ModelController.SetBodyPose(injury.BodyPose);
+        //ModelController.SetBodyPose(injury.BodyPose);
         Transform parent = GameObject.Find(injury.Marker.BodyPartParent).transform;
-        return AddMarker(injury.Marker.MarkerPosition, parent, injury.Marker.MarkerRotation);
+        return AddMarker(injury.Marker.MarkerPosition, parent, injury.Marker.MarkerRotation,injury);
     }
 
     public GameObject LoadModel(Injury injury) {
@@ -176,10 +187,10 @@ public class InjuryAdding : MonoBehaviour
             throw new System.Exception("Injury has no Marker");
         }
         Transform parent = GameObject.Find(injury.Marker.BodyPartParent).transform;
-        GameObject model = injury.InstantiateModel(injury.Marker.ModelPosition, injury.Marker.ModelRotation, parent);
-        model.GetComponent<InjuryModelGizmos>().gizmo = modelManager.gizmo;
-        modelManager.SetModelColor(injury.Marker.modelColorIndex,injury);
-        return model;
+        GameObject weapon = injury.InstantiateModel(injury.Marker.ModelPosition, injury.Marker.ModelRotation, parent);
+        weapon.GetComponent<InjuryModelGizmos>().gizmo = modelManager.gizmo;
+        modelManager.SetModelColor(injury.Marker.modelColorIndex,injury, weapon);
+        return weapon;
     }
 
     // Called when the DeleteButton is pressed

@@ -11,7 +11,7 @@ using System.Collections.Generic;
 public class Marker
 {
     [NonSerialized]
-    private GameObject parent;
+    private GameObject weaponModel;
 
     public bool activeInPresentation = false;
     public string BodyPartParent { get; protected set; }
@@ -19,18 +19,12 @@ public class Marker
     private float[] serializedRotMarker = new float[4];
     private float[] serializedPosModel = new float[3];
     private float[] serializedRotModel = new float[4];
-    [NonSerialized]
-    public Quaternion modelRott;
 
     public int modelColorIndex = -1;
 
     public Marker(GameObject markerObj) 
     {
         MarkerDataUpdate(markerObj);
-        /*stabModel = AssetDatabase.LoadAssetAtPath("Assets/Prefabs/Models/STAB", typeof(GameObject));
-        cutModel = AssetDatabase.LoadAssetAtPath("Assets/Prefabs/Models/CUT", typeof(GameObject));
-        shotModel = AssetDatabase.LoadAssetAtPath("Assets/Prefabs/Models/SHOT", typeof(GameObject));
-        crushModel = AssetDatabase.LoadAssetAtPath("Assets/Prefabs/Models/CRUSH", typeof(GameObject));*/
     }
 
     // Copy data from input object
@@ -44,10 +38,11 @@ public class Marker
     // Copy data from input object
     public void ModelDataUpdate()
     {
-        if(parent != null) 
+        if(weaponModel != null) 
         {
-            ModelPosition = parent.transform.position;
-            ModelRotation = parent.transform.rotation;
+            ModelPosition = weaponModel.transform.position;
+            ModelRotation = weaponModel.transform.rotation;
+
         }
     }
 
@@ -118,12 +113,12 @@ public class Marker
     public void RemoveModel() {
         serializedPosModel = null;
         serializedPosModel = null;
-        UnityEngine.Object.Destroy(parent);
+        UnityEngine.Object.Destroy(weaponModel);
     }
 
     public void UpdateModel() {
-        parent.transform.position = ModelPosition;
-        parent.transform.rotation = ModelRotation;
+        weaponModel.transform.position = ModelPosition;
+        weaponModel.transform.rotation = ModelRotation;
 
     }
 
@@ -144,17 +139,18 @@ public class Marker
         UpdateModel();
     }
 
-    public void SetParent(GameObject parent) {
-        //if (this.parent != null) UnityEngine.Object.Destroy(this.parent);
-        this.parent = parent;
-        parent.SetActive(activeInPresentation);
-        ModelPosition = parent.transform.position;
-        ModelRotation = parent.transform.rotation;
-        //SetModelPosition(parent.transform.position);
-        //SetModelRotation(parent.transform.rotation);
+    public void SetWeaponModel(GameObject model) {
+        if (weaponModel != null && model != weaponModel)
+        {
+            UnityEngine.Object.Destroy(weaponModel);
+        }
+        weaponModel = model;
+        weaponModel.SetActive(activeInPresentation);
+        
+        ModelDataUpdate();
     }
 
-    public GameObject GetParent() {
-        return parent;
+    public GameObject GetWeaponModel() {
+        return weaponModel;
     }
 }

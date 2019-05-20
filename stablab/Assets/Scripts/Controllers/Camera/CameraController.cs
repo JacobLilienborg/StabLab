@@ -8,32 +8,32 @@ public class CameraController : MonoBehaviour
 
     // variables
 
-    [SerializeField][Range(0.0f, 1.0f)] private float panSensitivity = 0.5f;
-    [SerializeField][Range(0.0f, 1.0f)] private float zoomSensitivity = 0.5f;
+    [SerializeField][Range(0.0f, 1.0f)] private float panSensitivity      = 0.3f;
+    [SerializeField][Range(0.0f, 1.0f)] private float zoomSensitivity     = 0.5f;
     [SerializeField][Range(0.0f, 1.0f)] private float rotationSensitivity = 0.5f;
 
-    private float panConstant = 0.1f;
-    private float zoomConstant = 80f;
+    private float panConstant      = 0.1f;
+    private float zoomConstant     = 80f;
     private float rotationConstant = 10f;
     
     private Vector3 lastPosition;
-    private float yaw = 0.0f;
-    private float pitch = 0.0f;
-    public float fov;
+    private float   yaw   = 0.0f;
+    private float   pitch = 0.0f;
+    public  float   fov;
 
-    public float stdFov;
-    public Vector3 stdPos;
+    public float      stdFov;
+    public Vector3    stdPos;
     public Quaternion stdRot;
 
-    float panMoveConstant = 5;
-    float clickZoomConstant = 5;
+    float panMoveConstant       = 5;
+    float clickZoomConstant     = 5;
     float clickRotationConstant = 10;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        fov = Camera.main.fieldOfView;
+        fov    = Camera.main.fieldOfView;
         stdFov = fov;
         stdRot = Camera.main.transform.rotation;
         stdPos = Camera.main.transform.position;
@@ -59,9 +59,9 @@ public class CameraController : MonoBehaviour
         if (Input.GetMouseButton(2))
         {
             float panAmount = panSensitivity * panConstant * Mathf.Log(fov + 1);
-            Vector3 delta = lastPosition - Input.mousePosition;
+            Vector3 delta   = lastPosition - Input.mousePosition;
             transform.Translate(delta.x * panAmount, delta.y * panAmount, 0);
-            lastPosition = Input.mousePosition;
+            lastPosition    = Input.mousePosition;
         }
     }
 
@@ -91,8 +91,8 @@ public class CameraController : MonoBehaviour
             float rotationAmount = rotationSensitivity * rotationConstant * Mathf.Log(fov + 1);
             transform.RotateAround(Vector3.zero, Vector3.up, rotationAmount * Input.GetAxis("Mouse X"));
             lastPosition = Input.mousePosition;
-            pitch = transform.eulerAngles.x;
-            yaw = transform.eulerAngles.y;
+            pitch        = transform.eulerAngles.x;
+            yaw          = transform.eulerAngles.y;
         }
     }
 }
