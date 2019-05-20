@@ -26,7 +26,10 @@ public class DisabledComponents : MonoBehaviour
     }
 
     public static void DisableAll() {
-        //Camera.main.gameObject.GetComponent<RuntimeGizmos.TransformGizmo>().enabled = false;
+        if (Camera.main != null)
+        {
+            Camera.main.gameObject.GetComponent<RuntimeGizmos.TransformGizmo>().enabled = false;
+        }
         //modelManager.SaveModel();
         //modelManager.ResetModel();//SaveModel();
         //injuryAdding.SaveMarker();

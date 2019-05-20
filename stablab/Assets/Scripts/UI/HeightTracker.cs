@@ -14,8 +14,9 @@ public class HeightTracker : MonoBehaviour
     private Text text;
     private Vector3 textOffset = new Vector3(10, 10, 0);
     private double scalingCoeff = 11.5;
-    private double standardHeight = 180;
+    private double standardHeight;
     bool trackingOn = false;
+    bool trackingActivated = true;
     // Start is called before the first frame update
 
     private void Start()
@@ -30,7 +31,14 @@ public class HeightTracker : MonoBehaviour
             standardHeight = 180;
             modelHeight = 180;
         }
+        Settings.AddSettingsConfirmedListener(InactivateTracking);
     }
+
+    public void InactivateTracking()
+    {
+        trackingActivated = Settings.hightTrackerActivated;
+    }
+
     public void StartTrackingHeight()
     {
         textObj = Instantiate(Resources.Load<GameObject>(prefabPath));
@@ -50,17 +58,16 @@ public class HeightTracker : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (trackingOn)
+        if (trackingOn && trackingActivated)
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit; 
+            RaycastHit hit;
 
             if (Physics.Raycast(ray, out hit))
             {
                 Vector3 curDiffrence = hit.point - basePos;
                 double heightIfStandardHeight = Math.Round(curDiffrence.y, 1, MidpointRounding.ToEven) * scalingCoeff;
                 double correctHeight = (modelHeight / standardHeight) * heightIfStandardHeight;
-                Debug.Log(modelHeight);
                 text.text = Math.Round(correctHeight).ToString();
                 textObj.transform.position = Input.mousePosition + textOffset;
             }

@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.Events;
 
 public enum ModelView{
     AllVisible,
@@ -10,7 +12,38 @@ public enum ModelView{
 
 public class Settings : MonoBehaviour
 {
-    static ModelView modelView = ModelView.ActiveVisible;
+    public static ModelView modelView = ModelView.ActiveVisible;
+
+    public static string screenShotFilePath;
+
+    public static bool hightTrackerActivated = true;
+
+    private static UnityEvent settingsConfirmedEvent = new UnityEvent();
+
+    private void Start()
+    {
+        screenShotFilePath = DataManager.instance.GetWorkingDirectory();
+    }
+
+    public static void AddSettingsConfirmedListener(UnityAction action)
+    {
+        settingsConfirmedEvent.AddListener(action);
+    }
+
+    private void OnDisable()
+    {
+        //InvokeSettingsEvent();
+    }
+
+    public void SetHeightTracking(bool activated)
+    {
+        hightTrackerActivated = activated;
+    }
+
+    public void SetScreenshotPath(InputField screenshotPath)
+    {
+        if(screenshotPath.text != "") screenShotFilePath = screenshotPath.text;
+    }
 
     public static bool IsActiveModel(bool selected) {
         switch (modelView) {
@@ -23,6 +56,11 @@ public class Settings : MonoBehaviour
             default:
                 return false;
         }
+    }
+
+    public void InvokeSettingsEvent()
+    {
+        settingsConfirmedEvent.Invoke();
     }
 
     public void SetModelView(int index) {
