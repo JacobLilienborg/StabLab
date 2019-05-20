@@ -37,7 +37,7 @@ public class InjuryManager : MonoBehaviour
     private IndexEvent IndexDeactivationEvent = new IndexEvent();
     private UnityEvent ActivationEvent = new UnityEvent();
     private UnityEvent DeactivationEvent = new UnityEvent();
-    private UnityEvent OnChange = new UnityEvent();
+    public UnityEvent OnChange = new UnityEvent();
     public void AddActivationListener(UnityAction<InjuryController> action)
     {
         InjuryActivationEvent.AddListener(action);

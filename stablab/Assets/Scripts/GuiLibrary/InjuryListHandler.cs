@@ -39,7 +39,7 @@ public class InjuryListHandler : MonoBehaviour
     void Start()
     {
         // We listen to when an injury gets changed.
-        InjuryManager.instance.AddActivationListener(RefreshActive);
+        InjuryManager.instance.OnChange.AddListener(UpdateList);
 
         // Calculate the padding, button size and the total button amount
         CalculateScreenAdjustments();
@@ -47,7 +47,7 @@ public class InjuryListHandler : MonoBehaviour
         if (SceneManager.GetActiveScene().name != "PresentationMode")
         {
             addButton = Instantiate(addButton, buttonArea);
-            addButton.onClick.AddListener(AddInjury);
+            addButton.onClick.AddListener(InjuryManager.instance.CreateInjury);
             RectTransform rtab = (RectTransform)addButton.transform;
             rtab.sizeDelta = new Vector2(buttonSize, buttonSize);
             rtab.anchoredPosition = new Vector2(buttonSize / 2, 0);
@@ -171,7 +171,7 @@ public class InjuryListHandler : MonoBehaviour
             Check(activeIndex);
         }
         CheckInteractability();
-        UpdateWoundIcons();
+        UpdateList();
 
     }
 
@@ -202,7 +202,7 @@ public class InjuryListHandler : MonoBehaviour
             Check(activeIndex);
         }
         CheckInteractability();
-        UpdateWoundIcons();
+        UpdateList();
 
     }
 
@@ -403,7 +403,7 @@ public class InjuryListHandler : MonoBehaviour
 
 
         }
-        UpdateWoundIcons();
+        UpdateList();
         CheckInteractability();
 
         //RefreshActive();
@@ -443,6 +443,48 @@ public class InjuryListHandler : MonoBehaviour
             if(injuryButtons[i].index == ActiveIndex())
                 injuryButtons[i].setImage(InjuryManager.instance.activeInjury.GetIcon());
         }
+    }
+
+    public void UpdateList()
+    {
+        // There exists more injuries that we can add to our list
+        if(InjuryManager.instance.injuries.Count > injuryButtons.Count && 
+            injuryButtons.Count < totalButtonAmount)
+        {
+            AddButton();
+        }
+        // We have fewer injuries than buttons
+        else if(InjuryManager.instance.injuries.Count < injuryButtons.Count)
+        {
+            RemoveButton();
+        }
+
+        // If there is an active injury we want to make sure it's on the list
+        if(InjuryManager.instance.activeInjury)
+        {
+            int activeIndex = InjuryManager.instance.injuries.FindIndex(
+                x => x == InjuryManager.instance.activeInjury);
+            int leftMostIndex = rightMostIndex - (injuryButtons.Count - 1);
+            // If the active injury is to the left of the list
+            if(activeIndex < leftMostIndex)
+            {
+                JumpList(activeIndex + (injuryButtons.Count - 1));
+            }
+            // If the active injury is to the right of the list
+            else if(activeIndex > rightMostIndex)
+            {
+                JumpList(activeIndex);
+            }
+            injuryButtons[injuryButtons.Count + activeIndex - rightMostIndex - 1].Checked(false);
+        }
+        
+        // Make sure all buttons have the correct icon
+        foreach(InjuryButton button in injuryButtons)
+        {
+            button.setImage(InjuryManager.instance.injuries[button.index].GetIcon());
+        }
+        
+        CheckInteractability();
     }
 
 }

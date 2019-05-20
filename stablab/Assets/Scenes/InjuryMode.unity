@@ -33512,19 +33512,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d775e0c16c1f366448979699aabf5551, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &5408217314619204020
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 2489670083279981091, guid: d0fdde322b14cd54189ac641633f68c9,
-    type: 3}
-  m_PrefabInstance: {fileID: 7602301852611029911}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6892030019153560955}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 57383f04d01d5154ea92c7ea69d8aca5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &5408217314619204021
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33567,7 +33554,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6353019521707226146}
   - component: {fileID: 1869112734467346711}
-  - component: {fileID: 5408217314619204020}
   - component: {fileID: 5408217314619204021}
   m_Layer: 0
   m_Name: Settings
@@ -33822,5 +33808,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Settings
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: d0fdde322b14cd54189ac641633f68c9, type: 3}
