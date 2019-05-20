@@ -31,7 +31,7 @@ public class ImagesHandler : MonoBehaviour
     // Load all images saved to the active injury
     public void LoadAllImages()
     {
-        if (InjuryManager.activeInjury == null)
+        if (InjuryManager.instance.activeInjury == null)
             return;
 
         foreach(InjuryImage image in images) { Destroy(image.gameObject); }
@@ -58,7 +58,7 @@ public class ImagesHandler : MonoBehaviour
     {
         Destroy(images[activeIndex].gameObject);
         images.Remove(images[activeIndex]);
-        InjuryManager.activeInjury.RemoveImage(activeIndex);
+        InjuryManager.instance.activeInjury.injuryData.images.RemoveAt(activeIndex);
         ShowImage(activeIndex);
     }
 

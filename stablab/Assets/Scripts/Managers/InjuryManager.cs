@@ -62,10 +62,6 @@ public class InjuryManager : MonoBehaviour
     {
         DeactivationEvent.AddListener(action);
     }
-    public static void AddRemovalListener(UnityAction<int> action)
-    {
-        RemovalEvent.AddListener(action);
-    }
 
     // Setup instance of Injury Manager
     void Awake()
@@ -193,10 +189,6 @@ public class InjuryManager : MonoBehaviour
         foreach (InjuryController injury in injuries)
         {
             activeInjury = injury;
-            //if(injury.injury.Marker != null)
-            //{
-
-            //}
         }
     }
 }

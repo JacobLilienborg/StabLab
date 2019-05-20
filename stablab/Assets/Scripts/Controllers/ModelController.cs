@@ -16,6 +16,7 @@ public class ModelController : MonoBehaviour
     public MeshCollider meshCollider = null;
     private Mesh mesh = null;
     public Transform skeleton = null;
+    public int height;
     private float _muscles = 0;
     public float muscles
     {
@@ -123,8 +124,8 @@ public class ModelController : MonoBehaviour
 
     public void AddGizmo(Vector3 point, Transform bone)
     {
-        if(gizmo.isTransforming) return;
         gizmo = Camera.main.GetComponent<RuntimeGizmos.TransformGizmo>();
+        if(gizmo.isTransforming || gizmo.translatingAxis != RuntimeGizmos.Axis.None) return;
         gizmo.ClearTargets();
         gizmo.AddTarget(bone);
         gizmo.enabled = true;

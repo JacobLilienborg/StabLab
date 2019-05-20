@@ -88,8 +88,8 @@ public class InjuryController : MonoBehaviour
 
     public void AddGizmo()
     {
-        if(gizmo.isTransforming) return;
         gizmo = Camera.main.GetComponent<RuntimeGizmos.TransformGizmo>();
+        if(gizmo.isTransforming) return;
         gizmo.ClearTargets();
         gizmo.AddTarget(weaponObj.transform);
         gizmo.enabled = true;
@@ -127,6 +127,7 @@ public class InjuryController : MonoBehaviour
         Transform[] bones = ModelManager.instance.activeModel.skeleton.GetComponentsInChildren<Transform>();
         Array.ForEach(bones, bone => injuryData.poseData.Add(new TransformData(bone)));
 
+        if(!markerObj || !weaponObj) return; 
         injuryData.markerData.transformData.position = markerObj.transform.position;
         injuryData.markerData.transformData.rotation = markerObj.transform.rotation;
 

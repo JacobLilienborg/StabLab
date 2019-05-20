@@ -5,6 +5,7 @@
 
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /*
  * Injury List Handler is the bar where you can add injuries in the injury mode.
@@ -40,13 +41,10 @@ public class InjuryListHandler : MonoBehaviour
         // We listen to when an injury gets changed.
         InjuryManager.instance.AddActivationListener(RefreshActive);
 
-        //We listen to when an injury gets removed
-        InjuryManager.AddRemovalListener(RemoveActive);
-
         // Calculate the padding, button size and the total button amount
         CalculateScreenAdjustments();
         // Spawn the add button and resize it according to the button area
-        if (ViewManager.instance.scene != Scenes.presentation)
+        if (SceneManager.GetActiveScene().name != "PresentationMode")
         {
             addButton = Instantiate(addButton, buttonArea);
             addButton.onClick.AddListener(AddInjury);
@@ -138,7 +136,7 @@ public class InjuryListHandler : MonoBehaviour
     {
         foreach (InjuryButton button in injuryButtons)
         {
-            button.setImage(InjuryManager.injuries[button.index].woundIcon);
+            button.setImage(InjuryManager.instance.injuries[button.index].GetIcon());
             Debug.Log(button.index);
         }
 
@@ -252,7 +250,7 @@ public class InjuryListHandler : MonoBehaviour
             padding = (width - buttonSize * totalButtonAmount) / (totalButtonAmount - 1);
         }
 
-        if (ViewManager.instance.scene != Scenes.presentation)
+        if (SceneManager.GetActiveScene().name != "PresentationMode")
         {
             totalButtonAmount -= 1; // Since the add button is already in the button area
         }
@@ -277,7 +275,7 @@ public class InjuryListHandler : MonoBehaviour
             rt.anchoredPosition = new Vector2(xpos, 0);
             xpos += buttonSize + padding;
         }
-        if (ViewManager.instance.scene != Scenes.presentation)
+        if (SceneManager.GetActiveScene().name != "PresentationMode")
         {
             RectTransform rtab = (RectTransform)addButton.transform;
             rtab.anchoredPosition = new Vector2(xpos, 0);
@@ -379,7 +377,7 @@ public class InjuryListHandler : MonoBehaviour
     public void RemoveActive(int activeIndex)
     {
 
-        if (InjuryManager.injuries.Count < totalButtonAmount)
+        if (InjuryManager.instance.injuries.Count < totalButtonAmount)
         {
             RemoveButton();
             addButton.transform.position -= new Vector3(buttonSize + padding, 0, 0);
@@ -396,7 +394,7 @@ public class InjuryListHandler : MonoBehaviour
                 rightMostIndex--;
                 JumpList(rightMostIndex);
             }
-            Debug.Log("injuries" + InjuryManager.injuries.Count);
+            Debug.Log("injuries" + InjuryManager.instance.injuries.Count);
 
 
         }

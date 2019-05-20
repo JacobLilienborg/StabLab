@@ -53,7 +53,7 @@ public class ModelManager : MonoBehaviour
     }
 
     // Sets the active model to either man, woman, child
-    public void setActiveModel(int type)
+    public void SetActiveModel(int type)
     {
 
         if (activeModel)
@@ -67,86 +67,42 @@ public class ModelManager : MonoBehaviour
             case ModelType.man:
                 {
                     activeModel = Instantiate(man, transform);
-                    referenceHeightValue = 180;
                     break;
                 }
             case ModelType.woman:
                 {
                     activeModel = Instantiate(woman, transform);
-                    referenceHeightValue = 162;
                     break;
                 }
             case ModelType.child:
                 {
                     activeModel = Instantiate(child, transform);
-                    referenceHeightValue = 108;
                     break;
                 }
         }
     }
 
-    public void adjustWeight(Slider slider)
+    public void AdjustWeight(Slider slider)
     {
         if (activeModel == null) return;
         activeModel.weight = slider.value;
     }
 
-    public void adjustMuscles(Slider slider)
+    public void AdjustMuscles(Slider slider)
     {
         if (activeModel == null) return;
         activeModel.muscles = slider.value;
     }
-
-
-    // Set the pose to the BodyPose input
-    public void SetBodyPose(BodyPose body)
-    {/*
-        if (body == null) return; // set to a standard pose later
-
-        skeleton.position = body.GetPosition();
-        skeleton.rotation = body.GetRotation();
-
-        Transform[] children = skeleton.GetComponentsInChildren<Transform>();
-        int bodyIndex = 0;
-        foreach (Transform child in children)
+    public void AdjustHeight(InputField height)
+    {
+        if(activeModel == null) return;
+        try 
         {
-            if (child.tag == BODYPART_TAG)
-            {
-                child.position = body.bodyParts[bodyIndex].GetPosition();
-                child.rotation = body.bodyParts[bodyIndex].GetRotation();
-                bodyIndex++;
-            }
+            activeModel.height = System.Int32.Parse(height.text);
         }
-        */
-    }
-
-    // Return current pose
-    public BodyPose GetBodyPose()
-    {
-        return new BodyPose(new GameObject());
-    }
-
-    public void adjustHeight(InputField height)
-    {
-        try
+        catch (System.FormatException)
         {
-            modelHeight = Int32.Parse(height.text);
+            Debug.Log($"Unable to parse '{height.text}'");
         }
-        catch (FormatException)
-        {
-            Console.WriteLine($"Unable to parse '{height.text}'");
-        }
-
-    }
-
-    public int GetHeight()
-    {
-        if (modelHeight == 0) return referenceHeightValue;
-        return modelHeight;
-    }
-
-    public int GetStandardHeight()
-    {
-        return referenceHeightValue;
     }
 }

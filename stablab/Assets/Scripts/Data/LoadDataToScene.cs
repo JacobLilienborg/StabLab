@@ -22,7 +22,7 @@ public class LoadDataToScene : MonoBehaviour
     {
         text.text = injuryController.injuryData.infoText;
         imageHandeler.LoadAllImages();
-        text.text = InjuryManager.activeInjury.InfoText;
+        text.text = InjuryManager.instance.activeInjury.injuryData.infoText;
     }
 
     void ResetMetadata()

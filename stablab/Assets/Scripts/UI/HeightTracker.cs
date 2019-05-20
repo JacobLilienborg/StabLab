@@ -14,22 +14,16 @@ public class HeightTracker : MonoBehaviour
     private Text text;
     private Vector3 textOffset = new Vector3(10, 10, 0);
     private double scalingCoeff = 11.5;
-    private double standardHeight;
     bool trackingOn = false;
     bool trackingActivated = true;
     // Start is called before the first frame update
 
     private void Start()
     {
-        basePos = baseObject.transform.position;
-        if (ModelManager.instance != null)
+        basePos = ModelManager.instance.activeModel.skeleton.transform.position;
+        if (ModelManager.instance.activeModel != null)
         {
-            modelHeight = ModelManager.instance.GetHeight();
-            standardHeight = ModelManager.instance.GetStandardHeight();
-        }
-        else {
-            standardHeight = 180;
-            modelHeight = 180;
+            modelHeight = ModelManager.instance.activeModel.height;
         }
         Settings.AddSettingsConfirmedListener(InactivateTracking);
     }
@@ -67,8 +61,8 @@ public class HeightTracker : MonoBehaviour
             {
                 Vector3 curDiffrence = hit.point - basePos;
                 double heightIfStandardHeight = Math.Round(curDiffrence.y, 1, MidpointRounding.ToEven) * scalingCoeff;
-                double correctHeight = (modelHeight / standardHeight) * heightIfStandardHeight;
-                text.text = Math.Round(correctHeight).ToString();
+                //double correctHeight = (modelHeight / standardHeight) * heightIfStandardHeight;
+                //text.text = Math.Round(correctHeight).ToString();
                 textObj.transform.position = Input.mousePosition + textOffset;
             }
             else
@@ -77,9 +71,5 @@ public class HeightTracker : MonoBehaviour
             }
         }
         
-    }
-
-    private void SetStandardHeight(int stdHeight) {
-        standardHeight = stdHeight;
     }
 }
