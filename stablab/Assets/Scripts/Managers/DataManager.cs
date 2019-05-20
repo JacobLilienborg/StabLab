@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-
 public class DataManager : MonoBehaviour
 {
 
@@ -18,9 +17,22 @@ public class DataManager : MonoBehaviour
     private string workingDirectory;                // A string of where to save the files
 
     // Start is called before the first frame update
-    private void Awake()     {
+    private void Awake()
+    {
         // If instance doesn't exist set it to this, else destroy this
-        if (instance == null)         {             instance = this;         }         else if (instance != this)         {             dataList = instance.dataList;             workingDirectory = instance.workingDirectory;             Destroy(instance.gameObject);             instance = this;         }          DontDestroyOnLoad(this);     }
+        if (instance == null)
+        {
+            instance = this;
+        }        
+        else if (instance != this)
+        {
+            dataList = instance.dataList;
+            workingDirectory = instance.workingDirectory;
+            Destroy(instance.gameObject);
+            instance = this;
+        }
+        DontDestroyOnLoad(this);
+    }
 
     public void SetWorkingDirectory(string directory)
     {

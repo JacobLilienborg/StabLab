@@ -10,7 +10,6 @@ using UnityEngine.Events;
 
 public class ModelController : MonoBehaviour
 {
-
     private RuntimeGizmos.TransformGizmo gizmo;
     public OnClick onClick = new OnClick();
     public SkinnedMeshRenderer smr = null;
@@ -46,7 +45,7 @@ public class ModelController : MonoBehaviour
     }
 
     void Update(){
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition); //Ray from mouseclick on screen
             RaycastHit hit;  //Where the ray hits (the injury position)
@@ -54,6 +53,7 @@ public class ModelController : MonoBehaviour
             {
                 onClick.Invoke(hit.point, GetClosestBone(hit.point));
             }
+            else if (gizmo != null && gizmo.enabled && gizmo.translatingAxis == RuntimeGizmos.Axis.None){ RemoveGizmo(); }
         }
         // UGLY SOLUTION!
         else if (Input.GetMouseButtonUp(0) && gizmo != null && gizmo.enabled){ BakeMesh(); }
@@ -128,11 +128,19 @@ public class ModelController : MonoBehaviour
         gizmo.ClearTargets();
         gizmo.AddTarget(bone);
         gizmo.enabled = true;
-
     }
 
     public void RemoveGizmo()
     {
         gizmo.ClearTargets();
+    }
+
+    public void UpdateData()
+    {
+        
+    }
+    public void RevertData()
+    {
+        
     }
 }

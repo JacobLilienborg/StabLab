@@ -38,9 +38,8 @@ public class ProjectManager : MonoBehaviour
 
     private void Start()
     {
-        dataManager = DataManager.instance;
-        viewManager = ViewManager.instance;
-        modelManager = ModelManager.instance;
+        DataManager.instance.Reset();
+        DataManager.instance.Track(currentProject);
     }
         public void DebugMe(string message)
     {
@@ -104,8 +103,7 @@ public class ProjectManager : MonoBehaviour
 
     private void ResetTrackingData()
     {
-        DataManager.instance.Reset();
-        DataManager.instance.Track(currentProject);
+        
     }
 
     /*private void AddToRecent()

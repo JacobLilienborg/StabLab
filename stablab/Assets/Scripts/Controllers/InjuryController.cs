@@ -1,15 +1,16 @@
-﻿﻿using System.Collections;
+﻿﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
 [System.Serializable]
-public class OnClickEvent : UnityEvent<InjuryData>
+public class OnClickEvent : UnityEvent<InjuryController>
 {
 }
 public class InjuryController : MonoBehaviour
 {
-    OnClickEvent onClickWeapon = new OnClickEvent();
+    // For later implementations
+    //OnClickEvent onClickWeapon = new OnClickEvent();
     OnClickEvent onClick = new OnClickEvent();
     public InjuryData injuryData;
     public GameObject markerObj;
@@ -33,16 +34,9 @@ public class InjuryController : MonoBehaviour
             if (Physics.Raycast(ray, out hit))
             {
                 // The marker was hit
-                if (hit.collider == markerObj)
+                if (hit.collider == markerObj || hit.collider == weaponObj)
                 {
-                    onClick.Invoke(injuryData);
-                }
-                // The weapon was hit
-                else if (hit.collider == weaponObj)
-                {
-                    onClick.Invoke(injuryData);
-                    onClickWeapon.Invoke(injuryData);
-                    AddGizmo();
+                    onClick.Invoke(this);
                 }
             }
         }
@@ -60,14 +54,16 @@ public class InjuryController : MonoBehaviour
             markerObj = Instantiate((GameObject)Resources.Load(
                 injuryData.markerData.prefabName),
                 point,
-                Quaternion.identity, bone
+                Quaternion.identity);
+            markerObj.transform.SetParent(bone
             );
 
             weaponObj = Instantiate((GameObject)Resources.Load(
                 injuryData.weaponData.prefabName),
                 point,
-                Quaternion.identity, bone
+                Quaternion.identity
             );
+            weaponObj.transform.SetParent(bone);
         }
         else
         {
@@ -77,6 +73,7 @@ public class InjuryController : MonoBehaviour
             weaponObj.transform.position = point;
             weaponObj.transform.parent = bone;
         }
+        weaponObj.transform.rotation = Quaternion.FromToRotation(Vector3.left, Camera.main.transform.position - weaponObj.transform.position);
     }
 
     public void ToggleWeapon(bool active)
@@ -127,6 +124,9 @@ public class InjuryController : MonoBehaviour
 
     public void UpdateData()
     {
+        Transform[] bones = ModelManager.instance.activeModel.skeleton.GetComponentsInChildren<Transform>();
+        Array.ForEach(bones, bone => injuryData.poseData.Add(new TransformData(bone)));
+
         injuryData.markerData.transformData.position = markerObj.transform.position;
         injuryData.markerData.transformData.rotation = markerObj.transform.rotation;
 

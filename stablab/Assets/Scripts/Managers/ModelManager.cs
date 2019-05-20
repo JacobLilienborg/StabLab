@@ -5,10 +5,10 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
+public enum ModelType { man, woman, child, none};
 public class ModelManager : MonoBehaviour
 {
     public static ModelManager instance;
-    public enum Type { man, woman, child, none};
     public ModelController activeModel = null;
     [SerializeField] private ModelController man;
     [SerializeField] private ModelController woman;
@@ -62,19 +62,19 @@ public class ModelManager : MonoBehaviour
             activeModel = null;
         }
 
-        switch ((Type)type)
+        switch ((ModelType)type)
         {
-            case Type.man:
+            case ModelType.man:
                 {
                     activeModel = Instantiate(man, transform);
                     break;
                 }
-            case Type.woman:
+            case ModelType.woman:
                 {
                     activeModel = Instantiate(woman, transform);
                     break;
                 }
-            case Type.child:
+            case ModelType.child:
                 {
                     activeModel = Instantiate(child, transform);
                     break;

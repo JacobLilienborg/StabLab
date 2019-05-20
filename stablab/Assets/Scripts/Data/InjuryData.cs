@@ -11,7 +11,7 @@ public class CameraData
 [Serializable]
 public class WeaponData
 {
-    public TransformData transformData;
+    public TransformData transformData = new TransformData();
     private float[] _color = new float[4];
     public string resourcePath;
     public string prefabName;
@@ -32,7 +32,7 @@ public class WeaponData
 [Serializable]
 public class MarkerData
 {
-    public TransformData transformData;
+    public TransformData transformData = new TransformData();
     public string prefabName;
     public string iconName;
 }
@@ -48,8 +48,8 @@ public abstract class InjuryData
     public List<byte[]> images = new List<byte[]>();
     public List<TransformData> poseData = new List<TransformData>();
     public CameraData cameraData { get; set; }
-    public MarkerData markerData;
-    public WeaponData weaponData;
+    public MarkerData markerData = new MarkerData();
+    public WeaponData weaponData = new WeaponData();
 
     protected InjuryData(Guid id)
     {
@@ -65,5 +65,8 @@ public abstract class InjuryData
         images = injuryData.images;
         poseData = injuryData.poseData;
         cameraData = injuryData.cameraData;
+        markerData.transformData = injuryData.markerData.transformData;
+        weaponData.transformData = injuryData.weaponData.transformData;
+        weaponData.color = injuryData.weaponData.color;
     }
 }
