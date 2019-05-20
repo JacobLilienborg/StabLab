@@ -105,7 +105,10 @@ public class ModelManager : MonoBehaviour
     }
     public void AdjustHeight(InputField height)
     {
-        if(activeModel == null) return;
+        if (activeModel == null)
+        {
+            return;
+        }
         try
         {
             activeModel.height = System.Int32.Parse(height.text);
