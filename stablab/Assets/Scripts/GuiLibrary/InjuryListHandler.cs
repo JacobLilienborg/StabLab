@@ -83,8 +83,6 @@ public class InjuryListHandler : MonoBehaviour
             res.x = Screen.width;
             res.y = Screen.height;
             CheckInteractability();
-            Debug.Log(rightMostIndex);
-
         }
     }
 
@@ -175,6 +173,8 @@ public class InjuryListHandler : MonoBehaviour
             Check(activeIndex);
         }
         CheckInteractability();
+        UpdateWoundIcons();
+
     }
 
     // This will "move" the entire list one step to the left except if an injury is active then it will select the previous injury instead
@@ -204,6 +204,8 @@ public class InjuryListHandler : MonoBehaviour
             Check(activeIndex);
         }
         CheckInteractability();
+        UpdateWoundIcons();
+
     }
 
     // Calculates screen adjusments, remove/add buttons if neccesary and position them correctly
@@ -333,6 +335,8 @@ public class InjuryListHandler : MonoBehaviour
     // This function will be invoked if an injury is activated independent of the buttons
     private void CheckWithoutTrigger(int index)
     {
+        UpdateWoundIcons();
+
         foreach (InjuryButton button in injuryButtons)
         {
             if (button.index == index) button.Checked(false);
@@ -342,6 +346,7 @@ public class InjuryListHandler : MonoBehaviour
     // This function will be invoked if an injury is deactivated independent of the buttons
     private void UncheckWithoutTrigger(int index)
     {
+        UpdateWoundIcons();
         foreach (InjuryButton button in injuryButtons)
         {
             if (button.index == index) button.Unchecked(false);
