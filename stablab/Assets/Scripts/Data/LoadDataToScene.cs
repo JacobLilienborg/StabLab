@@ -2,17 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class LoadDataToScene : MonoBehaviour
 {
-    public GameObject imageAreaObj;
+    public  GameObject    imageAreaObj;
     private ImagesHandler imageHandeler;
-    public GameObject textObj;
-    private Text text;
+    public  GameObject    textObj;
+    private TMP_Text      text;
+
     void Start()
     {
         imageHandeler = imageAreaObj.GetComponent<ImagesHandler>();
-        text = textObj.GetComponent<Text>();
+        text          = textObj.GetComponent<TMP_Text>();
         InjuryManager.AddActivationListener(SetMetadata);
         InjuryManager.AddDeactivationListener(ResetMetadata);
     }
