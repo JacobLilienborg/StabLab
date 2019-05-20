@@ -22,9 +22,12 @@ public class LoadDataToScene : MonoBehaviour
     {
         text.text = injuryController.injuryData.infoText;
         imageHandeler.LoadAllImages();
+        text.text = InjuryManager.activeInjury.InfoText;
     }
 
-    void Update(){
-        //UpdateDataOnNewActiveInjury();
+    void ResetMetadata()
+    {
+        text.text = "";
+        imageHandeler.LoadAllImages();
     }
 }

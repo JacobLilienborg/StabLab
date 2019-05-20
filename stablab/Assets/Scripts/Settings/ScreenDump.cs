@@ -6,7 +6,21 @@ using System.IO;
 public class ScreenDump : MonoBehaviour
 {
     public List<GameObject> objectsToDisable;
+    private string workingDirectory;
+    private string folder = "screenshots";
 
+    private void Start()
+    {
+        workingDirectory = DataManager.instance.GetWorkingDirectory();
+        Settings.AddSettingsConfirmedListener(ChangeWorkingDirectory);
+    }
+
+    public void ChangeWorkingDirectory()
+    {
+        //Debug.Log("Settings.screenShotFilePath;");
+        string tmpPath = Settings.screenShotFilePath;
+        if (tmpPath != "") workingDirectory = tmpPath;
+    }
 
     public void ToggleObjects(bool active) {
         foreach (GameObject o in objectsToDisable) {
@@ -34,7 +48,24 @@ public class ScreenDump : MonoBehaviour
         byte[] bytes = tex.EncodeToPNG();
         File.WriteAllBytes(Application.dataPath + "/../SavedScreen.png", bytes);
         */
-        ScreenCapture.CaptureScreenshot("Screenshots/" + name);
+        string[] directories = Directory.GetDirectories(workingDirectory);
+        bool saved = false;
+        foreach (string i in directories)
+        {
+            if (i == folder)
+            {
+                ScreenCapture.CaptureScreenshot(Path.Combine(workingDirectory, folder, name));
+                saved = true;
+            }
+        }
+        if (!saved)
+        {
+            Directory.CreateDirectory(new FileInfo(Path.Combine(workingDirectory, folder, name)).Directory.FullName);
+            ScreenCapture.CaptureScreenshot(Path.Combine(workingDirectory, folder, name));
+        }
+
+
+
 
         yield return new WaitForEndOfFrame();
 

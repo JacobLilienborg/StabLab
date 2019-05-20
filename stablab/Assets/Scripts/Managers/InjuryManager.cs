@@ -62,6 +62,10 @@ public class InjuryManager : MonoBehaviour
     {
         DeactivationEvent.AddListener(action);
     }
+    public static void AddRemovalListener(UnityAction<int> action)
+    {
+        RemovalEvent.AddListener(action);
+    }
 
     // Setup instance of Injury Manager
     void Awake()
@@ -127,7 +131,7 @@ public class InjuryManager : MonoBehaviour
         {
             if (injuryController.injuryData.id == id)
             {
-                ActivateInjury(i);    
+                ActivateInjury(i);
             }
             i++;
         }
@@ -136,7 +140,7 @@ public class InjuryManager : MonoBehaviour
     // Sets the active injury by index.
     public void ActivateInjury(int index)
     {
-        if(activeInjury != injuries[index])
+        if (activeInjury != injuries[index])
         {
             if(activeInjury) activeInjury.ToggleWeapon(false);
             activeInjury = injuries[index];

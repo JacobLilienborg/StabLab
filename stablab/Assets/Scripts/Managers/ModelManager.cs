@@ -67,16 +67,19 @@ public class ModelManager : MonoBehaviour
             case ModelType.man:
                 {
                     activeModel = Instantiate(man, transform);
+                    referenceHeightValue = 180;
                     break;
                 }
             case ModelType.woman:
                 {
                     activeModel = Instantiate(woman, transform);
+                    referenceHeightValue = 162;
                     break;
                 }
             case ModelType.child:
                 {
                     activeModel = Instantiate(child, transform);
+                    referenceHeightValue = 108;
                     break;
                 }
         }
@@ -84,11 +87,13 @@ public class ModelManager : MonoBehaviour
 
     public void adjustWeight(Slider slider)
     {
+        if (activeModel == null) return;
         activeModel.weight = slider.value;
     }
 
     public void adjustMuscles(Slider slider)
     {
+        if (activeModel == null) return;
         activeModel.muscles = slider.value;
     }
 
@@ -119,5 +124,29 @@ public class ModelManager : MonoBehaviour
     public BodyPose GetBodyPose()
     {
         return new BodyPose(new GameObject());
+    }
+
+    public void adjustHeight(InputField height)
+    {
+        try
+        {
+            modelHeight = Int32.Parse(height.text);
+        }
+        catch (FormatException)
+        {
+            Console.WriteLine($"Unable to parse '{height.text}'");
+        }
+
+    }
+
+    public int GetHeight()
+    {
+        if (modelHeight == 0) return referenceHeightValue;
+        return modelHeight;
+    }
+
+    public int GetStandardHeight()
+    {
+        return referenceHeightValue;
     }
 }
