@@ -87,6 +87,9 @@ public class ModelManager : MonoBehaviour
                     referenceHeightValue = 108;
                     break;
                 }
+            default:
+
+                break;
         }
     }
 
