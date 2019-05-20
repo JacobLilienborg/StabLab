@@ -38,7 +38,7 @@ public class InjuryButton : RadiobuttonController
     public void SetIndex(int index)
     {
         this.index     = index;
-        indexText.text = index.ToString();
+        indexText.text = (index + 1).ToString(); // People don't tend to count from 0.
     }
 
     // Sets the icon texture to a given image.
