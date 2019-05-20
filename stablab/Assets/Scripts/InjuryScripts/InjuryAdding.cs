@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 
 public enum InjuryState
 {
@@ -11,8 +12,13 @@ public enum InjuryState
  * InjuryAdding spawns an injurymarker of the currently active injury on the body by clicking somewhere on the body.
  */
 
+
+
 public class InjuryAdding : MonoBehaviour
 {
+
+    public static UnityEvent positionSetEvent = new UnityEvent();
+    public static UnityEvent positionResetEvent = new UnityEvent();
     public InjuryState currentInjuryState = InjuryState.Inactive;
     public InjuryType currentInjuryType;
 
@@ -35,6 +41,16 @@ public class InjuryAdding : MonoBehaviour
         modelManager = modelManagerObj.GetComponent<WeaponModelManager>();
         injuryManager = injuryManagerObj.GetComponent<InjuryManager>();
         modelController = gameObject.GetComponent<ModelController>();
+    }
+
+    public static void AddPositionChangeListener(UnityAction e)
+    {
+        positionSetEvent.AddListener(e);
+    }
+
+    public static void AddPositionResetListener(UnityAction e)
+    {
+        positionResetEvent.AddListener(e);
     }
 
     // Waits for the user to clicks on the body when state is in add, and then adds one marker to the body.
@@ -78,6 +94,7 @@ public class InjuryAdding : MonoBehaviour
 
 
     public void Reset() {
+        positionResetEvent.Invoke();
         SetStateToInactive();
 
         modelManager.ResetModel();
@@ -148,6 +165,7 @@ public class InjuryAdding : MonoBehaviour
     // Instantiate a marker based on position and make it a child of parent input.
     private GameObject AddMarker(Vector3 position, Transform parent, Quaternion rotation, Injury injury)
     {
+        positionSetEvent.Invoke();
         if (injury.injuryMarkerObj != null) {
             injury.ToggleMarker(false);
         }

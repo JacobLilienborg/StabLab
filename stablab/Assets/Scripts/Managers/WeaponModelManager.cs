@@ -229,7 +229,10 @@ public class WeaponModelManager : MonoBehaviour
     }
 
     public void ResetModel(){
-        if(tempWeapon != null && (!InjuryManager.activeInjury.HasMarker() || tempWeapon != InjuryManager.activeInjury.Marker.GetWeaponModel()))
+        if(tempWeapon != null && 
+            InjuryManager.activeInjury != null && 
+            (!InjuryManager.activeInjury.HasMarker() || 
+            tempWeapon != InjuryManager.activeInjury.Marker.GetWeaponModel()))
         {
             Destroy(tempWeapon);
         }

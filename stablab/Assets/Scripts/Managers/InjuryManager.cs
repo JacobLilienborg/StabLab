@@ -47,6 +47,7 @@ public class InjuryManager : MonoBehaviour
     private static UnityEvent ActivationEvent = new UnityEvent();
     private static UnityEvent DeactivationEvent = new UnityEvent();
     private static IndexEvent RemovalEvent = new IndexEvent();
+    private static UnityEvent ChangeActiveEvent = new UnityEvent();
 
 
     public static void AddActivationListener(UnityAction<Injury> action)
@@ -76,6 +77,11 @@ public class InjuryManager : MonoBehaviour
     public static void AddRemovalListener(UnityAction<int> action)
     {
         RemovalEvent.AddListener(action);
+    }
+
+    public static void AddChangeActiveListener(UnityAction action)
+    {
+        ChangeActiveEvent.AddListener(action);
     }
 
 
@@ -158,7 +164,6 @@ public class InjuryManager : MonoBehaviour
                 activeInjury.Marker.GetWeaponModel().SetActive(Settings.IsActiveModel(true));
             }
         }
-        
     }
 
     // Change the active injury.
