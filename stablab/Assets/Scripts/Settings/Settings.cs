@@ -13,12 +13,13 @@ public enum ModelView{
 public class Settings : MonoBehaviour
 {
     public static ModelView modelView = ModelView.ActiveVisible;
-
     public static string screenShotFilePath;
-
     public static bool hightTrackerActivated = true;
 
+    public static SettingsFile settingsFile;
+
     private static UnityEvent settingsConfirmedEvent = new UnityEvent();
+
 
     private void Start()
     {

@@ -12,8 +12,6 @@ public class DataManager : MonoBehaviour
 {
 
     public static DataManager instance;
-
-    List<AData> dataList = new List<AData>();       // A list of data files
     private string workingDirectory;                // A string of where to save the files
 
     // Start is called before the first frame update
@@ -39,19 +37,6 @@ public class DataManager : MonoBehaviour
         workingDirectory = directory;
     }
 
-    public void Reset()
-    {
-        dataList.Clear();
-    }
-
-    // Add an arbitrary amount of data files that the data manager will load and save upon request
-    public void Track(params AData[] data)
-    {
-        foreach (AData d in data)
-        {
-            dataList.Add(d);
-        }
-    }
 
     // Loads the data represented in each data files path.
     // This does not Update the scene with the new data, only loads it into the project
@@ -79,14 +64,37 @@ public class DataManager : MonoBehaviour
         }
     }
 
+
+
     // Save the current state of each data file and save it to each file path
     public void Save()
     {
+        /*
         foreach (AData data in dataList)
         {
             FileManager.Save(data, Path.Combine(workingDirectory, data.GetPath()));
             Debug.Log(data.fileName + " was saved successfully");
         }
+        */
+
+        SaveProject();
+        SaveSettings();
+        SaveApplicationData();
+    }
+
+    private void SaveSettings() 
+    {
+        FileManager.Save(Settings.settingsFile, Settings.settingsFile.GetPath());
+    }
+
+    private void SaveProject()
+    {
+        FileManager.Save(ProjectManager.instance., Settings.settingsFile.GetPath());
+    }
+
+    private void SaveApplicationData()
+    {
+
     }
 
     // Call each data file's update function to update the scene

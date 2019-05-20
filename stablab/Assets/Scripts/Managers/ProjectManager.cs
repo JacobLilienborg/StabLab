@@ -5,13 +5,14 @@
 using System.IO;
 using System.Runtime.Serialization;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ProjectManager : MonoBehaviour
 {
     public static ProjectManager instance;
 
     private float projectVersion = 0.1f;                                        // Mainly for future implementation where projectVersion is critical
-    private ProjectData currentProject;                                         // A copy of the current project data
+    public ProjectFile currentProject { get; protected set; }                                         // A copy of the current project data
     [SerializeField] private DataManager dataManager;                           // A data manager which handles how to save and load data files
     [SerializeField] private ModelManager modelManager;
     [SerializeField] private ViewManager viewManager;                           // A view manager which handles how to switch scenes and how to transition between these.
@@ -36,23 +37,13 @@ public class ProjectManager : MonoBehaviour
         DontDestroyOnLoad(this);
     }
 
-    private void Start()
-    {
-        DataManager.instance.Reset();
-        DataManager.instance.Track(currentProject);
-    }
-        public void DebugMe(string message)
-    {
-        Debug.Log(message);
-    }
 
     //Creates a new project data.
     public void Create(string name, string directory)
     {
-        currentProject = new ProjectData(name, directory, projectVersion);
+        currentProject = new ProjectFile(name, directory, projectVersion);
         DataManager.instance.SetWorkingDirectory(currentProject.GetDirectory());
-        Load(true);
-        ViewManager.instance.ChangeScene(2);
+        SceneManager.LoadScene("CharacterMode");
     }
 
     public void Open()
