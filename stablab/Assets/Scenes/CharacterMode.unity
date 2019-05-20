@@ -16355,5 +16355,6 @@ MonoBehaviour:
   colorButton: {fileID: 0}
   weightSlider: {fileID: 1967214943}
   muscleSlider: {fileID: 2076973246}
+  heightInput: {fileID: 1910452725}
   sceneChangeButton: {fileID: 461467720}
   positionDoneButton: {fileID: 0}
