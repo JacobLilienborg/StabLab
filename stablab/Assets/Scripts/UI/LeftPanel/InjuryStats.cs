@@ -12,12 +12,12 @@ public class InjuryStats : MonoBehaviour
 
     private void Update()
     {
-        if (InjuryManager.activeInjury != null)
+        if (InjuryManager.instance.activeInjury != null)
         {
-            index.text      = InjuryManager.injuries.IndexOf(InjuryManager.activeInjury).ToString();
-            woundType.text  = InjuryManager.activeInjury.ToString();
-            if (InjuryManager.activeInjury.Name != null)
-                injuryName.text = InjuryManager.activeInjury.Name;
+            index.text      = InjuryManager.instance.injuries.IndexOf(InjuryManager.instance.activeInjury).ToString();
+            woundType.text  = InjuryManager.instance.activeInjury.ToString();
+            if (InjuryManager.instance.activeInjury.injuryData.name != null)
+                injuryName.text = InjuryManager.instance.activeInjury.injuryData.name;
             else
                 injuryName.text = "Wound " + index.text;
         }

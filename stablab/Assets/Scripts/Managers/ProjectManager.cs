@@ -19,7 +19,7 @@ public class ProjectManager : MonoBehaviour
     // Start is called before the first frame update
     private void Awake()
     {
-       
+
         // If instance doesn't exist set it to this, else destroy this
         if (instance == null)
         {
@@ -38,9 +38,8 @@ public class ProjectManager : MonoBehaviour
 
     private void Start()
     {
-        dataManager = DataManager.instance;
-        viewManager = ViewManager.instance;
-        modelManager = ModelManager.instance;
+        DataManager.instance.Reset();
+        DataManager.instance.Track(currentProject);
     }
         public void DebugMe(string message)
     {
@@ -104,9 +103,7 @@ public class ProjectManager : MonoBehaviour
 
     private void ResetTrackingData()
     {
-        DataManager.instance.Reset();
-        DataManager.instance.Track(currentProject);
-        DataManager.instance.Track(new InjuryListData());
+        
     }
 
     /*private void AddToRecent()

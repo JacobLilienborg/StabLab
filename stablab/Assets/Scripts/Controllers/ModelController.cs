@@ -10,13 +10,13 @@ using UnityEngine.Events;
 
 public class ModelController : MonoBehaviour
 {
-
     private RuntimeGizmos.TransformGizmo gizmo;
     public OnClick onClick = new OnClick();
     public SkinnedMeshRenderer smr = null;
     public MeshCollider meshCollider = null;
     private Mesh mesh = null;
     public Transform skeleton = null;
+    public int height;
     private float _muscles = 0;
     public float muscles
     {
@@ -46,16 +46,18 @@ public class ModelController : MonoBehaviour
     }
 
     void Update(){
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition); //Ray from mouseclick on screen
             RaycastHit hit;  //Where the ray hits (the injury position)
-
             if (Physics.Raycast(ray, out hit) && (hit.collider == meshCollider))
             {
                 onClick.Invoke(hit.point, GetClosestBone(hit.point));
             }
+            else if (gizmo != null && gizmo.enabled && gizmo.translatingAxis == RuntimeGizmos.Axis.None){ RemoveGizmo(); }
         }
+        // UGLY SOLUTION!
+        else if (Input.GetMouseButtonUp(0) && gizmo != null && gizmo.enabled){ BakeMesh(); }
     }
 
     // There is a bug, if the sliders are changed to fast the blend shapes will fuck up
@@ -123,14 +125,23 @@ public class ModelController : MonoBehaviour
     public void AddGizmo(Vector3 point, Transform bone)
     {
         gizmo = Camera.main.GetComponent<RuntimeGizmos.TransformGizmo>();
+        if(gizmo.isTransforming || gizmo.translatingAxis != RuntimeGizmos.Axis.None) return;
         gizmo.ClearTargets();
         gizmo.AddTarget(bone);
         gizmo.enabled = true;
-        Debug.Log(bone.ToString());
     }
 
     public void RemoveGizmo()
     {
         gizmo.ClearTargets();
+    }
+
+    public void UpdateData()
+    {
+
+    }
+    public void RevertData()
+    {
+
     }
 }

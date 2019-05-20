@@ -49,7 +49,7 @@ public class WoundTypeChooser : MonoBehaviour
 
     public void SaveChecked()
     {
-        InjuryManager.TransformActive(injuryType,inHole);
+        //InjuryManager.TransformActive(injuryType);
     }
 
 }

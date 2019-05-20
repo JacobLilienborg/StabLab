@@ -13,14 +13,16 @@ public class LoadDataToScene : MonoBehaviour
     {
         imageHandeler = imageAreaObj.GetComponent<ImagesHandler>();
         text = textObj.GetComponent<Text>();
-        InjuryManager.AddActivationListener(SetMetadata);
-        InjuryManager.AddDeactivationListener(ResetMetadata);
-    }
-
-    void SetMetadata()
-    {
         imageHandeler.LoadAllImages();
-        text.text = InjuryManager.activeInjury.InfoText;
+        //if(text != null) Debug.Log("asd");
+        text.text = InjuryManager.instance.activeInjury.injuryData.infoText;
+        InjuryManager.instance.AddActivationListener(UpdateInjuryData);
+    }
+    void UpdateInjuryData(InjuryController injuryController)
+    {
+        text.text = injuryController.injuryData.infoText;
+        imageHandeler.LoadAllImages();
+        text.text = InjuryManager.instance.activeInjury.injuryData.infoText;
     }
 
     void ResetMetadata()

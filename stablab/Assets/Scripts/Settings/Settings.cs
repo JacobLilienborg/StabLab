@@ -83,11 +83,8 @@ public class Settings : MonoBehaviour
     }
 
     public static void UpdateAllModels() {
-        foreach (Injury injury in InjuryManager.injuries) {
-            if (injury.HasMarker()) 
-            {
-                injury.Marker.GetWeaponModel().SetActive(IsActiveModel(injury == InjuryManager.activeInjury));
-            }
+        foreach (InjuryController injuryController in InjuryManager.instance.injuries) {
+
         }
     }
 
