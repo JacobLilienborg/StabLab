@@ -135,7 +135,6 @@ public class InjuryListHandler : MonoBehaviour
         foreach (InjuryButton button in injuryButtons)
         {
             button.setImage(InjuryManager.instance.injuries[button.index].GetIcon());
-            Debug.Log(button.index);
         }
 
     }

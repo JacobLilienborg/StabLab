@@ -14,6 +14,10 @@ public class ModelManager : MonoBehaviour
     [SerializeField] private ModelController woman;
     [SerializeField] private ModelController child;
 
+    public UnityEvent modelEnabledEvent = new UnityEvent();
+    public UnityEvent modelDisabledEvent = new UnityEvent();
+    public UnityEvent heightChangedEvent = new UnityEvent();
+
     void Start()
     {
         SceneManager.sceneLoaded += Finished;
@@ -66,19 +70,25 @@ public class ModelManager : MonoBehaviour
         {
             case ModelType.man:
                 {
+                    modelEnabledEvent.Invoke();
                     activeModel = Instantiate(man, transform);
                     break;
                 }
             case ModelType.woman:
                 {
+                    modelEnabledEvent.Invoke();
                     activeModel = Instantiate(woman, transform);
                     break;
                 }
             case ModelType.child:
                 {
+                    modelEnabledEvent.Invoke();
                     activeModel = Instantiate(child, transform);
                     break;
                 }
+            default:
+                modelDisabledEvent.Invoke();
+                break;
         }
     }
 
@@ -96,13 +106,14 @@ public class ModelManager : MonoBehaviour
     public void AdjustHeight(InputField height)
     {
         if(activeModel == null) return;
-        try 
+        try
         {
             activeModel.height = System.Int32.Parse(height.text);
         }
         catch (System.FormatException)
         {
-            Debug.Log($"Unable to parse '{height.text}'");
+            activeModel.height = 0;
         }
+        heightChangedEvent.Invoke();
     }
 }
