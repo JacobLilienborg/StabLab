@@ -11051,62 +11051,59 @@ MonoBehaviour:
     order of appearance, so if one should not find an explanation, one should look
     for it in previous chapters.\n\n\n<size=48><b> 1. Creation Mode\r</b><size=32>\n\nThis
     mode is presented to the user after creating a new project. In this mode, one
-    can both choose a model and customize it.\n\n<size=36><b>1.1 Left Panel\r</b><size=32>\n\nCorpViz
+    can both choose and customize a model.\n\n<size=36><b>1.1 Left Panel\r</b><size=32>\n\nCorpViz
     has three different base models to choose from: <b>MAN</b>, <b>WOMAN</b> and <b>CHILD</b>.
-    Press one of the checkboxes in order to choose the respective model.\n\nAfter
-    that, the <b>HEIGHT</b> option lets you type in a height for the model (in centimeters).
-    If a precise length cannot be determined, one should write an approximate value.\n\nAfter
-    this, one finds two sliders: <b>MUSCLE</b> sets the muscle amount on the model
-    and <b>WEIGHT</b> sets the total weight of the model. These two sliders affect
-    each other, so try them both out in order to find a satisfactory value.\n\nAt
-    the bottom of the panel, one finds the button <b>DONE</b>. <i>This button is disabled
-    until both the base model and the height has been set</i>. When this has been
-    done, one can press the button to continue to edit mode.\n<b>NOTE: After one has
-    gone to edit mode, the model can no longer be changed. Therefore, make sure that
-    all the settings are satisfactory before going forward.</b>\n\n<size=36><b>1.2
-    Camera Buttons\r</b><size=32>\n\nIn the bottom right corner, one finds the camera
-    buttons. These can be used to move the camera freely in our 3D space. If one finds
-    themselves lost, or if they cannot find the model, press the <b>RESET</b> button
-    to reset the camera to its default position.\n<b>NOTE: If the camera buttons feel
-    unintuitive, one can invert their direction in the SETTINGS menu, found in the
-    top left corner (the wrench).</b>\n\n\n<size=48><b>2. Edit Mode\r</b><size=32>\n\nThis
-    mode is where one can add and edit all the injuries.\n\n<size=36><b>2.1 Injury
-    Bar\r</b><size=32>\n\nAt the lower end of the screen, one finds the injury bar.
-    This bar has many functions. One can create a new injury with the green <b>ADD
-    BUTTON</b>. One can also navigate between the injuries by either <i>clicking on
-    an injury</i>, <i>using the arrow buttons</i> or <i>using the arrow keys</i>.
-    By having an injury selected, one gets access to the left panel.\n\n<size=36><b>2.2
-    Left Panel\r</b><size=32>\n\nThe panel header shows the injury ID, an input field
-    for its name, and a <b>DELETE</b> button that lets one remove the injury.\n<b>NOTE:
-    If one does not write a custom name, the injury will display \"Injury (ID)\" in
-    the presentation mode.</b>\n\nThe are two buttons underneath the header: <b>CHANGE
-    POSE</b> will give one the option to either choose a pose from our presets or
-    pose the model directly. <b>PLACE CAMERA</b> saves the current camera position
-    so it can be used during the presentation.\n\nUnderneath, one finds three options:
-    <b>Injury Type</b>, <b>Position</b> and <b>Injury Model</b>. By pressing the <b>CHANGE</b>
-    button on any of these, one will be presented with an appropriate panel. \n\nIn
-    the <b>Injury Type Panel</b>, one can change the type of injury. If one is not
-    certain, or if the type of injury isn't supported, one can use the <b>UNDEFINED</b>
-    injury type.\n\nIn the <b>Position Panel</b>, one is able to place the injury
-    on the body. The <b>DONE</b> button is enabled once the injury marker has been
-    placed.\n\nThe <b>Injury Model Panel</b> lets one customize the injury model.
-    Here, one can change the injury model, toggle the model, rotate the model and
-    change its color. <b>NOTE: the CHANGE button is enabled once the injury has been
-    placed on the model.</b>\n\nUnderneath these are the <b>IMAGE TOOL</b> and the
-    <b>TEXT TOOL</b>. If one should need to complement an injury with text or some
-    images, one can use these. Text and images added will be viewable during the presentation
-    mode. <b>NOTE: To add multiple images, one should navigate to the right in order
-    to find the  ADD BUTTON once more.</b>\n\n<b>2.3 Screenshot\r</b>\n\nAt the upper
-    left corner, one finds a green <b>SCREENSHOT</b> button. Pressing this button
-    generates a screenshot that also excludes all the menues from the image. <b>NOTE:
-    To specify where the screenshots should be saved, one can set this in the SETTINGS
-    menu.</b>\n\n\n<size=48><b>3. Presentation Mode</b><size=32>\r\n\n<size=36><b>3.1
-    Left Panel</b><size=32>\n\nThe left panel holds the images and text added to the
-    injuries. <i>If one presses the image, it will be shown in full screen</i>. One
-    is also presented with two buttons: <b>FOCUS CAMERA</b>, that lets one go to the
-    camera position saved, and <b>HIDE PANEL</b>, that hides the left panel. \n<b>NOTE:
-    When the panel is hidden, a button will be presented that shows the panel again.
-    The panel will also be hidden if no injury has been selected.</b>"
+    Press one of the checkboxes in order to choose the respective model.\n\nThe <b>HEIGHT</b>
+    option lets you type in a height for the model (in centimeters). If a precise
+    length cannot be determined, one should write an approximate value.\n\nThe <b>MUSCLE</b>
+    slider changes the muscle amount on the model and <b>WEIGHT</b> changes the total
+    weight of the model. These two sliders affect each other, so try them both out
+    in order to find a satisfactory value.\n\nAt the bottom of the panel, one finds
+    the button <b>DONE</b>. <i>This button is disabled until both the base model and
+    the height has been set</i>. When this has been done, one can press the button
+    to continue to edit mode.\n<b>NOTE: After edit mode has been entered, the model
+    can no longer be changed. Therefore, make sure that all the settings are satisfactory
+    before going forward.</b>\n\n<size=36><b>1.2 Camera Buttons\r</b><size=32>\n\nThe
+    camera buttons can be found in the bottom right corner. These can be used to move
+    the camera freely in the 3D space. If one finds themselves lost, or if they cannot
+    find the model, press the <b>RESET</b> button to reset the camera to its default
+    position.\n<b>NOTE: If the camera buttons feel unintuitive, they can be inverted
+    in the SETTINGS menu, found in the top left corner (the wrench).</b>\n\n\n<size=48><b>2.
+    Edit Mode\r</b><size=32>\n\nThis mode is where injuries can be added and edited.\n\n<size=36><b>2.1
+    Injury Bar\r</b><size=32>\n\nAt the lower end of the screen, one finds the injury
+    bar. This bar has many functions. A new injury can be created with the green <b>ADD</b>
+    button. The injuries can also be navigated by either <i>clicking on an injury</i>,
+    <i>using the arrow buttons</i> or <i>using the arrow keys</i>. By having an injury
+    selected, one gets access to the left panel.\n\n<size=36><b>2.2 Left Panel\r</b><size=32>\n\nThe
+    panel header shows the injury ID, an input field for its name, and a <b>DELETE</b>
+    button that lets one remove the injury.\n<b>NOTE: If a custom name isn't chosen,
+    the injury will display \"Injury (ID)\" in the presentation mode.</b>\n\n<b>CHANGE
+    POSE</b> gives the option to either choose a pose from our presets or pose the
+    model directly. \n\n<b>PLACE CAMERA</b> saves the camera position to the active
+    injury so it can be used during the presentation.\n\nUnderneath, one finds three
+    options: <b>Injury Type</b>, <b>Position</b> and <b>Injury Model</b>. By pressing
+    the <b>CHANGE</b> button on any of these, one will be presented with an appropriate
+    panel. \n\nIn the <b>Injury Type Panel</b>, the type of injury can be changed.
+    If one is not certain, or if the type of injury isn't supported, the <b>UNDEFINED</b>
+    injury type can be used.\n\nIn the <b>Position Panel</b>, one is able to place
+    the injury on the body. The <b>DONE</b> button is enabled once the injury marker
+    has been placed.\n\nThe <b>Injury Model Panel</b> lets one change the injury model,
+    toggle the model, rotate the model and change its color. \n<b>NOTE: the CHANGE
+    button is enabled once the injury has been placed on the model.</b>\n\nUnderneath
+    these are the <b>IMAGE TOOL</b> and the <b>TEXT TOOL</b>. If one should need to
+    complement an injury with text or some images, these can be used. Text and images
+    added will be viewable during the presentation mode. <b>NOTE: To add multiple
+    images, navigate to the right in order to find the ADD BUTTON once more.</b>\n\n<b>2.3
+    Screenshot\r</b>\n\nAt the upper right corner, one finds a green <b>SCREENSHOT</b>
+    button. Pressing this button generates a screenshot that also excludes all the
+    menus from the image. <b>NOTE: Iin the SETTINGS menu, the save location can be
+    specified.</b>\n\n\n<size=48><b>3. Presentation Mode</b><size=32>\r\n\n<size=36><b>3.1
+    Left Panel</b><size=32>\n\nThe left panel contains the images and the text added
+    to the active injury. <i>If an image is pressed, it will be shown in full screen</i>.
+    \n\n<b>FOCUS CAMERA</b> changes the camera position previously saved in edit mode\n\n<b>HIDE
+    PANEL</b> hides the info panel. \n<b>NOTE: When the panel is hidden, a button
+    will be presented that can show the panel again. The panel will also be hidden
+    if no injury has been selected.</b>"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c32f9d644e12a20498c4b960d7e06e81, type: 2}
   m_sharedMaterial: {fileID: -6451145674734276475, guid: c32f9d644e12a20498c4b960d7e06e81,
