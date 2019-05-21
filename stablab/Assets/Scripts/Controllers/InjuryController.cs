@@ -274,4 +274,10 @@ public class InjuryController : MonoBehaviour
     {
         return injuryData.weaponData.color;
     }
+
+    private void OnDestroy()
+    {
+        Destroy(markerObj);
+        Destroy(weaponObj);
+    }
 }

@@ -68,6 +68,7 @@ public class GuiManager : MonoBehaviour
 
 
     public void Save(){ DataManager.instance.Save(); }
+    public void LoadProject() { DataManager.instance.LoadProject(); }
     public void SetActiveModel(int type){ ModelManager.instance.SetActiveModel(type);}
     public void AdjustWeight(Slider slider){ ModelManager.instance.AdjustWeight(slider);}
     public void AdjustMuscles(Slider slider){ ModelManager.instance.AdjustMuscles(slider); }

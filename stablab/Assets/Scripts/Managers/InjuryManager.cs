@@ -177,7 +177,12 @@ public class InjuryManager : MonoBehaviour
     // Load all injuries from the list in to the scene.
     public void LoadInjuries(List<InjuryData> injuryDatas)
     {
-        if (injuryDatas == null || injuryDatas.Count == 0) return;
+        foreach(InjuryController injury in injuries) 
+        {
+            Destroy(injury);
+        }
+
+        if (injuryDatas == null) return;
         foreach (InjuryData data in injuryDatas)
         {
             InjuryController injury = CreateInjury(data);
@@ -187,8 +192,8 @@ public class InjuryManager : MonoBehaviour
                 Transform boneParent = GameObject.Find(data.boneName).transform;
                 injury.PlaceInjury(data.markerData.transformData.position, boneParent);
                 injury.FetchCamera();
-                injury.FetchMarkerWeapon();
                 injury.FetchPose();
+                injury.FetchMarkerWeapon();
             }
         }
     }
