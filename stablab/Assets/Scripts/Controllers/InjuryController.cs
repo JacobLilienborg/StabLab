@@ -16,6 +16,10 @@ public class InjuryController : MonoBehaviour
     public GameObject markerObj;
     public GameObject weaponObj;
     private RuntimeGizmos.TransformGizmo gizmo;
+
+    public UnityEvent positionSetEvent = new UnityEvent();
+    public UnityEvent positionResetEvent = new UnityEvent();
+
     // Start is called before the first frame update
     void Start()
     {
@@ -74,6 +78,7 @@ public class InjuryController : MonoBehaviour
             weaponObj.transform.parent = bone;
         }
         weaponObj.transform.rotation = Quaternion.FromToRotation(Vector3.left, Camera.main.transform.position - weaponObj.transform.position);
+        positionSetEvent.Invoke();
     }
 
     public void ToggleWeapon(bool active)
@@ -144,10 +149,16 @@ public class InjuryController : MonoBehaviour
         weaponObj.transform.position = injuryData.weaponData.transformData.position;
         weaponObj.transform.rotation = injuryData.weaponData.transformData.rotation;
         weaponObj.GetComponentInChildren<MeshRenderer>().material.color = injuryData.weaponData.color;
+        positionResetEvent.Invoke();
     }
 
     public Texture GetIcon()
     {
         return (Texture)Resources.Load(injuryData.markerData.iconName);
+    }
+
+    public bool HasMarker()
+    {
+        return markerObj;
     }
 }
