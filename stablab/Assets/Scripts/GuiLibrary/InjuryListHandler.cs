@@ -334,6 +334,7 @@ public class InjuryListHandler : MonoBehaviour
             }
             else
             {
+                Debug.Log("asd");
                 injuryButtons.Find(btn => btn.index == activeIndex).setImage(
                     InjuryManager.instance.activeInjury.GetIcon()
                 );
