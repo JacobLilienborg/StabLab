@@ -142,7 +142,7 @@ public class MovementButtons : MonoBehaviour, IPointerDownHandler, IPointerUpHan
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.R) && !MouseClick.FieldPressed){
+        if (Input.GetKeyDown(KeyCode.R) && !ArrowKeysToggler.DeactivateArrowKeys){
             ResetView();
         }
     }
