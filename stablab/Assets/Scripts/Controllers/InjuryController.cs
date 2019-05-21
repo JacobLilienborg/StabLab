@@ -131,8 +131,19 @@ public class InjuryController : MonoBehaviour
                     break;
                 default:
                     injuryData = new UndefinedInjuryData(injuryData);
-                    break;
+                    return;
             }
+            if(markerObj && weaponObj)
+            {
+                Vector3 point = markerObj.transform.position;
+                Transform bone = markerObj.transform.parent;
+                Destroy(markerObj);
+                Destroy(weaponObj);
+                markerObj = null;
+                weaponObj = null;
+                PlaceInjury(point, bone);
+            }
+            UpdateData();
     }
 
     public void UpdateData()
