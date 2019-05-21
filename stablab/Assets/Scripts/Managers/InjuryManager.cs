@@ -95,7 +95,7 @@ public class InjuryManager : MonoBehaviour
     }
 
 
-    public InjuryController CreateInjury(InjuryData injuryData)
+    public void CreateInjury(InjuryData injuryData)
     {
         GameObject go = new GameObject("injury" + injuries.Count, typeof(InjuryController));
         go.transform.SetParent(transform);
@@ -103,8 +103,6 @@ public class InjuryManager : MonoBehaviour
         ic.injuryData = injuryData;
         injuries.Add(ic);
         ActivateInjury(ic.injuryData.id);
-
-        return ic;
     }
 
 
@@ -130,9 +128,12 @@ public class InjuryManager : MonoBehaviour
     {
         if (index != -1 && activeInjury != injuries[index])
         {
-            if (activeInjury) activeInjury.ToggleWeapon(false);
+            if (activeInjury)
+            {
+                activeInjury.ToggleWeapon(false);
+                activeInjury.RemoveGizmo();
+            }
             activeInjury = injuries[index];
-            activeInjury.ToggleWeapon(true);
             InjuryActivationEvent.Invoke(activeInjury);
             IndexActivationEvent.Invoke(index);
             ActivationEvent.Invoke();
@@ -177,7 +178,7 @@ public class InjuryManager : MonoBehaviour
     // Load all injuries from the list in to the scene.
     public void LoadInjuries(List<InjuryData> injuryDatas)
     {
-        foreach(InjuryController injury in injuries) 
+        foreach(InjuryController injury in injuries)
         {
             Destroy(injury.gameObject);
         }

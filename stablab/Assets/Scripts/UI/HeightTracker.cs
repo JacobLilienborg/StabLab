@@ -20,9 +20,9 @@ public class HeightTracker : MonoBehaviour
 
     private void Start()
     {
-        basePos = ModelManager.instance.activeModel.skeleton.transform.position;
         if (ModelManager.instance.activeModel != null)
         {
+            basePos = ModelManager.instance.activeModel.skeleton.transform.position;
             modelHeight = ModelManager.instance.activeModel.height;
         }
         Settings.AddSettingsConfirmedListener(InactivateTracking);
