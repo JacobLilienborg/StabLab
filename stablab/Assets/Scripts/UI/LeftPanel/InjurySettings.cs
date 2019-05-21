@@ -8,7 +8,7 @@ public class InjurySettings : MonoBehaviour
     public InputField injuryName;
     public Text woundType;
     public Text position;
-    public Text certainty;
+    public Image model;
     public InputField info;
     public ImagesHandler imagesHandler;
     public Text index; // New
@@ -18,7 +18,7 @@ public class InjurySettings : MonoBehaviour
     private string nameDefault;
     private string woundTypeDefault;
     private string positionDefault;
-    private string certaintyDefault;
+    private Color modelDefault;
     private string infoDefault;
     private CameraSettings camDefault;
     private BodyPose poseDefault;
@@ -28,12 +28,13 @@ public class InjurySettings : MonoBehaviour
         nameDefault = injuryName.text;
         woundTypeDefault = woundType.text;
         positionDefault = position.text;
-        certaintyDefault = certainty.text;
+        modelDefault = model.color;
         infoDefault = info.text;
         camDefault = new CameraSettings(Camera.main);
         //poseDefault = ModelController.GetBodyPose();
 
-        InjuryManager.instance.AddActivationListener(LoadActiveInjury);
+        //InjuryManager.instance.AddActivationListener(LoadActiveInjury);
+        InjuryManager.instance.OnChange.AddListener(LoadActiveInjury);
     }
 
     private void OnEnable()
@@ -53,15 +54,16 @@ public class InjurySettings : MonoBehaviour
         }*/
     }
 
-    public void LoadActiveInjury(InjuryController activeInjury)
+    public void LoadActiveInjury()
     {
+        activeInjury = InjuryManager.instance.activeInjury;
         if (activeInjury != null)
         {
-            index.text = activeInjury.GetText();
+            index.text = InjuryManager.instance.injuries.FindIndex(x => x == activeInjury).ToString();
             LoadNameText(activeInjury);
             LoadTypeText(activeInjury);
             LoadPositionText(activeInjury);
-            LoadCertaintyText(activeInjury);
+            LoadModelText(activeInjury);
             LoadImages(activeInjury);
             LoadInfoText(activeInjury);
             LoadImages(activeInjury);
@@ -77,7 +79,7 @@ public class InjurySettings : MonoBehaviour
 
     public void UpdateName(string name)
     {
-        activeInjury.injuryData.name = name;
+        InjuryManager.instance.activeInjury.SetName(name);
     }
 
     public void UpdateInfo(InputField info)
@@ -95,32 +97,52 @@ public class InjurySettings : MonoBehaviour
 
     private void LoadNameText(InjuryController activeInjury)
     {
+        if (activeInjury.injuryData.name == null)
+        {
+            injuryName.text = nameDefault;
+        }
 
-
+        else
+        {
+            injuryName.text = activeInjury.injuryData.name;
+        }
     }
 
     private void LoadTypeText(InjuryController activeInjury)
     {
-       woundType.text = activeInjury.ToString();
+        if (activeInjury.injuryData == null)
+        {
+            woundType.text = woundTypeDefault;
+        }
+        else
+        {
+            woundType.text = activeInjury.injuryData.ToString();
+        }
     }
 
     private void LoadPositionText(InjuryController activeInjury)
     {
-
-    }
-
-    private void LoadCertaintyText(InjuryController activeInjury)
-    {
-        /*
-        if (activeInjury.Certainty != Certainty.Null)
+        if(activeInjury.GetBoneName() == null)
         {
-            certainty.text = activeInjury.Certainty.ToString();
+            position.text = positionDefault;
         }
         else
         {
-            certainty.text = certaintyDefault;
+            position.text = activeInjury.GetBoneName();
         }
-        */
+    }
+
+    private void LoadModelText(InjuryController activeInjury)
+    {
+        Color empty = new Color(0, 0, 0, 0);
+        if (activeInjury.GetColor() == empty)
+        {
+            model.color = modelDefault;
+        }
+        else
+        {
+            model.color = activeInjury.GetColor();
+        }
     }
 
     private void LoadImages(InjuryController activeInjury)
@@ -135,7 +157,8 @@ public class InjurySettings : MonoBehaviour
 
     private void LoadCamera(InjuryController activeInjury)
     {
-
+       // Camera.main.transform.position = activeInjury.injuryData.cameraData.transformData.position;
+       // Camera.main.transform.rotation = activeInjury.injuryData.cameraData.transformData.rotation;
     }
 
     private void LoadPose(InjuryController activeInjury)

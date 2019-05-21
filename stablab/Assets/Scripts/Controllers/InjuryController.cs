@@ -139,6 +139,7 @@ public class InjuryController : MonoBehaviour
         injuryData.weaponData.transformData.position = weaponObj.transform.position;
         injuryData.weaponData.transformData.rotation = weaponObj.transform.rotation;
         injuryData.weaponData.color = weaponObj.GetComponentInChildren<MeshRenderer>().material.color;
+        InjuryManager.instance.OnChange.Invoke();
     }
 
     public void RevertData()
@@ -151,6 +152,7 @@ public class InjuryController : MonoBehaviour
         weaponObj.transform.rotation = injuryData.weaponData.transformData.rotation;
         weaponObj.GetComponentInChildren<MeshRenderer>().material.color = injuryData.weaponData.color;
         positionResetEvent.Invoke();
+        InjuryManager.instance.OnChange.Invoke();
     }
 
     public Texture GetIcon()
@@ -181,5 +183,20 @@ public class InjuryController : MonoBehaviour
     public string GetText()
     {
         return injuryData.infoText;
+    }
+
+    public void SetName(string name)
+    {
+        injuryData.name = name;
+    }
+
+    public string GetBoneName()
+    {
+        return injuryData.boneName;
+    }
+
+    public Color GetColor()
+    {
+        return injuryData.weaponData.color;
     }
 }
