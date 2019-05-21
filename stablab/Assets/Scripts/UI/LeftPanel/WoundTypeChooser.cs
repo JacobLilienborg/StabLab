@@ -13,6 +13,7 @@ public class WoundTypeChooser : MonoBehaviour
         injuryType = InjuryType.Shot;
         InOutOption.SetActive(true);
         inHole = true;
+        InjuryManager.instance.activeInjury.TransformActive(injuryType);
     }
 
     public void checkCrush()
@@ -20,6 +21,7 @@ public class WoundTypeChooser : MonoBehaviour
         injuryType = InjuryType.Crush;
         InOutOption.SetActive(false);
         inHole = true;
+        InjuryManager.instance.activeInjury.TransformActive(injuryType);
     }
 
     public void checkCut()
@@ -27,6 +29,7 @@ public class WoundTypeChooser : MonoBehaviour
         injuryType = InjuryType.Cut;
         InOutOption.SetActive(false);
         inHole = true;
+        InjuryManager.instance.activeInjury.TransformActive(injuryType);
     }
 
     public void checkStab()
@@ -34,6 +37,7 @@ public class WoundTypeChooser : MonoBehaviour
         injuryType = InjuryType.Stab;
         InOutOption.SetActive(true);
         inHole = true;
+        InjuryManager.instance.activeInjury.TransformActive(injuryType);
     }
 
     public void checkUndefined()
@@ -41,15 +45,10 @@ public class WoundTypeChooser : MonoBehaviour
         injuryType = InjuryType.Undefined;
         InOutOption.SetActive(false);
         inHole = true;
+        InjuryManager.instance.activeInjury.TransformActive(injuryType);
     }
 
     public void SetInOrOut(bool inHole) {
         this.inHole = inHole;
     }
-
-    public void SaveChecked()
-    {
-        //InjuryManager.TransformActive(injuryType);
-    }
-
 }

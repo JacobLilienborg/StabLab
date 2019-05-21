@@ -3,10 +3,10 @@
 [Serializable]
 public class CutInjuryData : InjuryData
 {
-    private const string MARKER_NAME = "Markers/CuthMarker";
-    private const string ICON_NAME = "Markers/CutIcon";
+    private const string MARKER_NAME = "Markers/CutMarker";
+    private const string ICON_NAME = "Icons/Cut";
 
-    private const string WEAPON_NAME = "Models/Cut/cuthModel";
+    private const string WEAPON_NAME = "Models/Cut/cutModel";
     private const string WEAPON_PATH = "Models/Cut";
 
 

@@ -138,6 +138,8 @@ public class InjuryManager : MonoBehaviour
             InjuryActivationEvent.Invoke(activeInjury);
             IndexActivationEvent.Invoke(index);
             ActivationEvent.Invoke();
+            activeInjury.FetchCamera();
+            activeInjury.FetchPose();
             OnChange.Invoke();
         }
     }
