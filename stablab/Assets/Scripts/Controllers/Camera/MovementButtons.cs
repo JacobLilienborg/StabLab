@@ -131,6 +131,10 @@ public class MovementButtons : MonoBehaviour, IPointerDownHandler, IPointerUpHan
                 Camera.main.fieldOfView = fov;
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.R)){
+            ResetView();
+        }
     }
 
     public void OnPointerDown(PointerEventData e)
