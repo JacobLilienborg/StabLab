@@ -20,7 +20,7 @@ public class RadiobuttonController : CheckboxController
                 RadiobuttonController btn = child.GetComponent<RadiobuttonController>();
                 if (btn != null && btn != this && btn.mode != Mode.Disabled)
                 {
-                    btn.Unchecked(true);
+                    btn.Unchecked(false);
                 }
             }
         } 

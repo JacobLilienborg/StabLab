@@ -54,8 +54,8 @@ public class DisableButton : MonoBehaviour
             standardDisabled.Add(positionDoneButton);
             positionDoneButton.onClick.AddListener(OnPositionSet);
 
-            InjuryManager.instance.AddActivationListener(OnNewActiveInjury);
-            InjuryManager.instance.AddDeactivationListener(OnDisableActiveInjury);
+            //InjuryManager.instance.AddActivationListener(OnNewActiveInjury);
+            //InjuryManager.instance.AddDeactivationListener(OnDisableActiveInjury);
             SetButtonInteractability();
         }
     }

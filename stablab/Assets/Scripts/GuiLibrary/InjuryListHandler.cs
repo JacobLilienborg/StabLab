@@ -113,7 +113,7 @@ public class InjuryListHandler : MonoBehaviour
     {
         if (!InjuryManager.instance.activeInjury)
         {
-            JumpList(++rightMostIndex);
+            JumpList(rightMostIndex + 1);
             CheckInteractability();
         }
         else
@@ -129,7 +129,7 @@ public class InjuryListHandler : MonoBehaviour
     {
         if (!InjuryManager.instance.activeInjury)
         {
-            JumpList(--rightMostIndex);
+            JumpList(rightMostIndex - 1);
             CheckInteractability();
         }
         else
@@ -309,10 +309,8 @@ public class InjuryListHandler : MonoBehaviour
         }
         else
         {
-            Debug.Log("ASD");
             InjuryButton button = injuryButtons.Find(btn => btn.isChecked);
             if(button) button.Unchecked(false);
-            Debug.Log("ASD123");
         }
 
         CheckInteractability();
