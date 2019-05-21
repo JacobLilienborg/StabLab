@@ -132,9 +132,12 @@ public class InjuryManager : MonoBehaviour
     {
         if (index != -1 && activeInjury != injuries[index])
         {
-            if(activeInjury) activeInjury.ToggleWeapon(false);
+            if (activeInjury)
+            {
+                activeInjury.ToggleWeapon(false);
+                activeInjury.RemoveGizmo();
+            }
             activeInjury = injuries[index];
-            activeInjury.ToggleWeapon(true);
             InjuryActivationEvent.Invoke(activeInjury);
             IndexActivationEvent.Invoke(index);
             ActivationEvent.Invoke();

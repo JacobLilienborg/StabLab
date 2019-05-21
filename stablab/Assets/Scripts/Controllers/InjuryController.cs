@@ -40,8 +40,8 @@ public class InjuryController : MonoBehaviour
             {
                 // The marker was hit
                 if (markerObj && weaponObj &&
-                (hit.collider == markerObj.GetComponent<Collider>() ||
-                 hit.collider == weaponObj.GetComponent<Collider>()))
+                (hit.collider == markerObj.GetComponentInChildren<Collider>() ||
+                 hit.collider == weaponObj.GetComponentInChildren<Collider>()))
                 {
                     onClick.Invoke(this);
                 }
@@ -85,7 +85,11 @@ public class InjuryController : MonoBehaviour
             weaponObj.transform.position = point;
             weaponObj.transform.parent = bone;
         }
+
+        markerObj.transform.rotation = Quaternion.FromToRotation(Vector3.left, Camera.main.transform.position - markerObj.transform.position);
         weaponObj.transform.rotation = Quaternion.FromToRotation(Vector3.left, Camera.main.transform.position - weaponObj.transform.position);
+
+        ToggleWeapon(false);
         positionSetEvent.Invoke();
     }
 
@@ -110,6 +114,7 @@ public class InjuryController : MonoBehaviour
 
     public void RemoveGizmo()
     {
+        if (!gizmo) return;
         gizmo.ClearTargets();
     }
 
