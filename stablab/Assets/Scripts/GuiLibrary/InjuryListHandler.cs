@@ -39,7 +39,7 @@ public class InjuryListHandler : MonoBehaviour
     void Start()
     {
         // We listen to when an injury gets changed.
-        InjuryManager.instance.AddActivationListener(RefreshActive);
+        InjuryManager.instance.OnChange.AddListener(UpdateList);
 
         // Calculate the padding, button size and the total button amount
         CalculateScreenAdjustments();
@@ -47,7 +47,7 @@ public class InjuryListHandler : MonoBehaviour
         if (SceneManager.GetActiveScene().name != "PresentationMode")
         {
             addButton = Instantiate(addButton, buttonArea);
-            addButton.onClick.AddListener(AddInjury);
+            addButton.onClick.AddListener(InjuryManager.instance.CreateInjury);
             RectTransform rtab = (RectTransform)addButton.transform;
             rtab.sizeDelta = new Vector2(buttonSize, buttonSize);
             rtab.anchoredPosition = new Vector2(buttonSize / 2, 0);
@@ -63,14 +63,6 @@ public class InjuryListHandler : MonoBehaviour
 
     }
 
-    private void OnDisable()
-    {
-        foreach (InjuryButton i in injuryButtons) {
-            UncheckWithTrigger(i.index);
-        }
-    }
-
-
     // Update is called once per frame
     void Update()
     {
@@ -80,13 +72,13 @@ public class InjuryListHandler : MonoBehaviour
             Resize();
             res.x = Screen.width;
             res.y = Screen.height;
-            CheckInteractability();
         }
     }
 
     // Load in already existing injuries if the injury manager has any
     public void LoadInjuries()
     {
+        /*
         // Make the list start from the beginning without removing
         rightMostIndex = -1;
         foreach (InjuryButton button in injuryButtons)
@@ -113,96 +105,39 @@ public class InjuryListHandler : MonoBehaviour
         }
 
         CheckInteractability();
+        */
     }
 
-    // Add a new injury and set is as the active
-    public void AddInjury()
+    // This will "move" the entire list one step to the right except if an injury is active then it will select the next injury instead
+    public void GoToNext()
     {
-        InjuryManager.instance.CreateInjury();
-        if (totalButtonAmount > injuryButtons.Count && injuryButtons.Count < InjuryManager.instance.injuries.Count)
+        if (!InjuryManager.instance.activeInjury)
         {
-            AddButton().Checked(); // Add a new button and check it
+            JumpList(rightMostIndex + 1);
             CheckInteractability();
         }
         else
         {
-            GoToNext(true); // Go to next where the next one will be a activated
+            int activeIndex = InjuryManager.instance.injuries.FindIndex(
+                x => x == InjuryManager.instance.activeInjury);
+            InjuryManager.instance.ActivateInjury(++activeIndex);
         }
-    }
-
-    private void UpdateWoundIcons()
-    {
-        foreach (InjuryButton button in injuryButtons)
-        {
-            button.setImage(InjuryManager.instance.injuries[button.index].GetIcon());
-        }
-
-    }
-
-    // This will "move" the entire list one step to the right except if an injury is active then it will select the next injury instead
-    public void GoToNext(bool newInjury = false)
-    {
-
-        // If there is no active injury we just want to move the list to the next and not check anything
-        if (InjuryManager.instance.activeInjury == null && !newInjury)
-        {
-            JumpList(rightMostIndex + 1);
-        }
-        // There is an active injury or we want to jump to the newly created injury, both cases wants to check a injury
-        else
-        {
-            int activeIndex = ActiveIndex();
-
-            // If we have created a new injury, we will go straight to it
-            if (newInjury)
-            {
-                activeIndex = InjuryManager.instance.injuries.Count - 1;
-            }
-            // As long as the active injury is not the last injury we switch the active injury to the next one
-            else if (activeIndex < InjuryManager.instance.injuries.Count - 1)
-            {
-                activeIndex++;
-            }
-
-            // If the new active injury is not on the list anymore, move the whole list to it.
-            if (activeIndex > rightMostIndex) JumpList(activeIndex);
-            // Check the active index
-            Check(activeIndex);
-        }
-        CheckInteractability();
-        UpdateWoundIcons();
-
     }
 
     // This will "move" the entire list one step to the left except if an injury is active then it will select the previous injury instead
     public void GoToPrevious()
     {
-        // If there is no active injury we just want to move the list to the previous and not check anything
-        if (InjuryManager.instance.activeInjury == null)
+        if (!InjuryManager.instance.activeInjury)
         {
             JumpList(rightMostIndex - 1);
+            CheckInteractability();
         }
-        // There is an active injury
         else
         {
-            int activeIndex = ActiveIndex();
-            // As long as the active injury is not the first injury we switch the active injury to the previous one
-            if (activeIndex > 0)
-            {
-                activeIndex--;
-            }
-
-            // If the new active injury is not on the list anymore, move the whole list to it.
-            if (activeIndex > rightMostIndex || activeIndex < (rightMostIndex - (injuryButtons.Count - 1)))
-            {
-                JumpList(activeIndex + injuryButtons.Count - 1);
-            }
-            // Check the active index
-            Check(activeIndex);
+            int activeIndex = InjuryManager.instance.injuries.FindIndex(
+                x => x == InjuryManager.instance.activeInjury);
+            InjuryManager.instance.ActivateInjury(--activeIndex);
         }
-        CheckInteractability();
-        UpdateWoundIcons();
-
     }
 
     // Calculates screen adjusments, remove/add buttons if neccesary and position them correctly
@@ -230,10 +165,7 @@ public class InjuryListHandler : MonoBehaviour
             if ((rightMostIndex + 1) == InjuryManager.instance.injuries.Count) JumpList(rightMostIndex - 1);
             AddButton();
         }
-        Check(ActiveIndex());
-
-        // Since we have changed the size of the list the right most index may have changed which would affect the next/previous buttons
-        CheckInteractability();
+        UpdateList();
     }
 
     // Calculate the padding, button size and the total button amount
@@ -261,9 +193,11 @@ public class InjuryListHandler : MonoBehaviour
     private void RemoveButton()
     {
         InjuryButton ib = injuryButtons[injuryButtons.Count - 1];
+        addButton.transform.position = ib.transform.position;
         injuryButtons.Remove(ib);
         Destroy(ib.gameObject);
         rightMostIndex--;
+
     }
 
     // Repositioning the placed buttons according to the calculated buttons size and the padding
@@ -292,12 +226,6 @@ public class InjuryListHandler : MonoBehaviour
         ib.OnCheckedInjury.AddListener(InjuryManager.instance.ActivateInjury);
         ib.OnUncheckedInjury.AddListener(InjuryManager.instance.DeactivateInjury);
 
-        // Since a injury can be activated in other way, we need to respond to these as well
-        InjuryManager.instance.AddActivationListener(CheckWithoutTrigger);
-        InjuryManager.instance.AddDeactivationListener(UncheckWithoutTrigger);
-        InjuryManager.instance.AddActivationListener(CheckInteractability);
-        InjuryManager.instance.AddDeactivationListener(CheckInteractability);
-
         // We position the button where the green add button is and reposition the add button
         Vector3 positionChange = new Vector3(padding * (injuryButtons.Count) + buttonSize * injuryButtons.Count + buttonSize / 2, 0, 0);
         ib.transform.position = buttonArea.transform.position - new Vector3(((RectTransform)buttonArea.transform).rect.width / 2, 0, 0) + positionChange;
@@ -322,126 +250,70 @@ public class InjuryListHandler : MonoBehaviour
         nextButton.interactable = ((rightMostIndex + 1) != InjuryManager.instance.injuries.Count);
 
         // If active injury
-        if (InjuryManager.instance.activeInjury != null)
+        if (InjuryManager.instance.activeInjury)
         {
             previousButton.interactable |= InjuryManager.instance.activeInjury != InjuryManager.instance.injuries[injuryButtons[0].index];
             nextButton.interactable |= InjuryManager.instance.activeInjury != InjuryManager.instance.injuries[rightMostIndex];
         }
     }
 
-    // This function will be invoked if an injury is activated independent of the buttons
-    private void CheckWithoutTrigger(int index)
-    {
-        UpdateWoundIcons();
-
-        foreach (InjuryButton button in injuryButtons)
-        {
-            if (button.index == index) button.Checked(false);
-        }
-    }
-
-    // This function will be invoked if an injury is deactivated independent of the buttons
-    private void UncheckWithoutTrigger(int index)
-    {
-        UpdateWoundIcons();
-        foreach (InjuryButton button in injuryButtons)
-        {
-            if (button.index == index) button.Unchecked(false);
-        }
-    }
-
-    private void UncheckWithTrigger(int index)
-    {
-        foreach (InjuryButton button in injuryButtons)
-        {
-            if (button.index == index) button.Unchecked();
-        }
-    }
-
-    // Help function to check an injury. Note that if the injury is not on the list, nothing will be checked
-    private void Check(int index)
-    {
-        foreach (InjuryButton button in injuryButtons)
-        {
-            if (button.index == index) button.Checked();
-        }
-    }
-
-    // Help function to get the index of the active injury
-    private int ActiveIndex()
-    {
-        for (int i = 0; i < InjuryManager.instance.injuries.Count; i++)
-        {
-            InjuryController injuryController = InjuryManager.instance.injuries[i];
-            if (injuryController == InjuryManager.instance.activeInjury) return i;
-        }
-        return -1;
-    }
-
-    public void RemoveActive(int activeIndex)
-    {
-
-        if (InjuryManager.instance.injuries.Count < totalButtonAmount)
-        {
-            RemoveButton();
-            addButton.transform.position -= new Vector3(buttonSize + padding, 0, 0);
-        }
-
-        else
-        {
-            if (injuryButtons[0].index == 0)
-            {
-                JumpListToActive(activeIndex);
-            }
-            else
-            {
-                rightMostIndex--;
-                JumpList(rightMostIndex);
-            }
-            Debug.Log("injuries" + InjuryManager.instance.injuries.Count);
-
-
-        }
-        UpdateWoundIcons();
-        CheckInteractability();
-
-        //RefreshActive();
-    }
-
-
     // Help function to move the entire list
     private void JumpList(int newRightMostIndex)
     {
+        if(newRightMostIndex == rightMostIndex) return;
         rightMostIndex = newRightMostIndex;
         for (int i = 0; i < injuryButtons.Count; i++)
         {
             InjuryButton button = injuryButtons[injuryButtons.Count - 1 - i];
             button.SetIndex(rightMostIndex - i);
-            //button.setImage(InjuryManager.injuries[rightMostIndex - i].woundIcon);
+            button.setImage(InjuryManager.instance.injuries[rightMostIndex - i].GetIcon());
         }
     }
 
-    private void JumpListToActive(int activeIndex)
+    public void UpdateList()
     {
-
-        for (int i = activeIndex; i > 0; i--)
+        // There exists more injuries that we can add to our list
+        if(InjuryManager.instance.injuries.Count > injuryButtons.Count &&
+            injuryButtons.Count < totalButtonAmount)
         {
-            InjuryButton button = injuryButtons[injuryButtons.Count - i];
-            button.SetIndex(totalButtonAmount - i);
-           // button.setImage(InjuryManager.injuries[totalButtonAmount - i].woundIcon);
-
+            AddButton();
         }
-    }
-
-    // A method that gets called when the active Injury is changed.
-    public void RefreshActive()
-    {
-        for (int i = 0; i < injuryButtons.Count; i++)
+        // We have fewer injuries than buttons
+        else if(InjuryManager.instance.injuries.Count < injuryButtons.Count)
         {
-
-            if(injuryButtons[i].index == ActiveIndex())
-                injuryButtons[i].setImage(InjuryManager.instance.activeInjury.GetIcon());
+            RemoveButton();
         }
+        // If there is an active injury we want to make sure it's on the list
+        if(InjuryManager.instance.activeInjury)
+        {
+            int activeIndex = InjuryManager.instance.injuries.FindIndex(
+                x => x == InjuryManager.instance.activeInjury);
+            int leftMostIndex = rightMostIndex - (injuryButtons.Count - 1);
+            // If the active injury is to the left of the list
+            if(activeIndex < leftMostIndex)
+            {
+                JumpList(activeIndex + (injuryButtons.Count - 1));
+            }
+            // If the active injury is to the right of the list
+            else if(activeIndex > rightMostIndex)
+            {
+                JumpList(activeIndex);
+            }
+            else
+            {
+                injuryButtons.Find(btn => btn.index == activeIndex).setImage(
+                    InjuryManager.instance.activeInjury.GetIcon()
+                );
+            }
+            injuryButtons.Find(btn => btn.index == activeIndex).Checked(false);
+        }
+        else
+        {
+            InjuryButton button = injuryButtons.Find(btn => btn.isChecked);
+            if(button) button.Unchecked(false);
+        }
+
+        CheckInteractability();
     }
 
 }

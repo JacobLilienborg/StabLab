@@ -11,12 +11,14 @@ public class LeftPanelAnimation : MonoBehaviour
 
     private void Start()
     {
+        Debug.Log("asdg");
         objChooser = Panel.GetComponent<ObjectChooser>();
         InjuryManager.instance.AddActivationListener(OpenPanel);
         InjuryManager.instance.AddDeactivationListener(ClosePanel);
     }
 
     public void OpenPanel() {
+        Debug.Log("Heh");
         if (Panel != null) {
             Animator animator = Panel.GetComponent<Animator>();
             if (animator != null && !animator.GetBool("isOpen")) {
