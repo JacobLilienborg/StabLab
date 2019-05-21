@@ -100,7 +100,7 @@ public class InjuryListHandler : MonoBehaviour
         foreach (InjuryButton button in injuryButtons)
         {
             button.SetIndex(++rightMostIndex);
-            button.setImage(InjuryManager.instance.injuries[rightMostIndex].GetIcon());
+            button.setImage(InjuryManager.instance.injuries[button.index].GetIcon());
         }
 
         // Remove if we have to many buttons, add if to few and enable next button if there are more injuries available
