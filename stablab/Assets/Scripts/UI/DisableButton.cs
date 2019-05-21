@@ -60,17 +60,17 @@ public class DisableButton : MonoBehaviour
         }
     }
 
-    private void OnNewActiveInjury()
+    private void OnNewActiveInjury(InjuryController activeInjury)
     {
-        InjuryManager.instance.activeInjury.positionSetEvent.AddListener(PositionConfirmEnable);
-        InjuryManager.instance.activeInjury.positionResetEvent.AddListener(PositionConfirmDisable);
+        activeInjury.positionSetEvent.AddListener(PositionConfirmEnable);
+        activeInjury.positionResetEvent.AddListener(PositionConfirmDisable);
         SetButtonInteractability();
     }
 
-    private void OnDisableActiveInjury()
+    private void OnDisableActiveInjury(InjuryController activeInjury)
     {
-        InjuryManager.instance.activeInjury.positionSetEvent.RemoveListener(PositionConfirmEnable);
-        InjuryManager.instance.activeInjury.positionResetEvent.RemoveListener(PositionConfirmDisable);
+        activeInjury.positionSetEvent.RemoveListener(PositionConfirmEnable);
+        activeInjury.positionResetEvent.RemoveListener(PositionConfirmDisable);
     }
 
     private void SetButtonInteractability()
