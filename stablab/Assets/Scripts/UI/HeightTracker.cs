@@ -20,6 +20,7 @@ public class HeightTracker : MonoBehaviour
 
     private void Start()
     {
+        Debug.Log(transform.name);
         basePos = ModelManager.instance.activeModel.skeleton.transform.position;
         if (ModelManager.instance.activeModel != null)
         {
@@ -30,7 +31,7 @@ public class HeightTracker : MonoBehaviour
 
     public void InactivateTracking()
     {
-        trackingActivated = Settings.hightTrackerActivated;
+        trackingActivated = Settings.data.hightTrackerActivated;
     }
 
     public void StartTrackingHeight()

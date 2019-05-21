@@ -9,16 +9,16 @@ using System.IO;
 public abstract class Savable
 {
     public readonly string fileName;
-    public readonly string path;
+    public readonly string directory;
 
-    protected Savable(string fileName, string path)
+    protected Savable(string fileName, string directory)
     {
         this.fileName = fileName;
-        this.path = path;
+        this.directory = directory;
     }
 
     public string GetPath()
     {
-        return Path.Combine(path, fileName);
+        return Path.Combine(directory, fileName);
     }
 }

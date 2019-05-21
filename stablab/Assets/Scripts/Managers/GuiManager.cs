@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GuiManager : MonoBehaviour
 {
@@ -58,5 +59,24 @@ public class GuiManager : MonoBehaviour
     public void RevertInjury()
     {
         InjuryManager.instance.activeInjury.RevertData();
+    }
+
+    public void SetActiveModel(int type)
+    {
+        ModelManager.instance.SetActiveModel(type);
+    }
+
+    public void AdjustWeight(Slider slider)
+    {
+        ModelManager.instance.AdjustWeight(slider);
+    }
+
+    public void AdjustMuscles(Slider slider)
+    {
+        ModelManager.instance.AdjustMuscles(slider);
+    }
+    public void AdjustHeight(InputField height)
+    {
+        ModelManager.instance.AdjustHeight(height);
     }
 }

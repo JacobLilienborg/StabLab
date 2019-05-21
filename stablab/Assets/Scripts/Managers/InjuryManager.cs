@@ -84,7 +84,7 @@ public class InjuryManager : MonoBehaviour
     // Find the model and load markers in to the scene
     public void Start()
     {
-        LoadInjuries();
+       //LoadInjuries();
     }
 
     // Creates and add the new injury to the list of injuries.
@@ -97,16 +97,6 @@ public class InjuryManager : MonoBehaviour
         ic.injuryData = injuryData;
         injuries.Add(ic);
         OnChange.Invoke();
-    }
-    public void LoadInjury(InjuryData newInjury)
-    {
-        /*
-        InjuryController ic = Instantiate(injuryController, transform);
-        ic.injury = newInjury;
-        //ic.PlaceInjury()
-        injuries.Add(ic);
-        OnChange.Invoke();
-        */
     }
 
 
@@ -184,11 +174,23 @@ public class InjuryManager : MonoBehaviour
     }
 
     // Load all injuries from the list in to the scene.
-    public void LoadInjuries()
+    public void LoadInjuries(List<InjuryData> injuryDatas)
     {
-        foreach (InjuryController injury in injuries)
+        if (injuryDatas == null || injuryDatas.Count == 0) return;
+        foreach (InjuryData injuryData in injuryDatas)
         {
-            activeInjury = injury;
+           // CreateInjury(injuryData).UpdateData();
         }
+    }
+
+    public List<InjuryData> GetListOfInjuryData() 
+    {
+        List<InjuryData> injuryDatas = new List<InjuryData>();
+        foreach(InjuryController injury in injuries) 
+        {
+            injuryDatas.Add(injury.injuryData);
+        }
+
+        return injuryDatas;
     }
 }

@@ -14,6 +14,8 @@ public class ModelManager : MonoBehaviour
     [SerializeField] private ModelController woman;
     [SerializeField] private ModelController child;
 
+    public ModelData modelData = new ModelData();
+
     void Start()
     {
         SceneManager.sceneLoaded += Finished;
@@ -31,6 +33,7 @@ public class ModelManager : MonoBehaviour
         }
 
         DontDestroyOnLoad(this);
+
     }
 
     public void AddOnClickListener(UnityAction<Vector3, Transform> action)
@@ -52,10 +55,17 @@ public class ModelManager : MonoBehaviour
         }
     }
 
+    public void LoadModel(ModelData modelData)
+    {
+        SetActiveModel(modelData.type);
+        activeModel.weight = modelData.weight;
+        activeModel.muscles = modelData.muscles;
+        activeModel.height = modelData.height;
+    }
+
     // Sets the active model to either man, woman, child
     public void SetActiveModel(int type)
     {
-
         if (activeModel)
         {
             Destroy(activeModel.gameObject);
@@ -80,18 +90,21 @@ public class ModelManager : MonoBehaviour
                     break;
                 }
         }
+        modelData.type = type;
     }
 
     public void AdjustWeight(Slider slider)
     {
         if (activeModel == null) return;
         activeModel.weight = slider.value;
+        modelData.weight = slider.value;
     }
 
     public void AdjustMuscles(Slider slider)
     {
         if (activeModel == null) return;
         activeModel.muscles = slider.value;
+        modelData.muscles = slider.value;
     }
     public void AdjustHeight(InputField height)
     {
@@ -99,6 +112,7 @@ public class ModelManager : MonoBehaviour
         try 
         {
             activeModel.height = System.Int32.Parse(height.text);
+            modelData.height = activeModel.height;
         }
         catch (System.FormatException)
         {

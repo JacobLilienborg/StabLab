@@ -18,7 +18,7 @@ public class ProjectFile : Savable
 
 
 
-    public ProjectFile(string projectName, string projectDirectory, float projectVersion) : base(projectName, "")
+    public ProjectFile(string projectName, string projectDirectory, float projectVersion) : base(projectName + ".cvz", projectDirectory)
     {
         this.projectName = projectName;
         this.projectPath = Path.Combine(projectDirectory, projectName);

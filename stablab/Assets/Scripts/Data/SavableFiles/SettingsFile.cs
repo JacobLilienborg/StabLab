@@ -3,18 +3,16 @@ using System;
 using UnityEngine;
 
 [Serializable]
-public class SettingsData : AData
+public class SettingsFile : Savable
 {
-    public List<string> recentProjects;
+    public ModelView modelView = ModelView.ActiveVisible;
+    public string screenShotFilePath;
+    public bool hightTrackerActivated = true;
 
-    public SettingsData() : base("settings", "Data")
+
+    public SettingsFile(string path) : base("settings", path)
     {
         Debug.Log("Creating settings data");
-    }
-
-    public override void Update()
-    {
-        //throw new NotImplementedException();
     }
 
 }
