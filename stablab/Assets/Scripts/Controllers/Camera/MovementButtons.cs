@@ -132,7 +132,7 @@ public class MovementButtons : MonoBehaviour, IPointerDownHandler, IPointerUpHan
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.R)){
+        if (Input.GetKeyDown(KeyCode.R) && !MouseClick.FieldPressed){
             ResetView();
         }
     }
