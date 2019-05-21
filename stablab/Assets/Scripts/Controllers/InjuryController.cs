@@ -162,4 +162,24 @@ public class InjuryController : MonoBehaviour
     {
         return markerObj;
     }
+
+    public void AddImage(byte[] bytes)
+    {
+        injuryData.images.Add(bytes);
+    }
+
+    public byte[] GetImage(int index)
+    {
+        return injuryData.images[index];
+    }
+
+    public void SetText(string text)
+    {
+        injuryData.infoText = text;
+    }
+
+    public string GetText()
+    {
+        return injuryData.infoText;
+    }
 }
