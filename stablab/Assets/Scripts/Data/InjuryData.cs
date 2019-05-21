@@ -49,7 +49,7 @@ public abstract class InjuryData
     public string boneName { get; set; }
     public List<byte[]> images = new List<byte[]>();
     public List<TransformData> poseData = new List<TransformData>();
-    public CameraData cameraData { get; set; }
+    public CameraData cameraData = new CameraData();
     public MarkerData markerData = new MarkerData();
     public WeaponData weaponData = new WeaponData();
 

@@ -64,7 +64,7 @@ public class HeightTracker : MonoBehaviour
                 float meshHeight = ModelManager.instance.activeModel.meshCollider.bounds.size.y;
                 double heightIfStandardHeight = Math.Round(curDiffrence.y, 1, MidpointRounding.ToEven) * scalingCoeff;
                 double correctHeight = (modelHeight / meshHeight) * curDiffrence.y;
-                text.text = Math.Round(correctHeight).ToString();
+                text.text = Math.Round(correctHeight).ToString() + " cm";
                 textObj.transform.position = Input.mousePosition + textOffset;
             }
             else

@@ -4,7 +4,7 @@
 public class UndefinedInjuryData : InjuryData
 {
     private const string MARKER_NAME = "Markers/UndefinedMarker";
-    private const string ICON_NAME = "Markers/UndefinedIcon";
+    private const string ICON_NAME = "Icons/Undefined";
 
     private const string WEAPON_NAME = "Models/Undefined/undefinedModel";
     private const string WEAPON_PATH = "Models/Undefined";

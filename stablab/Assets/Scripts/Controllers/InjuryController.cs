@@ -23,16 +23,15 @@ public class InjuryController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //onClick.AddListener(InjuryManager.instance.ActivateInjury);
+        onClick.AddListener(InjuryManager.instance.ActivateInjury);
         gizmo = Camera.main.GetComponent<RuntimeGizmos.TransformGizmo>();
-        // This is kind of ugly fixes since we don't have default value on everything
-        UpdateData();
+        UpdatePose();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition); //Ray from mouseclick on screen
             RaycastHit hit;  //Where the ray hits (the injury position)
@@ -40,10 +39,13 @@ public class InjuryController : MonoBehaviour
             if (Physics.Raycast(ray, out hit))
             {
                 // The marker was hit
-                if (hit.collider == markerObj || hit.collider == weaponObj)
+                if (markerObj && weaponObj &&
+                (hit.collider == markerObj.GetComponent<Collider>() ||
+                 hit.collider == weaponObj.GetComponent<Collider>()))
                 {
                     onClick.Invoke(this);
                 }
+
             }
         }
     }
@@ -55,7 +57,7 @@ public class InjuryController : MonoBehaviour
         {
             return;
         }
-        if (markerObj == null && weaponObj == null)
+        if (!markerObj || !weaponObj)
         {
             markerObj = Instantiate((GameObject)Resources.Load(
                 injuryData.markerData.prefabName),
@@ -131,9 +133,31 @@ public class InjuryController : MonoBehaviour
                     injuryData = new UndefinedInjuryData(injuryData);
                     break;
             }
+            if(markerObj && weaponObj)
+            {
+                Vector3 point = markerObj.transform.position;
+                Transform bone = markerObj.transform.parent;
+                Destroy(markerObj);
+                Destroy(weaponObj);
+                markerObj = null;
+                weaponObj = null;
+                PlaceInjury(point, bone);
+                UpdateMarkerWeapon();
+            }
+            else
+            {
+                InjuryManager.instance.OnChange.Invoke();
+            }
     }
 
-    public void UpdateData()
+    public void UpdateCamera()
+    {
+        injuryData.cameraData.transformData = new TransformData(Camera.main.transform);
+        injuryData.cameraData.fieldOfView = Camera.main.fieldOfView;
+        injuryData.cameraData.isModified = true;
+    }
+
+    public void UpdatePose()
     {
         injuryData.poseData.Clear();
         Transform[] bones = ModelManager.instance.activeModel.skeleton.GetComponentsInChildren<Transform>();
@@ -141,23 +165,37 @@ public class InjuryController : MonoBehaviour
         {
             if(bone.tag != "Injury") injuryData.poseData.Add(new TransformData(bone));
         }
-
-        if(!markerObj || !weaponObj) return;
-        injuryData.markerData.transformData.position = markerObj.transform.position;
-        injuryData.markerData.transformData.rotation = markerObj.transform.rotation;
-        injuryData.boneName = markerObj.transform.parent.name;
-        injuryData.markerData.isModified = true;
-
-        injuryData.weaponData.transformData.position = weaponObj.transform.position;
-        injuryData.weaponData.transformData.rotation = weaponObj.transform.rotation;
-        injuryData.weaponData.color = weaponObj.GetComponentInChildren<MeshRenderer>().material.color;
-        injuryData.weaponData.isModified = true;
     }
 
-    public void RevertData()
+    public void UpdateMarkerWeapon()
     {
+        if(markerObj && weaponObj)
+        {
+            injuryData.boneName = markerObj.transform.parent.name;
+            injuryData.markerData.transformData.position = markerObj.transform.position;
+            injuryData.markerData.transformData.rotation = markerObj.transform.rotation;
+            injuryData.markerData.isModified = true;
+
+            injuryData.weaponData.transformData.position = weaponObj.transform.position;
+            injuryData.weaponData.transformData.rotation = weaponObj.transform.rotation;
+            injuryData.weaponData.color = weaponObj.GetComponentInChildren<MeshRenderer>().material.color;
+            injuryData.weaponData.isModified = true;
+            InjuryManager.instance.OnChange.Invoke();
+        }
+    }
+
+    public void FetchCamera()
+    {
+        if(!injuryData.cameraData.isModified) return;
+        Camera.main.transform.position = injuryData.cameraData.transformData.position;
+        Camera.main.transform.rotation = injuryData.cameraData.transformData.rotation;
+        Camera.main.fieldOfView = injuryData.cameraData.fieldOfView;
+    }
+
+    public void FetchPose()
+    {
+        if(injuryData.poseData.Count == 0) return;
         Transform[] bones = ModelManager.instance.activeModel.skeleton.GetComponentsInChildren<Transform>();
-        List<Transform> temp = new List<Transform>();
         int i = 0;
         foreach (Transform bone in bones)
         {
@@ -168,22 +206,28 @@ public class InjuryController : MonoBehaviour
                 i++;
             }
         }
+    }
 
-        if (!markerObj || !weaponObj) return;
-        if(!injuryData.markerData.isModified || !injuryData.weaponData.isModified)
+    public void FetchMarkerWeapon()
+    {
+        if (markerObj && weaponObj)
         {
-            Destroy(markerObj);
-            Destroy(weaponObj);
-            return;
+            if(!injuryData.markerData.isModified || !injuryData.weaponData.isModified)
+            {
+                Destroy(markerObj);
+                Destroy(weaponObj);
+                return;
+            }
+            markerObj.transform.position = injuryData.markerData.transformData.position;
+            markerObj.transform.rotation = injuryData.markerData.transformData.rotation;
+
+            weaponObj.transform.position = injuryData.weaponData.transformData.position;
+            weaponObj.transform.rotation = injuryData.weaponData.transformData.rotation;
+
+            weaponObj.GetComponentInChildren<MeshRenderer>().material.color = injuryData.weaponData.color;
+            positionResetEvent.Invoke();
+            InjuryManager.instance.OnChange.Invoke();
         }
-        markerObj.transform.position = injuryData.markerData.transformData.position;
-        markerObj.transform.rotation = injuryData.markerData.transformData.rotation;
-
-        weaponObj.transform.position = injuryData.weaponData.transformData.position;
-        weaponObj.transform.rotation = injuryData.weaponData.transformData.rotation;
-
-        weaponObj.GetComponentInChildren<MeshRenderer>().material.color = injuryData.weaponData.color;
-        positionResetEvent.Invoke();
     }
 
     public Texture GetIcon()
@@ -194,5 +238,40 @@ public class InjuryController : MonoBehaviour
     public bool HasMarker()
     {
         return markerObj;
+    }
+
+    public void AddImage(byte[] bytes)
+    {
+        injuryData.images.Add(bytes);
+    }
+
+    public byte[] GetImage(int index)
+    {
+        return injuryData.images[index];
+    }
+
+    public void SetText(string text)
+    {
+        injuryData.infoText = text;
+    }
+
+    public string GetText()
+    {
+        return injuryData.infoText;
+    }
+
+    public void SetName(string name)
+    {
+        injuryData.name = name;
+    }
+
+    public string GetBoneName()
+    {
+        return injuryData.boneName;
+    }
+
+    public Color GetColor()
+    {
+        return injuryData.weaponData.color;
     }
 }

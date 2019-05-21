@@ -112,10 +112,10 @@ public class InjuryManager : MonoBehaviour
     public void RemoveInjury()
     {
         if (!activeInjury) return;
-        GameObject go = activeInjury.gameObject;
-        Destroy(go);
-        injuries.Remove(activeInjury);
+        InjuryController ic = activeInjury;
         DeactivateInjury(activeInjury);
+        Destroy(ic.gameObject);
+        injuries.Remove(ic);
         OnChange.Invoke();
     }
 
@@ -128,13 +128,16 @@ public class InjuryManager : MonoBehaviour
     // Sets the active injury by index.
     public void ActivateInjury(int index)
     {
-        if (index != -1)
+        if (index != -1 && activeInjury != injuries[index])
         {
             if (activeInjury) activeInjury.ToggleWeapon(false);
             activeInjury = injuries[index];
+            activeInjury.ToggleWeapon(true);
             InjuryActivationEvent.Invoke(activeInjury);
             IndexActivationEvent.Invoke(index);
             ActivationEvent.Invoke();
+            activeInjury.FetchCamera();
+            activeInjury.FetchPose();
             OnChange.Invoke();
         }
     }
@@ -183,7 +186,9 @@ public class InjuryManager : MonoBehaviour
             {
                 Transform boneParent = GameObject.Find(data.boneName).transform;
                 injury.PlaceInjury(data.markerData.transformData.position, boneParent);
-                injury.RevertData();
+                injury.FetchCamera();
+                injury.FetchMarkerWeapon();
+                injury.FetchPose();
             }
         }
     }

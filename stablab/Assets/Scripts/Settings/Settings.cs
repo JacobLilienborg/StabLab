@@ -33,6 +33,11 @@ public class Settings : MonoBehaviour
         //InvokeSettingsEvent();
     }
 
+    public void SetInvertedButtons(bool active)
+    {
+        MovementButtons.InvertedControls(active);
+    }
+
     public void SetHeightTracking(bool activated)
     {
         data.hightTrackerActivated = activated;

@@ -4,7 +4,7 @@
 public class CrushInjuryData : InjuryData
 {
     private const string MARKER_NAME = "Markers/CrushMarker";
-    private const string ICON_NAME = "Markers/CrushIcon";
+    private const string ICON_NAME = "Icons/Crush";
 
     private const string WEAPON_NAME = "Models/Crush/crushModel";
     private const string WEAPON_PATH = "Models/Crush";
