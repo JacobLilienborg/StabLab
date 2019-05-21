@@ -120,6 +120,8 @@ public class InjuryListHandler : MonoBehaviour
             }
         }
 
+        InjuryManager.instance.DeactivateInjury(InjuryManager.instance.activeInjury);
+
         CheckInteractability();
         
     }
