@@ -11078,35 +11078,35 @@ MonoBehaviour:
     By having an injury selected, one gets access to the left panel.\n\n<size=36><b>2.2
     Left Panel\r</b><size=32>\n\nThe panel header shows the injury ID, an input field
     for its name, and a <b>DELETE</b> button that lets one remove the injury.\n<b>NOTE:
-    If one does not write a custom name, the injury will display \"Wound (ID)\" in
+    If one does not write a custom name, the injury will display \"Injury (ID)\" in
     the presentation mode.</b>\n\nThe are two buttons underneath the header: <b>CHANGE
     POSE</b> will give one the option to either choose a pose from our presets or
     pose the model directly. <b>PLACE CAMERA</b> saves the current camera position
     so it can be used during the presentation.\n\nUnderneath, one finds three options:
-    <b>Wound Type</b>, <b>Position</b> and <b>Injury Model</b>. By pressing the <b>CHANGE</b>
+    <b>Injury Type</b>, <b>Position</b> and <b>Injury Model</b>. By pressing the <b>CHANGE</b>
     button on any of these, one will be presented with an appropriate panel. \n\nIn
-    the <b>Wound Type Panel</b>, one can change the type of wound. If one is not certain,
-    or if the type of wound isn't supported, one can use the <b>UNDEFINED</b> wound
-    type.\n\nIn the <b>Position Panel</b>, one is able to place the injury on the
-    body. The <b>DONE</b> button is enabled once the injury marker has been placed.\n\nThe
-    <b>Injury Model Panel</b> lets one customize the injury model. Here, one can change
-    the injury model, toggle the model, rotate the model and change its color. <b>NOTE:
-    the CHANGE button is enabled once the injury has been placed on the model.</b>\n\nUnderneath
-    these are the <b>IMAGE TOOL</b> and the <b>TEXT TOOL</b>. If one should need to
-    complement an injury with text or some images, one can use these. Text and images
-    added will be viewable during the presentation mode. <b>NOTE: To add multiple
-    images, one should navigate to the right in order to find the  ADD BUTTON once
-    more.</b>\n\n<b>2.3 Screenshot\r</b>\n\nAt the upper left corner, one finds a
-    green <b>SCREENSHOT</b> button. Pressing this button generates a screenshot that
-    also excludes all the menues from the image. <b>NOTE: To specify where the screenshots
-    should be saved, one can set this in the SETTINGS menu.</b>\n\n\n<size=48><b>3.
-    Presentation Mode</b><size=32>\r\n\n<size=36><b>3.1 Left Panel</b><size=32>\n\nThe
-    left panel holds the images and text added to the injuries. <i>If one presses
-    the image, it will be shown in full screen</i>. One is also presented with two
-    buttons: <b>FOCUS CAMERA</b>, that lets one go to the camera position saved, and
-    <b>HIDE PANEL</b>, that hides the left panel. \n<b>NOTE: When the panel is hidden,
-    a button will be presented that shows the panel again. The panel will also be
-    hidden if no injury has been selected.</b>"
+    the <b>Injury Type Panel</b>, one can change the type of injury. If one is not
+    certain, or if the type of injury isn't supported, one can use the <b>UNDEFINED</b>
+    injury type.\n\nIn the <b>Position Panel</b>, one is able to place the injury
+    on the body. The <b>DONE</b> button is enabled once the injury marker has been
+    placed.\n\nThe <b>Injury Model Panel</b> lets one customize the injury model.
+    Here, one can change the injury model, toggle the model, rotate the model and
+    change its color. <b>NOTE: the CHANGE button is enabled once the injury has been
+    placed on the model.</b>\n\nUnderneath these are the <b>IMAGE TOOL</b> and the
+    <b>TEXT TOOL</b>. If one should need to complement an injury with text or some
+    images, one can use these. Text and images added will be viewable during the presentation
+    mode. <b>NOTE: To add multiple images, one should navigate to the right in order
+    to find the  ADD BUTTON once more.</b>\n\n<b>2.3 Screenshot\r</b>\n\nAt the upper
+    left corner, one finds a green <b>SCREENSHOT</b> button. Pressing this button
+    generates a screenshot that also excludes all the menues from the image. <b>NOTE:
+    To specify where the screenshots should be saved, one can set this in the SETTINGS
+    menu.</b>\n\n\n<size=48><b>3. Presentation Mode</b><size=32>\r\n\n<size=36><b>3.1
+    Left Panel</b><size=32>\n\nThe left panel holds the images and text added to the
+    injuries. <i>If one presses the image, it will be shown in full screen</i>. One
+    is also presented with two buttons: <b>FOCUS CAMERA</b>, that lets one go to the
+    camera position saved, and <b>HIDE PANEL</b>, that hides the left panel. \n<b>NOTE:
+    When the panel is hidden, a button will be presented that shows the panel again.
+    The panel will also be hidden if no injury has been selected.</b>"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c32f9d644e12a20498c4b960d7e06e81, type: 2}
   m_sharedMaterial: {fileID: -6451145674734276475, guid: c32f9d644e12a20498c4b960d7e06e81,
