@@ -112,6 +112,27 @@ public class ImagesHandler : MonoBehaviour
             ShowImage(activeIndex - 1);
         }
     }
+    // Returns the next image and shows it
+    public InjuryImage NextImage()
+    {
+        if(activeIndex < images.Count - 1)
+        {
+            ShowImage(activeIndex + 1);
+            return images[activeIndex];
+        }
+        return images[activeIndex];
+    }
+
+    // Returns the previous image and shows it
+    public InjuryImage PrevImage()
+    {
+        if(activeIndex >= 1)
+        {
+            ShowImage(activeIndex - 1);
+            return images[activeIndex];
+        }
+        return images[activeIndex];
+    }
 
     // Make the image with the index from input visible and the rest invisible
     private void ShowImage(int index)

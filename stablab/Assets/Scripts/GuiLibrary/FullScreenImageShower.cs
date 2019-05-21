@@ -14,6 +14,10 @@ public class FullScreenImageShower : MonoBehaviour
     public  DarkenScreen                darkenScreen;
     private UnityEngine.UI.RawImage     image;
     private Vector2                     screenSize;
+    public static bool showingFullscreen = false;
+
+    [SerializeField] private GameObject ImagesHandlerObj;
+    private ImagesHandler ImagesHandler;
     
     private void Awake()
     {
@@ -28,7 +32,6 @@ public class FullScreenImageShower : MonoBehaviour
             Destroy(instance.gameObject);
             instance   = this;
         }
-
         DontDestroyOnLoad(this);
     }
 
@@ -36,11 +39,28 @@ public class FullScreenImageShower : MonoBehaviour
     void Start()
     {
         screenSize = new Vector2(Screen.currentResolution.width, Screen.currentResolution.height);
+        ImagesHandler = ImagesHandlerObj.GetComponent<ImagesHandler>();
+    }
+
+    void Update() {
+        if (showingFullscreen) {
+            if (Input.GetKeyDown(KeyCode.RightArrow)) {
+                Debug.Log("Right");
+                hide();
+                show(ImagesHandler.NextImage());
+            }
+            else if (Input.GetKeyDown(KeyCode.LeftArrow)) {
+                hide();
+                show(ImagesHandler.PrevImage());
+            }
+        }
     }
     
     // When this method gets called, it shows the incoming image in full screen.
     public void show(UnityEngine.UI.RawImage image)
     {
+        ArrowKeysToggler.DeactivateArrowKeys = true;
+        showingFullscreen = true;
         float ratio = image.texture.width / (float)image.texture.height;
         float w, h;
 
@@ -70,6 +90,8 @@ public class FullScreenImageShower : MonoBehaviour
     // When called, this method hides the image (destroys it).
     public void hide()
     {
+        ArrowKeysToggler.DeactivateArrowKeys = false;
+        showingFullscreen = false;
         Destroy(image.gameObject);
         image = null;
     }

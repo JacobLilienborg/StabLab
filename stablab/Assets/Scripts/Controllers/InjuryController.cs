@@ -194,7 +194,7 @@ public class InjuryController : MonoBehaviour
 
     public void FetchPose()
     {
-        if(injuryData.poseData.Count == 0) return;
+        if(injuryData.poseData.Count == 0) return;  
         Transform[] bones = ModelManager.instance.activeModel.skeleton.GetComponentsInChildren<Transform>();
         int i = 0;
         foreach (Transform bone in bones)

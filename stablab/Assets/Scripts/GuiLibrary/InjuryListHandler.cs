@@ -74,7 +74,7 @@ public class InjuryListHandler : MonoBehaviour
             res.y = Screen.height;
         }
 
-        if (!MouseClick.FieldPressed)
+        if (!ArrowKeysToggler.DeactivateArrowKeys)
         {
 
             if (Input.GetKeyDown(KeyCode.RightArrow))
