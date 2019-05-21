@@ -11049,7 +11049,7 @@ MonoBehaviour:
   m_text: "\n<size=48><b>Welcome to CorpViz\r</b><size=32>\n\nThis short guide will
     go through the basics of CorpViz. Aspects of the program will be discussed in
     order of appearance, so if one should not find an explanation, one should look
-    for it in previous chapters.\n\n\n<size=48><b> 1. Character Creation Mode\r</b><size=32>\n\nThis
+    for it in previous chapters.\n\n\n<size=48><b> 1. Creation Mode\r</b><size=32>\n\nThis
     mode is presented to the user after creating a new project. In this mode, one
     can both choose a model and customize it.\n\n<size=36><b>1.1 Left Panel\r</b><size=32>\n\nCorpViz
     has three different base models to choose from: <b>MAN</b>, <b>WOMAN</b> and <b>CHILD</b>.
@@ -11061,15 +11061,15 @@ MonoBehaviour:
     each other, so try them both out in order to find a satisfactory value.\n\nAt
     the bottom of the panel, one finds the button <b>DONE</b>. <i>This button is disabled
     until both the base model and the height has been set</i>. When this has been
-    done, one can press the button to continue to Injury Mode.\n<b>NOTE: After one
-    has gone to InjuryMode, the model can no longer be changed. Therefore, make sure
-    that all the settings are satisfactory before going forward.</b>\n\n<size=36><b>1.2
+    done, one can press the button to continue to edit mode.\n<b>NOTE: After one has
+    gone to edit mode, the model can no longer be changed. Therefore, make sure that
+    all the settings are satisfactory before going forward.</b>\n\n<size=36><b>1.2
     Camera Buttons\r</b><size=32>\n\nIn the bottom right corner, one finds the camera
     buttons. These can be used to move the camera freely in our 3D space. If one finds
     themselves lost, or if they cannot find the model, press the <b>RESET</b> button
     to reset the camera to its default position.\n<b>NOTE: If the camera buttons feel
     unintuitive, one can invert their direction in the SETTINGS menu, found in the
-    top left corner (the wrench).</b>\n\n\n<size=48><b>2. Injury Mode\r</b><size=32>\n\nThis
+    top left corner (the wrench).</b>\n\n\n<size=48><b>2. Edit Mode\r</b><size=32>\n\nThis
     mode is where one can add and edit all the injuries.\n\n<size=36><b>2.1 Injury
     Bar\r</b><size=32>\n\nAt the lower end of the screen, one finds the injury bar.
     This bar has many functions. One can create a new injury with the green <b>ADD
@@ -14034,7 +14034,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1767170784}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 10, z: -50}
+  m_LocalPosition: {x: 0, y: 8, z: -20}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
