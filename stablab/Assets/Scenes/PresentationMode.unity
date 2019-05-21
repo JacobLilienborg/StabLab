@@ -2898,7 +2898,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41fb2b6edb9a9ee4abab3e61fea3e970, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  description: Show left panel
+  description: Show info panel
 --- !u!1 &790441550
 GameObject:
   m_ObjectHideFlags: 0
@@ -5419,7 +5419,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41fb2b6edb9a9ee4abab3e61fea3e970, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  description: Hide left panel
+  description: Hide info panel
 --- !u!224 &1263115313 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 86978308347178351, guid: 0d9fe5185ac5149429604590d377ff6f,
@@ -7332,7 +7332,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41fb2b6edb9a9ee4abab3e61fea3e970, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  description: Reset camera to saved position
+  description: Go to saved camera placement
 --- !u!114 &1955936350 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 937916518367231478, guid: 18d6c23b18960e74a932c7ddb1f72a03,
