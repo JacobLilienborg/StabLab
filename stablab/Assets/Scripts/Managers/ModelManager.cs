@@ -51,7 +51,6 @@ public class ModelManager : MonoBehaviour
     {
         if(scene.name == "InjuryMode")
         {
-            Debug.Log(scene.name);
             activeModel.BakeMesh();
         }
     }

@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class InjuryStats : MonoBehaviour
 {
 
-    public Text index;
-    public Text injuryName;
-    public Text woundType;
+    public TMP_Text index;
+    public TMP_Text injuryName;
+    public TMP_Text woundType;
 
     private void Update()
     {

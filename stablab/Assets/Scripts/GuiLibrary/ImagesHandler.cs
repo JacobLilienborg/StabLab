@@ -65,6 +65,9 @@ public class ImagesHandler : MonoBehaviour
     // Load an image in to the UI in the right position.
     private void LoadImage(int index)
     {
+        if (index == -1)
+            return;
+
         Texture2D imgTexture = new Texture2D(2, 2);
         imgTexture.LoadImage(InjuryManager.instance.activeInjury.injuryData.images[index]);
         imgTexture.Compress(false);
