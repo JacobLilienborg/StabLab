@@ -26,7 +26,7 @@ public class InjuryController : MonoBehaviour
         onClick.AddListener(InjuryManager.instance.ActivateInjury);
         gizmo = Camera.main.GetComponent<RuntimeGizmos.TransformGizmo>();
         // This is kind of ugly fixes since we don't have default value on everything
-        UpdateData(); 
+        UpdateData();
     }
 
     // Update is called once per frame
@@ -40,13 +40,13 @@ public class InjuryController : MonoBehaviour
             if (Physics.Raycast(ray, out hit))
             {
                 // The marker was hit
-                if (markerObj && weaponObj && 
-                (hit.collider == markerObj.GetComponent<Collider>() || 
+                if (markerObj && weaponObj &&
+                (hit.collider == markerObj.GetComponent<Collider>() ||
                  hit.collider == weaponObj.GetComponent<Collider>()))
                 {
                     onClick.Invoke(this);
                 }
-                
+
             }
         }
     }
@@ -141,10 +141,10 @@ public class InjuryController : MonoBehaviour
         Transform[] bones = ModelManager.instance.activeModel.skeleton.GetComponentsInChildren<Transform>();
         foreach (Transform bone in bones)
         {
-            if(bone.tag != "Injury") injuryData.poseData.Add(new TransformData(bone));   
+            if(bone.tag != "Injury") injuryData.poseData.Add(new TransformData(bone));
         }
 
-        if(!markerObj || !weaponObj) return; 
+        if(!markerObj || !weaponObj) return;
         injuryData.markerData.transformData.position = markerObj.transform.position;
         injuryData.markerData.transformData.rotation = markerObj.transform.rotation;
         injuryData.markerData.isModified = true;
@@ -152,6 +152,7 @@ public class InjuryController : MonoBehaviour
         injuryData.weaponData.transformData.position = weaponObj.transform.position;
         injuryData.weaponData.transformData.rotation = weaponObj.transform.rotation;
         injuryData.weaponData.color = weaponObj.GetComponentInChildren<MeshRenderer>().material.color;
+        InjuryManager.instance.OnChange.Invoke();
         injuryData.weaponData.isModified = true;
     }
 
@@ -185,6 +186,7 @@ public class InjuryController : MonoBehaviour
 
         weaponObj.GetComponentInChildren<MeshRenderer>().material.color = injuryData.weaponData.color;
         positionResetEvent.Invoke();
+        InjuryManager.instance.OnChange.Invoke();
     }
 
     public Texture GetIcon()
@@ -195,5 +197,40 @@ public class InjuryController : MonoBehaviour
     public bool HasMarker()
     {
         return markerObj;
+    }
+
+    public void AddImage(byte[] bytes)
+    {
+        injuryData.images.Add(bytes);
+    }
+
+    public byte[] GetImage(int index)
+    {
+        return injuryData.images[index];
+    }
+
+    public void SetText(string text)
+    {
+        injuryData.infoText = text;
+    }
+
+    public string GetText()
+    {
+        return injuryData.infoText;
+    }
+
+    public void SetName(string name)
+    {
+        injuryData.name = name;
+    }
+
+    public string GetBoneName()
+    {
+        return injuryData.boneName;
+    }
+
+    public Color GetColor()
+    {
+        return injuryData.weaponData.color;
     }
 }
