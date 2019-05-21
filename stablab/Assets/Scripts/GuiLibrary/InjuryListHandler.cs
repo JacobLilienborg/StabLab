@@ -74,14 +74,19 @@ public class InjuryListHandler : MonoBehaviour
             res.y = Screen.height;
         }
 
-        if (Input.GetKeyDown(KeyCode.RightArrow))
+        if (!MouseClick.FieldPressed)
         {
-            GoToNext();
-        }
 
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            GoToPrevious();
+            if (Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                GoToNext();
+            }
+
+            else if (Input.GetKeyDown(KeyCode.LeftArrow))
+            {
+                GoToPrevious();
+            }
+
         }
 
     }
