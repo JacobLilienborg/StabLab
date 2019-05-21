@@ -36,6 +36,12 @@ public class GuiManager : MonoBehaviour
         }
     }
 
+    public void ChangeColor(Image colorImage)
+    {
+        if (colorImage != null)
+            InjuryManager.instance.activeInjury.SetColor(colorImage.color);
+    }
+
     public void ToggleWeaponGizmo(bool active)
     {
         if (active)
@@ -60,6 +66,11 @@ public class GuiManager : MonoBehaviour
     public void RevertInjury()
     {
         InjuryManager.instance.activeInjury.RevertData();
+    }
+
+    public void Save()
+    {
+        DataManager.instance.Save();
     }
 
     public void SetActiveModel(int type)

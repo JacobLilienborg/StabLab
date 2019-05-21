@@ -25,6 +25,8 @@ public class InjuryController : MonoBehaviour
     {
         //onClick.AddListener(InjuryManager.instance.ActivateInjury);
         gizmo = Camera.main.GetComponent<RuntimeGizmos.TransformGizmo>();
+        // This is kind of ugly fixes since we don't have default value on everything
+        UpdateData();
     }
 
     // Update is called once per frame
@@ -61,6 +63,7 @@ public class InjuryController : MonoBehaviour
                 Quaternion.identity);
             markerObj.transform.SetParent(bone
             );
+            markerObj.tag = "Injury";
 
             weaponObj = Instantiate((GameObject)Resources.Load(
                 injuryData.weaponData.prefabName),
@@ -68,6 +71,8 @@ public class InjuryController : MonoBehaviour
                 Quaternion.identity
             );
             weaponObj.transform.SetParent(bone);
+            weaponObj.tag = "Injury";
+            weaponObj.transform.GetChild(0).tag = "Injury";
         }
         else
         {
@@ -102,6 +107,7 @@ public class InjuryController : MonoBehaviour
 
     public void RemoveGizmo()
     {
+        if (!gizmo) return;
         gizmo.ClearTargets();
     }
 
@@ -129,26 +135,53 @@ public class InjuryController : MonoBehaviour
 
     public void UpdateData()
     {
+        injuryData.poseData.Clear();
         Transform[] bones = ModelManager.instance.activeModel.skeleton.GetComponentsInChildren<Transform>();
-        Array.ForEach(bones, bone => injuryData.poseData.Add(new TransformData(bone)));
+        foreach (Transform bone in bones)
+        {
+            if(bone.tag != "Injury") injuryData.poseData.Add(new TransformData(bone));
+        }
 
-        if(!markerObj || !weaponObj) return; 
+        if(!markerObj || !weaponObj) return;
         injuryData.markerData.transformData.position = markerObj.transform.position;
         injuryData.markerData.transformData.rotation = markerObj.transform.rotation;
         injuryData.boneName = markerObj.transform.parent.name;
+        injuryData.markerData.isModified = true;
 
         injuryData.weaponData.transformData.position = weaponObj.transform.position;
         injuryData.weaponData.transformData.rotation = weaponObj.transform.rotation;
         injuryData.weaponData.color = weaponObj.GetComponentInChildren<MeshRenderer>().material.color;
+        injuryData.weaponData.isModified = true;
     }
 
     public void RevertData()
     {
+        Transform[] bones = ModelManager.instance.activeModel.skeleton.GetComponentsInChildren<Transform>();
+        List<Transform> temp = new List<Transform>();
+        int i = 0;
+        foreach (Transform bone in bones)
+        {
+            if(bone.tag != "Injury")
+            {
+                bone.position = injuryData.poseData[i].position;
+                bone.rotation = injuryData.poseData[i].rotation;
+                i++;
+            }
+        }
+
+        if (!markerObj || !weaponObj) return;
+        if(!injuryData.markerData.isModified || !injuryData.weaponData.isModified)
+        {
+            Destroy(markerObj);
+            Destroy(weaponObj);
+            return;
+        }
         markerObj.transform.position = injuryData.markerData.transformData.position;
         markerObj.transform.rotation = injuryData.markerData.transformData.rotation;
 
         weaponObj.transform.position = injuryData.weaponData.transformData.position;
         weaponObj.transform.rotation = injuryData.weaponData.transformData.rotation;
+
         weaponObj.GetComponentInChildren<MeshRenderer>().material.color = injuryData.weaponData.color;
         positionResetEvent.Invoke();
     }

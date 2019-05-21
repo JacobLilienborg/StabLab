@@ -38,11 +38,13 @@ public class ModelController : MonoBehaviour
         }
     }
 
-    void Start()
+    void Awake()
     {
         gizmo = Camera.main.GetComponent<RuntimeGizmos.TransformGizmo>();
         meshCollider = GetComponentInChildren<MeshCollider>();
         smr = GetComponentInChildren<SkinnedMeshRenderer>();
+
+        Debug.Log("ModelController Start");
     }
 
     void Update(){

@@ -54,12 +54,6 @@ public class ProjectManager : MonoBehaviour
         }
         else 
         {
-            if(SceneManager.GetActiveScene().name == "InjuryMode") 
-            {
-                Destroy(InjuryManager.instance.gameObject);
-                Destroy(ModelManager.instance.gameObject);
-            }
-
             SceneManager.LoadScene("InjuryMode");
             ModelManager.instance.LoadModel(currentProject.modelData);
             InjuryManager.instance.LoadInjuries(currentProject.injuryData);

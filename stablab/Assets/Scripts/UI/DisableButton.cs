@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 public enum ButtonType
 {
-    typeButton, positionButton, modelButton, colorButton
+    typeButton, positionButton, modelButton
 };
 
 [System.Serializable]
@@ -21,8 +21,7 @@ public class DisableButton : MonoBehaviour
 
     public Button positionButton;
     public Button modelButton;
-    public Button colorButton;
-
+    
     public Slider weightSlider;
     public Slider muscleSlider;
     public InputField heightInput;
@@ -39,8 +38,7 @@ public class DisableButton : MonoBehaviour
     private ButtonEvent typeEvent = new ButtonEvent();
     private UnityEvent positionEvent = new UnityEvent();
     private ButtonEvent modelEvent = new ButtonEvent();
-    private ButtonEvent colorEvent = new ButtonEvent();
-
+    
     private void Start()
     {
         ModelManager.instance.heightChangedEvent.AddListener(HeightChanged);
@@ -50,7 +48,6 @@ public class DisableButton : MonoBehaviour
         if (SceneManager.GetActiveScene().name == "InjuryMode")
             /*Only in injuryMode */
         {
-            standardDisabled.Add(colorButton);
             standardDisabled.Add(modelButton);
             standardDisabled.Add(positionDoneButton);
             positionDoneButton.onClick.AddListener(OnPositionSet);
@@ -110,7 +107,6 @@ public class DisableButton : MonoBehaviour
     private void OnPositionSet()
     {
         ShowButton(modelButton);
-        ShowButton(colorButton);
     }
 
     private void PositionConfirmEnable()

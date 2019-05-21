@@ -27,11 +27,11 @@ public class DataManager : MonoBehaviour
         }
         else if (instance != this)
         {
-            workingDirectory = instance.workingDirectory;
-            Destroy(instance.gameObject);
-            instance = this;
+            Destroy(gameObject);
         }
-        DontDestroyOnLoad(this);
+
+        //Don't destroy when reloading scene
+        DontDestroyOnLoad(gameObject);
 
 
         applicationData = LoadApplicationData();
@@ -108,13 +108,13 @@ public class DataManager : MonoBehaviour
     {
         SaveProject();
         FileManager.Save(Settings.data, Settings.data.GetPath());
+        Debug.Log(applicationData.directory);
         FileManager.Save(applicationData, applicationData.GetPath());
     }
 
     public void SaveProject()
     {
         ProjectManager.instance.SetProjectData();
-        FileManager.Save(applicationData, applicationData.GetPath());
         FileManager.Save(ProjectManager.instance.currentProject, ProjectManager.instance.currentProject.GetPath());
     }
 
@@ -126,7 +126,7 @@ public class DataManager : MonoBehaviour
         }
         applicationData.recentProjects.Insert(0, proj.GetPath());
         applicationData.recentWorkingDirectory = proj.directory;
-        FileManager.Save(applicationData, applicationData.GetPath());
+        //FileManager.Save(applicationData, applicationData.GetPath());
     }
 
 }

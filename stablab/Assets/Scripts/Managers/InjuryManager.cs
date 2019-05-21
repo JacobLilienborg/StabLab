@@ -1,4 +1,4 @@
-﻿﻿using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEngine.Events;
@@ -20,8 +20,8 @@ public enum InjuryType
  * It allso takes care of wich injury, if any, is the currently active injury.
  */
 
-[System.Serializable] public class InjuryEvent : UnityEvent<InjuryController>{}
-[System.Serializable] public class IndexEvent : UnityEvent<int>{}
+[System.Serializable] public class InjuryEvent : UnityEvent<InjuryController> { }
+[System.Serializable] public class IndexEvent : UnityEvent<int> { }
 
 public class InjuryManager : MonoBehaviour
 {
@@ -111,7 +111,7 @@ public class InjuryManager : MonoBehaviour
     // Remove the currently active injury
     public void RemoveInjury()
     {
-        if(!activeInjury) return;
+        if (!activeInjury) return;
         GameObject go = activeInjury.gameObject;
         Destroy(go);
         injuries.Remove(activeInjury);
@@ -130,7 +130,7 @@ public class InjuryManager : MonoBehaviour
     {
         if (index != -1)
         {
-            if(activeInjury) activeInjury.ToggleWeapon(false);
+            if (activeInjury) activeInjury.ToggleWeapon(false);
             activeInjury = injuries[index];
             InjuryActivationEvent.Invoke(activeInjury);
             IndexActivationEvent.Invoke(index);
@@ -149,7 +149,7 @@ public class InjuryManager : MonoBehaviour
     {
         if (index != -1)
         {
-            if(activeInjury) activeInjury.ToggleWeapon(false);
+            if (activeInjury) activeInjury.ToggleWeapon(false);
             InjuryDeactivationEvent.Invoke(activeInjury);
             IndexDeactivationEvent.Invoke(index);
             DeactivationEvent.Invoke();
@@ -174,12 +174,17 @@ public class InjuryManager : MonoBehaviour
     // Load all injuries from the list in to the scene.
     public void LoadInjuries(List<InjuryData> injuryDatas)
     {
+        if (injuryDatas == null || injuryDatas.Count == 0) return;
         foreach (InjuryData data in injuryDatas)
         {
-            Transform boneParent = GameObject.Find(data.boneName).transform;
             InjuryController injury = CreateInjury(data);
-            injury.PlaceInjury(data.markerData.transformData.position, boneParent);
-            injury.UpdateData();
+
+            if (!string.IsNullOrEmpty(data.boneName))
+            {
+                Transform boneParent = GameObject.Find(data.boneName).transform;
+                injury.PlaceInjury(data.markerData.transformData.position, boneParent);
+                injury.RevertData();
+            }
         }
     }
 
