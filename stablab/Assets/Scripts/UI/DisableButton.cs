@@ -41,9 +41,12 @@ public class DisableButton : MonoBehaviour
     
     private void Start()
     {
-        ModelManager.instance.heightChangedEvent.AddListener(HeightChanged);
-        ModelManager.instance.modelEnabledEvent.AddListener(OnModelActive);
-        ModelManager.instance.modelDisabledEvent.AddListener(OnModelInActive);
+        if(SceneManager.GetActiveScene().name == "CharacterMode")
+        {
+            ModelManager.instance.heightChangedEvent.AddListener(HeightChanged);
+            ModelManager.instance.modelEnabledEvent.AddListener(OnModelActive);
+            ModelManager.instance.modelDisabledEvent.AddListener(OnModelInActive);
+        }
 
         if (SceneManager.GetActiveScene().name == "InjuryMode")
             /*Only in injuryMode */

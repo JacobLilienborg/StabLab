@@ -14,7 +14,7 @@ public class ProjectFile : Savable
     private DateTime saved;
 
     public List<InjuryData> injuryData;
-    public ModelData modelData;
+    public ModelData modelData = null;
 
 
 

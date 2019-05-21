@@ -18,7 +18,8 @@ public class ModelManager : MonoBehaviour
     public UnityEvent modelDisabledEvent = new UnityEvent();
     public UnityEvent heightChangedEvent = new UnityEvent();
 
-    public ModelData modelData = new ModelData();
+    public ModelData modelData = null;
+    private int activeModelType;
 
     void Start()
     {
@@ -103,21 +104,20 @@ public class ModelManager : MonoBehaviour
                 modelDisabledEvent.Invoke();
                 break;
         }
-        modelData.type = type;
+
+        activeModelType = type;
     }
 
     public void AdjustWeight(Slider slider)
     {
         if (activeModel == null) return;
         activeModel.weight = slider.value;
-        modelData.weight = slider.value;
     }
 
     public void AdjustMuscles(Slider slider)
     {
         if (activeModel == null) return;
         activeModel.muscles = slider.value;
-        modelData.muscles = slider.value;
     }
     public void AdjustHeight(InputField height)
     {
@@ -128,12 +128,23 @@ public class ModelManager : MonoBehaviour
         try
         {
             activeModel.height = System.Int32.Parse(height.text);
-            modelData.height = activeModel.height;
         }
         catch (System.FormatException)
         {
             activeModel.height = 0;
         }
         heightChangedEvent.Invoke();
+    }
+
+    public void CreateModelData()
+    {
+        modelData = new ModelData
+        {
+            type = activeModelType,
+            height = activeModel.height,
+            weight = activeModel.weight,
+            muscles = activeModel.muscles,
+            isModified = true
+        };
     }
 }

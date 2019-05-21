@@ -73,4 +73,9 @@ public class GuiManager : MonoBehaviour
     public void AdjustWeight(Slider slider){ ModelManager.instance.AdjustWeight(slider);}
     public void AdjustMuscles(Slider slider){ ModelManager.instance.AdjustMuscles(slider); }
     public void AdjustHeight(InputField height){ ModelManager.instance.AdjustHeight(height); }
+    public void CreateModelData() 
+    { 
+        ModelManager.instance.CreateModelData();
+        DataManager.instance.SaveProject();
+    }
 }

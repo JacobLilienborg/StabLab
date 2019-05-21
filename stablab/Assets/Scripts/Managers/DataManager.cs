@@ -15,7 +15,7 @@ public class DataManager : MonoBehaviour
     public static DataManager instance;
     private string workingDirectory;                // A string of where to save the files
     private AppDataFile applicationData;
-    //private SettingsFile settings;
+    private SettingsFile settingsFile;
 
     // Start is called before the first frame update
     private void Awake()
@@ -33,8 +33,8 @@ public class DataManager : MonoBehaviour
         //Don't destroy when reloading scene
         DontDestroyOnLoad(gameObject);
 
-
         applicationData = LoadApplicationData();
+        settingsFile = LoadSettings();
     }
 
     public string GetWorkingDirectory()
@@ -107,9 +107,17 @@ public class DataManager : MonoBehaviour
     public void Save()
     {
         SaveProject();
-        FileManager.Save(Settings.data, Settings.data.GetPath());
-        Debug.Log(applicationData.directory);
+        SaveSettings();
         FileManager.Save(applicationData, applicationData.GetPath());
+    }
+
+    public void SaveSettings() 
+    {
+        if(Settings.data != null) 
+        {
+            settingsFile = Settings.data;
+        }
+        FileManager.Save(settingsFile, settingsFile.GetPath());
     }
 
     public void SaveProject()
@@ -117,7 +125,7 @@ public class DataManager : MonoBehaviour
         ProjectManager.instance.SetProjectData();
         FileManager.Save(ProjectManager.instance.currentProject, ProjectManager.instance.currentProject.GetPath());
     }
-
+    
     public void AddToRecent(ProjectFile proj)
     {
         if (applicationData.recentProjects.Contains(proj.GetPath()))

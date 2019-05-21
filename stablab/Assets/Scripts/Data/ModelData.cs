@@ -9,4 +9,6 @@ public class ModelData
     public float muscles;
     public float weight;
     public int height;
+
+    public bool isModified = false;
 }

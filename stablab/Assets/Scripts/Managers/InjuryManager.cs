@@ -162,7 +162,7 @@ public class InjuryManager : MonoBehaviour
     }
     public void DeactivateInjury(InjuryController injury)
     {
-        DeactivateInjury(injuries.FindIndex(x => x == injuryController));
+        DeactivateInjury(injuries.FindIndex(x => x == injury));
     }
 
     // Change order of injuri in the list.
@@ -179,23 +179,26 @@ public class InjuryManager : MonoBehaviour
     {
         foreach(InjuryController injury in injuries) 
         {
-            Destroy(injury);
+            Destroy(injury.gameObject);
         }
+        injuries.Clear();
 
         if (injuryDatas == null) return;
         foreach (InjuryData data in injuryDatas)
         {
-            InjuryController injury = CreateInjury(data);
+            CreateInjury(data);
 
             if (!string.IsNullOrEmpty(data.boneName))
             {
                 Transform boneParent = GameObject.Find(data.boneName).transform;
-                injury.PlaceInjury(data.markerData.transformData.position, boneParent);
-                injury.FetchCamera();
-                injury.FetchPose();
-                injury.FetchMarkerWeapon();
+                activeInjury.PlaceInjury(data.markerData.transformData.position, boneParent);
+                activeInjury.FetchCamera();
+                activeInjury.FetchPose();
+                activeInjury.FetchMarkerWeapon();
             }
         }
+
+        OnChange.Invoke();
     }
 
     // Load all injuries from the list in to the scene.

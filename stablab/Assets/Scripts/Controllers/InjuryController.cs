@@ -59,6 +59,8 @@ public class InjuryController : MonoBehaviour
         }
         if (!markerObj || !weaponObj)
         {
+            Debug.Log("------>   PlaceInjury");
+
             markerObj = Instantiate((GameObject)Resources.Load(
                 injuryData.markerData.prefabName),
                 point,
@@ -277,7 +279,11 @@ public class InjuryController : MonoBehaviour
 
     private void OnDestroy()
     {
-        Destroy(markerObj);
+        //Debug.Log("---->  destroyyyy");
+       /* Destroy(markerObj);
         Destroy(weaponObj);
+        markerObj = null;
+        weaponObj = null;
+        */       
     }
 }

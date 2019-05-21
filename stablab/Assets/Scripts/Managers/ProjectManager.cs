@@ -48,15 +48,15 @@ public class ProjectManager : MonoBehaviour
     public void Open(ProjectFile proj)
     {
         currentProject = proj;
-        if(proj.modelData == null) 
+        if(!proj.modelData.isModified) 
         {
             SceneManager.LoadScene("CharacterMode");
         }
         else 
         {
-            ModelManager.instance.LoadModel(currentProject.modelData);
-            InjuryManager.instance.LoadInjuries(currentProject.injuryData);
             SceneManager.LoadScene("InjuryMode");
+            //ModelManager.instance.LoadModel(currentProject.modelData);
+            //InjuryManager.instance.LoadInjuries(currentProject.injuryData);
         }
     }
 

@@ -299,13 +299,13 @@ public class InjuryListHandler : MonoBehaviour
     public void UpdateList()
     {
         // There exists more injuries that we can add to our list
-        if(InjuryManager.instance.injuries.Count > injuryButtons.Count &&
+        while(InjuryManager.instance.injuries.Count > injuryButtons.Count &&
             injuryButtons.Count < totalButtonAmount)
         {
             AddButton();
         }
         // We have fewer injuries than buttons
-        else if(InjuryManager.instance.injuries.Count < injuryButtons.Count)
+        while(InjuryManager.instance.injuries.Count < injuryButtons.Count)
         {
             RemoveButton();
         }
