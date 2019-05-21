@@ -143,6 +143,7 @@ public class InjuryController : MonoBehaviour
 
     public void RevertData()
     {
+        if (!markerObj || !weaponObj) return;
         markerObj.transform.position = injuryData.markerData.transformData.position;
         markerObj.transform.rotation = injuryData.markerData.transformData.rotation;
 
