@@ -6,6 +6,7 @@ public class CameraData
 {
     public TransformData transformData;
     public float fieldOfView;
+    public bool isModified = false;
 }
 
 [Serializable]
@@ -15,6 +16,7 @@ public class WeaponData
     private float[] _color = new float[4];
     public string resourcePath;
     public string prefabName;
+    public bool isModified = false;
     public UnityEngine.Vector4 color
     {
         get
@@ -34,6 +36,7 @@ public class MarkerData
     public TransformData transformData = new TransformData();
     public string prefabName;
     public string iconName;
+    public bool isModified = false;
 }
 
 

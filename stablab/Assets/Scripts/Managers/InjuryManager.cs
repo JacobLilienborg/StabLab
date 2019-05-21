@@ -130,7 +130,7 @@ public class InjuryManager : MonoBehaviour
     // Sets the active injury by index.
     public void ActivateInjury(int index)
     {
-        if (index != -1)
+        if (index != -1 && activeInjury != injuries[index])
         {
             if(activeInjury) activeInjury.ToggleWeapon(false);
             activeInjury = injuries[index];
