@@ -2121,7 +2121,8 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 5980134751815299237, guid: a9c651aff43b90045a8857ac541eb8e8,
+          type: 3}
         m_MethodName: SetScreenshotPath
         m_Mode: 2
         m_Arguments:
@@ -13292,12 +13293,12 @@ PrefabInstance:
     - target: {fileID: 1960837530451289007, guid: e2f7b086a9333e54384fe03891f5ee5a,
         type: 3}
       propertyPath: OnChecked.m_PersistentCalls.m_Calls.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1960837530451289007, guid: e2f7b086a9333e54384fe03891f5ee5a,
         type: 3}
       propertyPath: OnUnchecked.m_PersistentCalls.m_Calls.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1960837530451289007, guid: e2f7b086a9333e54384fe03891f5ee5a,
         type: 3}
@@ -13323,7 +13324,7 @@ PrefabInstance:
     - target: {fileID: 1960837530451289007, guid: e2f7b086a9333e54384fe03891f5ee5a,
         type: 3}
       propertyPath: OnChecked.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetHeightTracking
+      value: SetInvertedButtons
       objectReference: {fileID: 0}
     - target: {fileID: 1960837530451289007, guid: e2f7b086a9333e54384fe03891f5ee5a,
         type: 3}
@@ -13377,7 +13378,7 @@ PrefabInstance:
     - target: {fileID: 1960837530451289007, guid: e2f7b086a9333e54384fe03891f5ee5a,
         type: 3}
       propertyPath: OnUnchecked.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetHeightTracking
+      value: SetInvertedButtons
       objectReference: {fileID: 0}
     - target: {fileID: 1960837530451289007, guid: e2f7b086a9333e54384fe03891f5ee5a,
         type: 3}
@@ -17655,7 +17656,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2077329987
 RectTransform:
   m_ObjectHideFlags: 0

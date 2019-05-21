@@ -58,7 +58,7 @@ public class GuiManager : MonoBehaviour
     {
         InjuryManager.instance.activeInjury.ToggleWeapon(active);
     }
-
+    
     public void UpdateInjury()
     {
         InjuryManager.instance.activeInjury.UpdateData();
