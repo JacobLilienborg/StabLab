@@ -1,10 +1,14 @@
 ﻿using UnityEngine;
 
-public class TransformData 
+public class TransformData
 {
     private float[] _position = new float[3];
     private float[] _rotation = new float[4];
-    public TransformData(){}
+   
+    public TransformData()
+    {
+        
+    }
     public TransformData(Transform data)
     {
         position = data.position;

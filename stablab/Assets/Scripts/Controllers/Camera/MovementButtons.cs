@@ -15,6 +15,8 @@ enum MOVEMENTTYPE {
 
 public class MovementButtons : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
+    private static bool  invertedControls = false;
+
     private Transform    target;
     public  int          directionNumber;
     public  int          typeNumber;
@@ -100,13 +102,21 @@ public class MovementButtons : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         if (move)
         {
             if ((MoveType == MOVEMENTTYPE.PAN))
-            {
-                target.Translate(direction * Time.deltaTime * speed * Camera.main.gameObject.GetComponent<CameraController>().fov / 10);
+            {   
+                if(!invertedControls)
+                    target.Translate(direction * Time.deltaTime * speed * Camera.main.gameObject.GetComponent<CameraController>().fov / 10);
+                else
+                    target.Translate(direction * -1 * Time.deltaTime * speed * Camera.main.gameObject.GetComponent<CameraController>().fov / 10);
             }
             else if (MoveType == MOVEMENTTYPE.ROTATE)
             {
                 if (direction == Vector3.up || direction == Vector3.down)
-                    target.RotateAround(Vector3.zero, direction, Time.deltaTime * rotationSpeed);
+                {
+                    if(!invertedControls)
+                       target.RotateAround(Vector3.zero, direction, Time.deltaTime * rotationSpeed);
+                    else
+                       target.RotateAround(Vector3.zero, direction * -1, Time.deltaTime * rotationSpeed);
+                }
                 else
                 {
                     //We change the rotationCenter to be the approximate middle of the model.
@@ -115,10 +125,10 @@ public class MovementButtons : MonoBehaviour, IPointerDownHandler, IPointerUpHan
                         0,
                         ModelManager.instance.activeModel.meshCollider.bounds.center.y * 5 / Camera.main.scaledPixelHeight
                     );
-                    if (direction == Vector3.right)
+                    if (direction == Vector3.right ^ invertedControls)
                         target.RotateAround(rotationCenter, target.right, Time.deltaTime * rotationSpeed);
                     else
-                        target.RotateAround(rotationCenter, target.right*-1, Time.deltaTime * rotationSpeed);
+                        target.RotateAround(rotationCenter, target.right * -1, Time.deltaTime * rotationSpeed);
                 }
             }
             else if (MoveType == MOVEMENTTYPE.ZOOM)
@@ -153,5 +163,10 @@ public class MovementButtons : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         Camera.main.fieldOfView = Camera.main.gameObject.GetComponent<CameraController>().stdFov;
     }
     
+    public static void InvertedControls(bool isReversed)
+    {
+        invertedControls = isReversed;
+    }
+
 }
 
