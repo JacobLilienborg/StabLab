@@ -100,7 +100,7 @@ public class InjuryListHandler : MonoBehaviour
         foreach (InjuryButton button in injuryButtons)
         {
             button.SetIndex(++rightMostIndex);
-            button.setImage(InjuryManager.instance.injuries[rightMostIndex].GetIcon());
+            button.setImage(InjuryManager.instance.injuries[button.index].GetIcon());
         }
 
         // Remove if we have to many buttons, add if to few and enable next button if there are more injuries available
@@ -119,6 +119,8 @@ public class InjuryListHandler : MonoBehaviour
                 break;
             }
         }
+
+        InjuryManager.instance.DeactivateInjury(InjuryManager.instance.activeInjury);
 
         CheckInteractability();
         
@@ -332,6 +334,7 @@ public class InjuryListHandler : MonoBehaviour
             }
             else
             {
+                Debug.Log("asd");
                 injuryButtons.Find(btn => btn.index == activeIndex).setImage(
                     InjuryManager.instance.activeInjury.GetIcon()
                 );

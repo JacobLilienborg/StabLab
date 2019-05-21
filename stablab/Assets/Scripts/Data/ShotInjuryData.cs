@@ -5,7 +5,7 @@
 public class ShotInjuryData : InjuryData
 {
     private const string MARKER_NAME =  "Markers/ShotMarker";
-    private const string ICON_NAME = "Markers/ShotIcon";
+    private const string ICON_NAME = "Icons/Shot";
 
     private const string WEAPON_NAME = "Models/Shot/shotModel";
     private const string WEAPON_PATH = "Models/Shot";

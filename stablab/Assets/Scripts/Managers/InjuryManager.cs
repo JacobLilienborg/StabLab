@@ -138,7 +138,7 @@ public class InjuryManager : MonoBehaviour
             InjuryActivationEvent.Invoke(activeInjury);
             IndexActivationEvent.Invoke(index);
             ActivationEvent.Invoke();
-            OnChange.Invoke();
+            activeInjury.RevertData();
         }
     }
 
