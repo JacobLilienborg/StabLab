@@ -67,6 +67,7 @@ public class InjuryController : MonoBehaviour
             markerObj.transform.SetParent(bone
             );
             markerObj.tag = "Injury";
+            markerObj.transform.GetChild(0).tag = "Injury";
 
             weaponObj = Instantiate((GameObject)Resources.Load(
                 injuryData.weaponData.prefabName),
