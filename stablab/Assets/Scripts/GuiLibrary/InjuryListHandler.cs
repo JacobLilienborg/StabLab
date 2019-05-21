@@ -73,6 +73,17 @@ public class InjuryListHandler : MonoBehaviour
             res.x = Screen.width;
             res.y = Screen.height;
         }
+
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            GoToNext();
+        }
+
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            GoToPrevious();
+        }
+
     }
 
     // Load in already existing injuries if the injury manager has any
@@ -111,6 +122,10 @@ public class InjuryListHandler : MonoBehaviour
     // This will "move" the entire list one step to the right except if an injury is active then it will select the next injury instead
     public void GoToNext()
     {
+        if (!nextButton.interactable)
+        {
+            return;
+        }
         if (!InjuryManager.instance.activeInjury)
         {
             JumpList(rightMostIndex + 1);
@@ -127,6 +142,11 @@ public class InjuryListHandler : MonoBehaviour
     // This will "move" the entire list one step to the left except if an injury is active then it will select the previous injury instead
     public void GoToPrevious()
     {
+        if (!previousButton.interactable)
+        {
+            return;
+        }
+
         if (!InjuryManager.instance.activeInjury)
         {
             JumpList(rightMostIndex - 1);
