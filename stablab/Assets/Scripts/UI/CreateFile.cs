@@ -7,10 +7,9 @@ public class CreateFile : MonoBehaviour
 {
     public InputField projectName;
     public InputField projectLocation;
-    public ProjectManager projectManager;
 
     public void CreateNewProject() {
-        projectManager.Create(projectName.text, projectLocation.text);
+        ProjectManager.instance.Create(projectName.text, projectLocation.text);
     }
 
     public void BrowseFileLocation() {

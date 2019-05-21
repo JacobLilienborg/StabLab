@@ -70,7 +70,7 @@ public class DataManager : MonoBehaviour
         {
             string path = FileManager.OpenFileBrowser("cvz", applicationData.recentWorkingDirectory);
             ProjectFile proj = FileManager.Load<ProjectFile>(path);
-            SetWorkingDirectory(proj.GetDirectory());
+            SetWorkingDirectory(proj.directory);
             ProjectManager.instance.Open(proj);
             AddToRecent(proj);
         }
@@ -125,6 +125,7 @@ public class DataManager : MonoBehaviour
             applicationData.recentProjects.Remove(proj.GetPath());
         }
         applicationData.recentProjects.Insert(0, proj.GetPath());
+        applicationData.recentWorkingDirectory = proj.directory;
     }
 
 }

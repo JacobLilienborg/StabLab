@@ -49,14 +49,4 @@ public class ProjectFile : Savable
         return projectName;
     }
 
-    public void SetDirectory(string directory)
-    {
-        projectPath = directory;
-    }
-
-    public string GetDirectory()
-    {
-        return projectPath;
-    }
-
 }

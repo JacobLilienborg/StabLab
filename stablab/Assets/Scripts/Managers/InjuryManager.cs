@@ -37,7 +37,7 @@ public class InjuryManager : MonoBehaviour
     private IndexEvent IndexDeactivationEvent = new IndexEvent();
     private UnityEvent ActivationEvent = new UnityEvent();
     private UnityEvent DeactivationEvent = new UnityEvent();
-    private UnityEvent OnChange = new UnityEvent();
+    public UnityEvent OnChange = new UnityEvent();
     public void AddActivationListener(UnityAction<InjuryController> action)
     {
         InjuryActivationEvent.AddListener(action);
@@ -96,72 +96,62 @@ public class InjuryManager : MonoBehaviour
         InjuryController ic = go.GetComponent<InjuryController>();
         ic.injuryData = injuryData;
         injuries.Add(ic);
-        OnChange.Invoke();
+        ActivateInjury(ic.injuryData.id);
     }
 
 
     // Remove the currently active injury
     public void RemoveInjury()
     {
-        Destroy(activeInjury.gameObject);
-        injuries.Remove(activeInjury);
-        activeInjury = null;
+        if(!activeInjury) return;
+        InjuryController ic = activeInjury;
+        DeactivateInjury(activeInjury);
+        Destroy(ic.gameObject);
+        injuries.Remove(ic);
         OnChange.Invoke();
     }
 
     // Sets the active injury by id. Is called from the marker that is clicked
     public void ActivateInjury(Guid id)
     {
-        int i = 0;
-        foreach(InjuryController injuryController in injuries)
-        {
-            if (injuryController.injuryData.id == id)
-            {
-                ActivateInjury(i);
-            }
-            i++;
-        }
+        ActivateInjury(injuries.FindIndex(x => x.injuryData.id == id));
     }
 
     // Sets the active injury by index.
     public void ActivateInjury(int index)
     {
-        if (activeInjury != injuries[index])
+        if (index != -1)
         {
             if(activeInjury) activeInjury.ToggleWeapon(false);
             activeInjury = injuries[index];
-            activeInjury.ToggleWeapon(true);
+            InjuryActivationEvent.Invoke(activeInjury);
             IndexActivationEvent.Invoke(index);
             ActivationEvent.Invoke();
+            OnChange.Invoke();
         }
-
     }
 
     // Set the active injury
-    public void ActivateInjury(InjuryController injuryController)
+    public void ActivateInjury(InjuryController injury)
     {
-        int i = 0;
-        foreach(InjuryController ic in injuries)
-        {
-            if (ic == injuryController)
-            {
-                ActivateInjury(i);
-            }
-            i++;
-        }
+        ActivateInjury(injuries.FindIndex(x => x == injury));
     }
 
-    // Needed this code to be listener
     public void DeactivateInjury(int index)
     {
-        if (injuries[index] == activeInjury)
+        if (index != -1)
         {
+            if(activeInjury) activeInjury.ToggleWeapon(false);
+            InjuryDeactivationEvent.Invoke(activeInjury);
             IndexDeactivationEvent.Invoke(index);
             DeactivationEvent.Invoke();
-            //if (activeInjury.injury.HasMarker()) activeInjury.injury.Marker.GetParent().SetActive(Settings.IsActiveModel(false));
             activeInjury = null;
-             //invoke null?
+            OnChange.Invoke();
         }
+    }
+    public void DeactivateInjury(InjuryController injury)
+    {
+        DeactivateInjury(injuries.FindIndex(x => x == injury));
     }
 
     // Change order of injuri in the list.

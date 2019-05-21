@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GuiManager : MonoBehaviour
 {
+
     public void ChangeScene(string scene)
     {
         SceneManager.LoadScene(scene);
@@ -13,11 +14,11 @@ public class GuiManager : MonoBehaviour
 
     public void ChangePose(bool active)
     {
-        if(active)
+        if (active)
         {
             ModelManager.instance.AddOnClickListener(ModelManager.instance.activeModel.AddGizmo);
         }
-        else 
+        else
         {
             ModelManager.instance.RemoveOnClickListener(ModelManager.instance.activeModel.AddGizmo);
         }
@@ -25,11 +26,11 @@ public class GuiManager : MonoBehaviour
 
     public void ChangePosition(bool active)
     {
-        if(active)
+        if (active)
         {
             ModelManager.instance.AddOnClickListener(InjuryManager.instance.activeInjury.PlaceInjury);
         }
-        else 
+        else
         {
             ModelManager.instance.RemoveOnClickListener(InjuryManager.instance.activeInjury.PlaceInjury);
         }
@@ -37,11 +38,11 @@ public class GuiManager : MonoBehaviour
 
     public void ToggleWeaponGizmo(bool active)
     {
-        if(active)
+        if (active)
         {
             InjuryManager.instance.activeInjury.AddGizmo();
         }
-        else 
+        else
         {
             InjuryManager.instance.activeInjury.RemoveGizmo();
         }
@@ -79,4 +80,5 @@ public class GuiManager : MonoBehaviour
     {
         ModelManager.instance.AdjustHeight(height);
     }
+
 }
