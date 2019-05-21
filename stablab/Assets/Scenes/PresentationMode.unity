@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.43976662, g: 0.48021704, b: 0.52531874, a: 1}
+  m_IndirectSpecularColor: {r: 0.43976635, g: 0.48021668, b: 0.5253178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3702,12 +3702,12 @@ PrefabInstance:
     - target: {fileID: 4045844975446394600, guid: 364f2509bf9a8d24eb993e918662807c,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 27.9
+      value: 27.900024
       objectReference: {fileID: 0}
     - target: {fileID: 4045844974815271429, guid: 364f2509bf9a8d24eb993e918662807c,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -27.9
+      value: -27.900024
       objectReference: {fileID: 0}
     - target: {fileID: 4045844974815271429, guid: 364f2509bf9a8d24eb993e918662807c,
         type: 3}
@@ -5681,6 +5681,11 @@ PrefabInstance:
       propertyPath: darkenScreen
       value: 
       objectReference: {fileID: 1744223293}
+    - target: {fileID: 7044904552573455064, guid: e8314fdb6445a8e43a46334142204b21,
+        type: 3}
+      propertyPath: ImagesHandlerObj
+      value: 
+      objectReference: {fileID: 1063597180}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e8314fdb6445a8e43a46334142204b21, type: 3}
 --- !u!224 &1362556249 stripped

@@ -74,7 +74,7 @@ public class InjuryListHandler : MonoBehaviour
             res.y = Screen.height;
         }
 
-        if (!MouseClick.FieldPressed)
+        if (!ArrowKeysToggler.DeactivateArrowKeys)
         {
 
             if (Input.GetKeyDown(KeyCode.RightArrow))
@@ -334,7 +334,6 @@ public class InjuryListHandler : MonoBehaviour
             }
             else
             {
-                Debug.Log("asd");
                 injuryButtons.Find(btn => btn.index == activeIndex).setImage(
                     InjuryManager.instance.activeInjury.GetIcon()
                 );
