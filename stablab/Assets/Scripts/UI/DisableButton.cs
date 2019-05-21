@@ -24,6 +24,7 @@ public class DisableButton : MonoBehaviour
 
     public Slider weightSlider;
     public Slider muscleSlider;
+    public InputField heightInput;
 
     private bool heightChanged = false;
     private bool modelActive = false;
@@ -41,7 +42,6 @@ public class DisableButton : MonoBehaviour
 
     private void Start()
     {
-
         ModelManager.instance.heightChangedEvent.AddListener(HeightChanged);
         ModelManager.instance.modelEnabledEvent.AddListener(OnModelActive);
         ModelManager.instance.modelDisabledEvent.AddListener(OnModelInActive);
@@ -54,23 +54,23 @@ public class DisableButton : MonoBehaviour
             standardDisabled.Add(positionDoneButton);
             positionDoneButton.onClick.AddListener(OnPositionSet);
 
-            InjuryManager.instance.AddActivationListener(OnNewActiveInjury);
-            InjuryManager.instance.AddDeactivationListener(OnDisableActiveInjury);
+            //InjuryManager.instance.AddActivationListener(OnNewActiveInjury);
+            //InjuryManager.instance.AddDeactivationListener(OnDisableActiveInjury);
             SetButtonInteractability();
         }
     }
 
-    private void OnNewActiveInjury()
+    private void OnNewActiveInjury(InjuryController activeInjury)
     {
-        InjuryManager.instance.activeInjury.positionSetEvent.AddListener(PositionConfirmEnable);
-        InjuryManager.instance.activeInjury.positionResetEvent.AddListener(PositionConfirmDisable);
+        activeInjury.positionSetEvent.AddListener(PositionConfirmEnable);
+        activeInjury.positionResetEvent.AddListener(PositionConfirmDisable);
         SetButtonInteractability();
     }
 
-    private void OnDisableActiveInjury()
+    private void OnDisableActiveInjury(InjuryController activeInjury)
     {
-        InjuryManager.instance.activeInjury.positionSetEvent.RemoveListener(PositionConfirmEnable);
-        InjuryManager.instance.activeInjury.positionResetEvent.RemoveListener(PositionConfirmDisable);
+        activeInjury.positionSetEvent.RemoveListener(PositionConfirmEnable);
+        activeInjury.positionResetEvent.RemoveListener(PositionConfirmDisable);
     }
 
     private void SetButtonInteractability()
@@ -123,7 +123,7 @@ public class DisableButton : MonoBehaviour
     }
 
     private void HeightChanged()
-    {
+    { 
         heightChanged = true;
         if (modelActive)
         {
@@ -138,8 +138,10 @@ public class DisableButton : MonoBehaviour
 
     private void OnModelActive()
     {
+        ResetHeightInput();
         weightSlider.interactable = true;
         muscleSlider.interactable = true;
+        heightInput.interactable = true;
         if(heightChanged) ShowButton(sceneChangeButton);
         ResetSliders();
         modelActive = true;
@@ -147,6 +149,8 @@ public class DisableButton : MonoBehaviour
 
     private void OnModelInActive()
     {
+        ResetHeightInput();
+        heightInput.interactable = false;
         muscleSlider.interactable = false;
         weightSlider.interactable = false;
         HideButton(sceneChangeButton);
@@ -158,6 +162,12 @@ public class DisableButton : MonoBehaviour
     {
         weightSlider.value = 0;
         muscleSlider.value = 0;
+    }
+
+    public void ResetHeightInput()
+    {
+        heightChanged = false;
+        heightInput.text = "";
     }
 
 
