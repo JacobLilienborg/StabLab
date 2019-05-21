@@ -84,19 +84,27 @@ public class InjuryManager : MonoBehaviour
     // Find the model and load markers in to the scene
     public void Start()
     {
-       //LoadInjuries();
+        //LoadInjuries();
     }
 
     // Creates and add the new injury to the list of injuries.
     public void CreateInjury()
     {
         InjuryData injuryData = new UndefinedInjuryData(Guid.NewGuid());
+        CreateInjury(injuryData);
+    }
+
+
+    public InjuryController CreateInjury(InjuryData injuryData)
+    {
         GameObject go = new GameObject("injury" + injuries.Count, typeof(InjuryController));
         go.transform.SetParent(transform);
         InjuryController ic = go.GetComponent<InjuryController>();
         ic.injuryData = injuryData;
         injuries.Add(ic);
         ActivateInjury(ic.injuryData.id);
+
+        return ic;
     }
 
 
@@ -104,10 +112,10 @@ public class InjuryManager : MonoBehaviour
     public void RemoveInjury()
     {
         if(!activeInjury) return;
-        InjuryController ic = activeInjury;
+        GameObject go = activeInjury.gameObject;
+        Destroy(go);
+        injuries.Remove(activeInjury);
         DeactivateInjury(activeInjury);
-        Destroy(ic.gameObject);
-        injuries.Remove(ic);
         OnChange.Invoke();
     }
 
@@ -124,7 +132,6 @@ public class InjuryManager : MonoBehaviour
         {
             if(activeInjury) activeInjury.ToggleWeapon(false);
             activeInjury = injuries[index];
-            activeInjury.ToggleWeapon(true);
             InjuryActivationEvent.Invoke(activeInjury);
             IndexActivationEvent.Invoke(index);
             ActivationEvent.Invoke();
@@ -133,9 +140,9 @@ public class InjuryManager : MonoBehaviour
     }
 
     // Set the active injury
-    public void ActivateInjury(InjuryController injury)
+    public void ActivateInjury(InjuryController injuryController)
     {
-        ActivateInjury(injuries.FindIndex(x => x == injury));
+        ActivateInjury(injuries.FindIndex(x => x == injuryController));
     }
 
     public void DeactivateInjury(int index)
@@ -152,7 +159,7 @@ public class InjuryManager : MonoBehaviour
     }
     public void DeactivateInjury(InjuryController injury)
     {
-        DeactivateInjury(injuries.FindIndex(x => x == injury));
+        DeactivateInjury(injuries.FindIndex(x => x == injuryController));
     }
 
     // Change order of injuri in the list.
@@ -167,21 +174,20 @@ public class InjuryManager : MonoBehaviour
     // Load all injuries from the list in to the scene.
     public void LoadInjuries(List<InjuryData> injuryDatas)
     {
-        if (injuryDatas == null || injuryDatas.Count == 0) return;
-        foreach (InjuryData injuryData in injuryDatas)
+        foreach (InjuryData data in injuryDatas)
         {
-           // CreateInjury(injuryData).UpdateData();
+            CreateInjury(data).UpdateData();
         }
     }
 
-    public List<InjuryData> GetListOfInjuryData() 
+    // Load all injuries from the list in to the scene.
+    public List<InjuryData> GetListOfInjuryData()
     {
         List<InjuryData> injuryDatas = new List<InjuryData>();
-        foreach(InjuryController injury in injuries) 
+        foreach (InjuryController injury in injuries)
         {
             injuryDatas.Add(injury.injuryData);
         }
-
         return injuryDatas;
     }
 }

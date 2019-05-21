@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.45142567, g: 0.5006667, b: 0.5709641, a: 1}
+  m_IndirectSpecularColor: {r: 0.45142567, g: 0.50066674, b: 0.5709642, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -682,6 +682,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 18d6c23b18960e74a932c7ddb1f72a03, type: 3}
+--- !u!114 &30277734 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 937916518367231478, guid: 18d6c23b18960e74a932c7ddb1f72a03,
+    type: 3}
+  m_PrefabInstance: {fileID: 30277733}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb1494834d11d574ba196caf2a19d49f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &33634743
 GameObject:
   m_ObjectHideFlags: 0
@@ -1123,8 +1135,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: Open
+      - m_Target: {fileID: 30277734}
+        m_MethodName: LoadProject
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2210,17 +2222,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 253175752}
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 1124698701}
         m_MethodName: SetActive
         m_Mode: 6
@@ -2232,9 +2233,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1052964470835045392, guid: b6d31b07151423043a73e0710b790ab8,
-          type: 3}
-        m_MethodName: ChangeScene
+      - m_Target: {fileID: 567371572}
+        m_MethodName: 
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5633,7 +5633,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 30277734}
         m_MethodName: Save
         m_Mode: 1
         m_Arguments:
@@ -9024,6 +9024,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ab68440d8392edd40812b9bc44866c13, type: 3}
+--- !u!1 &567371572 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7160890428591565133, guid: ab68440d8392edd40812b9bc44866c13,
+    type: 3}
+  m_PrefabInstance: {fileID: 567371571}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &570797000 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7341108222569288477, guid: dd98ea3d262c24a4caff0da3cbd8828b,
@@ -14258,7 +14264,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectName: {fileID: 0}
   projectLocation: {fileID: 450766782}
-  projectManager: {fileID: 0}
 --- !u!114 &915986135
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24636,41 +24641,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: InjuryManager
       objectReference: {fileID: 0}
-    - target: {fileID: 6538740731370075416, guid: a671bf0e0685742febefa5426d17349e,
-        type: 3}
-      propertyPath: models.Array.size
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 6538740731370075416, guid: a671bf0e0685742febefa5426d17349e,
-        type: 3}
-      propertyPath: bodyHelper
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 6538740731370075416, guid: a671bf0e0685742febefa5426d17349e,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6538740731370075416, guid: a671bf0e0685742febefa5426d17349e,
-        type: 3}
-      propertyPath: models.Array.data[0]
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 6538740731370075416, guid: a671bf0e0685742febefa5426d17349e,
-        type: 3}
-      propertyPath: models.Array.data[1]
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 6538740731370075416, guid: a671bf0e0685742febefa5426d17349e,
-        type: 3}
-      propertyPath: models.Array.data[2]
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 6538740731370075416, guid: a671bf0e0685742febefa5426d17349e,
-        type: 3}
-      propertyPath: models.Array.data[3]
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 3899743208219313645, guid: a671bf0e0685742febefa5426d17349e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -24725,6 +24695,41 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6538740731370075416, guid: a671bf0e0685742febefa5426d17349e,
+        type: 3}
+      propertyPath: models.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6538740731370075416, guid: a671bf0e0685742febefa5426d17349e,
+        type: 3}
+      propertyPath: bodyHelper
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6538740731370075416, guid: a671bf0e0685742febefa5426d17349e,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6538740731370075416, guid: a671bf0e0685742febefa5426d17349e,
+        type: 3}
+      propertyPath: models.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6538740731370075416, guid: a671bf0e0685742febefa5426d17349e,
+        type: 3}
+      propertyPath: models.Array.data[1]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6538740731370075416, guid: a671bf0e0685742febefa5426d17349e,
+        type: 3}
+      propertyPath: models.Array.data[2]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6538740731370075416, guid: a671bf0e0685742febefa5426d17349e,
+        type: 3}
+      propertyPath: models.Array.data[3]
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a671bf0e0685742febefa5426d17349e, type: 3}
@@ -33834,6 +33839,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2489670083279981091, guid: d0fdde322b14cd54189ac641633f68c9,
+        type: 3}
+      propertyPath: gizmoObj
+      value: 
+      objectReference: {fileID: 402647056}
+    - target: {fileID: 2489670083279981091, guid: d0fdde322b14cd54189ac641633f68c9,
+        type: 3}
+      propertyPath: injuryAddingObj
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2489670083279981091, guid: d0fdde322b14cd54189ac641633f68c9,
+        type: 3}
+      propertyPath: weaponModelObj
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 2489670083279981090, guid: d0fdde322b14cd54189ac641633f68c9,
         type: 3}
       propertyPath: objectsToDisable.Array.data[0]
@@ -33903,21 +33923,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Settings
-      objectReference: {fileID: 0}
-    - target: {fileID: 2489670083279981091, guid: d0fdde322b14cd54189ac641633f68c9,
-        type: 3}
-      propertyPath: gizmoObj
-      value: 
-      objectReference: {fileID: 402647056}
-    - target: {fileID: 2489670083279981091, guid: d0fdde322b14cd54189ac641633f68c9,
-        type: 3}
-      propertyPath: injuryAddingObj
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 2489670083279981091, guid: d0fdde322b14cd54189ac641633f68c9,
-        type: 3}
-      propertyPath: weaponModelObj
-      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 0}

@@ -71,8 +71,8 @@ public class DataManager : MonoBehaviour
             string path = FileManager.OpenFileBrowser("cvz", applicationData.recentWorkingDirectory);
             ProjectFile proj = FileManager.Load<ProjectFile>(path);
             SetWorkingDirectory(proj.directory);
-            ProjectManager.instance.Open(proj);
             AddToRecent(proj);
+            ProjectManager.instance.Open(proj);
         }
         catch (FileNotFoundException)
         {
