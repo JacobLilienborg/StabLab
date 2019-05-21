@@ -114,10 +114,10 @@ public class InjuryManager : MonoBehaviour
     public void RemoveInjury()
     {
         if(!activeInjury) return;
-        GameObject go = activeInjury.gameObject;
-        Destroy(go);
-        injuries.Remove(activeInjury);
+        InjuryController ic = activeInjury;
         DeactivateInjury(activeInjury);
+        Destroy(ic.gameObject);
+        injuries.Remove(ic);
         OnChange.Invoke();
     }
 
@@ -142,9 +142,9 @@ public class InjuryManager : MonoBehaviour
     }
 
     // Set the active injury
-    public void ActivateInjury(InjuryController injuryController)
+    public void ActivateInjury(InjuryController injury)
     {
-        ActivateInjury(injuries.FindIndex(x => x == injuryController));
+        ActivateInjury(injuries.FindIndex(x => x == injury));
     }
 
     public void DeactivateInjury(int index)
@@ -161,7 +161,7 @@ public class InjuryManager : MonoBehaviour
     }
     public void DeactivateInjury(InjuryController injury)
     {
-        DeactivateInjury(injuries.FindIndex(x => x == injuryController));
+        DeactivateInjury(injuries.FindIndex(x => x == injury));
     }
 
     // Change order of injuri in the list.

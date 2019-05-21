@@ -66,11 +66,13 @@ public class CheckboxController : MonoBehaviour, IPointerClickHandler, IPointerE
     public virtual void Checked(bool trigger = true)
     {
         mode = Mode.Active;
+        isChecked = true;
         if(trigger) OnChecked.Invoke();
     }
     public virtual void Unchecked(bool trigger = true)
     {
         mode = Mode.Highlighted;
+        isChecked = false;
         if(trigger) OnUnchecked.Invoke();
     }
 }

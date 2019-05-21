@@ -260,7 +260,6 @@ public class InjuryListHandler : MonoBehaviour
     // Help function to move the entire list
     private void JumpList(int newRightMostIndex)
     {
-        if(newRightMostIndex == rightMostIndex) return;
         rightMostIndex = newRightMostIndex;
         for (int i = 0; i < injuryButtons.Count; i++)
         {
@@ -283,6 +282,13 @@ public class InjuryListHandler : MonoBehaviour
         {
             RemoveButton();
         }
+        
+        // Kind of a special case but still crucial
+        if(InjuryManager.instance.injuries.Count <= rightMostIndex)
+        {
+            JumpList(InjuryManager.instance.injuries.Count - 1);
+        }
+
         // If there is an active injury we want to make sure it's on the list
         if(InjuryManager.instance.activeInjury)
         {
@@ -309,8 +315,11 @@ public class InjuryListHandler : MonoBehaviour
         }
         else
         {
-            InjuryButton button = injuryButtons.Find(btn => btn.isChecked);
-            if(button) button.Unchecked(false);
+            InjuryButton button;
+            while(button = injuryButtons.Find(btn => btn.isChecked))
+            {
+                button.Unchecked(false);
+            }
         }
 
         CheckInteractability();
