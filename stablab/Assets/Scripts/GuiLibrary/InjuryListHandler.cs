@@ -78,6 +78,7 @@ public class InjuryListHandler : MonoBehaviour
     // Load in already existing injuries if the injury manager has any
     public void LoadInjuries()
     {
+        /*
         // Make the list start from the beginning without removing
         rightMostIndex = -1;
         foreach (InjuryButton button in injuryButtons)
@@ -104,6 +105,7 @@ public class InjuryListHandler : MonoBehaviour
         }
 
         CheckInteractability();
+        */
     }
 
     // This will "move" the entire list one step to the right except if an injury is active then it will select the next injury instead
@@ -284,7 +286,6 @@ public class InjuryListHandler : MonoBehaviour
         // If there is an active injury we want to make sure it's on the list
         if(InjuryManager.instance.activeInjury)
         {
-            Debug.Log("Active injury: " + InjuryManager.instance.activeInjury.name);
             int activeIndex = InjuryManager.instance.injuries.FindIndex(
                 x => x == InjuryManager.instance.activeInjury);
             int leftMostIndex = rightMostIndex - (injuryButtons.Count - 1);
@@ -308,9 +309,10 @@ public class InjuryListHandler : MonoBehaviour
         }
         else
         {
-            Debug.Log("No active injury");
+            Debug.Log("ASD");
             InjuryButton button = injuryButtons.Find(btn => btn.isChecked);
             if(button) button.Unchecked(false);
+            Debug.Log("ASD123");
         }
 
         CheckInteractability();

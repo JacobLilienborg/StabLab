@@ -114,10 +114,10 @@ public class InjuryManager : MonoBehaviour
     public void RemoveInjury()
     {
         if(!activeInjury) return;
+        GameObject go = activeInjury.gameObject;
+        Destroy(go);
         injuries.Remove(activeInjury);
-        InjuryController ic = activeInjury;
         DeactivateInjury(activeInjury);
-        Destroy(ic.gameObject);
         OnChange.Invoke();
     }
 
@@ -130,16 +130,15 @@ public class InjuryManager : MonoBehaviour
     // Sets the active injury by index.
     public void ActivateInjury(int index)
     {
-        if (index != -1 && activeInjury != injuries[index])
+        if (index != -1)
         {
             if(activeInjury) activeInjury.ToggleWeapon(false);
             activeInjury = injuries[index];
-            activeInjury.ToggleWeapon(true);
+            InjuryActivationEvent.Invoke(activeInjury);
             IndexActivationEvent.Invoke(index);
             ActivationEvent.Invoke();
             OnChange.Invoke();
         }
-
     }
 
     // Set the active injury
@@ -150,11 +149,13 @@ public class InjuryManager : MonoBehaviour
 
     public void DeactivateInjury(int index)
     {
-        if (index != -1 && injuries[index] == activeInjury)
+        if (index != -1)
         {
-            activeInjury = null;
+            if(activeInjury) activeInjury.ToggleWeapon(false);
+            InjuryDeactivationEvent.Invoke(activeInjury);
             IndexDeactivationEvent.Invoke(index);
             DeactivationEvent.Invoke();
+            activeInjury = null;
             OnChange.Invoke();
         }
     }
