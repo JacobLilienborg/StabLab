@@ -52,7 +52,9 @@ public class ModelManager : MonoBehaviour
 
     private void Finished(Scene scene, LoadSceneMode mode)
     {
-        if(scene.name == "InjuryMode")
+        if (activeModel == null) return;
+
+        if (scene.name == "InjuryMode")
         {
             Debug.Log(scene.name);
             activeModel.BakeMesh();
@@ -61,10 +63,15 @@ public class ModelManager : MonoBehaviour
 
     public void LoadModel(ModelData modelData)
     {
+        if (activeModel) Destroy(activeModel);
+
         SetActiveModel(modelData.type);
         activeModel.weight = modelData.weight;
         activeModel.muscles = modelData.muscles;
         activeModel.height = modelData.height;
+
+        this.modelData = modelData;
+        activeModel.BakeMesh();
     }
 
     // Sets the active model to either man, woman, child

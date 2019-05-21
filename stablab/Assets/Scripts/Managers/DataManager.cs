@@ -113,12 +113,12 @@ public class DataManager : MonoBehaviour
 
     public void SaveProject()
     {
-        Debug.Log("Saving" + ProjectManager.instance.currentProject.GetPath());
         ProjectManager.instance.SetProjectData();
+        FileManager.Save(applicationData, applicationData.GetPath());
         FileManager.Save(ProjectManager.instance.currentProject, ProjectManager.instance.currentProject.GetPath());
     }
 
-    private void AddToRecent(ProjectFile proj)
+    public void AddToRecent(ProjectFile proj)
     {
         if (applicationData.recentProjects.Contains(proj.GetPath()))
         {
@@ -126,6 +126,7 @@ public class DataManager : MonoBehaviour
         }
         applicationData.recentProjects.Insert(0, proj.GetPath());
         applicationData.recentWorkingDirectory = proj.directory;
+        FileManager.Save(applicationData, applicationData.GetPath());
     }
 
 }

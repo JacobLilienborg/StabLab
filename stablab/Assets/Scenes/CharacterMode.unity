@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 170076734}
-  m_IndirectSpecularColor: {r: 0.45142597, g: 0.5006672, b: 0.5709652, a: 1}
+  m_IndirectSpecularColor: {r: 0.45142567, g: 0.50066674, b: 0.5709642, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2851,7 +2851,7 @@ PrefabInstance:
         type: 3}
       propertyPath: OnChecked.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 2050884071}
+      objectReference: {fileID: 1658833849}
     - target: {fileID: 320212521285131107, guid: dd98ea3d262c24a4caff0da3cbd8828b,
         type: 3}
       propertyPath: OnChecked.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -2881,7 +2881,7 @@ PrefabInstance:
         type: 3}
       propertyPath: OnUnchecked.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 2050884071}
+      objectReference: {fileID: 1658833849}
     - target: {fileID: 320212521285131107, guid: dd98ea3d262c24a4caff0da3cbd8828b,
         type: 3}
       propertyPath: OnUnchecked.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -3990,7 +3990,7 @@ PrefabInstance:
         type: 3}
       propertyPath: OnChecked.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 2050884071}
+      objectReference: {fileID: 1658833849}
     - target: {fileID: 320212521285131107, guid: dd98ea3d262c24a4caff0da3cbd8828b,
         type: 3}
       propertyPath: OnChecked.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -4015,7 +4015,7 @@ PrefabInstance:
         type: 3}
       propertyPath: OnUnchecked.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 2050884071}
+      objectReference: {fileID: 1658833849}
     - target: {fileID: 320212521285131107, guid: dd98ea3d262c24a4caff0da3cbd8828b,
         type: 3}
       propertyPath: OnUnchecked.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -7294,7 +7294,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -50.00006, y: -50}
+  m_AnchoredPosition: {x: -50, y: -50}
   m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1172254242
@@ -9957,7 +9957,7 @@ PrefabInstance:
         type: 3}
       propertyPath: OnChecked.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 2050884071}
+      objectReference: {fileID: 1658833849}
     - target: {fileID: 320212521285131107, guid: dd98ea3d262c24a4caff0da3cbd8828b,
         type: 3}
       propertyPath: OnChecked.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -9987,7 +9987,7 @@ PrefabInstance:
         type: 3}
       propertyPath: OnUnchecked.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 2050884071}
+      objectReference: {fileID: 1658833849}
     - target: {fileID: 320212521285131107, guid: dd98ea3d262c24a4caff0da3cbd8828b,
         type: 3}
       propertyPath: OnUnchecked.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -10253,7 +10253,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2050884071}
+      - m_Target: {fileID: 1658833849}
         m_MethodName: AdjustHeight
         m_Mode: 2
         m_Arguments:
@@ -10486,7 +10486,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2050884071}
+      - m_Target: {fileID: 1658833849}
         m_MethodName: AdjustWeight
         m_Mode: 2
         m_Arguments:
@@ -10894,18 +10894,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ad15bb90684b6ca71b6340a017e0c3bc, type: 3}
---- !u!114 &2050884071 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2064041580437192122, guid: ad15bb90684b6ca71b6340a017e0c3bc,
-    type: 3}
-  m_PrefabInstance: {fileID: 2050884070}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88b7039b4d35b0a4e862280ed67f3c8a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2061606566 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3602356296237013518, guid: dd98ea3d262c24a4caff0da3cbd8828b,
@@ -11001,7 +10989,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2050884071}
+      - m_Target: {fileID: 1658833849}
         m_MethodName: AdjustMuscles
         m_Mode: 2
         m_Arguments:

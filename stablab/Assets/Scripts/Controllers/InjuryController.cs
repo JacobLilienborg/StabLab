@@ -135,6 +135,7 @@ public class InjuryController : MonoBehaviour
         if(!markerObj || !weaponObj) return; 
         injuryData.markerData.transformData.position = markerObj.transform.position;
         injuryData.markerData.transformData.rotation = markerObj.transform.rotation;
+        injuryData.boneName = markerObj.transform.parent.name;
 
         injuryData.weaponData.transformData.position = weaponObj.transform.position;
         injuryData.weaponData.transformData.rotation = weaponObj.transform.rotation;

@@ -176,7 +176,10 @@ public class InjuryManager : MonoBehaviour
     {
         foreach (InjuryData data in injuryDatas)
         {
-            CreateInjury(data).UpdateData();
+            Transform boneParent = GameObject.Find(data.boneName).transform;
+            InjuryController injury = CreateInjury(data);
+            injury.PlaceInjury(data.markerData.transformData.position, boneParent);
+            injury.UpdateData();
         }
     }
 
