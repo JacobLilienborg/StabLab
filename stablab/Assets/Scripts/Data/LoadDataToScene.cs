@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 using UnityEngine.UI;
 
 public class LoadDataToScene : MonoBehaviour
@@ -8,24 +9,25 @@ public class LoadDataToScene : MonoBehaviour
     public GameObject imageAreaObj;
     private ImagesHandler imageHandeler;
     public GameObject textObj;
-    private Text text;
+    private TextMeshProUGUI text;
     void Start()
     {
         imageHandeler = imageAreaObj.GetComponent<ImagesHandler>();
-        text = textObj.GetComponent<Text>();
+        text = textObj.GetComponent<TextMeshProUGUI>();
+        text.SetText("THIS IS TEXT");
         InjuryManager.instance.AddActivationListener(SetMetadata);
         InjuryManager.instance.AddDeactivationListener(ResetMetadata);
     }
 
-    void SetMetadata()
+    void SetMetadata(InjuryController activeInjury)
     {
         imageHandeler.LoadAllImages();
-        text.text = InjuryManager.instance.activeInjury.injuryData.infoText;
+        text.SetText(activeInjury.injuryData.infoText);
     }
 
     void ResetMetadata()
     {
-        text.text = "";
+        text.SetText("");
         imageHandeler.LoadAllImages();
     }
 }

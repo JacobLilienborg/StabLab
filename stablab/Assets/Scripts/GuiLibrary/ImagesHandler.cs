@@ -49,8 +49,8 @@ public class ImagesHandler : MonoBehaviour
     public void AddImage()
     {
         string imagePath = FileManager.OpenFileBrowser("png,jpg"); // Let the user pick an image
-        //InjuryManager.instance.activeInjury.injuryData.AddImage(FileManager.ReadBytes(imagePath)); // Save the image to active injury
-        LoadImage(InjuryManager.instance.activeInjury.injuryData.images.Count -1);
+        if (imagePath != "") InjuryManager.instance.activeInjury.AddImage(FileManager.ReadBytes(imagePath)); // Save the image to active injury
+        LoadImage(InjuryManager.instance.activeInjury.injuryData.images.Count - 1);
     }
 
     // Removes the active image from the injury
@@ -69,7 +69,7 @@ public class ImagesHandler : MonoBehaviour
             return;
 
         Texture2D imgTexture = new Texture2D(2, 2);
-        imgTexture.LoadImage(InjuryManager.instance.activeInjury.injuryData.images[index]);
+        imgTexture.LoadImage(InjuryManager.instance.activeInjury.GetImage(index));
         imgTexture.Compress(false);
 
         InjuryImage image = Instantiate(emptyImage, imageArea);

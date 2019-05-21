@@ -4,7 +4,7 @@
 public class StabInjuryData : InjuryData
 {
     private const string MARKER_NAME = "Markers/StabMarker";
-    private const string ICON_NAME = "Markers/StabIcon";
+    private const string ICON_NAME = "Icons/Stab";
 
     private const string WEAPON_NAME = "Models/Stab/stabModel";
     private const string WEAPON_PATH = "Models/Stab";

@@ -59,13 +59,11 @@ public class GuiManager : MonoBehaviour
         InjuryManager.instance.activeInjury.ToggleWeapon(active);
     }
     
-    public void UpdateInjury()
-    {
-        InjuryManager.instance.activeInjury.UpdateData();
-    }
-    public void RevertInjury()
-    {
-        InjuryManager.instance.activeInjury.RevertData();
-    }
+    public void UpdateInjuryCamera(){ InjuryManager.instance.activeInjury.UpdateCamera(); }
+    public void UpdateInjuryPose(){ InjuryManager.instance.activeInjury.UpdatePose(); }
+    public void UpdateInjuryMarkerWeapon(){ InjuryManager.instance.activeInjury.UpdateMarkerWeapon(); }
+    public void FetchInjuryCamera(){ InjuryManager.instance.activeInjury.FetchCamera(); }
+    public void FetchInjuryPose(){ InjuryManager.instance.activeInjury.FetchPose(); }
+    public void FetchInjuryMarkerWeapon(){ InjuryManager.instance.activeInjury.FetchMarkerWeapon(); }
 
 }
