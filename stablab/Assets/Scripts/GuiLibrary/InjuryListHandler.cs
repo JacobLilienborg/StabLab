@@ -78,7 +78,7 @@ public class InjuryListHandler : MonoBehaviour
     // Load in already existing injuries if the injury manager has any
     public void LoadInjuries()
     {
-        /*
+        
         // Make the list start from the beginning without removing
         rightMostIndex = -1;
         foreach (InjuryButton button in injuryButtons)
@@ -105,7 +105,7 @@ public class InjuryListHandler : MonoBehaviour
         }
 
         CheckInteractability();
-        */
+        
     }
 
     // This will "move" the entire list one step to the right except if an injury is active then it will select the next injury instead
