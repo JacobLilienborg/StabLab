@@ -23,7 +23,7 @@ public class InjuryController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //onClick.AddListener(InjuryManager.instance.ActivateInjury);
+        onClick.AddListener(InjuryManager.instance.ActivateInjury);
         gizmo = Camera.main.GetComponent<RuntimeGizmos.TransformGizmo>();
         // This is kind of ugly fixes since we don't have default value on everything
         UpdateData(); 
@@ -32,7 +32,7 @@ public class InjuryController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition); //Ray from mouseclick on screen
             RaycastHit hit;  //Where the ray hits (the injury position)
@@ -40,10 +40,13 @@ public class InjuryController : MonoBehaviour
             if (Physics.Raycast(ray, out hit))
             {
                 // The marker was hit
-                if (hit.collider == markerObj || hit.collider == weaponObj)
+                if (markerObj && weaponObj && 
+                (hit.collider == markerObj.GetComponent<Collider>() || 
+                 hit.collider == weaponObj.GetComponent<Collider>()))
                 {
                     onClick.Invoke(this);
                 }
+                
             }
         }
     }
@@ -55,7 +58,7 @@ public class InjuryController : MonoBehaviour
         {
             return;
         }
-        if (markerObj == null && weaponObj == null)
+        if (!markerObj || !weaponObj)
         {
             markerObj = Instantiate((GameObject)Resources.Load(
                 injuryData.markerData.prefabName),
