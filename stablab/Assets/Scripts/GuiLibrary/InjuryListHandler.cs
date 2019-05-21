@@ -271,7 +271,7 @@ public class InjuryListHandler : MonoBehaviour
     public void UpdateList()
     {
         // There exists more injuries that we can add to our list
-        if(InjuryManager.instance.injuries.Count > injuryButtons.Count && 
+        if(InjuryManager.instance.injuries.Count > injuryButtons.Count &&
             injuryButtons.Count < totalButtonAmount)
         {
             AddButton();
@@ -312,7 +312,7 @@ public class InjuryListHandler : MonoBehaviour
             InjuryButton button = injuryButtons.Find(btn => btn.isChecked);
             if(button) button.Unchecked(false);
         }
-        
+
         CheckInteractability();
     }
 
