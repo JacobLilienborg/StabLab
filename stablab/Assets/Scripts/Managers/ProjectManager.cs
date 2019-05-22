@@ -55,8 +55,8 @@ public class ProjectManager : MonoBehaviour
         else 
         {
             SceneManager.LoadScene("InjuryMode");
-            ModelManager.instance.LoadModel(currentProject.modelData);
             InjuryManager.instance.LoadInjuries(currentProject.injuryData);
+
         }
     }
 

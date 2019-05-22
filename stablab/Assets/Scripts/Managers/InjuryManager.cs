@@ -102,7 +102,8 @@ public class InjuryManager : MonoBehaviour
         InjuryController ic = go.GetComponent<InjuryController>();
         ic.injuryData = injuryData;
         injuries.Add(ic);
-        ActivateInjury(ic.injuryData.id);
+        ActivateInjury(ic);
+
     }
 
 
@@ -178,11 +179,13 @@ public class InjuryManager : MonoBehaviour
     // Load all injuries from the list in to the scene.
     public void LoadInjuries(List<InjuryData> injuryDatas)
     {
-        foreach(InjuryController injury in injuries)
+        ModelManager.instance.LoadModel(ProjectManager.instance.currentProject.modelData);
+        foreach (InjuryController injury in injuries)
         {
             Destroy(injury.gameObject);
         }
         injuries.Clear();
+        activeInjury = null;
 
         if (injuryDatas == null) return;
         foreach (InjuryData data in injuryDatas)
@@ -193,8 +196,6 @@ public class InjuryManager : MonoBehaviour
             {
                 Transform boneParent = GameObject.Find(data.boneName).transform;
                 activeInjury.PlaceInjury(data.markerData.transformData.position, boneParent);
-                activeInjury.FetchCamera();
-                activeInjury.FetchPose();
                 activeInjury.FetchMarkerWeapon();
             }
         }

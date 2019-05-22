@@ -59,6 +59,7 @@ public class InjuryController : MonoBehaviour
         }
         if (!markerObj || !weaponObj)
         {
+            Debug.Log(bone.name);
             Debug.Log("------>   PlaceInjury");
 
             markerObj = Instantiate((GameObject)Resources.Load(
@@ -223,6 +224,8 @@ public class InjuryController : MonoBehaviour
             {
                 Destroy(markerObj);
                 Destroy(weaponObj);
+                markerObj = null;
+                weaponObj = null;
                 return;
             }
             markerObj.transform.position = injuryData.markerData.transformData.position;
@@ -284,7 +287,7 @@ public class InjuryController : MonoBehaviour
 
     private void OnDestroy()
     {
-        //Debug.Log("---->  destroyyyy");
+        Debug.Log("---->  destroyyyy");
        /* Destroy(markerObj);
         Destroy(weaponObj);
         markerObj = null;
