@@ -70,6 +70,7 @@ public class CameraController : MonoBehaviour
     // Check if the scroll wheel is scrolled and starts zooming the camera in a intuitive way
     void Zoom()
     {
+
         if (!foregroundPopUp.activeSelf) {
             fov = Camera.main.fieldOfView;
             if(Input.mouseScrollDelta.y == 0) { return; }
