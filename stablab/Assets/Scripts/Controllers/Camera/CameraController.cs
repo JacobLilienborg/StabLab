@@ -29,6 +29,8 @@ public class CameraController : MonoBehaviour
     float clickZoomConstant     = 5;
     float clickRotationConstant = 10;
 
+    [SerializeField] private GameObject foregroundPopUp;
+
 
     // Start is called before the first frame update
     void Start()
@@ -68,15 +70,17 @@ public class CameraController : MonoBehaviour
     // Check if the scroll wheel is scrolled and starts zooming the camera in a intuitive way
     void Zoom()
     {
-        fov = Camera.main.fieldOfView;
-        if(Input.mouseScrollDelta.y == 0) { return; }
-        float zoomAmount = zoomSensitivity * zoomConstant * Mathf.Log(fov + 1);
+        if (!foregroundPopUp.activeSelf) {
+            fov = Camera.main.fieldOfView;
+            if(Input.mouseScrollDelta.y == 0) { return; }
+            float zoomAmount = zoomSensitivity * zoomConstant * Mathf.Log(fov + 1);
 
-        if (Input.mouseScrollDelta.y < 0) { fov += zoomAmount * Time.deltaTime; }
-        if (Input.mouseScrollDelta.y > 0) { fov -= zoomAmount * Time.deltaTime; }
-        
-        fov = Mathf.Clamp(fov, 0, 100);
-        Camera.main.fieldOfView = fov;
+            if (Input.mouseScrollDelta.y < 0) { fov += zoomAmount * Time.deltaTime; }
+            if (Input.mouseScrollDelta.y > 0) { fov -= zoomAmount * Time.deltaTime; }
+            
+            fov = Mathf.Clamp(fov, 0, 100);
+            Camera.main.fieldOfView = fov;
+        }
     }
 
     // Check if the right button is pressed and starts rotate the camera around the center
