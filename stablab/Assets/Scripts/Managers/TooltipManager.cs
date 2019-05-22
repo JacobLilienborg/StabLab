@@ -2,18 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class TooltipManager : MonoBehaviour
 {
     static bool show;
     static string currentInfo;
-    private Text text;
+    private TMP_Text text;
     private Image image;
     private bool onePulse = true;
     void Start()
     {
         show = false;
-        text = GetComponentInChildren<Text>();
+        text = GetComponentInChildren<TMP_Text>();
         image = GetComponent<Image>();
     }
 
