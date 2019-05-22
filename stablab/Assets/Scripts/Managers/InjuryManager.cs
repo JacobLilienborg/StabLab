@@ -138,6 +138,7 @@ public class InjuryManager : MonoBehaviour
                 activeInjury.RemoveGizmo();
             }
             activeInjury = injuries[index];
+            activeInjury.ToggleWeapon(true);
             InjuryActivationEvent.Invoke(activeInjury);
             IndexActivationEvent.Invoke(index);
             ActivationEvent.Invoke();
