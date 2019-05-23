@@ -2,8 +2,6 @@
 // Created by Martin Jirenius, Simon Gustavsson
 //
 
-using System.IO;
-using System.Runtime.Serialization;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -17,7 +15,6 @@ public class ProjectManager : MonoBehaviour
     // Start is called before the first frame update
     private void Awake()
     {
-
         // If instance doesn't exist set it to this, else destroy this
         if (instance == null)
         {
@@ -25,10 +22,7 @@ public class ProjectManager : MonoBehaviour
         }
         else if (instance != this)
         {
-            projectVersion = instance.projectVersion;
-            currentProject = instance.currentProject;
-            Destroy(instance.gameObject);
-            instance = this;
+            Destroy(gameObject);
         }
 
         DontDestroyOnLoad(this);
@@ -55,8 +49,8 @@ public class ProjectManager : MonoBehaviour
         else 
         {
             SceneManager.LoadScene("InjuryMode");
+            ModelManager.instance.LoadModel(currentProject.modelData);
             InjuryManager.instance.LoadInjuries(currentProject.injuryData);
-
         }
     }
 

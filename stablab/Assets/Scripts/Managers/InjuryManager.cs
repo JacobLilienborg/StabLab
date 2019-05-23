@@ -179,7 +179,8 @@ public class InjuryManager : MonoBehaviour
     // Load all injuries from the list in to the scene.
     public void LoadInjuries(List<InjuryData> injuryDatas)
     {
-        ModelManager.instance.LoadModel(ProjectManager.instance.currentProject.modelData);
+        if (injuryDatas == null) return;
+
         foreach (InjuryController injury in injuries)
         {
             Destroy(injury.gameObject);
@@ -187,16 +188,21 @@ public class InjuryManager : MonoBehaviour
         injuries.Clear();
         activeInjury = null;
 
-        if (injuryDatas == null) return;
+        Transform[] bones = ModelManager.instance.activeModel.skeleton.GetComponentsInChildren<Transform>();
         foreach (InjuryData data in injuryDatas)
         {
             CreateInjury(data);
 
             if (!string.IsNullOrEmpty(data.boneName))
             {
-                Transform boneParent = GameObject.Find(data.boneName).transform;
-                activeInjury.PlaceInjury(data.markerData.transformData.position, boneParent);
-                activeInjury.FetchMarkerWeapon();
+                foreach (Transform bone in bones) 
+                {
+                    if (bone.name == data.boneName)
+                    {
+                        activeInjury.PlaceInjury(data.markerData.transformData.position, bone);
+                        activeInjury.FetchMarkerWeapon();
+                    }
+                }
             }
         }
 

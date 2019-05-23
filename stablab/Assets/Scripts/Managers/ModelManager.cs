@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
+using System;
 
 public enum ModelType { man, woman, child, none};
 public class ModelManager : MonoBehaviour
@@ -20,6 +21,7 @@ public class ModelManager : MonoBehaviour
 
     public ModelData modelData = null;
     private int activeModelType;
+
 
     void Start()
     {
@@ -69,6 +71,7 @@ public class ModelManager : MonoBehaviour
         activeModel.height = modelData.height;
 
         this.modelData = modelData;
+        activeModel.BakeMesh();
     }
 
     // Sets the active model to either man, woman, child

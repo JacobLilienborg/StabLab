@@ -1,4 +1,4 @@
-﻿﻿using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -20,12 +20,13 @@ public class InjuryController : MonoBehaviour
     public UnityEvent positionSetEvent = new UnityEvent();
     public UnityEvent positionResetEvent = new UnityEvent();
 
+
     // Start is called before the first frame update
     void Start()
     {
         onClick.AddListener(InjuryManager.instance.ActivateInjury);
         gizmo = Camera.main.GetComponent<RuntimeGizmos.TransformGizmo>();
-        UpdatePose();
+        //UpdatePose();
     }
 
     // Update is called once per frame
@@ -59,9 +60,6 @@ public class InjuryController : MonoBehaviour
         }
         if (!markerObj || !weaponObj)
         {
-            Debug.Log(bone.name);
-            Debug.Log("------>   PlaceInjury");
-
             markerObj = Instantiate((GameObject)Resources.Load(
                 injuryData.markerData.prefabName),
                 point,
@@ -98,18 +96,18 @@ public class InjuryController : MonoBehaviour
 
     public void ToggleWeapon(bool active)
     {
-        if(weaponObj) weaponObj.SetActive(active);
+        if (weaponObj) weaponObj.SetActive(active);
     }
 
     public void SetColor(Color color)
     {
-        if(weaponObj) weaponObj.GetComponentInChildren<MeshRenderer>().material.color = color;
+        if (weaponObj) weaponObj.GetComponentInChildren<MeshRenderer>().material.color = color;
     }
 
     public void AddGizmo()
     {
         gizmo = Camera.main.GetComponent<RuntimeGizmos.TransformGizmo>();
-        if(gizmo.isTransforming) return;
+        if (gizmo.isTransforming) return;
         gizmo.ClearTargets();
         gizmo.AddTarget(weaponObj.transform);
         gizmo.enabled = true;
@@ -122,40 +120,40 @@ public class InjuryController : MonoBehaviour
     }
 
     public void TransformActive(InjuryType type)
+    {
+        switch (type)
         {
-            switch(type)
-            {
-                case InjuryType.Shot:
-                    injuryData = new ShotInjuryData(injuryData);
-                    break;
-                case InjuryType.Crush:
-                    injuryData = new CrushInjuryData(injuryData);
-                    break;
-                case InjuryType.Cut:
-                    injuryData = new CutInjuryData(injuryData);
-                    break;
-                case InjuryType.Stab:
-                    injuryData = new StabInjuryData(injuryData);
-                    break;
-                default:
-                    injuryData = new UndefinedInjuryData(injuryData);
-                    break;
-            }
-            if(markerObj && weaponObj)
-            {
-                Vector3 point = markerObj.transform.position;
-                Transform bone = markerObj.transform.parent;
-                Destroy(markerObj);
-                Destroy(weaponObj);
-                markerObj = null;
-                weaponObj = null;
-                PlaceInjury(point, bone);
-                UpdateMarkerWeapon();
-            }
-            else
-            {
-                InjuryManager.instance.OnChange.Invoke();
-            }
+            case InjuryType.Shot:
+                injuryData = new ShotInjuryData(injuryData);
+                break;
+            case InjuryType.Crush:
+                injuryData = new CrushInjuryData(injuryData);
+                break;
+            case InjuryType.Cut:
+                injuryData = new CutInjuryData(injuryData);
+                break;
+            case InjuryType.Stab:
+                injuryData = new StabInjuryData(injuryData);
+                break;
+            default:
+                injuryData = new UndefinedInjuryData(injuryData);
+                break;
+        }
+        if (markerObj && weaponObj)
+        {
+            Vector3 point = markerObj.transform.position;
+            Transform bone = markerObj.transform.parent;
+            Destroy(markerObj);
+            Destroy(weaponObj);
+            markerObj = null;
+            weaponObj = null;
+            PlaceInjury(point, bone);
+            UpdateMarkerWeapon();
+        }
+        else
+        {
+            InjuryManager.instance.OnChange.Invoke();
+        }
     }
 
     public void UpdateCamera()
@@ -171,13 +169,13 @@ public class InjuryController : MonoBehaviour
         Transform[] bones = ModelManager.instance.activeModel.skeleton.GetComponentsInChildren<Transform>();
         foreach (Transform bone in bones)
         {
-            if(bone.tag != "Injury") injuryData.poseData.Add(new TransformData(bone));
+            if (bone.tag != "Injury") injuryData.poseData.Add(new TransformData(bone));
         }
     }
 
     public void UpdateMarkerWeapon()
     {
-        if(markerObj && weaponObj)
+        if (markerObj && weaponObj)
         {
             injuryData.boneName = markerObj.transform.parent.name;
             injuryData.markerData.transformData.position = markerObj.transform.position;
@@ -194,7 +192,7 @@ public class InjuryController : MonoBehaviour
 
     public void FetchCamera()
     {
-        if(!injuryData.cameraData.isModified) return;
+        if (!injuryData.cameraData.isModified) return;
         Camera.main.transform.position = injuryData.cameraData.transformData.position;
         Camera.main.transform.rotation = injuryData.cameraData.transformData.rotation;
         Camera.main.fieldOfView = injuryData.cameraData.fieldOfView;
@@ -202,12 +200,12 @@ public class InjuryController : MonoBehaviour
 
     public void FetchPose()
     {
-        if(injuryData.poseData.Count == 0) return;  
+        if (injuryData.poseData.Count == 0) return;
         Transform[] bones = ModelManager.instance.activeModel.skeleton.GetComponentsInChildren<Transform>();
         int i = 0;
         foreach (Transform bone in bones)
         {
-            if(bone.tag != "Injury")
+            if (bone.tag != "Injury")
             {
                 bone.position = injuryData.poseData[i].position;
                 bone.rotation = injuryData.poseData[i].rotation;
@@ -220,7 +218,7 @@ public class InjuryController : MonoBehaviour
     {
         if (markerObj && weaponObj)
         {
-            if(!injuryData.markerData.isModified || !injuryData.weaponData.isModified)
+            if (!injuryData.markerData.isModified || !injuryData.weaponData.isModified)
             {
                 Destroy(markerObj);
                 Destroy(weaponObj);
@@ -285,13 +283,4 @@ public class InjuryController : MonoBehaviour
         return injuryData.weaponData.color;
     }
 
-    private void OnDestroy()
-    {
-        Debug.Log("---->  destroyyyy");
-       /* Destroy(markerObj);
-        Destroy(weaponObj);
-        markerObj = null;
-        weaponObj = null;
-        */       
-    }
 }
