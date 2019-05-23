@@ -13,14 +13,16 @@ public enum ModelView{
 public class Settings : MonoBehaviour
 {
     public static SettingsFile data;
-
     private static UnityEvent settingsConfirmedEvent = new UnityEvent();
 
 
     private void Start()
     {
         data = DataManager.instance.LoadSettings();
-        //data.screenShotFilePath = DataManager.instance.GetWorkingDirectory();
+        if(data.screenShotFilePath == "") 
+        {
+            data.screenShotFilePath = DataManager.instance.GetWorkingDirectory();
+        }
     }
 
     public static void AddSettingsConfirmedListener(UnityAction action)

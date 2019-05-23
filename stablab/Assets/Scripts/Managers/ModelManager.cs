@@ -27,6 +27,7 @@ public class ModelManager : MonoBehaviour
     {
         SceneManager.sceneLoaded += Finished;
     }
+
     private void Awake()
     {
         // If instance doesn't exist set it to this, else destroy this
@@ -38,9 +39,14 @@ public class ModelManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-
         DontDestroyOnLoad(this);
 
+        if (SceneManager.GetActiveScene().name == "CharacterMode" && instance.activeModel)
+        {
+            Debug.Log("destroying");
+            Destroy(instance.activeModel.gameObject);
+            instance.activeModel = null;
+        }
     }
 
     public void AddOnClickListener(UnityAction<Vector3, Transform> action)
