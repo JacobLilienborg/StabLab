@@ -90,7 +90,7 @@ public class InjuryController : MonoBehaviour
         markerObj.transform.rotation = Quaternion.FromToRotation(Vector3.left, Camera.main.transform.position - markerObj.transform.position);
         weaponObj.transform.rotation = Quaternion.FromToRotation(Vector3.left, Camera.main.transform.position - weaponObj.transform.position);
 
-        ToggleWeapon(false);
+        //ToggleWeapon(false);
         positionSetEvent.Invoke();
     }
 

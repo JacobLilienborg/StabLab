@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4358875356417351787}
-  - component: {fileID: 6938229118560969586}
   m_Layer: 0
   m_Name: shotModel
   m_TagString: Untagged
@@ -32,20 +31,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -3.828, y: 3.5800002, z: -7.9590006}
---- !u!114 &6938229118560969586
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1158819154700440335}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ffff7f3efcdd035408ffc910629d7ff2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gizmo: {fileID: 0}
-  gizmoActive: 0
 --- !u!1001 &3590773196165624380
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -111,6 +96,11 @@ PrefabInstance:
     - target: {fileID: 1721650224812088236, guid: 6f5d761ec6f28b84297db0213e03681a,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8466733367638912027, guid: 6f5d761ec6f28b84297db0213e03681a,
+        type: 3}
+      propertyPath: m_CastShadows
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

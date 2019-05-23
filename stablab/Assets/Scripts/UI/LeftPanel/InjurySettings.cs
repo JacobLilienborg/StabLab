@@ -2,16 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class InjurySettings : MonoBehaviour
 {
     public InputField injuryName;
-    public Text woundType;
-    public Text position;
+    public TMP_Text woundType;
+    public TMP_Text position;
     public Image model;
     public InputField info;
     public ImagesHandler imagesHandler;
-    public Text index; // New
+    public TMP_Text index; // New
 
     private InjuryController activeInjury;
 
@@ -59,7 +60,7 @@ public class InjurySettings : MonoBehaviour
         activeInjury = InjuryManager.instance.activeInjury;
         if (activeInjury != null)
         {
-            index.text = InjuryManager.instance.injuries.FindIndex(x => x == activeInjury).ToString();
+            index.text = (InjuryManager.instance.injuries.FindIndex(x => x == activeInjury) + 1).ToString();
             LoadNameText(activeInjury);
             LoadTypeText(activeInjury);
             LoadPositionText(activeInjury);
@@ -128,7 +129,7 @@ public class InjurySettings : MonoBehaviour
         }
         else
         {
-            position.text = activeInjury.GetBoneName();
+            position.text = "PLACED";//activeInjury.GetBoneName();
         }
     }
 
