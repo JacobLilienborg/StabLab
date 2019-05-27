@@ -12,17 +12,17 @@ public enum ModelView{
 
 public class Settings : MonoBehaviour
 {
-    public static ModelView modelView = ModelView.ActiveVisible;
-
-    public static string screenShotFilePath;
-
-    public static bool hightTrackerActivated = true;
-
+    public static SettingsFile data;
     private static UnityEvent settingsConfirmedEvent = new UnityEvent();
+
 
     private void Start()
     {
-        screenShotFilePath = DataManager.instance.GetWorkingDirectory();
+        data = DataManager.instance.LoadSettings();
+        if(data.screenShotFilePath == "") 
+        {
+            data.screenShotFilePath = DataManager.instance.GetWorkingDirectory();
+        }
     }
 
     public static void AddSettingsConfirmedListener(UnityAction action)
@@ -42,16 +42,16 @@ public class Settings : MonoBehaviour
 
     public void SetHeightTracking(bool activated)
     {
-        hightTrackerActivated = activated;
+        data.hightTrackerActivated = activated;
     }
 
     public void SetScreenshotPath(InputField screenshotPath)
     {
-        if(screenshotPath.text != "") screenShotFilePath = screenshotPath.text;
+        if(screenshotPath.text != "") data.screenShotFilePath = screenshotPath.text;
     }
 
     public static bool IsActiveModel(bool selected) {
-        switch (modelView) {
+        switch(data.modelView) {
             case ModelView.AllVisible:
                 return true;
             case ModelView.ActiveVisible:
@@ -71,16 +71,16 @@ public class Settings : MonoBehaviour
     public void SetModelView(int index) {
         switch (index) {
             case 0:
-                modelView = ModelView.AllVisible;
+                data.modelView = ModelView.AllVisible;
                 break;
             case 1:
-                modelView = ModelView.ActiveVisible;
+                data.modelView = ModelView.ActiveVisible;
                 break;
             case 2:
-                modelView = ModelView.NonVisible;
+                data.modelView = ModelView.NonVisible;
                 break;
             default:
-                modelView = ModelView.ActiveVisible;
+                data.modelView = ModelView.ActiveVisible;
                 break;
 
         }

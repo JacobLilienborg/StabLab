@@ -12,12 +12,10 @@ public class TooltipCaller : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     public void OnPointerEnter(PointerEventData eventData)
     {
         TooltipManager.Show(description);
-        Debug.Log("SHOW");
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         TooltipManager.Hide();
-        Debug.Log("HIDE");
     }
 }

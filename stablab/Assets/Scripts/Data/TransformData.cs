@@ -1,13 +1,15 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
+[Serializable]
 public class TransformData
 {
     private float[] _position = new float[3];
     private float[] _rotation = new float[4];
-   
+
     public TransformData()
     {
-        
+
     }
     public TransformData(Transform data)
     {
@@ -15,7 +17,7 @@ public class TransformData
         rotation = data.rotation;
     }
     public Vector3 position
-    {   
+    {
         set
         {
             _position[0] = value.x;
@@ -30,7 +32,7 @@ public class TransformData
     }
 
     public Quaternion rotation
-    {   
+    {
         set
         {
             _rotation[0] = value.x;

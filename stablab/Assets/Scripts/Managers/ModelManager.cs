@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
+using System;
 
 public enum ModelType { man, woman, child, none};
 public class ModelManager : MonoBehaviour
@@ -18,10 +19,15 @@ public class ModelManager : MonoBehaviour
     public UnityEvent modelDisabledEvent = new UnityEvent();
     public UnityEvent heightChangedEvent = new UnityEvent();
 
+    public ModelData modelData = null;
+    private int activeModelType;
+
+
     void Start()
     {
         SceneManager.sceneLoaded += Finished;
     }
+
     private void Awake()
     {
         // If instance doesn't exist set it to this, else destroy this
@@ -33,8 +39,14 @@ public class ModelManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-
         DontDestroyOnLoad(this);
+
+        if (SceneManager.GetActiveScene().name == "CharacterMode" && instance.activeModel)
+        {
+            Debug.Log("destroying");
+            Destroy(instance.activeModel.gameObject);
+            instance.activeModel = null;
+        }
     }
 
     public void AddOnClickListener(UnityAction<Vector3, Transform> action)
@@ -49,16 +61,28 @@ public class ModelManager : MonoBehaviour
 
     private void Finished(Scene scene, LoadSceneMode mode)
     {
-        if(scene.name == "InjuryMode")
+        if (activeModel == null) return;
+
+        if (scene.name == "InjuryMode")
         {
             activeModel.BakeMesh();
         }
     }
 
+    public void LoadModel(ModelData modelData)
+    {
+        SetActiveModel(modelData.type);
+        activeModel.weight = modelData.weight;
+        activeModel.muscles = modelData.muscles;
+        activeModel.height = modelData.height;
+
+        this.modelData = modelData;
+        activeModel.BakeMesh();
+    }
+
     // Sets the active model to either man, woman, child
     public void SetActiveModel(int type)
     {
-
         if (activeModel)
         {
             Destroy(activeModel.gameObject);
@@ -89,6 +113,8 @@ public class ModelManager : MonoBehaviour
                 modelDisabledEvent.Invoke();
                 break;
         }
+
+        activeModelType = type;
     }
 
     public void AdjustWeight(Slider slider)
@@ -117,5 +143,17 @@ public class ModelManager : MonoBehaviour
             activeModel.height = 0;
         }
         heightChangedEvent.Invoke();
+    }
+
+    public void CreateModelData()
+    {
+        modelData = new ModelData
+        {
+            type = activeModelType,
+            height = activeModel.height,
+            weight = activeModel.weight,
+            muscles = activeModel.muscles,
+            isModified = true
+        };
     }
 }

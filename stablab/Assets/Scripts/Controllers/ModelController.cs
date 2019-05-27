@@ -1,4 +1,5 @@
-﻿﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Events;
 
 [System.Serializable] public class OnClick : UnityEvent<Vector3, Transform>{}
@@ -38,7 +39,7 @@ public class ModelController : MonoBehaviour
         }
     }
 
-    void Start()
+    void Awake()
     {
         gizmo = Camera.main.GetComponent<RuntimeGizmos.TransformGizmo>();
         meshCollider = GetComponentInChildren<MeshCollider>();
@@ -137,12 +138,4 @@ public class ModelController : MonoBehaviour
         gizmo.ClearTargets();
     }
 
-    public void UpdateData()
-    {
-
-    }
-    public void RevertData()
-    {
-
-    }
 }

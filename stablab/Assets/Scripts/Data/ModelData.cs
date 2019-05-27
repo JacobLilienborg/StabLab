@@ -5,7 +5,10 @@ using UnityEngine;
 [Serializable]
 public class ModelData
 {
-    ModelType type;
-    float muscles;
-    float weight;
+    public int type;
+    public float muscles;
+    public float weight;
+    public int height;
+
+    public bool isModified = false;
 }
