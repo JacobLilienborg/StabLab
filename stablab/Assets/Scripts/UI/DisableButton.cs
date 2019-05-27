@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 
@@ -40,11 +41,14 @@ public class DisableButton : MonoBehaviour
     
     private void Start()
     {
-        ModelManager.instance.heightChangedEvent.AddListener(HeightChanged);
-        ModelManager.instance.modelEnabledEvent.AddListener(OnModelActive);
-        ModelManager.instance.modelDisabledEvent.AddListener(OnModelInActive);
+        if(SceneManager.GetActiveScene().name == "CharacterMode")
+        {
+            ModelManager.instance.heightChangedEvent.AddListener(HeightChanged);
+            ModelManager.instance.modelEnabledEvent.AddListener(OnModelActive);
+            ModelManager.instance.modelDisabledEvent.AddListener(OnModelInActive);
+        }
 
-        if (InjuryManager.instance != null)
+        if (SceneManager.GetActiveScene().name == "InjuryMode")
             /*Only in injuryMode */
         {
             standardDisabled.Add(modelButton);

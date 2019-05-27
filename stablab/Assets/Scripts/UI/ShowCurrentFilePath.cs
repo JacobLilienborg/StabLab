@@ -8,6 +8,6 @@ public class ShowCurrentFilePath : MonoBehaviour
     public InputField text;
     private void OnEnable()
     {
-        text.text = Settings.screenShotFilePath;   
+        text.text = Settings.data.screenShotFilePath;   
     }
 }

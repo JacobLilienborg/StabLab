@@ -58,7 +58,7 @@ public class GuiManager : MonoBehaviour
     {
         InjuryManager.instance.activeInjury.ToggleWeapon(active);
     }
-    
+
     public void UpdateInjuryCamera(){ InjuryManager.instance.activeInjury.UpdateCamera(); }
     public void UpdateInjuryPose(){ InjuryManager.instance.activeInjury.UpdatePose(); }
     public void UpdateInjuryMarkerWeapon(){ InjuryManager.instance.activeInjury.UpdateMarkerWeapon(); }
@@ -66,4 +66,16 @@ public class GuiManager : MonoBehaviour
     public void FetchInjuryPose(){ InjuryManager.instance.activeInjury.FetchPose(); }
     public void FetchInjuryMarkerWeapon(){ InjuryManager.instance.activeInjury.FetchMarkerWeapon(); }
 
+
+    public void Save(){ DataManager.instance.Save(); }
+    public void LoadProject() { DataManager.instance.LoadProject(); }
+    public void SetActiveModel(int type){ ModelManager.instance.SetActiveModel(type);}
+    public void AdjustWeight(Slider slider){ ModelManager.instance.AdjustWeight(slider);}
+    public void AdjustMuscles(Slider slider){ ModelManager.instance.AdjustMuscles(slider); }
+    public void AdjustHeight(InputField height){ ModelManager.instance.AdjustHeight(height); }
+    public void CreateModelData() 
+    { 
+        ModelManager.instance.CreateModelData();
+        DataManager.instance.SaveProject();
+    }
 }

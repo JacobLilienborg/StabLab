@@ -6,15 +6,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.Serialization;
 using UnityEngine;
 
 public class DataManager : MonoBehaviour
 {
 
     public static DataManager instance;
-
-    List<AData> dataList = new List<AData>();       // A list of data files
     private string workingDirectory;                // A string of where to save the files
+    private AppDataFile applicationData;
+    private SettingsFile settingsFile;
 
     // Start is called before the first frame update
     private void Awake()
@@ -23,15 +24,22 @@ public class DataManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-        }        
+        }
         else if (instance != this)
         {
-            dataList = instance.dataList;
-            workingDirectory = instance.workingDirectory;
-            Destroy(instance.gameObject);
-            instance = this;
+            Destroy(gameObject);
         }
-        DontDestroyOnLoad(this);
+
+        //Don't destroy when reloading scene
+        DontDestroyOnLoad(gameObject);
+
+        applicationData = LoadApplicationData();
+        settingsFile = LoadSettings();
+    }
+
+    public string GetWorkingDirectory()
+    {
+        return workingDirectory;
     }
 
     public void SetWorkingDirectory(string directory)
@@ -39,68 +47,94 @@ public class DataManager : MonoBehaviour
         workingDirectory = directory;
     }
 
-    public void Reset()
+    public SettingsFile LoadSettings()
     {
-        dataList.Clear();
+        SettingsFile settings;
+        try
+        {
+            settings = FileManager.Load<SettingsFile>(Path.Combine(Application.persistentDataPath, "Settings"));
+            Debug.Log("Settings was loaded successfully");
+        }
+        catch (FileNotFoundException)
+        {
+            settings = new SettingsFile(Application.persistentDataPath);
+            FileManager.Save(settings, settings.GetPath());
+            Debug.Log("Settings couldn't be found and is therefore created");
+        }
+        return settings;
     }
 
-    // Add an arbitrary amount of data files that the data manager will load and save upon request
-    public void Track(params AData[] data)
+    public void LoadProject()
     {
-        foreach (AData d in data)
+        try
         {
-            dataList.Add(d);
+            string path = FileManager.OpenFileBrowser("cvz", applicationData.recentWorkingDirectory);
+            ProjectFile proj = FileManager.Load<ProjectFile>(path);
+            SetWorkingDirectory(proj.directory);
+            AddToRecent(proj);
+            ProjectManager.instance.Open(proj);
+        }
+        catch (FileNotFoundException)
+        {
+            Debug.Log("Couldn't open selected project, the file was not found");
         }
     }
 
-    // Loads the data represented in each data files path.
-    // This does not Update the scene with the new data, only loads it into the project
-    public void Load()
+    public AppDataFile LoadApplicationData()
     {
-        for (int i = 0; i < dataList.Count; i++)
+        AppDataFile appData;
+        try
         {
-            AData data = dataList[i];
-            try
-            {
-                dataList[i] = FileManager.Load<AData>(Path.Combine(workingDirectory, data.GetPath()));
-                Debug.Log(data.fileName + " was loaded successfully");
-            }
-            catch (FileNotFoundException)
-            {
-                FileManager.Save(data, Path.Combine(workingDirectory, data.GetPath()));
-                Debug.Log(data.fileName + " couldn't be found and is therefore created");
-            }
-            catch (DirectoryNotFoundException)
-            {
-                Directory.CreateDirectory(new FileInfo(Path.Combine(workingDirectory, data.GetPath())).Directory.FullName);
-                FileManager.Save(data, Path.Combine(workingDirectory, data.GetPath()));
-                Debug.Log(data.fileName + " couldn't be found and is therefore created");
-            }
+            appData = FileManager.Load<AppDataFile>(Path.Combine(Application.persistentDataPath, "AppData"));
+            Debug.Log("AppData was loaded successfully");
         }
+        catch (FileNotFoundException)
+        {
+            appData = new AppDataFile(Application.persistentDataPath);
+            FileManager.Save(appData, appData.GetPath());
+            Debug.Log("AppData couldn't be found and is therefore created");
+        }
+        catch (SerializationException) 
+        {
+            appData = new AppDataFile(Application.persistentDataPath);
+            FileManager.Save(appData, appData.GetPath());
+            Debug.Log("AppData couldn't be found and is therefore created");
+        }
+        return appData;
     }
 
     // Save the current state of each data file and save it to each file path
     public void Save()
     {
-        foreach (AData data in dataList)
-        {
-            FileManager.Save(data, Path.Combine(workingDirectory, data.GetPath()));
-            Debug.Log(data.fileName + " was saved successfully");
-        }
+        SaveProject();
+        SaveSettings();
+        FileManager.Save(applicationData, applicationData.GetPath());
     }
 
-    // Call each data file's update function to update the scene
-    public void UpdateScene()
+    public void SaveSettings() 
     {
-        foreach (AData data in dataList)
+        if(Settings.data != null) 
         {
-            data.Update();
+            settingsFile = Settings.data;
         }
+        FileManager.Save(settingsFile, settingsFile.GetPath());
     }
 
-    public string GetWorkingDirectory()
+    public void SaveProject()
     {
-        return workingDirectory;
+        ProjectManager.instance.SetProjectData();
+        FileManager.Save(ProjectManager.instance.currentProject, ProjectManager.instance.currentProject.GetPath());
+    }
+    
+    public void AddToRecent(ProjectFile proj)
+    {
+        if (applicationData.recentProjects.Contains(proj.GetPath()))
+        {
+            applicationData.recentProjects.Remove(proj.GetPath());
+        }
+        applicationData.recentProjects.Insert(0, proj.GetPath());
+        applicationData.recentWorkingDirectory = proj.directory;
+        //FileManager.Save(applicationData, applicationData.GetPath());
     }
 
 }

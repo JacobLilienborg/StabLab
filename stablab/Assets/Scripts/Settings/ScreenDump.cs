@@ -18,7 +18,7 @@ public class ScreenDump : MonoBehaviour
     public void ChangeWorkingDirectory()
     {
         //Debug.Log("Settings.screenShotFilePath;");
-        string tmpPath = Settings.screenShotFilePath;
+        string tmpPath = Settings.data.screenShotFilePath;
         if (tmpPath != "") workingDirectory = tmpPath;
     }
 
