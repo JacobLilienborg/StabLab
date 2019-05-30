@@ -6,7 +6,7 @@ public class UndefinedInjuryData : InjuryData
     private const string MARKER_NAME = "Markers/UndefinedMarker";
     private const string ICON_NAME = "Icons/Undefined";
 
-    private const string WEAPON_NAME = "Models/Undefined/undefinedModel";
+    public override string DEFAULT_WEAPON_NAME { get { return "Models/Undefined/undefinedModel"; } }
     private const string WEAPON_PATH = "Models/Undefined";
 
     public UndefinedInjuryData(Guid id) : base(id)
@@ -20,7 +20,6 @@ public class UndefinedInjuryData : InjuryData
         weaponData = new WeaponData
         {
             resourcePath = WEAPON_PATH,
-            prefabName = WEAPON_NAME
         };
     }
 
@@ -36,7 +35,7 @@ public class UndefinedInjuryData : InjuryData
         weaponData = new WeaponData
         {
             resourcePath = WEAPON_PATH,
-            prefabName = WEAPON_NAME,
+            prefabName = injuryData.weaponData.prefabName,
             transformData = injuryData.weaponData.transformData
         };
     }

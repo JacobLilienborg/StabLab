@@ -37,7 +37,7 @@ public class ImagesHandler : MonoBehaviour
         foreach(InjuryImage image in images) { Destroy(image.gameObject); }
         images.Clear();
 
-        for(int i = 0; i < InjuryManager.instance.activeInjury.injuryData.images.Count; i++)
+        for(int i = 0; i < InjuryManager.instance.activeInjury.imageTextures.Count; i++)
         {
             LoadImage(i);
         }
@@ -49,8 +49,10 @@ public class ImagesHandler : MonoBehaviour
     public void AddImage()
     {
         string imagePath = FileManager.OpenFileBrowser("png,jpg"); // Let the user pick an image
-        if (imagePath != "") InjuryManager.instance.activeInjury.AddImage(FileManager.ReadBytes(imagePath)); // Save the image to active injury
-        LoadImage(InjuryManager.instance.activeInjury.injuryData.images.Count - 1);
+        if (imagePath == "") return; 
+
+        InjuryManager.instance.activeInjury.AddImage(FileManager.ReadBytes(imagePath)); // Save the image to active injury
+        LoadImage(InjuryManager.instance.activeInjury.imageTextures.Count - 1);
     }
 
     // Removes the active image from the injury
@@ -58,7 +60,7 @@ public class ImagesHandler : MonoBehaviour
     {
         Destroy(images[activeIndex].gameObject);
         images.Remove(images[activeIndex]);
-        InjuryManager.instance.activeInjury.injuryData.images.RemoveAt(activeIndex);
+        InjuryManager.instance.activeInjury.RemoveImage(activeIndex);
         ShowImage(activeIndex);
     }
 
@@ -68,12 +70,8 @@ public class ImagesHandler : MonoBehaviour
         if (index == -1)
             return;
 
-        Texture2D imgTexture = new Texture2D(2, 2);
-        imgTexture.LoadImage(InjuryManager.instance.activeInjury.GetImage(index));
-        imgTexture.Compress(false);
-
         InjuryImage image = Instantiate(emptyImage, imageArea);
-        image.texture = imgTexture;
+        image.texture = InjuryManager.instance.activeInjury.GetImageTexture(index);
 
         float ratio = image.texture.width / (float)image.texture.height;
         float w, h;

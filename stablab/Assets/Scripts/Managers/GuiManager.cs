@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
@@ -69,6 +67,11 @@ public class GuiManager : MonoBehaviour
 
     public void Save(){ DataManager.instance.Save(); }
     public void LoadProject() { DataManager.instance.LoadProject(); }
+    public void LoadPrevious() 
+    {
+        string path = DataManager.instance.LoadApplicationData().recentProjects[0];
+        DataManager.instance.LoadProject(path);
+    }
     public void SetActiveModel(int type){ ModelManager.instance.SetActiveModel(type);}
     public void AdjustWeight(Slider slider){ ModelManager.instance.AdjustWeight(slider);}
     public void AdjustMuscles(Slider slider){ ModelManager.instance.AdjustMuscles(slider); }

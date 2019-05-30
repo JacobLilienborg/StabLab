@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4351033871551407834}
   m_Layer: 0
   m_Name: stickModel
-  m_TagString: Untagged
+  m_TagString: Injury
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -103,7 +103,7 @@ GameObject:
   - component: {fileID: 6601829688419451451}
   m_Layer: 0
   m_Name: stickModel
-  m_TagString: Untagged
+  m_TagString: Injury
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

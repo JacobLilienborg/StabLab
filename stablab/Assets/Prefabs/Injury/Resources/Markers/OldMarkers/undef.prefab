@@ -12,10 +12,9 @@ GameObject:
   - component: {fileID: 6718771882872039832}
   - component: {fileID: 6718771882872039833}
   - component: {fileID: 6718771882872039834}
-  - component: {fileID: 6706619581951694095}
   m_Layer: 0
-  m_Name: UndefinedMarker
-  m_TagString: Marker
+  m_Name: undef
+  m_TagString: Injury
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -93,18 +92,3 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
---- !u!114 &6706619581951694095
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6718771882872039835}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d742c2aa0b345f45adb3638608c3b8b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  outlineMaterial: {fileID: 2100000, guid: 1275858840d2475469717785106f697e, type: 2}
-  originalMaterial: {fileID: 2100000, guid: e5fdaa7fef7a3994da069dc13a3e7f7c, type: 2}
-  type: 0

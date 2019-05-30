@@ -45,7 +45,6 @@ public class FullScreenImageShower : MonoBehaviour
     void Update() {
         if (showingFullscreen) {
             if (Input.GetKeyDown(KeyCode.RightArrow)) {
-                Debug.Log("Right");
                 hide();
                 show(ImagesHandler.NextImage());
             }
@@ -65,16 +64,17 @@ public class FullScreenImageShower : MonoBehaviour
         float w, h;
 
         this.image = Instantiate(image, transform);
-        
+
         // Resizes the image so it fits the screen.
-        w          = screenSize.x;
-        h          = w / ratio;
+        Rect fullScreenRect = GetComponent<RectTransform>().rect;
+        w = fullScreenRect.width;
+        h = w / ratio;
 
         this.image.rectTransform.sizeDelta = new Vector2(w, h);
 
-        if (this.image.rectTransform.rect.height > screenSize.y)
+        if (this.image.rectTransform.rect.height > fullScreenRect.height)
         {
-            h = screenSize.y;
+            h = GetComponent<RectTransform>().rect.height;
             w = h * ratio;
 
             this.image.rectTransform.sizeDelta = new Vector2(w, h);

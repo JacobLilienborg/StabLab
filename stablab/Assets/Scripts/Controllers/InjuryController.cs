@@ -15,6 +15,7 @@ public class InjuryController : MonoBehaviour
     public InjuryData injuryData;
     public GameObject markerObj;
     public GameObject weaponObj;
+    public List<Texture2D> imageTextures = new List<Texture2D>();
     private RuntimeGizmos.TransformGizmo gizmo;
 
     public UnityEvent positionSetEvent = new UnityEvent();
@@ -26,7 +27,20 @@ public class InjuryController : MonoBehaviour
     {
         onClick.AddListener(InjuryManager.instance.ActivateInjury);
         gizmo = Camera.main.GetComponent<RuntimeGizmos.TransformGizmo>();
-        //UpdatePose();
+        LoadImages();
+    }
+
+    private void LoadImages()
+    {
+        imageTextures.Clear();
+        foreach (byte[] image in injuryData.images)
+        {
+            Texture2D imgTexture = new Texture2D(2, 2);
+            imgTexture.LoadImage(image);
+            imgTexture.Compress(false);
+
+            imageTextures.Add(imgTexture);
+        }
     }
 
     // Update is called once per frame
@@ -66,17 +80,18 @@ public class InjuryController : MonoBehaviour
                 Quaternion.identity);
             markerObj.transform.SetParent(bone
             );
-            markerObj.tag = "Injury";
-            markerObj.transform.GetChild(0).tag = "Injury";
 
+            string weaponName;
+            if (string.IsNullOrEmpty(injuryData.weaponData.prefabName)) weaponName = injuryData.DEFAULT_WEAPON_NAME;
+            else weaponName = injuryData.weaponData.prefabName;
+
+            Debug.Log(weaponName);
             weaponObj = Instantiate((GameObject)Resources.Load(
-                injuryData.weaponData.prefabName),
+                weaponName),
                 point,
                 Quaternion.identity
             );
             weaponObj.transform.SetParent(bone);
-            weaponObj.tag = "Injury";
-            weaponObj.transform.GetChild(0).tag = "Injury";
         }
         else
         {
@@ -231,6 +246,7 @@ public class InjuryController : MonoBehaviour
 
             weaponObj.transform.position = injuryData.weaponData.transformData.position;
             weaponObj.transform.rotation = injuryData.weaponData.transformData.rotation;
+            weaponObj.transform.parent = GameObject.Find(injuryData.boneName).transform;
 
             weaponObj.GetComponentInChildren<MeshRenderer>().material.color = injuryData.weaponData.color;
             positionResetEvent.Invoke();
@@ -251,11 +267,23 @@ public class InjuryController : MonoBehaviour
     public void AddImage(byte[] bytes)
     {
         injuryData.images.Add(bytes);
+
+        Texture2D imgTexture = new Texture2D(2, 2);
+        imgTexture.LoadImage(bytes);
+        imgTexture.Compress(false);
+
+        imageTextures.Add(imgTexture);
     }
 
-    public byte[] GetImage(int index)
+    public void RemoveImage(int index)
     {
-        return injuryData.images[index];
+        injuryData.images.RemoveAt(index);
+        imageTextures.RemoveAt(index);
+    }
+
+    public Texture2D GetImageTexture(int index)
+    {
+        return imageTextures[index];
     }
 
     public void SetText(string text)

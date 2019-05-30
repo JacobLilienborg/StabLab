@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 6303992642424150950}
   m_Layer: 0
   m_Name: undefinedModel
-  m_TagString: Untagged
+  m_TagString: Injury
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -56,6 +56,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: KROSS
+      objectReference: {fileID: 0}
+    - target: {fileID: 3662397692269573152, guid: ce5fe53ab1546f94e88403f0c865385b,
+        type: 3}
+      propertyPath: m_TagString
+      value: Injury
       objectReference: {fileID: 0}
     - target: {fileID: 2430901661222666508, guid: ce5fe53ab1546f94e88403f0c865385b,
         type: 3}

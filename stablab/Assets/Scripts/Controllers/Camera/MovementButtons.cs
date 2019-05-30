@@ -15,8 +15,6 @@ enum MOVEMENTTYPE {
 
 public class MovementButtons : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
-    private static bool  invertedControls = false;
-
     private Transform    target;
     public  int          directionNumber;
     public  int          typeNumber;
@@ -103,7 +101,7 @@ public class MovementButtons : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         {
             if ((MoveType == MOVEMENTTYPE.PAN))
             {   
-                if(!invertedControls)
+                if(!Settings.data.invertedControls)
                     target.Translate(direction * Time.deltaTime * speed * Camera.main.gameObject.GetComponent<CameraController>().fov / 10);
                 else
                     target.Translate(direction * -1 * Time.deltaTime * speed * Camera.main.gameObject.GetComponent<CameraController>().fov / 10);
@@ -112,7 +110,7 @@ public class MovementButtons : MonoBehaviour, IPointerDownHandler, IPointerUpHan
             {
                 if (direction == Vector3.up || direction == Vector3.down)
                 {
-                    if(!invertedControls)
+                    if(!Settings.data.invertedControls)
                        target.RotateAround(Vector3.zero, direction, Time.deltaTime * rotationSpeed);
                     else
                        target.RotateAround(Vector3.zero, direction * -1, Time.deltaTime * rotationSpeed);
@@ -125,7 +123,7 @@ public class MovementButtons : MonoBehaviour, IPointerDownHandler, IPointerUpHan
                         0,
                         ModelManager.instance.activeModel.meshCollider.bounds.center.y * 5 / Camera.main.scaledPixelHeight
                     );
-                    if (direction == Vector3.right ^ invertedControls)
+                    if (direction == Vector3.right ^ Settings.data.invertedControls)
                         target.RotateAround(rotationCenter, target.right, Time.deltaTime * rotationSpeed);
                     else
                         target.RotateAround(rotationCenter, target.right * -1, Time.deltaTime * rotationSpeed);
@@ -161,11 +159,6 @@ public class MovementButtons : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         target.position = Camera.main.gameObject.GetComponent<CameraController>().stdPos;
         target.rotation = Camera.main.gameObject.GetComponent<CameraController>().stdRot;
         Camera.main.fieldOfView = Camera.main.gameObject.GetComponent<CameraController>().stdFov;
-    }
-    
-    public static void InvertedControls(bool isReversed)
-    {
-        invertedControls = isReversed;
     }
 
 }

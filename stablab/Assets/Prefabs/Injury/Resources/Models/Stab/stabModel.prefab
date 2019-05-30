@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7763640891350684458}
   m_Layer: 0
   m_Name: stabModel
-  m_TagString: Untagged
+  m_TagString: Injury
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -42,6 +42,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: STAB
+      objectReference: {fileID: 0}
+    - target: {fileID: 3341753675363991438, guid: 6586b6d0afd0f334e90649eba1eb8635,
+        type: 3}
+      propertyPath: m_TagString
+      value: Injury
       objectReference: {fileID: 0}
     - target: {fileID: 8010880702860574689, guid: 6586b6d0afd0f334e90649eba1eb8635,
         type: 3}

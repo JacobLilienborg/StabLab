@@ -12,7 +12,7 @@ public class TooltipCaller : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (description != "")
-            TooltipManager.Show(description);
+            TooltipManager.Show(description, false);
     }
 
     public void OnPointerExit(PointerEventData eventData)
@@ -23,7 +23,7 @@ public class TooltipCaller : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     public void OnPointerClick(PointerEventData eventData)
     {
         if (clickedDescription != "")
-            TooltipManager.Show(clickedDescription);
+            TooltipManager.Show(clickedDescription, true);
     }
 
 }

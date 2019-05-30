@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1178991338217774609}
   m_Layer: 0
   m_Name: Cylinder
-  m_TagString: Untagged
+  m_TagString: Injury
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -103,7 +103,7 @@ GameObject:
   - component: {fileID: 5464580010030082558}
   m_Layer: 0
   m_Name: CutMarker
-  m_TagString: Untagged
+  m_TagString: Injury
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

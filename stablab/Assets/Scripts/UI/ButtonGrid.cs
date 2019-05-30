@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,6 +19,11 @@ public class ButtonGrid : MonoBehaviour
         gizmo = gizmoObj.GetComponent<RuntimeGizmos.TransformGizmo>();
         areaX = ((RectTransform)area.transform).rect.x;
         areaY = ((RectTransform)area.transform).rect.y;
+    }
+
+    private void OnEnable()
+    {
+        Load();
     }
 
     private void Load()
@@ -59,12 +62,10 @@ public class ButtonGrid : MonoBehaviour
     {
         /*DirectoryInfo levelDirectoryPath = new DirectoryInfo(InjuryManager.activeInjury.GetModelPath());
         FileInfo[] fileInfo = levelDirectoryPath.GetFiles("*.*", SearchOption.AllDirectories);*/
-        foreach(GameObject i in Resources.LoadAll<GameObject>(InjuryManager.instance.activeInjury.injuryData.weaponData.resourcePath))
+        foreach(GameObject weapon in Resources.LoadAll<GameObject>(InjuryManager.instance.activeInjury.injuryData.weaponData.resourcePath))
         {
-            GameObject modelCopy = Instantiate(i);
-            modelCopy.SetActive(false);
-            modelCopy.transform.parent = area.transform;
-            gridObjects.Add(modelCopy);
+            weapon.SetActive(false);
+            gridObjects.Add(weapon);
         }
     }
 
@@ -83,8 +84,8 @@ public class ButtonGrid : MonoBehaviour
         //Texture2D image = new Texture2D(10,10);
 
         Button curButton = buttonObj.GetComponent<Button>();
-        //o.transform.position = InjuryManager.instance.activeInjury.injuryData.weaponData.GetWeaponModel().transform.position;
-        //o.transform.rotation = InjuryManager.activeInjury.Marker.GetWeaponModel().transform.rotation;
+        o.transform.position = InjuryManager.instance.activeInjury.injuryData.weaponData.transformData.position;
+        o.transform.rotation = InjuryManager.instance.activeInjury.injuryData.weaponData.transformData.rotation;
         curButton.onClick.AddListener(delegate { SetNewModel(o); });
         buttonObj.AddComponent<GridButtonProperies>().model = o;
 
@@ -94,19 +95,19 @@ public class ButtonGrid : MonoBehaviour
 
     public void SetNewModel(GameObject o) {
 
-        /*InjuryManager.TransformActive(GetTypeFromObjectName(o),InjuryManager.activeInjury.isInHole);
-        if (InjuryManager.activeInjury.HasMarker())
+        //InjuryManager.TransformActive(GetTypeFromObjectName(o),InjuryManager.activeInjury.isInHole);
+        if (InjuryManager.instance.activeInjury)
         {
-
+            string path = InjuryManager.instance.activeInjury.injuryData.weaponData.resourcePath;
+            InjuryManager.instance.activeInjury.injuryData.weaponData.prefabName = path +"/"+ o.name;
             Debug.Log(o.name);
+
+            Destroy(InjuryManager.instance.activeInjury.weaponObj);
             GameObject copy = Instantiate(o, o.transform.position, o.transform.rotation, o.transform.parent);
-            copy.GetComponent<InjuryModelGizmos>().gizmo = this.gizmo;
-            copy.transform.parent = InjuryManager.activeInjury.Marker.GetWeaponModel().transform.parent;
-            if (this.gizmo == null) Debug.Log("WTAF");
-            InjuryManager.activeInjury.Marker.SetWeaponModel(copy);
-            
-            WeaponModelManager.DeleteModel();
+            InjuryManager.instance.activeInjury.weaponObj = copy;
+            InjuryManager.instance.activeInjury.FetchMarkerWeapon();
+            copy.SetActive(true);
         }
-        //InjuryManager.activeInjury.SetModelName(path);*/
+        //InjuryManager.activeInjury.SetModelName(path);
     }
 }

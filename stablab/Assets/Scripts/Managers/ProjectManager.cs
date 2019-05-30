@@ -12,7 +12,7 @@ public class ProjectManager : MonoBehaviour
     private float projectVersion = 0.1f;                                        // Mainly for future implementation where projectVersion is critical
     public ProjectFile currentProject { get; protected set; }                                         // A copy of the current project data
 
-    // Start is called before the first frame update
+
     private void Awake()
     {
         // If instance doesn't exist set it to this, else destroy this
@@ -34,7 +34,7 @@ public class ProjectManager : MonoBehaviour
     public void Create(string name, string directory)
     {
         currentProject = new ProjectFile(name, directory, projectVersion);
-        DataManager.instance.SetWorkingDirectory(directory);
+        DataManager.instance.SetWorkingDirectory(currentProject.directory);
         DataManager.instance.AddToRecent(currentProject);
         SceneManager.LoadScene("CharacterMode");
     }

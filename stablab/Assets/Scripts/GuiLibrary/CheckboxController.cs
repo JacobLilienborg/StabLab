@@ -75,4 +75,10 @@ public class CheckboxController : MonoBehaviour, IPointerClickHandler, IPointerE
         isChecked = false;
         if(trigger) OnUnchecked.Invoke();
     }
+
+    public void SetChecked(bool check) 
+    {
+        if (check) Checked(false);
+        else Unchecked(false);
+    }
 }

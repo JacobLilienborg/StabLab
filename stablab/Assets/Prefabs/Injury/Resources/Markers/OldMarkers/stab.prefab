@@ -12,10 +12,9 @@ GameObject:
   - component: {fileID: 2530853426216288294}
   - component: {fileID: 2530853426216288293}
   - component: {fileID: 2530853426216288292}
-  - component: {fileID: 6276458115333369184}
   m_Layer: 0
-  m_Name: StabMarker
-  m_TagString: Marker
+  m_Name: stab
+  m_TagString: Injury
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -93,18 +92,3 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
---- !u!114 &6276458115333369184
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2530853426216288291}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d742c2aa0b345f45adb3638608c3b8b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  outlineMaterial: {fileID: 2100000, guid: b975a04510bc8ec4faf796b30cdfc5ee, type: 2}
-  originalMaterial: {fileID: 2100000, guid: 147fb1d82a25ed147b51b1b0f8accf3d, type: 2}
-  type: 3

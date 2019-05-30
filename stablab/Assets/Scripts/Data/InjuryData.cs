@@ -52,6 +52,8 @@ public abstract class InjuryData
     public CameraData cameraData = new CameraData();
     public MarkerData markerData = new MarkerData();
     public WeaponData weaponData = new WeaponData();
+    public abstract string DEFAULT_WEAPON_NAME { get; }
+
 
     protected InjuryData(Guid id)
     {

@@ -15,7 +15,6 @@ public class DataManager : MonoBehaviour
     public static DataManager instance;
     private string workingDirectory;                // A string of where to save the files
     private AppDataFile applicationData;
-    private SettingsFile settingsFile;
 
     // Start is called before the first frame update
     private void Awake()
@@ -34,7 +33,9 @@ public class DataManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         applicationData = LoadApplicationData();
-        settingsFile = LoadSettings();
+
+        Debug.Log(applicationData.recentProjects[0]);
+        Debug.Log(applicationData.recentProjects[1]);
     }
 
     public string GetWorkingDirectory()
@@ -64,11 +65,16 @@ public class DataManager : MonoBehaviour
         return settings;
     }
 
-    public void LoadProject()
+    public void LoadProject(string path = "")
     {
         try
         {
-            string path = FileManager.OpenFileBrowser("cvz", applicationData.recentWorkingDirectory);
+            if(path == "") 
+            {
+                path = FileManager.OpenFileBrowser("cvz", applicationData.recentWorkingDirectory);
+            }
+            if (path == "") return;
+
             ProjectFile proj = FileManager.Load<ProjectFile>(path);
             SetWorkingDirectory(proj.directory);
             AddToRecent(proj);
@@ -115,9 +121,14 @@ public class DataManager : MonoBehaviour
     {
         if(Settings.data != null) 
         {
-            settingsFile = Settings.data;
+            FileManager.Save(Settings.data, Settings.data.GetPath());
+            Debug.Log("In Data save settings");
         }
-        FileManager.Save(settingsFile, settingsFile.GetPath());
+        else
+        {   //If settings doesn't exist create a new
+            SettingsFile settings = new SettingsFile(Application.persistentDataPath);
+            FileManager.Save(settings, settings.GetPath());
+        }
     }
 
     public void SaveProject()

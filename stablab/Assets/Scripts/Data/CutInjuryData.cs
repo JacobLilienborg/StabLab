@@ -6,7 +6,7 @@ public class CutInjuryData : InjuryData
     private const string MARKER_NAME = "Markers/CutMarker";
     private const string ICON_NAME = "Icons/Cut";
 
-    private const string WEAPON_NAME = "Models/Cut/cutModel";
+    public override string DEFAULT_WEAPON_NAME{ get { return "Models/Cut/cutModel";} }
     private const string WEAPON_PATH = "Models/Cut";
 
 
@@ -21,7 +21,6 @@ public class CutInjuryData : InjuryData
         weaponData = new WeaponData
         {
             resourcePath = WEAPON_PATH,
-            prefabName = WEAPON_NAME
         };
     }
 
@@ -37,7 +36,7 @@ public class CutInjuryData : InjuryData
         weaponData = new WeaponData
         {
             resourcePath = WEAPON_PATH,
-            prefabName = WEAPON_NAME,
+            prefabName = injuryData.weaponData.prefabName,
             transformData = injuryData.weaponData.transformData
         };
     }

@@ -6,7 +6,7 @@ public class StabInjuryData : InjuryData
     private const string MARKER_NAME = "Markers/StabMarker";
     private const string ICON_NAME = "Icons/Stab";
 
-    private const string WEAPON_NAME = "Models/Stab/stabModel";
+    public override string DEFAULT_WEAPON_NAME { get { return "Models/Stab/stabModel"; } }
     private const string WEAPON_PATH = "Models/Stab";
 
     public StabInjuryData(Guid id) : base(id)
@@ -20,7 +20,6 @@ public class StabInjuryData : InjuryData
         weaponData = new WeaponData
         {
             resourcePath = WEAPON_PATH,
-            prefabName = WEAPON_NAME
         };
     }
 
@@ -36,7 +35,7 @@ public class StabInjuryData : InjuryData
         weaponData = new WeaponData
         {
             resourcePath = WEAPON_PATH,
-            prefabName = WEAPON_NAME,
+            prefabName = injuryData.weaponData.prefabName,
             transformData = injuryData.weaponData.transformData
         };
     }

@@ -9,10 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8951927977997250447}
-  - component: {fileID: 5933175936125116102}
   m_Layer: 0
   m_Name: stabModel
-  m_TagString: Untagged
+  m_TagString: Injury
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -32,20 +31,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -0.22200002}
---- !u!114 &5933175936125116102
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2194748323194420866}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ffff7f3efcdd035408ffc910629d7ff2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gizmo: {fileID: 0}
-  gizmoActive: 0
 --- !u!1001 &7505349167900828140
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -57,6 +42,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: STAB
+      objectReference: {fileID: 0}
+    - target: {fileID: 3341753675363991438, guid: 6586b6d0afd0f334e90649eba1eb8635,
+        type: 3}
+      propertyPath: m_TagString
+      value: Injury
       objectReference: {fileID: 0}
     - target: {fileID: 8010880702860574689, guid: 6586b6d0afd0f334e90649eba1eb8635,
         type: 3}

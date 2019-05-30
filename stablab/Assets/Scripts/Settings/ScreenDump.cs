@@ -11,20 +11,18 @@ public class ScreenDump : MonoBehaviour
 
     private void Start()
     {
-        workingDirectory = DataManager.instance.GetWorkingDirectory();
-        Settings.AddSettingsConfirmedListener(ChangeWorkingDirectory);
+        workingDirectory = Settings.data.screenShotFilePath;
     }
 
     public void ChangeWorkingDirectory()
     {
-        //Debug.Log("Settings.screenShotFilePath;");
         string tmpPath = Settings.data.screenShotFilePath;
         if (tmpPath != "") workingDirectory = tmpPath;
     }
 
     public void ToggleObjects(bool active) {
         foreach (GameObject o in objectsToDisable) {
-            o.SetActive(active);
+            o.GetComponent<Canvas>().enabled = active;
         }
     }
 
@@ -48,6 +46,7 @@ public class ScreenDump : MonoBehaviour
         byte[] bytes = tex.EncodeToPNG();
         File.WriteAllBytes(Application.dataPath + "/../SavedScreen.png", bytes);
         */
+        workingDirectory = Settings.data.screenShotFilePath;
         Debug.Log(workingDirectory);
         string[] directories = Directory.GetDirectories(workingDirectory);
         bool saved = false;

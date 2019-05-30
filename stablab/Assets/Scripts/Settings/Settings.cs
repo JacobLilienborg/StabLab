@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 
-public enum ModelView{
+public enum ModelView
+{
     AllVisible,
     ActiveVisible,
     NonVisible
@@ -12,16 +13,17 @@ public enum ModelView{
 
 public class Settings : MonoBehaviour
 {
-    public static SettingsFile data;
+    public static SettingsFile data = new SettingsFile("");
     private static UnityEvent settingsConfirmedEvent = new UnityEvent();
 
 
-    private void Start()
+    private void Awake()
     {
         data = DataManager.instance.LoadSettings();
-        if(data.screenShotFilePath == "") 
+        if (string.IsNullOrEmpty(data.screenShotFilePath))
         {
             data.screenShotFilePath = DataManager.instance.GetWorkingDirectory();
+            DataManager.instance.SaveSettings();
         }
     }
 
@@ -30,19 +32,14 @@ public class Settings : MonoBehaviour
         settingsConfirmedEvent.AddListener(action);
     }
 
-    private void OnDisable()
-    {
-        //InvokeSettingsEvent();
-    }
-
     public void SetInvertedButtons(bool active)
     {
-        MovementButtons.InvertedControls(active);
+        data.invertedControls = active;
     }
 
     public void SetEnabledTooltip(bool enabled)
     {
-        TooltipManager.SetEnabled(enabled);
+        data.tooltipEnabled = enabled;
     }
 
     public void SetHeightTracking(bool activated)
@@ -52,11 +49,13 @@ public class Settings : MonoBehaviour
 
     public void SetScreenshotPath(InputField screenshotPath)
     {
-        if(screenshotPath.text != "") data.screenShotFilePath = screenshotPath.text;
+        if (screenshotPath.text != "") data.screenShotFilePath = screenshotPath.text;
     }
 
-    public static bool IsActiveModel(bool selected) {
-        switch(data.modelView) {
+    public static bool IsActiveModel(bool selected)
+    {
+        switch (data.modelView)
+        {
             case ModelView.AllVisible:
                 return true;
             case ModelView.ActiveVisible:
@@ -71,10 +70,13 @@ public class Settings : MonoBehaviour
     public void InvokeSettingsEvent()
     {
         settingsConfirmedEvent.Invoke();
+        DataManager.instance.SaveSettings();
     }
 
-    public void SetModelView(int index) {
-        switch (index) {
+    public void SetModelView(int index)
+    {
+        switch (index)
+        {
             case 0:
                 data.modelView = ModelView.AllVisible;
                 break;
@@ -92,8 +94,10 @@ public class Settings : MonoBehaviour
         UpdateAllModels();
     }
 
-    public static void UpdateAllModels() {
-        foreach (InjuryController injuryController in InjuryManager.instance.injuries) {
+    public static void UpdateAllModels()
+    {
+        foreach (InjuryController injuryController in InjuryManager.instance.injuries)
+        {
 
         }
     }

@@ -6,7 +6,7 @@ public class CrushInjuryData : InjuryData
     private const string MARKER_NAME = "Markers/CrushMarker";
     private const string ICON_NAME = "Icons/Crush";
 
-    private const string WEAPON_NAME = "Models/Crush/crushModel";
+    public override string DEFAULT_WEAPON_NAME { get { return "Models/Crush/crushModel"; } }
     private const string WEAPON_PATH = "Models/Crush";
 
 
@@ -21,7 +21,6 @@ public class CrushInjuryData : InjuryData
         weaponData = new WeaponData
         {
             resourcePath = WEAPON_PATH,
-            prefabName = WEAPON_NAME
         };
     }
 
@@ -37,7 +36,7 @@ public class CrushInjuryData : InjuryData
         weaponData = new WeaponData
         {
             resourcePath = WEAPON_PATH,
-            prefabName = WEAPON_NAME,
+            prefabName = injuryData.weaponData.prefabName,
             transformData = injuryData.weaponData.transformData
         };
     }

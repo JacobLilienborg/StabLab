@@ -6,12 +6,10 @@ using TMPro;
 
 public class TooltipManager : MonoBehaviour
 {
-    static  bool         show;
-    static  private bool isEnabled = true;
+    static  bool         show, clicked;
     static  string       currentInfo;
     private TMP_Text     text;
     private Image        image;
-    private bool         onePulse  = true;
 
     void Start()
     {
@@ -23,7 +21,7 @@ public class TooltipManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (show && isEnabled)
+        if (show && (clicked || Settings.data.tooltipEnabled))
         {
             image.enabled = true;
             text.enabled  = true;
@@ -35,20 +33,17 @@ public class TooltipManager : MonoBehaviour
         }
     }
 
-    public static void Show(string info)
+    public static void Show(string info, bool click)
     {
         show        = true;
+        clicked     = click;
         currentInfo = info; //Update textContent
     }
 
     public static void Hide()
     {
         show = false;
-    }
-
-    public static void SetEnabled(bool enabled)
-    {
-        isEnabled = enabled;
+        clicked = false;
     }
 
 }
