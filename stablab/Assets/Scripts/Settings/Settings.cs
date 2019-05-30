@@ -40,6 +40,11 @@ public class Settings : MonoBehaviour
         MovementButtons.InvertedControls(active);
     }
 
+    public void SetEnabledTooltip(bool enabled)
+    {
+        TooltipManager.SetEnabled(enabled);
+    }
+
     public void SetHeightTracking(bool activated)
     {
         data.hightTrackerActivated = activated;

@@ -34,7 +34,7 @@ public class MovementButtons : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         switch (typeNumber) {
             case 0: //pan
                 MoveType = MOVEMENTTYPE.PAN;
-                speed    = 5;
+                speed    = 2;
                 switch (directionNumber) {
                     case 1:
                         direction = Vector3.right;
@@ -55,7 +55,7 @@ public class MovementButtons : MonoBehaviour, IPointerDownHandler, IPointerUpHan
                 break;
             case 1: //rotation
                 MoveType = MOVEMENTTYPE.ROTATE;
-                speed    = 20;
+                //speed    = 20;
                 switch (directionNumber)
                 {
                     case 1:

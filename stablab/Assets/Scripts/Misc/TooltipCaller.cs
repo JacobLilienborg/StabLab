@@ -4,18 +4,26 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class TooltipCaller : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class TooltipCaller : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     [SerializeField]
-    private string description;
+    private string description, clickedDescription = "";
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        TooltipManager.Show(description);
+        if (description != "")
+            TooltipManager.Show(description);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         TooltipManager.Hide();
     }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (clickedDescription != "")
+            TooltipManager.Show(clickedDescription);
+    }
+
 }

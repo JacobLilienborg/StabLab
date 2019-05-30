@@ -48,6 +48,7 @@ public class ScreenDump : MonoBehaviour
         byte[] bytes = tex.EncodeToPNG();
         File.WriteAllBytes(Application.dataPath + "/../SavedScreen.png", bytes);
         */
+        Debug.Log(workingDirectory);
         string[] directories = Directory.GetDirectories(workingDirectory);
         bool saved = false;
         foreach (string i in directories)
