@@ -74,7 +74,17 @@ public class InjuryListHandler : MonoBehaviour
             res.y = Screen.height;
         }
 
-        if (!ArrowKeysToggler.DeactivateArrowKeys)
+        if (Input.GetKey(KeyCode.LeftShift) &&
+            Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            InjuryManager.instance.ChangeOrderOfActive(1);
+        }
+        else if (Input.GetKey(KeyCode.LeftShift) &&
+            Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            InjuryManager.instance.ChangeOrderOfActive(-1);
+        }
+        else if (!ArrowKeysToggler.DeactivateArrowKeys)
         {
 
             if (Input.GetKeyDown(KeyCode.RightArrow))
@@ -86,15 +96,13 @@ public class InjuryListHandler : MonoBehaviour
             {
                 GoToPrevious();
             }
-
         }
-
     }
 
     // Load in already existing injuries if the injury manager has any
     public void LoadInjuries()
     {
-        
+
         // Make the list start from the beginning without removing
         rightMostIndex = -1;
         foreach (InjuryButton button in injuryButtons)
@@ -123,7 +131,7 @@ public class InjuryListHandler : MonoBehaviour
         InjuryManager.instance.DeactivateInjury(InjuryManager.instance.activeInjury);
 
         CheckInteractability();
-        
+
     }
 
     // This will "move" the entire list one step to the right except if an injury is active then it will select the next injury instead
@@ -256,7 +264,7 @@ public class InjuryListHandler : MonoBehaviour
         // We position the button where the green add button is and reposition the add button
         Vector3 positionChange = new Vector3(padding * (injuryButtons.Count) + buttonSize * injuryButtons.Count + buttonSize / 2, 0, 0);
         ib.transform.position = buttonArea.transform.position - new Vector3(((RectTransform)buttonArea.transform).rect.width / 2, 0, 0) + positionChange;
-        if(addButton != null) addButton.transform.position += new Vector3(buttonSize + padding, 0, 0);
+        if (addButton != null) addButton.transform.position += new Vector3(buttonSize + padding, 0, 0);
 
         // The button id will be the new rightmost index in the list
         ib.SetIndex(++rightMostIndex);
@@ -299,36 +307,36 @@ public class InjuryListHandler : MonoBehaviour
     public void UpdateList()
     {
         // There exists more injuries that we can add to our list
-        while(InjuryManager.instance.injuries.Count > injuryButtons.Count &&
+        while (InjuryManager.instance.injuries.Count > injuryButtons.Count &&
             injuryButtons.Count < totalButtonAmount)
         {
             AddButton();
         }
         // We have fewer injuries than buttons
-        while(InjuryManager.instance.injuries.Count < injuryButtons.Count)
+        while (InjuryManager.instance.injuries.Count < injuryButtons.Count)
         {
             RemoveButton();
         }
-        
+
         // Kind of a special case but still crucial
-        if(InjuryManager.instance.injuries.Count <= rightMostIndex)
+        if (InjuryManager.instance.injuries.Count <= rightMostIndex)
         {
             JumpList(InjuryManager.instance.injuries.Count - 1);
         }
 
         // If there is an active injury we want to make sure it's on the list
-        if(InjuryManager.instance.activeInjury)
+        if (InjuryManager.instance.activeInjury)
         {
             int activeIndex = InjuryManager.instance.injuries.FindIndex(
                 x => x == InjuryManager.instance.activeInjury);
             int leftMostIndex = rightMostIndex - (injuryButtons.Count - 1);
             // If the active injury is to the left of the list
-            if(activeIndex < leftMostIndex)
+            if (activeIndex < leftMostIndex)
             {
                 JumpList(activeIndex + (injuryButtons.Count - 1));
             }
             // If the active injury is to the right of the list
-            else if(activeIndex > rightMostIndex)
+            else if (activeIndex > rightMostIndex)
             {
                 JumpList(activeIndex);
             }
@@ -343,13 +351,19 @@ public class InjuryListHandler : MonoBehaviour
         else
         {
             InjuryButton button;
-            while(button = injuryButtons.Find(btn => btn.isChecked))
+            while (button = injuryButtons.Find(btn => btn.isChecked))
             {
                 button.Unchecked(false);
             }
         }
 
         CheckInteractability();
+        RepositionButtons();
+
+        foreach (InjuryButton button in injuryButtons)
+        {
+            button.setImage(InjuryManager.instance.injuries[button.index].GetIcon());
+        }
     }
 
 }

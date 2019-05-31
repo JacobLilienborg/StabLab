@@ -29,6 +29,8 @@ public class InjuryManager : MonoBehaviour
     public InjuryController injuryController = null;
     public List<InjuryController> injuries = new List<InjuryController>();
     public InjuryController activeInjury = null;
+    public int activeIndex { get; private set; }
+
 
     // Setting up the listeners system. There are optional events depending of what return type you want
     private InjuryEvent InjuryActivationEvent = new InjuryEvent();
@@ -103,7 +105,6 @@ public class InjuryManager : MonoBehaviour
         ic.injuryData = injuryData;
         injuries.Add(ic);
         ActivateInjury(ic);
-
     }
 
 
@@ -135,6 +136,7 @@ public class InjuryManager : MonoBehaviour
                 activeInjury.RemoveGizmo();
             }
             activeInjury = injuries[index];
+            activeIndex = index;
             activeInjury.ToggleWeapon(true);
             InjuryActivationEvent.Invoke(activeInjury);
             IndexActivationEvent.Invoke(index);
@@ -160,6 +162,7 @@ public class InjuryManager : MonoBehaviour
             IndexDeactivationEvent.Invoke(index);
             DeactivationEvent.Invoke();
             activeInjury = null;
+            activeIndex = -1;
             OnChange.Invoke();
         }
     }
@@ -169,11 +172,15 @@ public class InjuryManager : MonoBehaviour
     }
 
     // Change order of injuri in the list.
-    public void ChangeOrder(int oldIndex, int newIndex)
+    public void ChangeOrderOfActive(int steps)
     {
-        InjuryController injury = injuries[oldIndex];
-        injuries.RemoveAt(oldIndex);
-        injuries.Insert(newIndex, injury);
+        int newPos = activeIndex + steps;
+        if (newPos >= injuries.Count || newPos < 0) return;
+
+        InjuryController injury = injuries[newPos];
+        injuries[newPos] = activeInjury;
+        injuries[activeIndex] = injury;
+        activeIndex += steps;
         OnChange.Invoke();
     }
 
