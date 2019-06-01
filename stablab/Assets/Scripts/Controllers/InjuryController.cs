@@ -78,8 +78,7 @@ public class InjuryController : MonoBehaviour
                 injuryData.markerData.prefabName),
                 point,
                 Quaternion.identity);
-            markerObj.transform.SetParent(bone
-            );
+            markerObj.transform.SetParent(bone);
 
             string weaponName;
             if (string.IsNullOrEmpty(injuryData.weaponData.prefabName)) weaponName = injuryData.DEFAULT_WEAPON_NAME;
@@ -246,7 +245,6 @@ public class InjuryController : MonoBehaviour
 
             weaponObj.transform.position = injuryData.weaponData.transformData.position;
             weaponObj.transform.rotation = injuryData.weaponData.transformData.rotation;
-            weaponObj.transform.parent = GameObject.Find(injuryData.boneName).transform;
 
             weaponObj.GetComponentInChildren<MeshRenderer>().material.color = injuryData.weaponData.color;
             positionResetEvent.Invoke();
