@@ -38,6 +38,21 @@ public class DataManager : MonoBehaviour
         Debug.Log(applicationData.recentProjects[1]);
     }
 
+    private void Start()
+    {
+        string path = "";
+        foreach(string arg in System.Environment.GetCommandLineArgs()) 
+        { 
+            if (arg.Contains(".cvz")) 
+            {
+                path = arg;
+                break;  
+            }
+        }
+
+        if (path != "") LoadProject(path);
+    }
+
     public string GetWorkingDirectory()
     {
         return workingDirectory;
