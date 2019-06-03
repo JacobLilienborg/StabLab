@@ -12,7 +12,12 @@
         {
             get
             {
-                return isWindowsPlatform || isMacOSPlatform || isLinuxPlatform || isWSAPlatform;
+                if (Constants.isPro)
+                {
+                    return isWindowsPlatform || isMacOSPlatform || isLinuxPlatform || isWSAPlatform;
+                }
+
+                return isWindowsPlatform || isMacOSPlatform || isLinuxPlatform;
             }
         }
 

@@ -26,12 +26,21 @@ namespace Crosstales.Common.EditorTask
 
                     foreach (System.IO.FileInfo file in dirSource.GetFiles("*"))
                     {
-                        AssetDatabase.MoveAsset(source + file.Name, target + file.Name);
+                        if (System.IO.File.Exists(targetFolder + file.Name))
+                        {
+                            if (Util.BaseConstants.DEV_DEBUG)
+                                Debug.Log("File exists: " + file);
+                        }
+                        else
+                        {
+                            AssetDatabase.MoveAsset(source + file.Name, target + file.Name);
 
-                        if (Util.BaseConstants.DEV_DEBUG)
-                            Debug.Log("File moved: " + file);
+                            if (Util.BaseConstants.DEV_DEBUG)
+                                Debug.Log("File moved: " + file);
+                        }
                     }
 
+                    //dirSource.Delete(true);
                     dirSource.Delete();
 
                     if (System.IO.File.Exists(metafile))
@@ -40,14 +49,15 @@ namespace Crosstales.Common.EditorTask
                     }
                 }
             }
-            catch (System.Exception)
+            catch (System.Exception ex)
             {
-                //Debug.LogError("Could not move all files: " + ex);
+                if (Util.BaseConstants.DEV_DEBUG)
+                    Debug.LogError("Could not move all files: " + ex);
             }
             finally
             {
                 if (exists)
-                    AssetDatabase.Refresh();
+                    EditorUtil.BaseEditorHelper.RefreshAssetDatabase();
             }
         }
     }

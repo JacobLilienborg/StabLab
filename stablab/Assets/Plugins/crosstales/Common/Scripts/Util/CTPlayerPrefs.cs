@@ -6,6 +6,8 @@ namespace Crosstales.Common.Util
     public static class CTPlayerPrefs
     {
 
+        //TODO add getter and setter: Vector2 - 4, Quaternion
+
 #if (!UNITY_WSA && !UNITY_WEBGL) || UNITY_EDITOR
         private static SerializableDictionary<string, string> content = new SerializableDictionary<string, string>();
 
@@ -13,11 +15,8 @@ namespace Crosstales.Common.Util
 
         static CTPlayerPrefs()
         {
-            //Debug.Log(fileName);
-
             if (System.IO.File.Exists(fileName))
             {
-                //Debug.Log("loading CFG");
                 content = XmlHelper.DeserializeFromFile<SerializableDictionary<string, string>>(fileName);
             }
             else
@@ -74,6 +73,9 @@ namespace Crosstales.Common.Util
 #endif
         }
 
+
+        #region Getter
+
         /// <summary>Allows to get a string from a key.</summary>
         /// <param name="key">Key for the PlayerPrefs.</param>
         /// <returns>Value for the key.</returns>
@@ -126,6 +128,25 @@ namespace Crosstales.Common.Util
 
             return "true".CTEquals(GetString(key)) ? true : false;
         }
+
+        /// <summary>Allows to get a DateTime from a key.</summary>
+        /// <param name="key">Key for the PlayerPrefs.</param>
+        /// <returns>Value for the key.</returns>
+        public static System.DateTime GetDate(string key)
+        {
+            if (string.IsNullOrEmpty(key))
+                throw new System.ArgumentNullException("key");
+
+            System.DateTime result = System.DateTime.Now;
+            System.DateTime.TryParse(GetString(key), out result);
+
+            return result;
+        }
+
+        #endregion
+
+
+        #region Setter
 
         /// <summary>Allows to set a string for a key.</summary>
         /// <param name="key">Key for the PlayerPrefs.</param>
@@ -180,6 +201,19 @@ namespace Crosstales.Common.Util
 
             SetString(key, value ? "true" : "false");
         }
+
+        /// <summary>Allows to set a DateTime for a key.</summary>
+        /// <param name="key">Key for the PlayerPrefs.</param>
+        /// <param name="value">Value for the PlayerPrefs.</param>
+        public static void SetDate(string key, System.DateTime value)
+        {
+            if (string.IsNullOrEmpty(key))
+                throw new System.ArgumentNullException("key");
+
+            SetString(key, value.ToString());
+        }
+
+        #endregion
     }
 }
 // © 2015-2019 crosstales LLC (https://www.crosstales.com)

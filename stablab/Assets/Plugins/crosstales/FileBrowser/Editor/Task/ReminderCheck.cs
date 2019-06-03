@@ -35,7 +35,9 @@ namespace Crosstales.FB.EditorTask
                         Application.OpenURL(EditorConstants.ASSET_URL);
                         EditorConfig.REMINDER_CHECK = false;
 
-                        Debug.LogWarning("+++ Thank you for rating " + Util.Constants.ASSET_NAME + "! +++");
+                        Debug.LogWarning("<color=red>" + Common.Util.BaseHelper.CreateString("❤", 500) + "</color>");
+                        Debug.LogWarning("<b>+++ Thank you for rating <color=blue>" + Util.Constants.ASSET_NAME + "</color>! +++</b>");
+                        Debug.LogWarning("<color=red>" + Common.Util.BaseHelper.CreateString("❤", 500) + "</color>");
                     }
                     else if (option == 1)
                     {

@@ -23,11 +23,6 @@ namespace Crosstales.UI
             Application.OpenURL(Common.Util.BaseConstants.ASSET_SOCIAL_LINKEDIN);
         }
 
-        public void Xing()
-        {
-            Application.OpenURL(Common.Util.BaseConstants.ASSET_SOCIAL_XING);
-        }
-
         public void Youtube()
         {
             Application.OpenURL(Common.Util.BaseConstants.ASSET_SOCIAL_YOUTUBE);

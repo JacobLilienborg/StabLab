@@ -4,7 +4,6 @@ namespace Crosstales.Common.Util
 {
     /// <summary>Random color changer.</summary>
     //[HelpURL("https://www.crosstales.com/media/data/assets/radio/api/class_crosstales_1_1_radio_1_1_demo_1_1_util_1_1_random_color.html")] //TODO update URL
-    //[RequireComponent(typeof(Renderer))]
     public class RandomColor : MonoBehaviour
     {
         #region Variables
@@ -38,17 +37,6 @@ namespace Crosstales.Common.Util
         [Tooltip("Use gray scale colors (default: false).")]
         public bool GrayScale = false;
 
-        //public Vector2 ColorRange = new Vector2(0f, 360f);
-
-        //[Range(0f, 1f)]
-        //public float Saturation = 1f;
-
-        //[Range(0f, 1f)]
-        //public float Value = 1f;
-
-        //[Range(0f, 1f)]
-        //public float Opacity = 1f;
-
         ///<summary>Modify the color of a material instead of the Renderer (default: not set, optional).</summary>
         [Tooltip("Modify the color of a material instead of the Renderer (default: not set, optional).")]
         public Material Material;
@@ -79,15 +67,11 @@ namespace Crosstales.Common.Util
             {
                 if (GrayScale)
                 {
-                    //int grayScale = (int)Random.Range(ColorRange.x, ColorRange.y);
-                    //startColor = new Color32((byte)grayScale, (byte)grayScale, (byte)grayScale, (byte)1);
-
                     float grayScale = Random.Range(HueRange.x, HueRange.y);
                     startColor = new Color(grayScale, grayScale, grayScale, Random.Range(AlphaRange.x, AlphaRange.y));
                 }
                 else
                 {
-                    //startColor = BaseHelper.HSVToRGB(Random.Range(ColorRange.x, ColorRange.y), Saturation, Value, Opacity);
                     startColor = Random.ColorHSV(HueRange.x, HueRange.y, SaturationRange.x, SaturationRange.y, ValueRange.x, ValueRange.y, AlphaRange.x, AlphaRange.y);
                 }
 
@@ -127,15 +111,11 @@ namespace Crosstales.Common.Util
 
                     if (GrayScale)
                     {
-                        //int grayScale = (int)Random.Range(ColorRange.x, ColorRange.y);
-                        //endColor = new Color32((byte)grayScale, (byte)grayScale, (byte)grayScale, (byte)1);
-
                         float grayScale = Random.Range(HueRange.x, HueRange.y);
                         endColor = new Color(grayScale, grayScale, grayScale, Random.Range(AlphaRange.x, AlphaRange.y));
                     }
                     else
                     {
-                        //endColor = BaseHelper.HSVToRGB(Random.Range(ColorRange.x, ColorRange.y), Saturation, Value, Opacity);
                         endColor = Random.ColorHSV(HueRange.x, HueRange.y, SaturationRange.x, SaturationRange.y, ValueRange.x, ValueRange.y, AlphaRange.x, AlphaRange.y);
                     }
 
@@ -154,7 +134,6 @@ namespace Crosstales.Common.Util
                 if (lerpProgress < 1f)
                 {
                     lerpProgress += Time.deltaTime / (changeTime - 0.1f);
-                    //lerpProgress += Time.deltaTime / changeTime;
                 }
                 else
                 {

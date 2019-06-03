@@ -34,6 +34,8 @@ namespace Crosstales.FB.EditorIntegration
 
         protected void showConfiguration()
         {
+            EditorHelper.BannerFB();
+
             scrollPosConfig = EditorGUILayout.BeginScrollView(scrollPosConfig, false, false);
             {
                 GUILayout.Label("Global Settings", EditorStyles.boldLabel);
@@ -45,23 +47,28 @@ namespace Crosstales.FB.EditorIntegration
                 EditorConfig.REMINDER_CHECK = EditorGUILayout.Toggle(new GUIContent("Reminder Check", "Enable or disable the reminder-check (default: " + EditorConstants.DEFAULT_REMINDER_CHECK + ")"), EditorConfig.REMINDER_CHECK);
 
                 EditorConfig.TRACER = EditorGUILayout.Toggle(new GUIContent("Tracer", "Enable or disable anonymous tracing data (default: " + EditorConstants.DEFAULT_TRACER + ")"), EditorConfig.TRACER);
+
+                EditorHelper.SeparatorUI();
+
+                GUILayout.Label("Windows", EditorStyles.boldLabel);
+
+                Util.Config.NATIVE_WINDOWS = EditorGUILayout.Toggle(new GUIContent("Native Inside Editor", "Enable or disable native file browser inside the Unity Editor (default: " + Util.Constants.DEFAULT_NATIVE_WINDOWS + ")"), Util.Config.NATIVE_WINDOWS);
             }
             EditorGUILayout.EndScrollView();
         }
 
         protected void showHelp()
         {
+            EditorHelper.BannerFB();
+
             scrollPosHelp = EditorGUILayout.BeginScrollView(scrollPosHelp, false, false);
             {
                 GUILayout.Label("Resources", EditorStyles.boldLabel);
-
-                //GUILayout.Space(8);
 
                 GUILayout.BeginHorizontal();
                 {
                     GUILayout.BeginVertical();
                     {
-
                         if (GUILayout.Button(new GUIContent(" Manual", EditorHelper.Icon_Manual, "Show the manual.")))
                         {
                             Application.OpenURL(Util.Constants.ASSET_MANUAL_URL);
@@ -123,6 +130,15 @@ namespace Crosstales.FB.EditorIntegration
                 {
                     Application.OpenURL(Util.Constants.ASSET_SOCIAL_YOUTUBE);
                 }
+
+                EditorHelper.SeparatorUI();
+
+                GUILayout.Label("3rd Party Assets", EditorStyles.boldLabel);
+
+                if (GUILayout.Button(new GUIContent(string.Empty, EditorHelper.Asset_PlayMaker, "More information about 'PlayMaker'.")))
+                {
+                    Application.OpenURL(Util.Constants.ASSET_3P_PLAYMAKER);
+                }
             }
             EditorGUILayout.EndScrollView();
 
@@ -131,6 +147,9 @@ namespace Crosstales.FB.EditorIntegration
 
         protected void showAbout()
         {
+            EditorHelper.BannerFB();
+
+            GUILayout.Space(3);
             GUILayout.Label(Util.Constants.ASSET_NAME, EditorStyles.boldLabel);
 
             GUILayout.BeginHorizontal();
@@ -356,11 +375,6 @@ namespace Crosstales.FB.EditorIntegration
                 if (GUILayout.Button(new GUIContent(string.Empty, EditorHelper.Social_Linkedin, "Follow us on 'LinkedIn'.")))
                 {
                     Application.OpenURL(Util.Constants.ASSET_SOCIAL_LINKEDIN);
-                }
-
-                if (GUILayout.Button(new GUIContent(string.Empty, EditorHelper.Social_Xing, "Follow us on 'XING'.")))
-                {
-                    Application.OpenURL(Util.Constants.ASSET_SOCIAL_XING);
                 }
             }
             GUILayout.EndHorizontal();

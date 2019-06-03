@@ -34,8 +34,6 @@ public class DataManager : MonoBehaviour
 
         applicationData = LoadApplicationData();
 
-        Debug.Log(applicationData.recentProjects[0]);
-        Debug.Log(applicationData.recentProjects[1]);
     }
 
     private void Start()
@@ -86,7 +84,7 @@ public class DataManager : MonoBehaviour
         {
             if(path == "") 
             {
-                path = FileManager.OpenFileBrowser("cvz", applicationData.recentWorkingDirectory);
+                path = FileManager.OpenFileBrowserFile("Project Files", new string[] { "cvz" }, applicationData.recentWorkingDirectory);
             }
             if (path == "") return;
 

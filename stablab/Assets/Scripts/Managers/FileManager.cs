@@ -64,12 +64,19 @@ public class FileManager
     }
 
     //Open up the file browser. Depending on the extension it will accept different files
-    public static string OpenFileBrowser(string extension = "", string path = "./")
+    public static string OpenFileBrowserFolder(string path = "./")
     {
-        switch (extension)
+        return FileBrowser.OpenSingleFolder("Select a folder", path);
+    }
+
+    public static string OpenFileBrowserFile(string type, string[] extensions, string path = "./")
+    {
+        ExtensionFilter[] extensionFilters = new ExtensionFilter[extensions.Length];
+        for (int i = 0; i < extensions.Length; i++)
         {
-            case "": return FileBrowser.OpenSingleFolder("Select a folder", path);
-            default: return FileBrowser.OpenSingleFile("Select a file", path, extension.Split(' '));
+            extensionFilters[i] = new ExtensionFilter(type, extensions[i].Split(' '));
         }
+        return FileBrowser.OpenSingleFile("Select a file", path, extensionFilters);
     }
 }
+   

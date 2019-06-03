@@ -1,9 +1,9 @@
-﻿# crosstales LLC - Common package 2019.2.0
+﻿# crosstales LLC - Common package 2019.3.2
 
 ## Description
 This folder and its content is needed for all assets from "crosstales LLC".
 
-Please DON'T DELETE it or the assets won't work anymore!
+Please DON'T DELETE anything except "Prefabs" and "UI" or the assets won't work anymore!
 
 
 
@@ -29,4 +29,4 @@ CH-8002 Zürich
 * [Youtube-channel](https://www.youtube.com/c/Crosstales)
 
 
-`Version: 06.02.2019`
+`Version: 22.05.2019`

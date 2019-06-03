@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿#if !UNITY_2019_1_OR_NEWER
+using UnityEditor;
 using UnityEngine;
 using Crosstales.FB.EditorUtil;
 
@@ -71,4 +72,5 @@ namespace Crosstales.FB.EditorIntegration
         #endregion
     }
 }
+#endif
 // © 2019 crosstales LLC (https://www.crosstales.com)

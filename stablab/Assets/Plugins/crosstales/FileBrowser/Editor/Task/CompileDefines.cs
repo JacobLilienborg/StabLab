@@ -7,13 +7,11 @@ namespace Crosstales.FB.EditorTask
     public class CompileDefines : Common.EditorTask.BaseCompileDefines
     {
 
-        private static readonly string[] symbols = new string[] {
-            "CT_FB",
-        };
+        private static readonly string symbol = "CT_FB";
 
         static CompileDefines()
         {
-            setCompileDefines(symbols);
+            addSymbolsToAllTargets(symbol);
         }
     }
 }

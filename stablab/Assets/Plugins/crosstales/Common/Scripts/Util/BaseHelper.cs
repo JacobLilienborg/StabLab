@@ -1,7 +1,5 @@
-﻿using UnityEngine;
-using System.Linq;
-using System.Xml;
-using System.Xml.Serialization;
+﻿using System.Linq;
+using UnityEngine;
 
 namespace Crosstales.Common.Util
 {
@@ -9,9 +7,9 @@ namespace Crosstales.Common.Util
     public abstract class BaseHelper
     {
         #region Variables
-        
-        public static readonly System.Globalization.CultureInfo BaseCulture = new System.Globalization.CultureInfo("en-US");
-        
+
+        public static readonly System.Globalization.CultureInfo BaseCulture = new System.Globalization.CultureInfo("en-US"); //TODO set with current user locale?
+
         protected static readonly System.Text.RegularExpressions.Regex lineEndingsRegex = new System.Text.RegularExpressions.Regex(@"\r\n|\r|\n");
         //protected static readonly Regex cleanStringRegex = new Regex(@"([^a-zA-Z0-9 ]|[ ]{2,})");
         protected static readonly System.Text.RegularExpressions.Regex cleanSpacesRegex = new System.Text.RegularExpressions.Regex(@"\s+");
@@ -47,7 +45,12 @@ namespace Crosstales.Common.Util
         {
             get
             {
-                return Application.platform == RuntimePlatform.WindowsPlayer || Application.platform == RuntimePlatform.WindowsEditor;
+#if UNITY_STANDALONE_WIN
+                return true;
+#else
+                return false;
+#endif
+                //return Application.platform == RuntimePlatform.WindowsPlayer || Application.platform == RuntimePlatform.WindowsEditor;
             }
         }
 
@@ -57,7 +60,12 @@ namespace Crosstales.Common.Util
         {
             get
             {
-                return Application.platform == RuntimePlatform.OSXPlayer || Application.platform == RuntimePlatform.OSXEditor;
+#if UNITY_STANDALONE_OSX
+                return true;
+#else
+                return false;
+#endif
+                //return Application.platform == RuntimePlatform.OSXPlayer || Application.platform == RuntimePlatform.OSXEditor;
             }
         }
 
@@ -67,7 +75,12 @@ namespace Crosstales.Common.Util
         {
             get
             {
-                return Application.platform == RuntimePlatform.LinuxPlayer || Application.platform == RuntimePlatform.LinuxEditor;
+#if UNITY_STANDALONE_LINUX
+                return true;
+#else
+                return false;
+#endif
+                //return Application.platform == RuntimePlatform.LinuxPlayer || Application.platform == RuntimePlatform.LinuxEditor;
             }
         }
 
@@ -87,7 +100,12 @@ namespace Crosstales.Common.Util
         {
             get
             {
-                return Application.platform == RuntimePlatform.Android;
+#if UNITY_ANDROID
+                return true;
+#else
+                return false;
+#endif
+                //return Application.platform == RuntimePlatform.Android;
             }
         }
 
@@ -97,7 +115,27 @@ namespace Crosstales.Common.Util
         {
             get
             {
-                return Application.platform == RuntimePlatform.IPhonePlayer || Application.platform == RuntimePlatform.tvOS;
+#if UNITY_IOS
+                return true;
+#else
+                return false;
+#endif
+                //return Application.platform == RuntimePlatform.IPhonePlayer;
+            }
+        }
+
+        /// <summary>Checks if the current platform is tvOS.</summary>
+        /// <returns>True if the current platform is tvOS.</returns>
+        public static bool isTvOSPlatform
+        {
+            get
+            {
+#if UNITY_IOS
+                return true;
+#else
+                return false;
+#endif
+                //return Application.platform == RuntimePlatform.tvOS;
             }
         }
 
@@ -107,10 +145,45 @@ namespace Crosstales.Common.Util
         {
             get
             {
+#if UNITY_WSA
+                return true;
+#else
+                return false;
+#endif
+                /*
                 return Application.platform == RuntimePlatform.WSAPlayerARM ||
                     Application.platform == RuntimePlatform.WSAPlayerX86 ||
-                    Application.platform == RuntimePlatform.WSAPlayerX64 ||
-                    Application.platform == RuntimePlatform.XboxOne;
+                    Application.platform == RuntimePlatform.WSAPlayerX64;
+                    */
+            }
+        }
+
+        /// <summary>Checks if the current platform is XboxOne.</summary>
+        /// <returns>True if the current platform is XboxOne.</returns>
+        public static bool isXboxOnePlatform
+        {
+            get
+            {
+#if UNITY_XBOXONE
+                return true;
+#else
+                return false;
+#endif
+                //return Application.platform == RuntimePlatform.XboxOne;
+            }
+        }
+
+        /// <summary>Checks if the current platform is PS4.</summary>
+        /// <returns>True if the current platform is PS4.</returns>
+        public static bool isPS4Platform
+        {
+            get
+            {
+#if UNITY_PS4
+                return true;
+#else
+                return false;
+#endif
             }
         }
 
@@ -120,7 +193,12 @@ namespace Crosstales.Common.Util
         {
             get
             {
-                return Application.platform == RuntimePlatform.WebGLPlayer;
+#if UNITY_WEBGL
+                return true;
+#else
+                return false;
+#endif
+                //return Application.platform == RuntimePlatform.WebGLPlayer;
             }
         }
 
@@ -134,25 +212,43 @@ namespace Crosstales.Common.Util
             }
         }
 
-        /// <summary>Checks if the current platform is Windows-based (Windows standalone or WSA).</summary>
-        /// <returns>True if the current platform is Windows-based (Windows standalone or WSA).</returns>
+        /// <summary>Checks if the current platform is Windows-based (Windows standalone, WSA or XboxOne).</summary>
+        /// <returns>True if the current platform is Windows-based (Windows standalone, WSA or XboxOne).</returns>
         public static bool isWindowsBasedPlatform
         {
             get
             {
-                return isWindowsPlatform || isWSAPlatform;
-
-                //return false;
+                return isWindowsPlatform || isWSAPlatform || isXboxOnePlatform;
             }
         }
 
-        /// <summary>Checks if the current platform is Apple-based (macOS standalone or iOS).</summary>
-        /// <returns>True if the current platform is Apple-based (macOS standalone or iOS).</returns>
+        /// <summary>Checks if the current platform is WSA-based (WSA or XboxOne).</summary>
+        /// <returns>True if the current platform is WSA-based (WSA or XboxOne).</returns>
+        public static bool isWSABasedPlatform
+        {
+            get
+            {
+                return isWSAPlatform || isXboxOnePlatform;
+            }
+        }
+
+        /// <summary>Checks if the current platform is Apple-based (macOS standalone, iOS or tvOS).</summary>
+        /// <returns>True if the current platform is Apple-based (macOS standalone, iOS or tvOS).</returns>
         public static bool isAppleBasedPlatform
         {
             get
             {
-                return isMacOSPlatform || isIOSPlatform;
+                return isMacOSPlatform || isIOSPlatform || isTvOSPlatform;
+            }
+        }
+
+        /// <summary>Checks if the current platform is iOS-based (iOS or tvOS).</summary>
+        /// <returns>True if the current platform is iOS-based (iOS or tvOS).</returns>
+        public static bool isIOSBasedPlatform
+        {
+            get
+            {
+                return isIOSPlatform || isTvOSPlatform;
             }
         }
 
@@ -162,7 +258,49 @@ namespace Crosstales.Common.Util
         {
             get
             {
-                return Application.platform == RuntimePlatform.OSXEditor || Application.platform == RuntimePlatform.WindowsEditor || Application.platform == RuntimePlatform.LinuxEditor;
+                return isWindowsEditor || isMacOSEditor || isLinuxEditor;
+            }
+        }
+
+        /// <summary>Checks if we are inside the Windows Editor.</summary>
+        /// <returns>True if we are inside the Windows Editor.</returns>
+        public static bool isWindowsEditor
+        {
+            get
+            {
+#if UNITY_EDITOR_WIN
+                return true;
+#else
+                return false;
+#endif
+            }
+        }
+
+        /// <summary>Checks if we are inside the macOS Editor.</summary>
+        /// <returns>True if we are inside the macOS Editor.</returns>
+        public static bool isMacOSEditor
+        {
+            get
+            {
+#if UNITY_EDITOR_OSX
+                return true;
+#else
+                return false;
+#endif
+            }
+        }
+
+        /// <summary>Checks if we are inside the Linux Editor.</summary>
+        /// <returns>True if we are inside the Linux Editor.</returns>
+        public static bool isLinuxEditor
+        {
+            get
+            {
+#if UNITY_EDITOR_LINUX
+                return true;
+#else
+                return false;
+#endif
             }
         }
 
@@ -176,11 +314,33 @@ namespace Crosstales.Common.Util
             }
         }
 
+        /// <summary>Checks if the current build target uses IL2CPP.</summary>
+        /// <returns>True if the current build target uses IL2CPP.</returns>
+        public static bool isIL2CPP
+        {
+            get
+            {
+#if UNITY_EDITOR
+                UnityEditor.BuildTarget target = UnityEditor.EditorUserBuildSettings.activeBuildTarget;
+                UnityEditor.BuildTargetGroup group = UnityEditor.BuildPipeline.GetBuildTargetGroup(target);
+
+                return UnityEditor.PlayerSettings.GetScriptingBackend(group) == UnityEditor.ScriptingImplementation.IL2CPP;
+#else
+#if ENABLE_IL2CPP
+                return true;
+#else
+                return false;
+#endif
+#endif
+            }
+        }
+
         /// <summary>Returns the current platform.</summary>
         /// <returns>The current platform.</returns>
         public static Model.Enum.Platform CurrentPlatform
         {
-            get {
+            get
+            {
                 if (isWindowsPlatform)
                 {
                     return Model.Enum.Platform.Windows;
@@ -197,11 +357,11 @@ namespace Crosstales.Common.Util
                 {
                     return Model.Enum.Platform.Android;
                 }
-                else if (isIOSPlatform)
+                else if (isIOSBasedPlatform)
                 {
                     return Model.Enum.Platform.IOS;
                 }
-                else if (isWSAPlatform)
+                else if (isWSABasedPlatform)
                 {
                     return Model.Enum.Platform.WSA;
                 }
@@ -326,7 +486,7 @@ namespace Crosstales.Common.Util
                     }
                 }
 
-                return string.Join("_", result.Split(System.IO.Path.GetInvalidPathChars()));
+                return string.Join(string.Empty, result.Split(System.IO.Path.GetInvalidPathChars()));
             }
 
             return path;
@@ -354,6 +514,129 @@ namespace Crosstales.Common.Util
             }
 
             return path;
+        }
+
+        /// <summary>
+        /// Find files inside a path.
+        /// </summary>
+        /// <param name="path">Path to find the files</param>
+        /// <param name="isRecursive">Recursive search (default: false, optional)</param>
+        /// <param name="extensions">Extensions for the file search, e.g. "png" (optional)</param>
+        /// <returns>Returns array of the found files inside the path (alphabetically ordered). Zero length array when an error occured.</returns>
+        public static string[] GetFiles(string path, bool isRecursive = false, params string[] extensions)
+        {
+            if (isWebPlatform && !isEditor)
+            {
+                Debug.LogWarning("'GetFiles' is not supported for the current platform!");
+            }
+            else if (isWSABasedPlatform && !isEditor)
+            {
+#if CT_FB_PRO
+#if UNITY_WSA && !UNITY_EDITOR
+                Crosstales.FB.FileBrowserWSAImpl fbWsa = new Crosstales.FB.FileBrowserWSAImpl();
+                fbWsa.isBusy = true;
+                UnityEngine.WSA.Application.InvokeOnUIThread(() => { fbWsa.GetFiles(path, isRecursive, extensions); }, false);
+
+                do
+                {
+                    //wait
+                } while (fbWsa.isBusy);
+
+                return fbWsa.Selection.ToArray();
+#endif
+#else
+                Debug.LogWarning("'GetFiles' under UWP (WSA) is supported in 'File Browser PRO'. For more, please see: " + BaseConstants.ASSET_FB);
+#endif
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(path))
+                {
+                    try
+                    {
+                        string _path = ValidatePath(path);
+
+                        if (extensions == null || extensions.Length == 0)
+                        {
+                            return System.IO.Directory.GetFiles(_path, "*", isRecursive ? System.IO.SearchOption.AllDirectories : System.IO.SearchOption.TopDirectoryOnly);
+                        }
+                        else
+                        {
+                            foreach (string extension in extensions)
+                            {
+                                if (extension.Equals("*") || extension.Equals("*.*"))
+                                    return System.IO.Directory.GetFiles(_path, "*", isRecursive ? System.IO.SearchOption.AllDirectories : System.IO.SearchOption.TopDirectoryOnly);
+                            }
+
+                            System.Collections.Generic.List<string> files = new System.Collections.Generic.List<string>();
+
+                            foreach (string extension in extensions)
+                            {
+                                files.AddRange(System.IO.Directory.GetFiles(_path, "*." + extension, isRecursive ? System.IO.SearchOption.AllDirectories : System.IO.SearchOption.TopDirectoryOnly));
+                            }
+
+                            return files.OrderBy(q => q).ToArray();
+                        }
+                    }
+                    catch (System.Exception ex)
+                    {
+                        Debug.LogWarning("Could not scan the path for files: " + ex);
+                    }
+                }
+            }
+
+            return new string[0];
+        }
+
+        /// <summary>
+        /// Find directories inside.
+        /// </summary>
+        /// <param name="path">Path to find the directories</param>
+        /// <param name="isRecursive">Recursive search (default: false, optional)</param>
+        /// <returns>Returns array of the found directories inside the path. Zero length array when an error occured.</returns>
+        public static string[] GetDirectories(string path, bool isRecursive = false)
+        {
+            if (isWebPlatform && !isEditor)
+            {
+                Debug.LogWarning("'GetDirectories' is not supported for the current platform!");
+            }
+            else if (isWSABasedPlatform && !isEditor)
+            {
+#if CT_FB_PRO
+#if UNITY_WSA && !UNITY_EDITOR
+                Crosstales.FB.FileBrowserWSAImpl fbWsa = new Crosstales.FB.FileBrowserWSAImpl();
+                fbWsa.isBusy = true;
+                UnityEngine.WSA.Application.InvokeOnUIThread(() => { fbWsa.GetDirectories(path, isRecursive); }, false);
+
+                do
+                {
+                    //wait
+                } while (fbWsa.isBusy);
+
+                return fbWsa.Selection.ToArray();
+#endif
+#else
+                Debug.LogWarning("'GetDirectories' under UWP (WSA) is supported in 'File Browser PRO'. For more, please see: " + BaseConstants.ASSET_FB);
+#endif
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(path))
+                {
+                    try
+                    {
+                        string _path = ValidatePath(path);
+
+                        return System.IO.Directory.GetDirectories(_path, "*", isRecursive ? System.IO.SearchOption.AllDirectories : System.IO.SearchOption.TopDirectoryOnly);
+                    }
+                    catch (System.Exception ex)
+                    {
+                        Debug.LogWarning("Could not scan the path for directories: " + ex);
+                    }
+                }
+            }
+
+            return new string[0];
         }
 
         /*
@@ -419,9 +702,6 @@ namespace Crosstales.Common.Util
         /// <returns>Valid file path</returns>
         public static string ValidURLFromFilePath(string path)
         {
-            if (path == null)
-                return path;
-
             if (!string.IsNullOrEmpty(path))
             {
                 if (!isValidURL(path))
@@ -432,7 +712,9 @@ namespace Crosstales.Common.Util
                 return ValidateFile(path).Replace(" ", "%20").Replace('\\', '/');
             }
 
-            return System.Uri.EscapeDataString(path);
+            return path;
+
+            //return System.Uri.EscapeDataString(path);
         }
 
         /// <summary>Cleans a given URL.
@@ -658,44 +940,51 @@ namespace Crosstales.Common.Util
         /// <param name="move">Move file instead of copy (default: false, optional)</param>
         public static void FileCopy(string inputFile, string outputFile, bool move = false)
         {
-            if (!string.IsNullOrEmpty(outputFile))
+            if ((isWSABasedPlatform || isWebPlatform) && !isEditor)
             {
-                try
+                Debug.LogWarning("'FileCopy' is not supported for the current platform!");
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(outputFile))
                 {
-                    if (!System.IO.File.Exists(inputFile))
+                    try
                     {
-                        Debug.LogError("Input file does not exists: " + inputFile);
-                    }
-                    else
-                    {
-                        System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(outputFile));
-
-                        if (System.IO.File.Exists(outputFile))
+                        if (!System.IO.File.Exists(inputFile))
                         {
-                            if (BaseConstants.DEV_DEBUG)
-                                Debug.LogWarning("Overwrite output file: " + outputFile);
-
-                            System.IO.File.Delete(outputFile);
+                            Debug.LogError("Input file does not exists: " + inputFile);
                         }
-
-                        if (move)
+                        else
                         {
+                            System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(outputFile));
+
+                            if (System.IO.File.Exists(outputFile))
+                            {
+                                if (BaseConstants.DEV_DEBUG)
+                                    Debug.LogWarning("Overwrite output file: " + outputFile);
+
+                                System.IO.File.Delete(outputFile);
+                            }
+
+                            if (move)
+                            {
 #if UNITY_STANDALONE || UNITY_EDITOR
-                            System.IO.File.Move(inputFile, outputFile);
+                                System.IO.File.Move(inputFile, outputFile);
 #else
                             System.IO.File.Copy(inputFile, outputFile);
                             System.IO.File.Delete(inputFile);
 #endif
-                        }
-                        else
-                        {
-                            System.IO.File.Copy(inputFile, outputFile);
+                            }
+                            else
+                            {
+                                System.IO.File.Copy(inputFile, outputFile);
+                            }
                         }
                     }
-                }
-                catch (System.Exception ex)
-                {
-                    Debug.LogError("Could not copy file!" + System.Environment.NewLine + ex);
+                    catch (System.Exception ex)
+                    {
+                        Debug.LogError("Could not copy file!" + System.Environment.NewLine + ex);
+                    }
                 }
             }
         }

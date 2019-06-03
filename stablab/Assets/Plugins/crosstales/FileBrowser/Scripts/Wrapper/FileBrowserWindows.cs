@@ -1,35 +1,22 @@
-﻿#if (UNITY_STANDALONE_WIN && !UNITY_EDITOR) || CT_ENABLED
+﻿#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
 using UnityEngine;
 using System;
-using System.IO;
-using System.Windows.Forms;
-using System.Runtime.InteropServices;
-using Ookii.Dialogs;
 
 namespace Crosstales.FB.Wrapper
 {
     // For fullscreen support:
-    // - WindowWrapper class and GetActiveWindow() are required for modal file dialog.
     // - "PlayerSettings/Visible In Background" should be enabled, otherwise when file dialog opened, app window minimizes automatically.
 
     /// <summary>File browser implementation for Windows.</summary>
     public class FileBrowserWindows : FileBrowserBase
     {
-#region Variables
-
-        [DllImport("user32.dll")]
-        private static extern IntPtr GetActiveWindow();
-
-#endregion
-
-
-#region Implemented methods
+        #region Implemented methods
 
         public override bool canOpenMultipleFiles
         {
             get
             {
-                return true;
+                return FileBrowserWinImpl.canOpenMultipleFiles;
             }
         }
 
@@ -37,42 +24,14 @@ namespace Crosstales.FB.Wrapper
         {
             get
             {
-                return false;
+                return FileBrowserWinImpl.canOpenMultipleFolders;
             }
         }
 
         public override string[] OpenFiles(string title, string directory, ExtensionFilter[] extensions, bool multiselect)
         {
-            string[] filenames = null;
 
-            using (VistaOpenFileDialog fd = new VistaOpenFileDialog())
-            {
-                fd.Title = title;
-
-                if (extensions != null)
-                {
-                    fd.Filter = getFilterFromFileExtensionList(extensions);
-                    fd.FilterIndex = 1;
-                }
-                else
-                {
-                    fd.Filter = string.Empty;
-                }
-
-                fd.Multiselect = multiselect;
-
-                //Debug.Log("multi");
-
-                if (!string.IsNullOrEmpty(directory))
-                {
-                    fd.FileName = getPath(directory);
-                }
-
-                DialogResult res = fd.ShowDialog(new WindowWrapper(GetActiveWindow()));
-                filenames = res == DialogResult.OK ? fd.FileNames : new string[0];
-            }
-
-            return filenames;
+            return FileBrowserWinImpl.OpenFiles(title, directory, getFilterFromFileExtensionList(extensions), multiselect);
         }
 
         public override string[] OpenFolders(string title, string directory, bool multiselect)
@@ -80,66 +39,12 @@ namespace Crosstales.FB.Wrapper
             if (multiselect)
                 Debug.LogWarning("'multiselect' for folders is not supported under Windows.");
 
-            string[] foldernames = null;
-
-            using (VistaFolderBrowserDialog fd = new VistaFolderBrowserDialog())
-            {
-                fd.Description = title;
-
-                if (!string.IsNullOrEmpty(directory))
-                {
-                    fd.SelectedPath = getPath(directory);
-                }
-
-                DialogResult res = fd.ShowDialog(new WindowWrapper(GetActiveWindow()));
-                foldernames = res == DialogResult.OK ? new[] { fd.SelectedPath } : new string[0];
-            }
-
-            return foldernames;
+            return new string[] { FileBrowserWinImpl.OpenFolder(title, directory) };
         }
 
         public override string SaveFile(string title, string directory, string defaultName, ExtensionFilter[] extensions)
         {
-            string filename = null;
-
-            using (VistaSaveFileDialog fd = new VistaSaveFileDialog())
-            {
-                fd.Title = title;
-
-                string finalFilename = string.Empty;
-
-                if (!string.IsNullOrEmpty(directory))
-                {
-                    finalFilename = getPath(directory);
-                }
-
-                if (!string.IsNullOrEmpty(defaultName))
-                {
-                    finalFilename += defaultName;
-                }
-
-                fd.FileName = finalFilename;
-
-                if (extensions != null)
-                {
-                    fd.Filter = getFilterFromFileExtensionList(extensions);
-                    fd.FilterIndex = 1;
-                    fd.DefaultExt = extensions[0].Extensions[0];
-                    fd.AddExtension = true;
-                }
-                else
-                {
-                    fd.DefaultExt = string.Empty;
-                    fd.Filter = string.Empty;
-                    fd.AddExtension = false;
-                }
-
-                DialogResult res = fd.ShowDialog(new WindowWrapper(GetActiveWindow()));
-                filename = res == DialogResult.OK ? fd.FileName : string.Empty;
-            }
-
-            return filename;
-
+            return FileBrowserWinImpl.SaveFile(title, directory, defaultName, getFilterFromFileExtensionList(extensions), extensions != null && extensions.Length > 0 ? extensions[0].Extensions[0] : string.Empty);
         }
 
         public override void OpenFilesAsync(string title, string directory, ExtensionFilter[] extensions, bool multiselect, Action<string[]> cb)
@@ -157,78 +62,59 @@ namespace Crosstales.FB.Wrapper
             cb.Invoke(SaveFile(title, directory, defaultName, extensions));
         }
 
-#endregion
+        #endregion
 
 
-#region Private methods
+        #region Private methods
 
         private static string getFilterFromFileExtensionList(ExtensionFilter[] extensions)
         {
-            System.Text.StringBuilder sb = new System.Text.StringBuilder();
-            ExtensionFilter filter;
-
-            for (int xx = 0; xx < extensions.Length; xx++)
+            if (extensions != null && extensions.Length > 0)
             {
-                filter = extensions[xx];
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                ExtensionFilter filter;
 
-                sb.Append(filter.Name);
-                sb.Append(" (");
-
-                for (int ii = 0; ii < filter.Extensions.Length; ii++)
+                for (int xx = 0; xx < extensions.Length; xx++)
                 {
-                    sb.Append("*.");
-                    sb.Append(filter.Extensions[ii]);
+                    filter = extensions[xx];
 
-                    if (ii + 1 < filter.Extensions.Length)
-                        sb.Append(",");
+                    sb.Append(filter.Name);
+                    sb.Append(" (");
+
+                    for (int ii = 0; ii < filter.Extensions.Length; ii++)
+                    {
+                        sb.Append("*.");
+                        sb.Append(filter.Extensions[ii]);
+
+                        if (ii + 1 < filter.Extensions.Length)
+                            sb.Append(",");
+                    }
+
+                    sb.Append(")|");
+
+                    for (int ii = 0; ii < filter.Extensions.Length; ii++)
+                    {
+                        sb.Append("*.");
+                        sb.Append(filter.Extensions[ii]);
+
+                        if (ii + 1 < filter.Extensions.Length)
+                            sb.Append(";");
+                    }
+
+                    if (xx + 1 < extensions.Length)
+                        sb.Append("|");
                 }
 
-                sb.Append(")|");
+                if (Util.Config.DEBUG)
+                    Debug.Log("getFilterFromFileExtensionList: " + sb.ToString());
 
-                for (int ii = 0; ii < filter.Extensions.Length; ii++)
-                {
-                    sb.Append("*.");
-                    sb.Append(filter.Extensions[ii]);
-
-                    if (ii + 1 < filter.Extensions.Length)
-                        sb.Append(";");
-                }
-
-                if (xx + 1 < extensions.Length)
-                    sb.Append("|");
+                return sb.ToString();
             }
 
-            if (Util.Config.DEBUG)
-                Debug.Log("getFilterFromFileExtensionList: " + sb.ToString());
-
-            return sb.ToString();
+            return string.Empty;
         }
 
-        private static string getPath(string path)
-        {
-            string directoryPath = Path.GetFullPath(path);
-
-            if (!directoryPath.EndsWith("\\"))
-            {
-                directoryPath += "\\";
-            }
-
-            if (Path.GetPathRoot(directoryPath) == directoryPath)
-                return path;
-
-            return Path.GetDirectoryName(directoryPath) + Path.DirectorySeparatorChar;
-        }
-
-#endregion
-    }
-
-    public class WindowWrapper : IWin32Window
-    {
-        private IntPtr _hwnd;
-
-        public WindowWrapper(IntPtr handle) { _hwnd = handle; }
-
-        public IntPtr Handle { get { return _hwnd; } }
+        #endregion
     }
 }
 #endif

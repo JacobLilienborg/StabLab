@@ -48,7 +48,7 @@ public class ImagesHandler : MonoBehaviour
     // Opens the filebrowser and adds the chosen image to the injury.
     public void AddImage()
     {
-        string imagePath = FileManager.OpenFileBrowser("png,jpg"); // Let the user pick an image
+        string imagePath = FileManager.OpenFileBrowserFile("Image Files", new string[]{ "png jpg", "png", "jpg" }); // Let the user pick an image
         if (imagePath == "") return; 
 
         InjuryManager.instance.activeInjury.AddImage(FileManager.ReadBytes(imagePath)); // Save the image to active injury

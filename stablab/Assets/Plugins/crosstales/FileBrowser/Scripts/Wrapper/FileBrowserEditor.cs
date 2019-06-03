@@ -88,18 +88,23 @@ namespace Crosstales.FB.Wrapper
 
         private static string[] getFilterFromFileExtensionList(ExtensionFilter[] extensions)
         {
-            string[] filters = new string[extensions.Length * 2];
-
-            for (int ii = 0; ii < extensions.Length; ii++)
+            if (extensions != null && extensions.Length > 0)
             {
-                filters[(ii * 2)] = extensions[ii].Name;
-                filters[(ii * 2) + 1] = string.Join(",", extensions[ii].Extensions);
+                string[] filters = new string[extensions.Length * 2];
+
+                for (int ii = 0; ii < extensions.Length; ii++)
+                {
+                    filters[(ii * 2)] = extensions[ii].Name;
+                    filters[(ii * 2) + 1] = string.Join(",", extensions[ii].Extensions);
+                }
+
+                if (Util.Config.DEBUG)
+                    Debug.Log("getFilterFromFileExtensionList: " + filters.CTDump());
+
+                return filters;
             }
 
-            if (Util.Config.DEBUG)
-                Debug.Log("getFilterFromFileExtensionList: " + filters.CTDump());
-
-            return filters;
+            return new string[0];
         }
 
         #endregion

@@ -11,26 +11,24 @@
 
         /// <summary>Name of the asset.</summary>
         public const string ASSET_NAME = "File Browser";
-        //public const string ASSET_NAME = "File Browser PRO";
 
         /// <summary>Short name of the asset.</summary>
         public const string ASSET_NAME_SHORT = "FB";
-        //public const string ASSET_NAME_SHORT = "FB PRO";
 
         /// <summary>Version of the asset.</summary>
-        public const string ASSET_VERSION = "2019.2.0";
+        public const string ASSET_VERSION = "2019.2.7";
 
         /// <summary>Build number of the asset.</summary>
-        public const int ASSET_BUILD = 20190206;
+        public const int ASSET_BUILD = 20190523;
 
         /// <summary>Create date of the asset (YYYY, MM, DD).</summary>
         public static readonly System.DateTime ASSET_CREATED = new System.DateTime(2017, 8, 1);
 
         /// <summary>Change date of the asset (YYYY, MM, DD).</summary>
-        public static readonly System.DateTime ASSET_CHANGED = new System.DateTime(2019, 2, 6);
+        public static readonly System.DateTime ASSET_CHANGED = new System.DateTime(2019, 5, 23);
 
         /// <summary>URL of the PRO asset in UAS.</summary>
-        public const string ASSET_PRO_URL = "https://www.assetstore.unity3d.com/#!/content/98713?aid=1011lNGT&pubref=" + ASSET_NAME;
+        public const string ASSET_PRO_URL = "https://assetstore.unity.com/packages/slug/98713?aid=1011lNGT";
 
         /// <summary>URL for update-checks of the asset</summary>
         public const string ASSET_UPDATE_CHECK_URL = "https://www.crosstales.com/media/assets/fb_versions.txt";
@@ -60,6 +58,10 @@
         // Keys for the configuration of the asset
         public const string KEY_PREFIX = "FILEBROWSER_CFG_";
         public const string KEY_DEBUG = KEY_PREFIX + "DEBUG";
+        public const string KEY_NATIVE_WINDOWS = KEY_PREFIX + "NATIVE_WINDOWS";
+
+        // Default values
+        public const bool DEFAULT_NATIVE_WINDOWS = true;
 
         #endregion
 

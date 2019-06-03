@@ -16,6 +16,6 @@ public class guiNewProject : MonoBehaviour
 
     public void FileBrowser()
     {
-        dir.text = FileManager.OpenFileBrowser();
+        dir.text = FileManager.OpenFileBrowserFolder();
     }
 }

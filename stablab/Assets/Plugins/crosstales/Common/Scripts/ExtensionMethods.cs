@@ -200,10 +200,12 @@ namespace Crosstales
         /// Dumps an array to a string.
         /// </summary>
         /// <param name="array">Array-instance to dump.</param>
+        /// <param name="prefix">Prefix for every element (default: empty, optional).</param>
+        /// <param name="postfix">Postfix for every element (default: empty, optional).</param>
         /// <returns>String with lines for all array entries.</returns>
-        public static string CTDump<T>(this T[] array)
+        public static string CTDump<T>(this T[] array, string prefix = "", string postfix = "")
         {
-            if (array == null || array.Length <= 0)
+            if (array == null)// || array.Length <= 0)
                 throw new System.ArgumentNullException("array");
 
             System.Text.StringBuilder sb = new System.Text.StringBuilder();
@@ -215,7 +217,41 @@ namespace Crosstales
                     sb.Append(System.Environment.NewLine);
                 }
 
+                sb.Append(prefix);
                 sb.Append(element);
+                sb.Append(postfix);
+            }
+
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// Extension method for Quaternion-Arrays.
+        /// Dumps an array to a string.
+        /// </summary>
+        /// <param name="array">Quaternion-Array-instance to dump.</param>
+        /// <returns>String with lines for all array entries.</returns>
+        public static string CTDump(this Quaternion[] array)
+        {
+            if (array == null)// || array.Length <= 0)
+                throw new System.ArgumentNullException("array");
+
+            System.Text.StringBuilder sb = new System.Text.StringBuilder();
+
+            foreach (Quaternion element in array)
+            {
+                if (0 < sb.Length)
+                {
+                    sb.Append(System.Environment.NewLine);
+                }
+
+                sb.Append(element.x);
+                sb.Append(", ");
+                sb.Append(element.y);
+                sb.Append(", ");
+                sb.Append(element.z);
+                sb.Append(", ");
+                sb.Append(element.w);
             }
 
             return sb.ToString();
@@ -229,7 +265,7 @@ namespace Crosstales
         /// <returns>String with lines for all array entries.</returns>
         public static string CTDump(this Vector2[] array)
         {
-            if (array == null || array.Length <= 0)
+            if (array == null)// || array.Length <= 0)
                 throw new System.ArgumentNullException("array");
 
             System.Text.StringBuilder sb = new System.Text.StringBuilder();
@@ -257,7 +293,7 @@ namespace Crosstales
         /// <returns>String with lines for all array entries.</returns>
         public static string CTDump(this Vector3[] array)
         {
-            if (array == null || array.Length <= 0)
+            if (array == null)// || array.Length <= 0)
                 throw new System.ArgumentNullException("array");
 
             System.Text.StringBuilder sb = new System.Text.StringBuilder();
@@ -287,7 +323,7 @@ namespace Crosstales
         /// <returns>String with lines for all array entries.</returns>
         public static string CTDump(this Vector4[] array)
         {
-            if (array == null || array.Length <= 0)
+            if (array == null)// || array.Length <= 0)
                 throw new System.ArgumentNullException("array");
 
             System.Text.StringBuilder sb = new System.Text.StringBuilder();
@@ -319,7 +355,7 @@ namespace Crosstales
         /// <returns>String array with all entries (via ToString).</returns>
         public static string[] CTToString<T>(this T[] array)
         {
-            if (array == null || array.Length <= 0)
+            if (array == null)// || array.Length <= 0)
                 throw new System.ArgumentNullException("array");
 
             string[] result = new string[array.Length];
@@ -360,8 +396,10 @@ namespace Crosstales
         /// Dumps a list to a string.
         /// </summary>
         /// <param name="list">IList-instance to dump.</param>
+        /// <param name="prefix">Prefix for every element (default: empty, optional).</param>
+        /// <param name="postfix">Postfix for every element (default: empty, optional).</param>
         /// <returns>String with lines for all list entries.</returns>
-        public static string CTDump<T>(this System.Collections.Generic.IList<T> list)
+        public static string CTDump<T>(this System.Collections.Generic.IList<T> list, string prefix = "", string postfix = "")
         {
             if (list == null)
                 throw new System.ArgumentNullException("list");
@@ -375,7 +413,41 @@ namespace Crosstales
                     sb.Append(System.Environment.NewLine);
                 }
 
+                sb.Append(prefix);
                 sb.Append(element);
+                sb.Append(postfix);
+            }
+
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// Extension method for Quaternion-IList.
+        /// Dumps a list to a string.
+        /// </summary>
+        /// <param name="list">Quaternion-IList-instance to dump.</param>
+        /// <returns>String with lines for all list entries.</returns>
+        public static string CTDump(this System.Collections.Generic.IList<Quaternion> list)
+        {
+            if (list == null)
+                throw new System.ArgumentNullException("list");
+
+            System.Text.StringBuilder sb = new System.Text.StringBuilder();
+
+            foreach (Quaternion element in list)
+            {
+                if (0 < sb.Length)
+                {
+                    sb.Append(System.Environment.NewLine);
+                }
+
+                sb.Append(element.x);
+                sb.Append(", ");
+                sb.Append(element.y);
+                sb.Append(", ");
+                sb.Append(element.z);
+                sb.Append(", ");
+                sb.Append(element.w);
             }
 
             return sb.ToString();
@@ -497,8 +569,10 @@ namespace Crosstales
         /// Dumps a dictionary to a string.
         /// </summary>
         /// <param name="dict">IDictionary-instance to dump.</param>
+        /// <param name="prefix">Prefix for every element (default: empty, optional).</param>
+        /// <param name="postfix">Postfix for every element (default: empty, optional).</param>
         /// <returns>String with lines for all dictionary entries.</returns>
-        public static string CTDump<K, V>(this System.Collections.Generic.IDictionary<K, V> dict)
+        public static string CTDump<K, V>(this System.Collections.Generic.IDictionary<K, V> dict, string prefix = "", string postfix = "")
         {
             if (dict == null)
                 throw new System.ArgumentNullException("dict");
@@ -511,15 +585,17 @@ namespace Crosstales
                 {
                     sb.Append(System.Environment.NewLine);
                 }
+                sb.Append(prefix);
                 sb.Append("Key = ");
                 sb.Append(kvp.Key);
                 sb.Append(", Value = ");
                 sb.Append(kvp.Value);
+                sb.Append(postfix);
             }
 
             return sb.ToString();
         }
-        
+
         /// <summary>
         /// Extension method for IDictionary.
         /// Adds a dictionary to an existing one.

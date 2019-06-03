@@ -17,12 +17,13 @@ namespace Crosstales.Common.Util
             if (filename == null)
                 throw new System.ArgumentNullException("filename");
 
-            try {
+            try
+            {
                 System.IO.File.WriteAllText(filename, SerializeToString<T>(obj));
             }
-            catch (System.Exception ex) 
+            catch (System.Exception ex)
             {
-                    Debug.LogError("Could not serialize the object to a file: " + ex);
+                Debug.LogError("Could not serialize the object to a file: " + ex);
             }
         }
 
@@ -35,7 +36,8 @@ namespace Crosstales.Common.Util
             if (filename == null)
                 throw new System.ArgumentNullException("filename");
 
-            try {
+            try
+            {
                 if (System.IO.File.Exists(filename))
                 {
                     return DeserializeFromString<T>(System.IO.File.ReadAllText(filename), skipBOM);
@@ -45,9 +47,9 @@ namespace Crosstales.Common.Util
                     Debug.LogError("File doesn't exist: " + filename);
                 }
             }
-            catch (System.Exception ex) 
+            catch (System.Exception ex)
             {
-                    Debug.LogError("Could not deserialize the object from a file: " + ex);
+                Debug.LogError("Could not deserialize the object from a file: " + ex);
             }
 
             return default(T);
@@ -63,12 +65,9 @@ namespace Crosstales.Common.Util
             if (obj == null)
                 throw new System.ArgumentNullException("obj");
 
-            try {
+            try
+            {
                 System.IO.MemoryStream ms = new System.IO.MemoryStream();
-
-                //Type yourType = Type.GetType("Statistic");
-                //XmlSerializer xs = new XmlSerializer(yourType);
-                //XmlSerializer xs = new XmlSerializer(typeof(T)); 
 
                 System.Xml.Serialization.XmlSerializer xs = new System.Xml.Serialization.XmlSerializer(obj.GetType());
                 System.Xml.XmlTextWriter xmlTextWriter = new System.Xml.XmlTextWriter(ms, System.Text.Encoding.UTF8);
@@ -77,11 +76,11 @@ namespace Crosstales.Common.Util
                 ms = (System.IO.MemoryStream)xmlTextWriter.BaseStream;
                 return System.Text.Encoding.UTF8.GetString(ms.ToArray());
             }
-            catch (System.Exception ex) 
+            catch (System.Exception ex)
             {
-                    Debug.LogError("Could not serialize the object to a string: " + ex);
+                Debug.LogError("Could not serialize the object to a string: " + ex);
             }
-            
+
             return string.Empty;
         }
 
@@ -94,7 +93,8 @@ namespace Crosstales.Common.Util
             if (string.IsNullOrEmpty(xmlAsString))
                 throw new System.ArgumentNullException("xmlAsString");
 
-            try {
+            try
+            {
                 System.Xml.Serialization.XmlSerializer xs = new System.Xml.Serialization.XmlSerializer(typeof(T));
 
                 using (System.IO.StringReader sr = new System.IO.StringReader(xmlAsString))
@@ -106,11 +106,11 @@ namespace Crosstales.Common.Util
                     return (T)xs.Deserialize(sr);
                 }
             }
-            catch (System.Exception ex) 
+            catch (System.Exception ex)
             {
-                    Debug.LogError("Could not deserialize the object from a string: " + ex);
+                Debug.LogError("Could not deserialize the object from a string: " + ex);
             }
-            
+
             return default(T);
         }
 

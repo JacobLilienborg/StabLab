@@ -82,11 +82,11 @@ namespace Crosstales.Common.EditorUtil
 
         private static string userAgent()
         {
-            if (Util.BaseHelper.isWindowsPlatform)
+            if (Util.BaseHelper.isWindowsEditor)
             {
                 return "compatible; Windows NT 10.0; WOW64";
             }
-            else if (Util.BaseHelper.isMacOSPlatform)
+            else if (Util.BaseHelper.isMacOSEditor)
             {
                 return "compatible; Macintosh; Intel Mac OS X";
             }

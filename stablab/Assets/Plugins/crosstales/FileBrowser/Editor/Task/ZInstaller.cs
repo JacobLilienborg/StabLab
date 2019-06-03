@@ -11,7 +11,7 @@ namespace Crosstales.FB.EditorTask
 
         static ZInstaller()
         {
-#if !fb_ignore_setup
+#if !CT_DEVELOP
             string path = Application.dataPath + "/Plugins/crosstales/FileBrowser/FileBrowser.unitypackage";
             //string path = Application.dataPath;
             //string subpath = "/Plugins/crosstales/FileBrowser/FileBrowser.unitypackage";

@@ -1,5 +1,32 @@
 ﻿# FileBrowser - Release notes
 
+## 2019.3.7 - 23.05.2019
+* Linux: GTK2+ version added (see "GTK2.zip")
+* Updated to Common 2019.3.2
+
+## 2019.2.6 - 12.05.2019
+* Updated to Common 2019.3.1
+
+## 2019.2.5 - 18.04.2019
+* Windows: SaveFile works now correctly with paths
+* Updated to Common 2019.3.0
+
+## 2019.2.4 - 10.04.2019
+* Windows-builds fixed
+
+## 2019.2.3 - 05.04.2019
+* Windows: automatically add the extension for save files
+* Updated to Common 2019.2.5
+
+## 2019.2.2 - 26.03.2019
+* Windows: "System.Windows.Forms.dll" removed
+* Updated to Common 2019.2.4
+
+## 2019.2.1 - 12.03.2019
+* Windows: option added to access the native file browser instead of the Unity Editor component
+* Code cleanup
+* Updated to Common 2019.2.3
+
 ## 2019.2.0 - 06.02.2019
 * FileBrowser:
   * "canOpenMultipleFiles" added

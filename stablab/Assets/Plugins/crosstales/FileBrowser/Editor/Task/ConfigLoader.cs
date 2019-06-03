@@ -5,12 +5,12 @@ namespace Crosstales.FB.EditorTask
 {
     /// <summary>Loads the configuration at startup.</summary>
     [InitializeOnLoad]
-    public static class ConfigLoader
+    public static class AAAConfigLoader
     {
 
         #region Constructor
 
-        static ConfigLoader()
+        static AAAConfigLoader()
         {
             if (!Util.Config.isLoaded) {
                 Util.Config.Load();

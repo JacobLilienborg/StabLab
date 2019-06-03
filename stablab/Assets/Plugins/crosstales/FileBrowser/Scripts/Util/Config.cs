@@ -9,10 +9,8 @@
         /// <summary>Enable or disable debug logging for the asset.</summary>
         public static bool DEBUG = Constants.DEFAULT_DEBUG;
 
-        /*
-        /// <summary>Enable or disable the ensuring the name of the RTVoice gameobject.</summary>
-        public static bool ENSURE_NAME = Constants.DEFAULT_ENSURE_NAME;
-        */
+        /// <summary>Enable or disable native file browser inside the Unity Editor.</summary>
+        public static bool NATIVE_WINDOWS = Constants.DEFAULT_NATIVE_WINDOWS;
 
         /// <summary>Is the configuration loaded?</summary>
         public static bool isLoaded = false;
@@ -28,7 +26,7 @@
             if (!Constants.DEV_DEBUG)
                 DEBUG = Constants.DEFAULT_DEBUG;
 
-            //ENSURE_NAME = Constants.DEFAULT_ENSURE_NAME;
+            NATIVE_WINDOWS = Constants.DEFAULT_NATIVE_WINDOWS;
         }
 
         /// <summary>Loads the all changable variables.</summary>
@@ -46,12 +44,10 @@
                 DEBUG = Constants.DEV_DEBUG;
             }
 
-            /*
-            if (Common.Util.CTPlayerPrefs.HasKey(Constants.KEY_ENSURE_NAME))
+            if (Common.Util.CTPlayerPrefs.HasKey(Constants.KEY_NATIVE_WINDOWS))
             {
-                ENSURE_NAME = Common.Util.CTPlayerPrefs.GetBool(Constants.KEY_ENSURE_NAME);
+                NATIVE_WINDOWS = Common.Util.CTPlayerPrefs.GetBool(Constants.KEY_NATIVE_WINDOWS);
             }
-            */
 
             isLoaded = true;
         }
@@ -59,11 +55,10 @@
         /// <summary>Saves the all changable variables.</summary>
         public static void Save()
         {
-            
             if (!Constants.DEV_DEBUG)
                 Common.Util.CTPlayerPrefs.SetBool(Constants.KEY_DEBUG, DEBUG);
 
-            //Common.Util.CTPlayerPrefs.SetBool(Constants.KEY_ENSURE_NAME, ENSURE_NAME);
+            Common.Util.CTPlayerPrefs.SetBool(Constants.KEY_NATIVE_WINDOWS, NATIVE_WINDOWS);
 
             Common.Util.CTPlayerPrefs.Save();
         }

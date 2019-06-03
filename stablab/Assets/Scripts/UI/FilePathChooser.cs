@@ -9,7 +9,7 @@ public class FilePathChooser : MonoBehaviour
 
     public void BrowseFilePath()
     {
-        filePath.text = FileManager.OpenFileBrowser("", DataManager.instance.LoadApplicationData().recentWorkingDirectory);
+        filePath.text = FileManager.OpenFileBrowserFolder(DataManager.instance.LoadApplicationData().recentWorkingDirectory);
         filePath.onEndEdit.Invoke(filePath.text);
     }
 

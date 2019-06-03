@@ -1,11 +1,11 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-namespace Crosstales.FB.EditorTask
+namespace Crosstales.Common.EditorTask
 {
     /// <summary>Copies all resources to 'Editor Default Resources'.</summary>
     [InitializeOnLoad]
-    public abstract class SetupResources : Common.EditorTask.BaseSetupResources
+    public abstract class SetupResources : BaseSetupResources
     {
 
         #region Constructor
@@ -15,15 +15,16 @@ namespace Crosstales.FB.EditorTask
 
 #if !CT_DEVELOP
             string path = Application.dataPath;
-            string assetpath = "Assets" + EditorUtil.EditorConfig.ASSET_PATH;
+            string assetpath = "Assets/Plugins/crosstales/Common/";
 
-            string sourceFolder = path + EditorUtil.EditorConfig.ASSET_PATH + "Icons/";
+            string sourceFolder = path + "/Plugins/crosstales/Common/Icons/";
             string source = assetpath + "Icons/";
 
-            string targetFolder = path + "/Editor Default Resources/crosstales/FileBrowser/";
-            string target = "Assets/Editor Default Resources/crosstales/FileBrowser/";
+            string targetFolder = path + "/Editor Default Resources/crosstales/Common/";
+            string target = "Assets/Editor Default Resources/crosstales/Common/";
             string metafile = assetpath + "Icons.meta";
 
+            //Debug.Log(source + " - " + sourceFolder + " - " + target + " - " + targetFolder + " - " + metafile);
             setupResources(source, sourceFolder, target, targetFolder, metafile);
 #endif
         }

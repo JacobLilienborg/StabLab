@@ -13,7 +13,7 @@ public class CreateFile : MonoBehaviour
     }
 
     public void BrowseFileLocation() {
-        projectLocation.text = FileManager.OpenFileBrowser("", DataManager.instance.LoadApplicationData().recentWorkingDirectory);
+        projectLocation.text = FileManager.OpenFileBrowserFolder(DataManager.instance.LoadApplicationData().recentWorkingDirectory);
     }
 
     public void CreateNewFromMenu() {

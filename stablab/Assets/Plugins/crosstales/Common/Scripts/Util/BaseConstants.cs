@@ -14,8 +14,7 @@ namespace Crosstales.Common.Util
         public const string ASSET_AUTHOR_URL = "https://www.crosstales.com";
 
         /// <summary>URL of the crosstales assets in UAS.</summary>
-        public const string ASSET_CT_URL = "https://goo.gl/qwtXyb";
-        //public const string ASSET_CT_URL = "https://www.assetstore.unity3d.com/#!/list/42213-crosstales?aid=1011lNGT"; // crosstales list
+        public const string ASSET_CT_URL = "https://assetstore.unity.com/lists/crosstales-42213?aid=1011lNGT";
 
         /// <summary>URL of the crosstales Discord-channel.</summary>
         public const string ASSET_SOCIAL_DISCORD = "https://discord.gg/ZbZ2sh4";
@@ -32,11 +31,38 @@ namespace Crosstales.Common.Util
         /// <summary>URL of the crosstales LinkedIn-profile.</summary>
         public const string ASSET_SOCIAL_LINKEDIN = "https://www.linkedin.com/company/crosstales";
 
-        /// <summary>URL of the crosstales XING-profile.</summary>
-        public const string ASSET_SOCIAL_XING = "https://www.xing.com/companies/crosstales";
-
         /// <summary>URL of the 3rd party asset "PlayMaker".</summary>
-        public const string ASSET_3P_PLAYMAKER = "https://www.assetstore.unity3d.com/#!/content/368?aid=1011lNGT";
+        public const string ASSET_3P_PLAYMAKER = "https://assetstore.unity.com/packages/slug/368?aid=1011lNGT";
+
+        /// <summary>URL of the "Badword Filter" asset.</summary>
+        public const string ASSET_BWF = "https://assetstore.unity.com/packages/slug/26255?aid=1011lNGT";
+
+        /// <summary>URL of the "DJ" asset.</summary>
+        public const string ASSET_DJ = "https://assetstore.unity.com/packages/slug/41993?aid=1011lNGT";
+
+        /// <summary>URL of the "File Browser" asset.</summary>
+        public const string ASSET_FB = "https://assetstore.unity.com/packages/slug/98713?aid=1011lNGT";
+
+        /// <summary>URL of the "Online Check" asset.</summary>
+        public const string ASSET_OC = "https://assetstore.unity.com/packages/slug/74688?aid=1011lNGT";
+
+        /// <summary>URL of the "Radio" asset.</summary>
+        public const string ASSET_RADIO = "https://assetstore.unity.com/packages/slug/32034?aid=1011lNGT";
+
+        /// <summary>URL of the "RT-Voice" asset.</summary>
+        public const string ASSET_RTV = "https://assetstore.unity.com/packages/slug/41068?aid=1011lNGT";
+
+        /// <summary>URL of the "Turbo Backup" asset.</summary>
+        public const string ASSET_TB = "https://assetstore.unity.com/packages/slug/98711?aid=1011lNGT";
+
+        /// <summary>URL of the "Turbo Builder" asset.</summary>
+        public const string ASSET_TPB = "https://assetstore.unity.com/packages/slug/98714?aid=1011lNGT";
+
+        /// <summary>URL of the "Turbo Switch" asset.</summary>
+        public const string ASSET_TPS = "https://assetstore.unity.com/packages/slug/60040?aid=1011lNGT";
+
+        /// <summary>URL of the "True Random" asset.</summary>
+        public const string ASSET_TR = "https://assetstore.unity.com/packages/slug/61617?aid=1011lNGT";
 
         /// <summary>Factor for kilo bytes.</summary>
         public const int FACTOR_KB = 1024;
@@ -78,10 +104,10 @@ namespace Crosstales.Common.Util
         public static bool DEV_DEBUG = false;
 
         // Text fragments for the asset
+        public static string TEXT_TOSTRING_START = " {";
         public static string TEXT_TOSTRING_END = "}";
         public static string TEXT_TOSTRING_DELIMITER = "', ";
         public static string TEXT_TOSTRING_DELIMITER_END = "'";
-        public static string TEXT_TOSTRING_START = " {";
 
         // Prefixes for URLs and paths
         public static string PREFIX_HTTP = "http://";
@@ -89,6 +115,39 @@ namespace Crosstales.Common.Util
 
         /// <summary>Kill processes after 5000 milliseconds.</summary>
         public static int PROCESS_KILL_TIME = 5000;
+
+        /// <summary>Path to the cmd under Windows.</summary>
+        public static string CMD_WINDOWS_PATH = @"C:\Windows\system32\cmd.exe";
+
+        /// <summary>Show the BWF banner.</summary>
+        public static bool SHOW_BWF_BANNER = true;
+
+        /// <summary>Show the DJ banner.</summary>
+        public static bool SHOW_DJ_BANNER = true;
+
+        /// <summary>Show the FB banner.</summary>
+        public static bool SHOW_FB_BANNER = true;
+
+        /// <summary>Show the OC banner.</summary>
+        public static bool SHOW_OC_BANNER = true;
+
+        /// <summary>Show the Radio banner.</summary>
+        public static bool SHOW_RADIO_BANNER = true;
+
+        /// <summary>Show the RTV banner.</summary>
+        public static bool SHOW_RTV_BANNER = true;
+
+        /// <summary>Show the TB banner.</summary>
+        public static bool SHOW_TB_BANNER = true;
+
+        /// <summary>Show the TPB banner.</summary>
+        public static bool SHOW_TPB_BANNER = false; //TODO change as soon as it's in the UAS
+
+        /// <summary>Show the TPS banner.</summary>
+        public static bool SHOW_TPS_BANNER = true;
+
+        /// <summary>Show the TR banner.</summary>
+        public static bool SHOW_TR_BANNER = true;
 
         #endregion
 
@@ -100,7 +159,7 @@ namespace Crosstales.Common.Util
         {
             get
             {
-                if (BaseHelper.isWindowsPlatform)
+                if (BaseHelper.isWindowsPlatform || BaseHelper.isWindowsEditor) //TODO isisWindowsBasedPlatform?
                 {
                     return "file:///";
                 }

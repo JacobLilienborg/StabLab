@@ -21,12 +21,6 @@ namespace Crosstales.UI
         [Tooltip("Fade time in seconds (default: 2).")]
         public float FadeTime = 2f;
 
-        /*
-        /// <summary>Destroy UI element after the fade (default: true).</summary>
-        [Tooltip("Destroy UI element after the fade (default: true).")]
-        public bool DestroyWhenFinished = true;
-        */
-
         /// <summary>Disable UI element after the fade (default: true).</summary>
         [Tooltip("Disable UI element after the fade (default: true).")]
         public bool Disable = true;
@@ -81,8 +75,6 @@ namespace Crosstales.UI
                 yield return null;
             }
 
-            //Debug.Log("LerpAlphaDown finished");
-
             gameObjectToFade.gameObject.SetActive(!Disable);
         }
 
@@ -100,8 +92,6 @@ namespace Crosstales.UI
                 Group.alpha += (endAlphaValue / time) * Time.deltaTime;
                 yield return null;
             }
-
-            //Debug.Log("LerpAlphaUp finished");
 
             gameObjectToFade.gameObject.SetActive(!Disable);
         }

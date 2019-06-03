@@ -1,18 +1,26 @@
-﻿using System.IO;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Crosstales.FB
 {
     /// <summary>Native file browser various actions like open file, open folder and save file.</summary>
     public class FileBrowser : MonoBehaviour
     {
+        #region Variables
+
         private static Wrapper.IFileBrowser platformWrapper;
+
+        #endregion
+
 
         #region Constructor
 
         static FileBrowser()
         {
+#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
+            if (Util.Helper.isEditor && !Util.Config.NATIVE_WINDOWS)
+#else
             if (Util.Helper.isEditor)
+#endif
             {
 #if UNITY_EDITOR
                 platformWrapper = new Wrapper.FileBrowserEditor();
@@ -20,19 +28,27 @@ namespace Crosstales.FB
             }
             else if (Util.Helper.isMacOSPlatform)
             {
-#if UNITY_STANDALONE_OSX && !UNITY_EDITOR
+#if UNITY_STANDALONE_OSX || UNITY_EDITOR
                 platformWrapper = new Wrapper.FileBrowserMac();
 #endif
             }
-            else if (Util.Helper.isWindowsPlatform)
+            else if (Util.Helper.isWindowsPlatform || Util.Helper.isWindowsEditor)
             {
-#if UNITY_STANDALONE_WIN && !UNITY_EDITOR
-                platformWrapper = new Wrapper.FileBrowserWindows();
+#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
+                if (!Util.Constants.isPro && Util.Helper.isIL2CPP)
+                {
+                    Debug.LogWarning("File Browser PRO supports Windows (IL2CPP). Please consider upgrading: " + Util.Constants.ASSET_PRO_URL);
+                    platformWrapper = new Wrapper.FileBrowserGeneric();
+                }
+                else
+                {
+                    platformWrapper = new Wrapper.FileBrowserWindows();
+                }
 #endif
             }
             else if (Util.Helper.isLinuxPlatform)
             {
-#if UNITY_STANDALONE_LINUX && !UNITY_EDITOR
+#if UNITY_STANDALONE_LINUX || UNITY_EDITOR
                 platformWrapper = new Wrapper.FileBrowserLinux();
 #endif
             }
@@ -81,13 +97,6 @@ namespace Crosstales.FB
         /// <summary>Open native file browser for a single file.</summary>
         /// <param name="extension">Allowed extension, e.g. "png" (optional)</param>
         /// <returns>Returns a string of the chosen file. Empty string when cancelled</returns>
-        /*
-            #if (UNITY_STANDALONE_WIN && !UNITY_EDITOR)
-        public static string OpenSingleFile(string extension = "*")
-#else
-        public static string OpenSingleFile(string extension = "")
-#endif
-            */
         public static string OpenSingleFile(string extension = "*")
         {
             return OpenSingleFile(Util.Constants.TEXT_OPEN_FILE, string.Empty, getFilter(extension));
@@ -116,13 +125,6 @@ namespace Crosstales.FB
         /// <summary>Open native file browser for multiple files.</summary>
         /// <param name="extension">Allowed extension, e.g. "png" (optional)</param>
         /// <returns>Returns a string of the chosen file. Empty string when cancelled</returns>
-        /*
-#if (UNITY_STANDALONE_WIN && !UNITY_EDITOR)
-        public static string[] OpenFiles(string extension = "*")
-#else
-        public static string[] OpenFiles(string extension = "")
-#endif
-*/
         public static string[] OpenFiles(string extension = "*")
         {
             return OpenFiles(Util.Constants.TEXT_OPEN_FILES, string.Empty, getFilter(extension));
@@ -190,13 +192,6 @@ namespace Crosstales.FB
         /// <param name="defaultName">Default file name (optional)</param>
         /// <param name="extensions">File extensions, e.g. "png" (optional)</param>
         /// <returns>Returns chosen file. Empty string when cancelled</returns>
-        /*
-#if (UNITY_STANDALONE_WIN && !UNITY_EDITOR)
-        public static string SaveFile(string defaultName = "", string extension = null)
-#else
-        public static string SaveFile(string defaultName = "", string extension = "")
-#endif
-*/
         public static string SaveFile(string defaultName = "", string extension = "*")
         {
             return SaveFile(Util.Constants.TEXT_SAVE_FILE, string.Empty, defaultName, getFilter(extension));
@@ -283,13 +278,6 @@ namespace Crosstales.FB
         /// <param name="defaultName">Default file name (optional)</param>
         /// <param name="extension">File extension, e.g. "png" (optional)</param>
         /// <returns>Returns chosen file. Empty string when cancelled</returns>
-/*
-#if (UNITY_STANDALONE_WIN && !UNITY_EDITOR)
-        public static void SaveFileAsync(System.Action<string> cb, string defaultName = "", string extension = "*")
-#else
-        public static void SaveFileAsync(System.Action<string> cb, string defaultName = "", string extension = "")
-#endif
-*/
         public static void SaveFileAsync(System.Action<string> cb, string defaultName = "", string extension = "*")
         {
             SaveFileAsync(cb, Util.Constants.TEXT_SAVE_FILE, string.Empty, defaultName, getFilter(extension));
@@ -325,10 +313,10 @@ namespace Crosstales.FB
         /// <param name="path">Path to find the files</param>
         /// <param name="isRecursive">Recursive search (default: false, optional)</param>
         /// <param name="extensions">Extensions for the file search, e.g. "png" (optional)</param>
-        /// <returns>Returns array of the found files inside the path. Zero length array when an error occured.</returns>
+        /// <returns>Returns array of the found files inside the path (alphabetically ordered). Zero length array when an error occured.</returns>
         public static string[] GetFiles(string path, bool isRecursive = false, params string[] extensions)
         {
-            return GetFiles(path, isRecursive, getFilter(extensions));
+            return Util.Helper.GetFiles(path, isRecursive, extensions);
         }
 
         /// <summary>
@@ -340,57 +328,28 @@ namespace Crosstales.FB
         /// <returns>Returns array of the found files inside the path. Zero length array when an error occured.</returns>
         public static string[] GetFiles(string path, bool isRecursive, params ExtensionFilter[] extensions)
         {
-            try
+            System.Collections.Generic.List<string> exts = new System.Collections.Generic.List<string>();
+
+            foreach (ExtensionFilter extensionFilter in extensions)
             {
-                string _path = Path.GetDirectoryName(path);
-
-                if (extensions == null)
+                foreach (string ext in extensionFilter.Extensions)
                 {
-                    return System.IO.Directory.GetFiles(_path, "*", isRecursive ? System.IO.SearchOption.AllDirectories : System.IO.SearchOption.TopDirectoryOnly);
-                }
-                else
-                {
-                    System.Collections.Generic.List<string> files = new System.Collections.Generic.List<string>();
-
-                    foreach (ExtensionFilter extensionFilter in extensions)
-                    {
-                        foreach (string ext in extensionFilter.Extensions)
-                        {
-                            files.AddRange(System.IO.Directory.GetFiles(_path, "*." + ext, isRecursive ? System.IO.SearchOption.AllDirectories : System.IO.SearchOption.TopDirectoryOnly));
-                        }
-                    }
-
-                    return files.ToArray();
+                    exts.Add(ext);
                 }
             }
-            catch (System.Exception ex)
-            {
-                Debug.LogWarning("Could not scan the path for files: " + ex);
-            }
 
-            return new string[0];
+            return GetFiles(path, isRecursive, exts.ToArray());
         }
 
         /// <summary>
-        /// Find directories inside a path without recursion.
+        /// Find directories inside.
         /// </summary>
         /// <param name="path">Path to find the directories</param>
         /// <param name="isRecursive">Recursive search (default: false, optional)</param>
         /// <returns>Returns array of the found directories inside the path. Zero length array when an error occured.</returns>
         public static string[] GetDirectories(string path, bool isRecursive = false)
         {
-            try
-            {
-                string _path = Path.GetDirectoryName(path);
-
-                return System.IO.Directory.GetDirectories(_path, "*", isRecursive ? System.IO.SearchOption.AllDirectories : System.IO.SearchOption.TopDirectoryOnly);
-            }
-            catch (System.Exception ex)
-            {
-                Debug.LogWarning("Could not scan the path for directories: " + ex);
-            }
-
-            return new string[0];
+            return Util.Helper.GetDirectories(path, isRecursive);
         }
 
         #endregion
@@ -408,15 +367,6 @@ namespace Crosstales.FB
 
                 for (int ii = 0; ii < extensions.Length; ii++)
                 {
-                    /*
-#if UNITY_EDITOR
-                    extension = string.IsNullOrEmpty(extensions[ii]) || extensions[ii].Equals("*") ? null : extensions[ii];
-                    filter[ii] = new ExtensionFilter("*." + (extension == null ? "*" : extension), extension);
-#else
-                    extension = string.IsNullOrEmpty(extensions[ii]) ? "*" : extensions[ii];
-                    filter[ii] = new ExtensionFilter("*." + extension, extension);
-#endif
-*/
                     extension = string.IsNullOrEmpty(extensions[ii]) ? "*" : extensions[ii];
                     filter[ii] = new ExtensionFilter(extension.Equals("*") ? Util.Constants.TEXT_ALL_FILES : extension, extension);
                 }
